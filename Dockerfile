@@ -6,7 +6,7 @@ COPY go.mod .
 
 RUN go mod download
 
-COPY .github .
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o /go/bin/opg-sirius-supervision-firm-deputy-hub
 
