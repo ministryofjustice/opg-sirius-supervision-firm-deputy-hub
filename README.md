@@ -10,7 +10,7 @@
 
 ## Local development
 
-The application ran using the following commands. This hosts it on `localhost:1234`
+The application can be ran using the following commands. This hosts it on `localhost:1234`
 
 - `go build main.go `
 - `./main `
@@ -18,5 +18,5 @@ The application ran using the following commands. This hosts it on `localhost:12
 -------------------------------------------------------------------
 ## Run the unit/functional tests
 
-The run the unit tests run:
+To run the unit tests run:
 - `go test`
