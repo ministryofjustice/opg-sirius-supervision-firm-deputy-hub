@@ -1,22 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 )
 
 func main() {
-	logger := log.New(os.Stdout, "opg-sirius-pro-deputy-hub", log.LstdFlags)
-	http.HandleFunc("/", HelloServer)
-	logger.Println("Pro deputy hub running at port 1234")
-	logger.Fatal(http.ListenAndServe(":1234", nil))
+	port := getEnv("PORT", "1234")
+	prefix := getEnv("PREFIX", "")
+	logger := log.New(os.Stdout, "opg-sirius-firm-deputy-hub", log.LstdFlags)
+	http.HandleFunc(prefix + "/", HelloServer)
+	logger.Println("Firm deputy hub running at port " + port)
+	logger.Fatal(http.ListenAndServe(":" + port, nil))
 }
 
 func HelloServer(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprint(w, "Hello world!")
-	if err != nil {
-		return
+	http.ServeFile(w, r, "web/template/index.html")
+}
+
+func getEnv(key, def string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
 	}
+	return def
 }

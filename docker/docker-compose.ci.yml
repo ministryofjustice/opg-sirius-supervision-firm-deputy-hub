@@ -1,0 +1,28 @@
+version: "3.6"
+
+services:
+  firm-deputy-hub:
+    build:
+      context: ..
+      dockerfile: ./docker/sirius-firm-deputy-hub/Dockerfile
+    ports: ["8888:1234"]
+    environment:
+      PORT: 8888
+      PREFIX: /supervision/deputies/firm
+
+  puppeteer:
+    build: ./puppeteer
+    depends_on:
+      - firm-deputy-hub
+    environment:
+      - LHCI_BUILD_CONTEXT__CURRENT_HASH=$GITHUB_SHA
+      - LHCI_BUILD_CONTEXT__GITHUB_REPO_SLUG=ministryofjustice/opg-sirius-supervision-firm-deputy-hub
+      - LHCI_GITHUB_APP_TOKEN
+
+  cypress:
+    build:
+      context: ..
+      dockerfile: ./docker/cypress/Dockerfile
+    command: ["--headless", "-b", "chrome"]
+    depends_on:
+      - firm-deputy-hub
