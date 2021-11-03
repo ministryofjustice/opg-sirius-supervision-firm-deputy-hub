@@ -16,5 +16,5 @@ func TestHelloWorld(t *testing.T) {
 	actual := w.Body.String()
 	expected := "Hello world!"
 
-	assert.Equal(expected, actual)
+	assert.Contains(actual, expected)
 }
