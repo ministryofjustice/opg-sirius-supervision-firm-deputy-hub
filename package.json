@@ -1,0 +1,12 @@
+{
+  "name": "opg-sirius-supervision-firm-deputy-hub",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "cypress": "^8.7.0"
+  },
+  "scripts": {
+    "cypress": "cypress open"
+  }
+}
