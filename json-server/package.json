@@ -1,0 +1,12 @@
+{
+  "name": "mock-api",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "serve": "json-server -H 0.0.0.0 db.json --routes routes.json"
+  },
+  "author": "",
+  "dependencies": {
+    "json-server": "^0.16.3"
+  }
+}
