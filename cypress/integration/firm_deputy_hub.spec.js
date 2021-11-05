@@ -1,4 +1,4 @@
-describe("Pro Deputy Hub", () => {
+describe("Firm Deputy Hub", () => {
     beforeEach(() => {
         cy.setCookie("Other", "other");
         cy.setCookie("XSRF-TOKEN", "abcde");
