@@ -1,6 +1,6 @@
-module opg-sirius-supervision-firm-deputy-hub
+module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 
-go 1.17
+go 1.16
 
 require github.com/stretchr/testify v1.7.0
 
