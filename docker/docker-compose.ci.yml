@@ -8,12 +8,21 @@ services:
     ports: ["8888:1234"]
     environment:
       PORT: 8888
+      SIRIUS_URL: http://json-server:3000
       PREFIX: /supervision/deputies/firm
+
+  json-server:
+    build:
+      context: ..
+      dockerfile: ./docker/json-server/Dockerfile
+    ports:
+      - '3000:3000'
 
   puppeteer:
     build: ./puppeteer
     depends_on:
       - firm-deputy-hub
+      - json-server
     environment:
       - LHCI_BUILD_CONTEXT__CURRENT_HASH=$GITHUB_SHA
       - LHCI_BUILD_CONTEXT__GITHUB_REPO_SLUG=ministryofjustice/opg-sirius-supervision-firm-deputy-hub
@@ -26,3 +35,4 @@ services:
     command: ["--headless", "-b", "chrome"]
     depends_on:
       - firm-deputy-hub
+      - json-server
