@@ -1,5 +1,5 @@
 ## Build front end assets so json-server can route to them
-FROM node:14.17.5-alpine3.14 as build-assets
+FROM node:16.13.0-alpine3.14 as build-assets
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN yarn install
 RUN yarn build
 
 ## build json-server for mock API
-FROM node:14.17.5-alpine3.14 as json-server
+FROM node:16.13.0-alpine3.14 as json-server
 
 WORKDIR /app
 

@@ -2,7 +2,7 @@
 
 ### Major dependencies
 
-- [Go](https://golang.org/) (>= 1.16)
+- [Go](https://golang.org/) (>= 1.17)
 - [docker-compose](https://docs.docker.com/compose/install/) (>= 1.27.4)
 
 #### Installing dependencies locally:
