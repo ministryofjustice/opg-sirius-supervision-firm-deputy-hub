@@ -1,0 +1,11 @@
+$govuk-include-default-font-face: false;
+$govuk-moj-table-background-color: #e7f2fb;
+$moj-assets-path: "/supervision/deputies/firm/assets/";
+
+@import "node_modules/govuk-frontend/govuk/all";
+@import "node_modules/@ministryofjustice/frontend/moj/all";
+@import "./scss/firm-hub";
+
+.moj-header__container {
+  max-width: 98%;
+}

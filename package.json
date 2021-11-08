@@ -2,11 +2,28 @@
   "name": "opg-sirius-supervision-firm-deputy-hub",
   "version": "1.0.0",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@ministryofjustice/frontend": "^0.2.5",
+    "govuk-frontend": "^3.13.0"
+  },
   "devDependencies": {
-    "cypress": "^8.7.0"
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.2.0",
+    "cypress": "^8.3.0",
+    "mini-css-extract-plugin": "^2.2.0",
+    "sass": "^1.38.1",
+    "sass-loader": "^12.1.0",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   },
   "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "test-sirius": "cd internal/sirius && go test",
+    "test-server": "cd internal/server && go test",
     "cypress": "cypress open"
   }
 }

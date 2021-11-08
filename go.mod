@@ -1,4 +1,4 @@
-module opg-sirius-supervision-firm-deputy-hub
+module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 
 go 1.17
 
