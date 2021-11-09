@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine as base
+FROM golang:1.17.3-alpine3.14 as base
 WORKDIR /app
 
 ENV CGO_ENABLED=0
@@ -10,6 +10,30 @@ RUN apk update \
     ca-certificates \
     git \
     && update-ca-certificates
+
+### Development with hot reload and debugger
+FROM base AS dev
+WORKDIR /app
+
+RUN go get -u github.com/cosmtrek/air && go install github.com/go-delve/delve/cmd/dlv@latest
+EXPOSE 8080
+EXPOSE 2345
+
+ENTRYPOINT ["air"]
+
+FROM node:16.13.0-alpine3.14 as asset-env
+
+WORKDIR /app
+
+RUN mkdir -p web/static
+
+COPY web/assets web/assets
+COPY webpack.config.js .
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+RUN yarn build
 
 FROM base as build-env
 
@@ -23,7 +47,6 @@ RUN go mod download
 COPY . .
 
 RUN go build -a -installsuffix cgo -o /go/bin/opg-sirius-supervision-firm-deputy-hub
-EXPOSE 8080
 
 FROM alpine:3.14
 
@@ -36,4 +59,5 @@ RUN apk --no-cache add tzdata
 
 COPY --from=build-env /go/bin/opg-sirius-supervision-firm-deputy-hub opg-sirius-supervision-firm-deputy-hub
 COPY --from=build-env /app/web/template web/template
+COPY --from=asset-env /app/web/static web/static
 ENTRYPOINT ["./opg-sirius-supervision-firm-deputy-hub"]

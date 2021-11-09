@@ -1,0 +1,15 @@
+// Sirius specific styles
+
+.sirius-firmhub {
+  .govuk-width-container,
+  .moj-header__container,
+  .moj-primary-navigation__container {
+    max-width: none;
+    padding: 0 15px;
+  }
+
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
