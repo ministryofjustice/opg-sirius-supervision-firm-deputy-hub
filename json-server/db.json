@@ -8,6 +8,10 @@
     },
     "v1-teams": {
       "permissions": ["DELETE"]
+    },
+    "firms/1": {
+      "firmName": "Kates Firm",
+      "firmNumber" : 5
     }
   }
 }
