@@ -29,7 +29,7 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	mux := http.NewServeMux()
 	mux.Handle("/",
 		wrap(
-			renderTemplateForFirmDeputyHub(client, templates["firm-hub.gotmpl"])))
+			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
 	mux.Handle("/health-check", healthCheck())
 
