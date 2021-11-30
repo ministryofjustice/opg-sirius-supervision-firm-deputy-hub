@@ -1,4 +1,5 @@
 {
     "baseUrl": "http://localhost:8888",
-    "supportFile": false
+    "supportFile": false,
+    "failOnStatusCode": false
   }

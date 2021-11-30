@@ -26,9 +26,6 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 
 	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firm/%d", firmId), nil)
 
-	fmt.Println("error")
-	fmt.Println(err)
-
 	if err != nil {
 		return v, err
 	}

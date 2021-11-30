@@ -8,10 +8,22 @@
     },
     "v1-teams": {
       "permissions": ["DELETE"]
-    },
-    "firms/1": {
-      "firmName": "Kates Firm",
-      "firmNumber" : 5
     }
+  },
+  "firm/1": {
+    "id": 1,
+    "deputies": [
+      []
+    ],
+    "firmName": "Good Firm Inc",
+    "addressLine1": "10 St Hope Street",
+    "addressLine2": "Wellington",
+    "addressLine3": "",
+    "town": "London",
+    "county": "Buckinghamshire",
+    "postcode": "BU1 1TF",
+    "phoneNumber": "123123123",
+    "email": "good@firm.com",
+    "firmNumber": 100005
   }
 }
