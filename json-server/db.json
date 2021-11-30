@@ -10,20 +10,20 @@
       "permissions": ["DELETE"]
     }
   },
-  "firm/1": {
+  "firm": {
     "id": 1,
     "deputies": [
       []
     ],
-    "firmName": "Good Firm Inc",
-    "addressLine1": "10 St Hope Street",
-    "addressLine2": "Wellington",
+    "firmName": "Trustworthy Firm Inc",
+    "addressLine1": "221 Baker Street",
+    "addressLine2": "Covent Garden",
     "addressLine3": "",
     "town": "London",
     "county": "Buckinghamshire",
-    "postcode": "BU1 1TF",
-    "phoneNumber": "123123123",
-    "email": "good@firm.com",
-    "firmNumber": 100005
+    "postcode": "B10 1FG",
+    "phoneNumber": "333222111",
+    "email": "trusty@firm.com",
+    "firmNumber": 100004
   }
 }

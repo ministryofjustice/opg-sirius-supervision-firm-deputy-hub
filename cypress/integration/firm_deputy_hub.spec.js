@@ -30,6 +30,20 @@ describe("Firm Deputy Hub", () => {
         });
     });
 
+    describe("Firm Details", () => {
+        it("should show the firm name", () => {
+            cy.get(".govuk-grid-column-full > .govuk-heading-m").should("contain",  "Trustworthy Firm Inc")
+        })
+
+        it("should show the firm number", () => {
+            cy.get(".govuk-caption-m.govuk-\\!-margin-bottom-0").should("contain",  "100004")
+        })
+
+        it("should have space for the executive Case manager to be added in the future", () => {
+            cy.get(".govuk-\\!-margin-bottom-2").should("contain",  "Executive Case Manager")
+        })
+    });
+
     describe("Footer", () => {
         it("the footer should contain a link to the open government licence", () => {
             cy.get(".govuk-footer__licence-description > .govuk-footer__link").should("have.attr", "href", "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/")
