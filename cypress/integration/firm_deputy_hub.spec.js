@@ -2,7 +2,7 @@ describe("Firm Deputy Hub", () => {
     beforeEach(() => {
         cy.setCookie("Other", "other");
         cy.setCookie("XSRF-TOKEN", "abcde");
-        cy.visit("/supervision/deputies/firm/");
+        cy.visit("/supervision/deputies/firm/1");
     });
 
     describe("Header", () => {
@@ -28,6 +28,20 @@ describe("Firm Deputy Hub", () => {
 
                 });
         });
+    });
+
+    describe("Firm Details", () => {
+        it("should show the firm name", () => {
+            cy.get(".govuk-grid-column-full > .govuk-heading-m").should("contain",  "Trustworthy Firm Inc")
+        })
+
+        it("should show the firm number", () => {
+            cy.get(".govuk-caption-m.govuk-\\!-margin-bottom-0").should("contain",  "100004")
+        })
+
+        it("should have space for the executive Case manager to be added in the future", () => {
+            cy.get(".govuk-\\!-margin-bottom-2").should("contain",  "Executive Case Manager")
+        })
     });
 
     describe("Footer", () => {
