@@ -1,12 +1,22 @@
 {{ define "firm-details" }}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <a href="javascript: history.go(-1)" class="govuk-back-link">Back</a>
-            {{ if ne .FirmDetails.FirmName ""}}
-                <h2 class="govuk-heading-m govuk-!-margin-bottom-0">{{ .FirmDetails.FirmName }}</h2>
+            <a href="javascript: history.go(-1)" class="govuk-back-link"
+                >Back</a
+            >
+            {{ if ne .FirmDetails.FirmName "" }}
+                <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
+                    {{ .FirmDetails.FirmName }}
+                </h2>
             {{ end }}
-            <span class="govuk-caption-m  govuk-!-margin-bottom-0">{{ if ne .FirmDetails.FirmNumber 0}}Firm number: {{ .FirmDetails.FirmNumber }}{{end}}</span>
-            <span class="govuk-caption-m  govuk-!-margin-bottom-2">Executive Case Manager: </span>
+            <span class="govuk-caption-m  govuk-!-margin-bottom-0"
+                >{{ if ne .FirmDetails.FirmNumber 0 }}
+                    Firm number: {{ .FirmDetails.FirmNumber }}
+                {{ end }}</span
+            >
+            <span class="govuk-caption-m  govuk-!-margin-bottom-2"
+                >Executive Case Manager:
+            </span>
         </div>
     </div>
 {{ end }}
