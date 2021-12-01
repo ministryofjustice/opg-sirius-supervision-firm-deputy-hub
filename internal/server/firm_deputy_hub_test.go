@@ -9,14 +9,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mockFirmDeputyHubInformation struct {
+type mockFirmHubInformation struct {
 	count       int
 	lastCtx     sirius.Context
 	err         error
 	firmDetails sirius.FirmDetails
 }
 
-func (m *mockFirmDeputyHubInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
+func (m *mockFirmHubInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
 	m.count += 1
 	m.lastCtx = ctx
 
@@ -26,7 +26,7 @@ func (m *mockFirmDeputyHubInformation) GetFirmDetails(ctx sirius.Context, firmId
 func TestCanRenderFirmDetailsPage(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockFirmDeputyHubInformation{}
+	client := &mockFirmHubInformation{}
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
@@ -38,7 +38,7 @@ func TestCanRenderFirmDetailsPage(t *testing.T) {
 	assert.Nil(err)
 	assert.Equal(getContext(r), client.lastCtx)
 	assert.Equal("page", template.lastName)
-	assert.Equal(firmDeputyHubVars{
+	assert.Equal(firmHubVars{
 		Path: "/supervision/deputies/firm/3",
 	}, template.lastVars)
 

@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-type FirmDeputyHubInformation interface {
+type FirmHubInformation interface {
 	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
-type firmDeputyHubVars struct {
+type firmHubVars struct {
 	Path      string
 	XSRFToken string
 	Error     string
@@ -19,7 +19,7 @@ type firmDeputyHubVars struct {
 	FirmDetails sirius.FirmDetails
 }
 
-func renderTemplateForFirmHub(client FirmDeputyHubInformation, tmpl Template) Handler {
+func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
 	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
 		if r.Method != http.MethodGet {
 			return StatusError(http.StatusMethodNotAllowed)
@@ -28,9 +28,6 @@ func renderTemplateForFirmHub(client FirmDeputyHubInformation, tmpl Template) Ha
 		ctx := getContext(r)
 		url := r.URL.Path
 		idFromParams := strings.Trim(url, "/")
-		if idFromParams == "" {
-			idFromParams = "0"
-		}
 
 		firmId, _ := strconv.Atoi(idFromParams)
 		firmDetails, err := client.GetFirmDetails(ctx, firmId)
@@ -38,7 +35,7 @@ func renderTemplateForFirmHub(client FirmDeputyHubInformation, tmpl Template) Ha
 			return err
 		}
 
-		vars := firmDeputyHubVars{
+		vars := firmHubVars{
 			Path:      r.URL.Path,
 			XSRFToken: ctx.XSRFToken,
 			FirmDetails: firmDetails,

@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
-	"strings"
 	"syscall"
 	"time"
 
@@ -28,18 +27,6 @@ func main() {
 	layouts, _ := template.
 		New("").
 		Funcs(map[string]interface{}{
-			"join": func(sep string, items []string) string {
-				return strings.Join(items, sep)
-			},
-			"contains": func(xs []string, needle string) bool {
-				for _, x := range xs {
-					if x == needle {
-						return true
-					}
-				}
-
-				return false
-			},
 			"prefix": func(s string) string {
 				return prefix + s
 			},

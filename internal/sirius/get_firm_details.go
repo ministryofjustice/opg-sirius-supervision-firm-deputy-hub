@@ -48,17 +48,17 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	statusOK := resp.StatusCode >= 200 && resp.StatusCode < 300
 
 	if !statusOK {
-		var ve struct {
+		var v struct {
 			ValidationErrors ValidationErrors `json:"validation_errors"`
 		}
 
 		if err := json.NewDecoder(resp.Body).Decode(&v); err == nil {
-			return v, ValidationError{
-				Errors: ve.ValidationErrors,
+			return FirmDetails{}, ValidationError{
+				Errors: v.ValidationErrors,
 			}
 		}
 
-		return v, newStatusError(resp)
+		return FirmDetails{ID: 0, FirmName: "", FirmNumber: 0}, newStatusError(resp)
 	}
 
 	err = json.NewDecoder(resp.Body).Decode(&v)

@@ -16,7 +16,7 @@ type Logger interface {
 
 type Client interface {
 	ErrorHandlerClient
-	FirmDeputyHubInformation
+	FirmHubInformation
 }
 
 type Template interface {
@@ -66,12 +66,10 @@ func (e StatusError) Code() int {
 type Handler func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error
 
 type errorVars struct {
-	Firstname string
-	Surname   string
 	SiriusURL string
-	Path      string
 	Code      int
 	Error     string
+	Errors bool
 }
 
 type ErrorHandlerClient interface {
@@ -109,10 +107,7 @@ func errorHandler(logger Logger, client ErrorHandlerClient, tmplError Template, 
 
 				w.WriteHeader(code)
 				err = tmplError.ExecuteTemplate(w, "page", errorVars{
-					Firstname: "",
-					Surname:   "",
 					SiriusURL: siriusURL,
-					Path:      "",
 					Code:      code,
 					Error:     err.Error(),
 				})
