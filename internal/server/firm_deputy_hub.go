@@ -12,10 +12,10 @@ type FirmHubInformation interface {
 }
 
 type firmHubVars struct {
-	Path      string
-	XSRFToken string
-	Error     string
-	Errors    sirius.ValidationErrors
+	Path        string
+	XSRFToken   string
+	Error       string
+	Errors      sirius.ValidationErrors
 	FirmDetails sirius.FirmDetails
 }
 
@@ -31,13 +31,13 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 
 		firmId, _ := strconv.Atoi(idFromParams)
 		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil{
+		if err != nil {
 			return err
 		}
 
 		vars := firmHubVars{
-			Path:      r.URL.Path,
-			XSRFToken: ctx.XSRFToken,
+			Path:        r.URL.Path,
+			XSRFToken:   ctx.XSRFToken,
 			FirmDetails: firmDetails,
 		}
 
@@ -49,4 +49,3 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 		}
 	}
 }
-

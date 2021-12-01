@@ -7,19 +7,18 @@ import (
 )
 
 type FirmDetails struct {
-	ID                               int                  `json:"id"`
-	FirmName                 		string             	  `json:"firmName"`
-	FirmNumber                 		int               	`json:"firmNumber"`
-	Email                            string               `json:"email"`
-	PhoneNumber                      string               `json:"phoneNumber"`
-	AddressLine1                     string               `json:"addressLine1"`
-	AddressLine2                     string               `json:"addressLine2"`
-	AddressLine3                     string               `json:"addressLine3"`
-	Town                             string               `json:"town"`
-	County                           string               `json:"county"`
-	Postcode                         string               `json:"postcode"`
+	ID           int    `json:"id"`
+	FirmName     string `json:"firmName"`
+	FirmNumber   int    `json:"firmNumber"`
+	Email        string `json:"email"`
+	PhoneNumber  string `json:"phoneNumber"`
+	AddressLine1 string `json:"addressLine1"`
+	AddressLine2 string `json:"addressLine2"`
+	AddressLine3 string `json:"addressLine3"`
+	Town         string `json:"town"`
+	County       string `json:"county"`
+	Postcode     string `json:"postcode"`
 }
-
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	var v FirmDetails

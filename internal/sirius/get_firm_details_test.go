@@ -42,17 +42,17 @@ func TestFirmDetailsReturned(t *testing.T) {
 	}
 
 	expectedResponse := FirmDetails{
-		ID: 2,
-		FirmName: "Good Firm Inc",
-		FirmNumber: 100005,
-		Email: "good@firm.com",
-		PhoneNumber: "123123123",
+		ID:           2,
+		FirmName:     "Good Firm Inc",
+		FirmNumber:   100005,
+		Email:        "good@firm.com",
+		PhoneNumber:  "123123123",
 		AddressLine1: "10 St Hope Street",
 		AddressLine2: "Wellington",
 		AddressLine3: "",
-		Town: "London",
-		County: "Buckinghamshire",
-		Postcode: "BU1 1TF",
+		Town:         "London",
+		County:       "Buckinghamshire",
+		Postcode:     "BU1 1TF",
 	}
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 2)
@@ -72,17 +72,17 @@ func TestGetFirmReturnsNewStatusError(t *testing.T) {
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 
 	expectedResponse := FirmDetails{
-		ID: 0,
-		FirmName: "",
-		FirmNumber: 0,
-		Email: "",
-		PhoneNumber: "",
+		ID:           0,
+		FirmName:     "",
+		FirmNumber:   0,
+		Email:        "",
+		PhoneNumber:  "",
 		AddressLine1: "",
 		AddressLine2: "",
 		AddressLine3: "",
-		Town: "",
-		County: "",
-		Postcode: "",
+		Town:         "",
+		County:       "",
+		Postcode:     "",
 	}
 
 	assert.Equal(t, expectedResponse, firmDetails)
@@ -104,17 +104,17 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 
 	expectedResponse := FirmDetails{
-		ID: 0,
-		FirmName: "",
-		FirmNumber: 0,
-		Email: "",
-		PhoneNumber: "",
+		ID:           0,
+		FirmName:     "",
+		FirmNumber:   0,
+		Email:        "",
+		PhoneNumber:  "",
 		AddressLine1: "",
 		AddressLine2: "",
 		AddressLine3: "",
-		Town: "",
-		County: "",
-		Postcode: "",
+		Town:         "",
+		County:       "",
+		Postcode:     "",
 	}
 
 	assert.Equal(t, ErrUnauthorized, err)

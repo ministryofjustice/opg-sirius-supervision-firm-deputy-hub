@@ -69,7 +69,7 @@ type errorVars struct {
 	SiriusURL string
 	Code      int
 	Error     string
-	Errors bool
+	Errors    bool
 }
 
 type ErrorHandlerClient interface {

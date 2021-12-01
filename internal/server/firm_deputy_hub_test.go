@@ -45,4 +45,3 @@ func TestCanRenderFirmDetailsPage(t *testing.T) {
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
 }
-
