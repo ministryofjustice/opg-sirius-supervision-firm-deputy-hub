@@ -1,5 +1,5 @@
 {
-  "permissions":{
+  "permissions": {
     "v1-users": {
       "permissions": ["PUT", "POST", "DELETE"]
     },

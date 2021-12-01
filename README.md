@@ -6,9 +6,9 @@
 - [docker-compose](https://docs.docker.com/compose/install/) (>= 1.27.4)
 
 #### Installing dependencies locally:
+
 - `yarn install`
-- `go mod download`
- -------------------------------------------------------------------
+- ## `go mod download`
 
 ## Local development
 
@@ -33,7 +33,7 @@ there are assets missing) as the developer version of the docker compose file do
 - `go build main.go `
 - `./main `
 
-  -------------------------------------------------------------------
+  ***
 
 ## Run Cypress tests
 
@@ -41,7 +41,8 @@ there are assets missing) as the developer version of the docker compose file do
 
 `yarn && yarn cypress `
 
- -------------------------------------------------------------------
+---
+
 ## Run the unit/functional tests
 
 test sirius files: `yarn run test-sirius`
