@@ -24,6 +24,7 @@
     "watch": "webpack --watch",
     "test-sirius": "cd internal/sirius && go test",
     "test-server": "cd internal/server && go test",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "fmt": "prettier --write ."
   }
 }
