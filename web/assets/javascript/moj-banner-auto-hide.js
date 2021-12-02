@@ -8,7 +8,6 @@ const MojBannerAutoHide = (element) => {
             bannerElement.classList.add("hide");
         }, 5000);
     });
-
 };
 
 export default MojBannerAutoHide;

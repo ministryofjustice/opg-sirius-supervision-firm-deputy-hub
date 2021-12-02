@@ -34,7 +34,7 @@ there are assets missing) as the developer version of the docker compose file do
 -   `./main `
 
     ***
-    
+
 ## Run Cypress tests
 
 `docker-compose -f docker/docker-compose.dev.yml up -d --build `

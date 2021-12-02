@@ -9,11 +9,30 @@
         "v1-teams": {
             "permissions": ["DELETE"]
         }
-
     },
     "firm": {
         "id": 1,
-        "deputies": [[]],
+        "deputies": [
+            {
+                "id": 77,
+                "personType": "Deputy",
+                "deputyStatus": "Inactive",
+                "orders": [[]],
+                "deputyNumber": 22,
+                "organisationName": "pro dept",
+                "deputySubType": []
+            },
+            {
+                "id": 75,
+                "personType": "Deputy",
+                "deputyStatus": "Active",
+                "orders": [[]],
+                "eveningNumber": "07748933233",
+                "deputyNumber": 20,
+                "organisationName": "deputy pro",
+                "organisationTeamOrDepartmentName": ""
+            }
+        ],
         "firmName": "Trustworthy Firm Inc",
         "addressLine1": "221 Baker Street",
         "addressLine2": "Covent Garden",
