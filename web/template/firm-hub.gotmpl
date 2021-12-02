@@ -17,8 +17,8 @@
                         <a
                             class="moj-sub-navigation__link"
                             aria-current="page"
-                            href="/sirius/pro-hub/1-1/person-deputy/firm-hub/"
-                            >Firm details</a
+                            href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">
+                            Firm details</a
                         >
                     </li>
 
@@ -31,33 +31,36 @@
                     </li>
                 </ul>
             </nav>
+            <header>
+                <div class="main-header">
+                    <h1
+                        class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0 ">
+                        Firm details
+                    </h1>
 
-            <h1
-                class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0">
-                Firm details
-            </h1>
-
-            <div class="moj-button-menu">
-                <div class="moj-button-menu__wrapper">
-                    <a
-                        href="./change-ecm"
-                        role="button"
-                        draggable="false"
-                        class="govuk-button moj-button-menu__item govuk-button--secondary "
-                        data-module="govuk-button">
-                        Change ECM
-                    </a>
+                    <div class="moj-button-menu">
+                        <div class="moj-button-menu__wrapper">
+                            <a
+                                href="./change-ecm"
+                                role="button"
+                                draggable="false"
+                                class="govuk-button moj-button-menu__item govuk-button--secondary "
+                                data-module="govuk-button">
+                                Change ECM
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </header>
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <div id="overview">
                         <div class="data-item-container ">
                             <span
-                                class="data-item govuk-heading-xl govuk-!-margin-bottom-0"
-                                >5</span
-                            >
+                                class="data-item govuk-heading-xl govuk-!-margin-bottom-0">
+                                {{ .FirmDetails.TotalNumberOfDeputies }}
+                            </span>
                             <p class="data-item govuk-body">Active deputies</p>
                         </div>
                     </div>
@@ -70,7 +73,9 @@
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Firm name</dt>
                             <dd class="govuk-summary-list__value">
-                                Thorntons Law LLP
+                                {{ if ne .FirmDetails.FirmName "" }}
+                                    {{ .FirmDetails.FirmName }}
+                                {{ end }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -78,22 +83,42 @@
                                 Main address
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                19 Market Rd <br />
-                                Chelmsford<br />
-                                Essex<br />
-                                CM1 1GG
+                                {{ if ne .FirmDetails.AddressLine1 "" }}
+                                    {{ .FirmDetails.AddressLine1 }}
+                                {{ end }}<br />
+                                {{ if ne .FirmDetails.AddressLine2 "" }}
+                                    {{ .FirmDetails.AddressLine2 }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.AddressLine3 "" }}
+                                    {{ .FirmDetails.AddressLine3 }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.Town "" }}
+                                    {{ .FirmDetails.Town }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.County "" }}
+                                    {{ .FirmDetails.County }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.Postcode "" }}
+                                    {{ .FirmDetails.Postcode }}
+                                {{ end }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Telephone</dt>
                             <dd class="govuk-summary-list__value">
-                                0115 876 5574
+                                {{ if ne .FirmDetails.PhoneNumber "" }}
+                                    {{ .FirmDetails.PhoneNumber }}
+                                {{ end }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Email</dt>
                             <dd class="govuk-summary-list__value">
-                                <a href="">info@thorntonslaw.co</a>
+                                {{ if ne .FirmDetails.Email "" }}
+                                    <a href="mailto:{{ .FirmDetails.Email }}"
+                                        >{{ .FirmDetails.Email }}</a
+                                    >
+                                {{ end }}
                             </dd>
                         </div>
                     </dl>

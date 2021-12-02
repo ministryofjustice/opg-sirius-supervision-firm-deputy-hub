@@ -18,7 +18,7 @@ describe("Firm Deputy Hub", () => {
                 .children()
                 .each(($el, index) => {
                     cy.wrap($el).should("contain", expected[index]);
-                    let $linkName = expected[index].toLowerCase();
+                    const $linkName = expected[index].toLowerCase();
                     cy.wrap($el)
                         .find("a")
                         .should("have.attr", "href")
@@ -27,7 +27,7 @@ describe("Firm Deputy Hub", () => {
         });
     });
 
-    describe("Firm Details", () => {
+    describe("Firm Details Header", () => {
         it("should show the firm name", () => {
             cy.get(".govuk-grid-column-full > .govuk-heading-m").should(
                 "contain",
@@ -47,6 +47,59 @@ describe("Firm Deputy Hub", () => {
                 "contain",
                 "Executive Case Manager"
             );
+        });
+    });
+
+    describe("Firm Details Navigation", () => {
+        it("has a link for the current page", () => {
+            cy.get(":nth-child(1) > .moj-sub-navigation__link").should(
+                "contain",
+                "Firm details"
+            );
+        });
+        it("has a link for the deputies page", () => {
+            cy.get(":nth-child(2) > .moj-sub-navigation__link").should(
+                "contain",
+                "Deputies"
+            );
+        });
+    });
+
+    describe("Firm Details Body", () => {
+        it("should show the firm name", () => {
+            cy.get(
+                "#team-details > :nth-child(1) > .govuk-summary-list__key"
+            ).should("contain", "Firm name");
+            cy.get(
+                "#team-details > :nth-child(1) > .govuk-summary-list__value"
+            ).should("contain", "Trustworthy Firm Inc");
+        });
+
+        it("should show the firm address", () => {
+            cy.get(
+                "#team-details > :nth-child(2) > .govuk-summary-list__key"
+            ).should("contain", "Main address");
+            cy.get(
+                "#team-details > :nth-child(2) > .govuk-summary-list__value"
+            ).should("contain", "221 Baker Street");
+        });
+
+        it("should show the phone number", () => {
+            cy.get(
+                "#team-details > :nth-child(3) > .govuk-summary-list__key"
+            ).should("contain", "Telephone");
+            cy.get(
+                "#team-details > :nth-child(3) > .govuk-summary-list__value"
+            ).should("contain", "333222111");
+        });
+
+        it("should show the email address with a mail to link", () => {
+            cy.get(
+                "#team-details > :nth-child(4) > .govuk-summary-list__key"
+            ).should("contain", "Email");
+            cy.get(
+                "#team-details > :nth-child(4) > .govuk-summary-list__value"
+            ).should("contain", "trusty@firm.com");
         });
     });
 
