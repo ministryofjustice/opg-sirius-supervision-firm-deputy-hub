@@ -6,28 +6,19 @@ import (
 	"net/http"
 )
 
-type Deputies struct {
-	DeputyId int `json:"id"`
-	DeputyNumber int `json:"deputyNumber"`
-	OrganisationName string `json:"organisationName"`
-}
-
 type FirmDetails struct {
-	ID                               int                  `json:"id"`
-	FirmName                 		string             	  `json:"firmName"`
-	FirmNumber                 		int               	`json:"firmNumber"`
-	Email                            string               `json:"email"`
-	PhoneNumber                      string               `json:"phoneNumber"`
-	AddressLine1                     string               `json:"addressLine1"`
-	AddressLine2                     string               `json:"addressLine2"`
-	AddressLine3                     string               `json:"addressLine3"`
-	Town                             string               `json:"town"`
-	County                           string               `json:"county"`
-	Postcode                         string               `json:"postcode"`
-	Deputies 						[]Deputies 			`json:"deputies"`
-	TotalNumberOfDeputies int
+	ID           int    `json:"id"`
+	FirmName     string `json:"firmName"`
+	FirmNumber   int    `json:"firmNumber"`
+	Email        string `json:"email"`
+	PhoneNumber  string `json:"phoneNumber"`
+	AddressLine1 string `json:"addressLine1"`
+	AddressLine2 string `json:"addressLine2"`
+	AddressLine3 string `json:"addressLine3"`
+	Town         string `json:"town"`
+	County       string `json:"county"`
+	Postcode     string `json:"postcode"`
 }
-
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	var v FirmDetails
@@ -53,22 +44,6 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 		return v, newStatusError(resp)
 	}
 
-	statusOK := resp.StatusCode >= 200 && resp.StatusCode < 300
-
-	if !statusOK {
-		var ve struct {
-			ValidationErrors ValidationErrors `json:"validation_errors"`
-		}
-
-		if err := json.NewDecoder(resp.Body).Decode(&v); err == nil {
-			return v, ValidationError{
-				Errors: ve.ValidationErrors,
-			}
-		}
-
-		return v, newStatusError(resp)
-	}
-
 	err = json.NewDecoder(resp.Body).Decode(&v)
 
 	v.TotalNumberOfDeputies = calculateNumberOfDeputies(v.Deputies)
@@ -83,3 +58,4 @@ func calculateNumberOfDeputies(deputyArray []Deputies) int {
 	}
 	return totalDeputies
 }
+
