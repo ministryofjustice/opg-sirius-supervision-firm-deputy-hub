@@ -8,7 +8,7 @@ services:
       target: dev
     ports:
       - "2345:2345"
-      - "8888:1234"
+      - "8887:1234"
     volumes:
       - ..:/app:rw,delegated
     environment:
