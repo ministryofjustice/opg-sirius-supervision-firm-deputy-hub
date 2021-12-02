@@ -6,6 +6,12 @@ import (
 	"net/http"
 )
 
+type Deputy struct {
+	DeputyId int `json:"id"`
+	DeputyNumber int `json:"deputyNumber"`
+	OrganisationName string `json:"organisationName"`
+}
+
 type FirmDetails struct {
 	ID           int    `json:"id"`
 	FirmName     string `json:"firmName"`
@@ -18,6 +24,8 @@ type FirmDetails struct {
 	Town         string `json:"town"`
 	County       string `json:"county"`
 	Postcode     string `json:"postcode"`
+	Deputies     []Deputy `json:"deputies"`
+	TotalNumberOfDeputies int
 }
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
@@ -45,5 +53,17 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	}
 
 	err = json.NewDecoder(resp.Body).Decode(&v)
+
+	v.TotalNumberOfDeputies = calculateNumberOfDeputies(v.Deputies)
+
 	return v, err
 }
+
+func calculateNumberOfDeputies(deputyArray []Deputy) int {
+	totalDeputies := 0
+	for range deputyArray {
+		totalDeputies++
+	}
+	return totalDeputies
+}
+
