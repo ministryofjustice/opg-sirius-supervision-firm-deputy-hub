@@ -57,12 +57,6 @@ describe("Firm Deputy Hub", () => {
                 "Firm details"
             );
         });
-        it("has a link for the deputies page", () => {
-            cy.get(":nth-child(2) > .moj-sub-navigation__link").should(
-                "contain",
-                "Deputies"
-            );
-        });
     });
 
     describe("Firm Details Body", () => {
