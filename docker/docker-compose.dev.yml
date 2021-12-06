@@ -7,8 +7,8 @@ services:
       dockerfile: ./docker/sirius-firm-deputy-hub/Dockerfile
       target: dev
     ports:
-      - '2345:2345'
-      - '8888:1234'
+      - "2345:2345"
+      - "8887:1234"
     volumes:
       - ..:/app:rw,delegated
     environment:
@@ -21,4 +21,4 @@ services:
       context: ..
       dockerfile: ./docker/json-server/Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"

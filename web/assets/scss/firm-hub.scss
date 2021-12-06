@@ -12,4 +12,24 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 0 0.5em;
+    border-bottom: 1px solid #b1b4b6;
+    margin-bottom: 2em;
+  }
+
+  #overview {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #b1b4b6;
+  }
+
+  .moj-sub-navigation {
+    margin-bottom: 0px;
+  }
 }

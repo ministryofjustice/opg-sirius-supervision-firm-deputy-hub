@@ -18,18 +18,36 @@ func TestFirmDetailsReturned(t *testing.T) {
 	json := `	{
 		"id": 2,
 		"deputies": [
-	[]
-	],
-	"firmName": "Good Firm Inc",
-	"addressLine1": "10 St Hope Street",
-	"addressLine2": "Wellington",
-	"addressLine3": "",
-	"town": "London",
-	"county": "Buckinghamshire",
-	"postcode": "BU1 1TF",
-	"phoneNumber": "123123123",
-	"email": "good@firm.com",
-	"firmNumber": 100005
+			{
+				"id":77,
+				"personType":"Deputy",
+				"deputyStatus":"Inactive",
+				"orders":[[]],
+				"deputyNumber":22,
+				"organisationName":"pro dept",
+				"deputySubType":[]
+			},
+			{
+				"id":75,
+				"personType":"Deputy",
+				"deputyStatus":"Active",
+				"orders":[[]],
+				"eveningNumber":"07748933233",
+				"deputyNumber":20,
+				"organisationName":"deputy pro",
+				"organisationTeamOrDepartmentName":""
+			}
+		],
+		"firmName": "Good Firm Inc",
+		"addressLine1": "10 St Hope Street",
+		"addressLine2": "Wellington",
+		"addressLine3": "",
+		"town": "London",
+		"county": "Buckinghamshire",
+		"postcode": "BU1 1TF",
+		"phoneNumber": "123123123",
+		"email": "good@firm.com",
+		"firmNumber": 100005
 	}`
 
 	r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
@@ -53,12 +71,25 @@ func TestFirmDetailsReturned(t *testing.T) {
 		Town:         "London",
 		County:       "Buckinghamshire",
 		Postcode:     "BU1 1TF",
+		Deputies: []Deputy{
+			{
+				DeputyId:         77,
+				DeputyNumber:     22,
+				OrganisationName: "pro dept",
+			},
+			{
+				DeputyId:         75,
+				DeputyNumber:     20,
+				OrganisationName: "deputy pro",
+			},
+		},
+		TotalNumberOfDeputies:2,
 	}
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 2)
 
 	assert.Equal(t, expectedResponse, firmDetails)
-	assert.Equal(t, nil, err)
+	assert.Nil(t, err)
 }
 
 func TestGetFirmReturnsNewStatusError(t *testing.T) {
@@ -71,19 +102,7 @@ func TestGetFirmReturnsNewStatusError(t *testing.T) {
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 
-	expectedResponse := FirmDetails{
-		ID:           0,
-		FirmName:     "",
-		FirmNumber:   0,
-		Email:        "",
-		PhoneNumber:  "",
-		AddressLine1: "",
-		AddressLine2: "",
-		AddressLine3: "",
-		Town:         "",
-		County:       "",
-		Postcode:     "",
-	}
+	expectedResponse := FirmDetails{}
 
 	assert.Equal(t, expectedResponse, firmDetails)
 	assert.Equal(t, StatusError{
@@ -103,20 +122,28 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 
-	expectedResponse := FirmDetails{
-		ID:           0,
-		FirmName:     "",
-		FirmNumber:   0,
-		Email:        "",
-		PhoneNumber:  "",
-		AddressLine1: "",
-		AddressLine2: "",
-		AddressLine3: "",
-		Town:         "",
-		County:       "",
-		Postcode:     "",
-	}
+	expectedResponse := FirmDetails{}
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
 }
+
+func TestCalculateNumberOfDeputies(t *testing.T) {
+	deputies := []Deputy{
+		{
+			DeputyId:         77,
+			DeputyNumber:     22,
+			OrganisationName: "pro dept",
+		},
+		{
+			DeputyId:         75,
+			DeputyNumber:     20,
+			OrganisationName: "deputy pro",
+		},
+	}
+
+	assert.Equal(t, 2, calculateNumberOfDeputies(deputies));
+	assert.Equal(t, 0, calculateNumberOfDeputies([]Deputy{}));
+}
+
+
