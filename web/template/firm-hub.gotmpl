@@ -18,8 +18,8 @@
                             class="moj-sub-navigation__link"
                             aria-current="page"
                             href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">
-                            Firm details</a
-                        >
+                            Firm details
+                       </a>
                     </li>
                 </ul>
             </nav>
@@ -95,8 +95,8 @@
                             <dd class="govuk-summary-list__value">
                                 {{ if ne .FirmDetails.Email "" }}
                                     <a href="mailto:{{ .FirmDetails.Email }}"
-                                        >{{ .FirmDetails.Email }}</a
-                                    >
+                                        >{{ .FirmDetails.Email }}
+                                   </a>
                                 {{ end }}
                             </dd>
                         </div>
