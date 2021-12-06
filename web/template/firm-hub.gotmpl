@@ -17,47 +17,29 @@
                         <a
                             class="moj-sub-navigation__link"
                             aria-current="page"
-                            href="/sirius/pro-hub/1-1/person-deputy/firm-hub/"
-                            >Firm details</a
-                        >
-                    </li>
-
-                    <li class="moj-sub-navigation__item">
-                        <a
-                            class="moj-sub-navigation__link"
-                            href="/sirius/pro-hub/1-1/person-deputy/firm-hub/deputies/"
-                            >Deputies</a
+                            href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">
+                            Firm details</a
                         >
                     </li>
                 </ul>
             </nav>
-
-            <h1
-                class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0">
-                Firm details
-            </h1>
-
-            <div class="moj-button-menu">
-                <div class="moj-button-menu__wrapper">
-                    <a
-                        href="./change-ecm"
-                        role="button"
-                        draggable="false"
-                        class="govuk-button moj-button-menu__item govuk-button--secondary "
-                        data-module="govuk-button">
-                        Change ECM
-                    </a>
+            <header>
+                <div class="main-header">
+                    <h1
+                        class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0 ">
+                        Firm details
+                    </h1>
                 </div>
-            </div>
+            </header>
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <div id="overview">
                         <div class="data-item-container ">
                             <span
-                                class="data-item govuk-heading-xl govuk-!-margin-bottom-0"
-                                >5</span
-                            >
+                                class="data-item govuk-heading-xl govuk-!-margin-bottom-0">
+                                {{ .FirmDetails.TotalNumberOfDeputies }}
+                            </span>
                             <p class="data-item govuk-body">Active deputies</p>
                         </div>
                     </div>
@@ -70,7 +52,9 @@
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Firm name</dt>
                             <dd class="govuk-summary-list__value">
-                                Thorntons Law LLP
+                                {{ if ne .FirmDetails.FirmName "" }}
+                                    {{ .FirmDetails.FirmName }}
+                                {{ end }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
@@ -78,73 +62,45 @@
                                 Main address
                             </dt>
                             <dd class="govuk-summary-list__value">
-                                19 Market Rd <br />
-                                Chelmsford<br />
-                                Essex<br />
-                                CM1 1GG
+                                {{ if ne .FirmDetails.AddressLine1 "" }}
+                                    {{ .FirmDetails.AddressLine1 }}
+                                {{ end }}<br />
+                                {{ if ne .FirmDetails.AddressLine2 "" }}
+                                    {{ .FirmDetails.AddressLine2 }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.AddressLine3 "" }}
+                                    {{ .FirmDetails.AddressLine3 }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.Town "" }}
+                                    {{ .FirmDetails.Town }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.County "" }}
+                                    {{ .FirmDetails.County }}<br />
+                                {{ end }}
+                                {{ if ne .FirmDetails.Postcode "" }}
+                                    {{ .FirmDetails.Postcode }}
+                                {{ end }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Telephone</dt>
                             <dd class="govuk-summary-list__value">
-                                0115 876 5574
+                                {{ if ne .FirmDetails.PhoneNumber "" }}
+                                    {{ .FirmDetails.PhoneNumber }}
+                                {{ end }}
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Email</dt>
                             <dd class="govuk-summary-list__value">
-                                <a href="">info@thorntonslaw.co</a>
+                                {{ if ne .FirmDetails.Email "" }}
+                                    <a href="mailto:{{ .FirmDetails.Email }}"
+                                        >{{ .FirmDetails.Email }}</a
+                                    >
+                                {{ end }}
                             </dd>
                         </div>
                     </dl>
-                    <a
-                        href="./manage-firm-details"
-                        role="button"
-                        draggable="false"
-                        class="govuk-button govuk-button--secondary "
-                        data-module="govuk-button">
-                        Manage firm details
-                    </a>
-                </div>
-
-                <div class="govuk-grid-column-one-half">
-                    <h2 class="govuk-heading-m">
-                        Professional indemnity insurance
-                    </h2>
-
-                    <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">PII status</dt>
-                            <dd class="govuk-summary-list__value">Expired</dd>
-                        </div>
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">PII expiry</dt>
-                            <dd class="govuk-summary-list__value">
-                                01/10/2021
-                            </dd>
-                        </div>
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">PII amount</dt>
-                            <dd class="govuk-summary-list__value">1,000,000</dd>
-                        </div>
-                        <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__key">
-                                New PII requested
-                            </dt>
-                            <dd class="govuk-summary-list__value">
-                                Not requested
-                            </dd>
-                        </div>
-                    </dl>
-
-                    <a
-                        href="./manage-pii-details"
-                        role="button"
-                        draggable="false"
-                        class="govuk-button govuk-button--secondary "
-                        data-module="govuk-button">
-                        Manage PII information
-                    </a>
                 </div>
             </div>
         </div>
