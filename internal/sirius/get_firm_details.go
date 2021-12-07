@@ -54,16 +54,6 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 
 	err = json.NewDecoder(resp.Body).Decode(&v)
 
-	v.TotalNumberOfDeputies = calculateNumberOfDeputies(v.Deputies)
-
 	return v, err
-}
-
-func calculateNumberOfDeputies(deputyArray []Deputy) int {
-	totalDeputies := 0
-	for range deputyArray {
-		totalDeputies++
-	}
-	return totalDeputies
 }
 
