@@ -16,7 +16,7 @@ services:
       context: ..
       dockerfile: ./docker/json-server/Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
 
   puppeteer:
     build: ./puppeteer
