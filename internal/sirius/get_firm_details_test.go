@@ -83,7 +83,6 @@ func TestFirmDetailsReturned(t *testing.T) {
 				OrganisationName: "deputy pro",
 			},
 		},
-		TotalNumberOfDeputies:2,
 	}
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 2)
@@ -128,22 +127,5 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, expectedResponse, firmDetails)
 }
 
-func TestCalculateNumberOfDeputies(t *testing.T) {
-	deputies := []Deputy{
-		{
-			DeputyId:         77,
-			DeputyNumber:     22,
-			OrganisationName: "pro dept",
-		},
-		{
-			DeputyId:         75,
-			DeputyNumber:     20,
-			OrganisationName: "deputy pro",
-		},
-	}
-
-	assert.Equal(t, 2, calculateNumberOfDeputies(deputies));
-	assert.Equal(t, 0, calculateNumberOfDeputies([]Deputy{}));
-}
 
 
