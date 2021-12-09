@@ -31,7 +31,7 @@ type FirmDetails struct {
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	var v FirmDetails
 
-	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firm/%d", firmId), nil)
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firms/%d", firmId), nil)
 
 	if err != nil {
 		return v, err
