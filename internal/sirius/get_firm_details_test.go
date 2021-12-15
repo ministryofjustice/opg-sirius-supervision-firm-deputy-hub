@@ -126,6 +126,3 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
 }
-
-
-
