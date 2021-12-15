@@ -2,6 +2,9 @@ node_modules
 package-lock.json
 tmp/
 web/static
+
+# Cypress cli run artifact folders
+cypress/logs
 cypress/screenshots
 cypress/videos
 
