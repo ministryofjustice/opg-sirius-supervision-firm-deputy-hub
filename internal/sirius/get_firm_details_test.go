@@ -106,7 +106,7 @@ func TestGetFirmReturnsNewStatusError(t *testing.T) {
 	assert.Equal(t, expectedResponse, firmDetails)
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firm/1",
+		URL:    svr.URL + "/api/v1/firms/1",
 		Method: http.MethodGet,
 	}, err)
 }
@@ -126,6 +126,3 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
 }
-
-
-

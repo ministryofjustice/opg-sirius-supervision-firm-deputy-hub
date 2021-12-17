@@ -10,7 +10,7 @@
             "permissions": ["DELETE"]
         }
     },
-    "firm": {
+    "firms": {
         "id": 1,
         "deputies": [
             {
