@@ -17,6 +17,7 @@ type Logger interface {
 type Client interface {
 	ErrorHandlerClient
 	FirmHubInformation
+	ManagePiiDetailsInformation
 }
 
 type Template interface {
@@ -30,6 +31,10 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	mux.Handle("/",
 		wrap(
 			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+
+	mux.Handle("/{id}/manage-pii-details",
+		wrap(
+			renderTemplateForManagePiiDetails(client, templates["kate.gotmpl"])))
 
 	mux.Handle("/health-check", healthCheck())
 
