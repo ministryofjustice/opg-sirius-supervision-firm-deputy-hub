@@ -12,9 +12,10 @@ import (
 )
 
 type mockManagePiiDetailsInformation struct {
-	count   int
-	lastCtx sirius.Context
-	err     error
+	count       int
+	lastCtx     sirius.Context
+	err         error
+	firmDetails sirius.FirmDetails
 }
 
 func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetails) error {
@@ -22,6 +23,13 @@ func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context,
 	m.lastCtx = ctx
 
 	return m.err
+}
+
+func (m *mockManagePiiDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
+	m.count += 1
+	m.lastCtx = ctx
+
+	return m.firmDetails, m.err
 }
 
 func TestManagePiiDetails(t *testing.T) {
@@ -63,7 +71,7 @@ func TestPostManagePii(t *testing.T) {
 	})
 
 	testHandler.ServeHTTP(w, r)
-	assert.Equal(returnedError, Redirect("/deputy/123?success=piiDetails"))
+	assert.Equal(returnedError, Redirect("/123?success=piiDetails"))
 }
 
 func TestErrorManagePiiMessageWhenIsEmpty(t *testing.T) {

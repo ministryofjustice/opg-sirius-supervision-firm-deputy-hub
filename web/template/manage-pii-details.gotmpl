@@ -7,9 +7,11 @@
     <div class="govuk-grid-row govuk-!-margin-top-5">
         <div class="govuk-grid-column-full">
             <header>
-                <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">
-                    Manage professional indemnity insurance
-                </h1>
+                <div class="main-header">
+                    <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">
+                        Manage professional indemnity insurance
+                    </h1>
+                </div>
             </header>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
@@ -35,7 +37,7 @@
                                 </label>
                                 <input
                                     class="govuk-input govuk-input--width-10"
-                                    id="pii-received"
+                                    id="f-pii-received"
                                     name="pii-received"
                                     type="date"
                                     data-dashlane-rid="67ebaf1d90a36c61"
@@ -52,7 +54,7 @@
                                 </label>
                                 <input
                                     class="govuk-input govuk-input--width-10"
-                                    id="pii-expiry"
+                                    id="f-pii-expiry"
                                     name="pii-expiry"
                                     type="date"
                                     data-dashlane-rid="475e1d78c035772b"
@@ -75,7 +77,7 @@
                                     </div>
                                     <input
                                         class="govuk-input govuk-input--width-10"
-                                        id="pii-amount"
+                                        id="f-pii-amount"
                                         name="pii-amount"
                                         type="text"
                                         spellcheck="false"
@@ -97,7 +99,7 @@
                                 </label>
                                 <input
                                     class="govuk-input govuk-input--width-10"
-                                    id="pii-requested"
+                                    id="f-pii-requested"
                                     name="pii-received"
                                     type="date"
                                     data-dashlane-rid="50235fbdf7f25b6e"
@@ -113,7 +115,9 @@
                             <button
                                 type="submit"
                                 class="govuk-button"
-                                data-module="govuk-button">
+                                data-module="govuk-button"
+                                data-cy="submit-manage-pii-details-form-btn"
+                                >
                                 Save PII details
                             </button>
                             <a

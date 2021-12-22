@@ -11,6 +11,7 @@ import (
 
 type ManagePiiDetailsInformation interface {
 	EditPiiCertificate(sirius.Context, sirius.PiiDetails) error
+	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type firmHubManagePiiVars struct {
@@ -18,8 +19,8 @@ type firmHubManagePiiVars struct {
 	XSRFToken    string
 	Error        string
 	Errors       sirius.ValidationErrors
+	FirmDetails  sirius.FirmDetails
 	ErrorMessage string
-	FirmId       int
 }
 
 func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
@@ -29,20 +30,19 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 		routeVars := mux.Vars(r)
 		firmId, _ := strconv.Atoi(routeVars["id"])
 
-		fmt.Println("firm id")
-		fmt.Println(firmId)
+		firmDetails, err := client.GetFirmDetails(ctx, firmId)
+		if err != nil {
+			return err
+		}
 
 		switch r.Method {
 		case http.MethodGet:
 
 			vars := firmHubManagePiiVars{
-				Path:      r.URL.Path,
-				XSRFToken: ctx.XSRFToken,
-				FirmId:    firmId,
+				Path:        r.URL.Path,
+				XSRFToken:   ctx.XSRFToken,
+				FirmDetails: firmDetails,
 			}
-
-			fmt.Println("get method firm hub manage vars")
-			fmt.Println(vars)
 
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
@@ -61,14 +61,15 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			if verr, ok := err.(sirius.ValidationError); ok {
 				verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)
 				vars := firmHubManagePiiVars{
-					Path:      r.URL.Path,
-					XSRFToken: ctx.XSRFToken,
-					Errors:    verr.Errors,
+					Path:        r.URL.Path,
+					XSRFToken:   ctx.XSRFToken,
+					Errors:      verr.Errors,
+					FirmDetails: firmDetails,
 				}
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return RedirectError(fmt.Sprintf("/%d?success=piiDetails", firmId))
+			return Redirect(fmt.Sprintf("/%d?success=piiDetails", firmId))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)
@@ -83,13 +84,13 @@ func renameEditPiiValidationErrorMessages(siriusError sirius.ValidationErrors) s
 			err := make(map[string]string)
 			if fieldName == "piiReceived" && errorType == "isEmpty" {
 				err[errorType] = "The pii received date is required and can't be empty"
-				errorCollection["piiReceived"] = err
+				errorCollection["pii-received"] = err
 			} else if fieldName == "piiExpiry" && errorType == "isEmpty" {
-				err[errorType] = "The pii expiry is required and can't be empty"
-				errorCollection["piiExpiry"] = err
+				err[errorType] = "The pii expiry date is required and can't be empty"
+				errorCollection["pii-expiry"] = err
 			} else if fieldName == "piiAmount" && errorType == "isEmpty" {
 				err[errorType] = "The pii amount is required and can't be empty"
-				errorCollection["piiAmount"] = err
+				errorCollection["pii-amount"] = err
 			} else {
 				err[errorType] = errorMessage
 				errorCollection[fieldName] = err

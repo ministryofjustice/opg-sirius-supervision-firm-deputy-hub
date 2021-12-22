@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
@@ -27,32 +28,34 @@ type Template interface {
 func New(logger Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
-	mux := http.NewServeMux()
-	mux.Handle("/",
+	router := mux.NewRouter()
+	router.Handle("/{id}",
 		wrap(
 			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	mux.Handle("/{id}/manage-pii-details",
+	router.Handle("/{id}/manage-pii-details",
 		wrap(
-			renderTemplateForManagePiiDetails(client, templates["kate.gotmpl"])))
+			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 
-	mux.Handle("/health-check", healthCheck())
+	router.Handle("/health-check", healthCheck())
 
-	static := http.FileServer(http.Dir(webDir + "/static"))
-	mux.Handle("/assets/", static)
-	mux.Handle("/javascript/", static)
-	mux.Handle("/stylesheets/", static)
+	static := staticFileHandler(webDir)
+	router.PathPrefix("/assets/").Handler(static)
+	router.PathPrefix("/javascript/").Handler(static)
+	router.PathPrefix("/stylesheets/").Handler(static)
 
-	return http.StripPrefix(prefix, mux)
+	router.NotFoundHandler = notFoundHandler(templates["error.gotmpl"], siriusPublicURL)
+
+	return http.StripPrefix(prefix, router)
 }
 
-type RedirectError string
+type Redirect string
 
-func (e RedirectError) Error() string {
+func (e Redirect) Error() string {
 	return "redirect to " + string(e)
 }
 
-func (e RedirectError) To() string {
+func (e Redirect) To() string {
 	return string(e)
 }
 
@@ -96,7 +99,7 @@ func errorHandler(logger Logger, client ErrorHandlerClient, tmplError Template, 
 					return
 				}
 
-				if redirect, ok := err.(RedirectError); ok {
+				if redirect, ok := err.(Redirect); ok {
 					http.Redirect(w, r, prefix+redirect.To(), http.StatusFound)
 					return
 				}
@@ -126,6 +129,16 @@ func errorHandler(logger Logger, client ErrorHandlerClient, tmplError Template, 
 	}
 }
 
+func notFoundHandler(tmplError Template, siriusURL string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		_ = tmplError.ExecuteTemplate(w, "page", errorVars{
+			SiriusURL: siriusURL,
+			Code:      http.StatusNotFound,
+			Error:     "Not Found",
+		})
+	}
+}
+
 func getContext(r *http.Request) sirius.Context {
 	token := ""
 
@@ -142,4 +155,12 @@ func getContext(r *http.Request) sirius.Context {
 		Cookies:   r.Cookies(),
 		XSRFToken: token,
 	}
+}
+
+func staticFileHandler(webDir string) http.Handler {
+	h := http.FileServer(http.Dir(webDir + "/static"))
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "must-revalidate")
+		h.ServeHTTP(w, r)
+	})
 }
