@@ -3,11 +3,13 @@
 {{ define "title" }}OPG Sirius Firm Deputy Hub{{ end }}
 
 {{ define "main" }}
+    {{ if .SuccessMessage }}
+        {{ template "success-banner" . }}
+    {{ end }}
 
     {{ template "firm-details" . }}
 
     {{ template "error-summary" .Errors }}
-
 
     <div class="govuk-grid-row govuk-!-margin-top-5  govuk-!-margin-bottom-5">
         <div class="govuk-grid-column-full">
@@ -102,7 +104,37 @@
                         </div>
                     </dl>
                 </div>
-            </div>
+            <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-m">Professional indemnity insurance</h2>
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">PII expiry</dt>
+                    <dd class="govuk-summary-list__value">
+                        {{ .FirmDetails.PiiExpiry }}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">PII amount</dt>
+                    <dd class="govuk-summary-list__value">
+                        {{ .FirmDetails.PiiAmount }}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">New PII requested</dt>
+                    <dd class="govuk-summary-list__value">Not requested</dd>
+                </div>
+            </dl>
+            <a
+                href="{{ prefix (printf "/%d/manage-pii-details" .FirmDetails.ID) }}"
+                role="button"
+                draggable="false"
+                class="govuk-button govuk-button--secondary"
+                data-module="govuk-button"
+                data-cy="manage-pii-details-btn">
+                Manage PII information
+            </a>
         </div>
+        </div>
+    </div>
     </div>
 {{ end }}
