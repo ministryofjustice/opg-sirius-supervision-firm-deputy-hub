@@ -57,6 +57,8 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				PiiRequested: r.PostFormValue("pii-requested"),
 			}
 
+			fmt.Println(r.PostFormValue("pii-received"))
+
 			err := client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {

@@ -18,7 +18,6 @@ type firmHubVars struct {
 	Error          string
 	Errors         sirius.ValidationErrors
 	FirmDetails    sirius.FirmDetails
-	Success        bool
 	SuccessMessage string
 }
 
@@ -38,13 +37,12 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return err
 		}
 
-		hasSuccess, successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName)
+		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName)
 
 		vars := firmHubVars{
 			Path:           r.URL.Path,
 			XSRFToken:      ctx.XSRFToken,
 			FirmDetails:    firmDetails,
-			Success:        hasSuccess,
 			SuccessMessage: successMessage,
 		}
 
@@ -57,20 +55,20 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 	}
 }
 
-func createSuccessAndSuccessMessageForVars(url, firmName string) (bool, string) {
+func createSuccessAndSuccessMessageForVars(url, firmName string) string {
 	splitStringByQuestion := strings.Split(url, "?")
 	if len(splitStringByQuestion) > 1 {
 		splitString := strings.Split(splitStringByQuestion[1], "=")
 
 		if splitString[1] == "firm" {
-			return true, "Firm changed to " + firmName
+			return "Firm changed to " + firmName
 		} else if splitString[1] == "newFirm" {
-			return true, "Firm added"
+			return "Firm added"
 		} else if splitString[1] == "deputyDetails" {
-			return true, "Deputy details updated"
+			return "Deputy details updated"
 		} else if splitString[1] == "piiDetails" {
-			return true, "PII details updated"
+			return "PII details updated"
 		}
 	}
-	return false, ""
+	return ""
 }

@@ -126,15 +126,3 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
 }
-
-func TestFormatDateAndTime(t *testing.T) {
-	piiExpiryData := "2020-10-18"
-	expectedResponse := "18/10/2020"
-	assert.Equal(t, expectedResponse, reformatDate(piiExpiryData))
-}
-
-func TestFormatDateAndTimeReturnsEmptyString(t *testing.T) {
-	piiExpiryData := ""
-	expectedResponse := ""
-	assert.Equal(t, expectedResponse, reformatDate(piiExpiryData))
-}
