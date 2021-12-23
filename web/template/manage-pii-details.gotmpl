@@ -1,0 +1,147 @@
+{{ template "page" . }}
+{{ define "main" }}
+    {{ template "error-summary" .Errors }}
+
+    {{ template "firm-details" . }}
+
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+        <div class="govuk-grid-column-full">
+            <header>
+                <div class="main-header">
+                    <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">
+                        Manage professional indemnity insurance
+                    </h1>
+                </div>
+            </header>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half">
+                    <form
+                        class=""
+                        method="post">
+                        <input
+                            type="hidden"
+                            name="xsrfToken"
+                            value="{{ .XSRFToken }}" />
+                        <fieldset class="govuk-fieldset">
+                            <legend
+                                class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h1 class="govuk-fieldset__heading">
+                                    Current PII certificate
+                                </h1>
+                            </legend>
+                            <div class="govuk-form-group {{if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiReceived ""}}govuk-form-group--error{{end}}{{ end }}">
+                                <label class="govuk-label" for="pii-received">
+                                    Date received
+                                </label>
+                                    {{if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiReceived ""}}
+                                        <p id="pii-received-error" class="govuk-error-message">
+                                            <span class="govuk-visually-hidden">Error:</span> The PII received date is required and can't be empty
+                                        </p>
+                                        {{ end }}
+                                    {{ end }}
+                                <input
+                                    class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiReceived ""}}govuk-input--error{{ end }}{{ end }}"
+                                    id="f-pii-received"
+                                    name="pii-received"
+                                    type="date"
+                                    {{ if .Errors }}
+                                        {{ if ne .AddFirmPiiDetailForm.PiiReceived ""}}
+                                        value= {{ .AddFirmPiiDetailForm.PiiReceived }}
+                                        {{ end }}
+                                    {{ end }}
+                                    style="text-transform:uppercase"/>
+                                 </div>
+                            <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}govuk-form-group--error{{ end }}{{ end }}">
+                                <label class="govuk-label" for="pii-expiry">
+                                    Expiry date
+                                </label>
+                                  {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}
+                                  <p id="pii-expiry-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> The PII expiry date is required and can't be empty
+                                 </p>
+                                        {{ end }}
+                                    {{ end }}
+                                <input
+                                    class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}govuk-input--error{{ end }}{{ end }}"
+                                    id="f-pii-expiry"
+                                    name="pii-expiry"
+                                    type="date"
+                                     {{ if .Errors }}
+                                        {{ if ne .AddFirmPiiDetailForm.PiiExpiry ""}}
+                                        value= {{ .AddFirmPiiDetailForm.PiiExpiry }}
+                                        {{ end }}
+                                    {{ end }}
+                                    style="text-transform:uppercase" />
+                            </div>
+
+                            <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-form-group--error{{ end }}{{ end }}">
+                                <label class="govuk-label" for="pii-amount">
+                                    Amount
+                                </label>
+                                 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}
+                                  <p id="pii-amount-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> The PII amount is required and can't be empty
+                                 </p>
+                                    {{ end }}
+                                {{ end }}
+                                <div class="govuk-input__wrapper">
+                                    <div
+                                        class="govuk-input__prefix"
+                                        aria-hidden="true">
+                                        £
+                                    </div>
+                                    <input
+                                        class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-input--error{{ end }}{{ end }}"
+                                        id="f-pii-amount"
+                                        name="pii-amount"
+                                        type="number"
+                                        step=".01"
+                                         {{ if .Errors }}
+                                        {{ if ne .AddFirmPiiDetailForm.PiiAmount 0.0}}
+                                        value= {{ .AddFirmPiiDetailForm.PiiAmount }}
+                                        {{ end }}
+                                    {{ end }}/>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="govuk-fieldset">
+                            <legend
+                                class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h1 class="govuk-fieldset__heading">
+                                    New PII certificate
+                                </h1>
+                            </legend>
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="pii-requested">
+                                    Date requested
+                                </label>                        
+                                <input
+                                    class="govuk-input govuk-input--width-10"
+                                    id="f-pii-requested"
+                                    name="pii-received"
+                                    type="date"
+                                    style="text-transform:uppercase"/>
+                            </div>
+                        </fieldset>
+                        <div class="govuk-button-group govuk-!-margin-top-7">
+                            <button
+                                type="submit"
+                                class="govuk-button"
+                                data-module="govuk-button"
+                                data-cy="submit-manage-pii-details-form-btn"
+                                >
+                                Save PII details
+                            </button>
+                            <a
+                                class="govuk-link"
+                                href="{{ prefix (printf "/%d" .FirmDetails.ID) }}"
+                                >Cancel</a
+                            >
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ end }}
