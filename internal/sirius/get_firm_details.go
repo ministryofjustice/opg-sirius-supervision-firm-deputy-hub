@@ -26,7 +26,7 @@ type FirmDetails struct {
 	Postcode              string   `json:"postcode"`
 	Deputies              []Deputy `json:"deputies"`
 	PiiExpiry             string   `json:"piiExpiry"`
-	PiiAmount             float64  `json:"piiAmount", omitempty`
+	PiiAmount             float64  `json:"piiAmount",omitempty`
 	TotalNumberOfDeputies int
 }
 
