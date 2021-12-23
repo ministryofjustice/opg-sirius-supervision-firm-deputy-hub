@@ -1,5 +1,5 @@
 {
     "/api/v1/*": "/$1",
     "/firms/:id": "/firms",
-    "/firms/:firmId/editPii": "/edit"
+    "/firms/:firmId/pii": "/pii-details"
 }
