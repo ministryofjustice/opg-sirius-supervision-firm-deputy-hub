@@ -97,15 +97,15 @@ describe("Firm Deputy Hub", () => {
         });
     });
 
-    describe("Firm Pii Details Body", () => {
-        it("should show the pii expiry date", () => {
+    describe("Firm PII Details Body", () => {
+        it("should show the PII expiry date", () => {
             cy.get(':nth-child(3) > .govuk-summary-list > :nth-child(1) > .govuk-summary-list__value').should("contain", "01/12/2020");
             cy.get(':nth-child(3) > .govuk-summary-list > :nth-child(2) > .govuk-summary-list__value').should("contain", "1000");
         });
     });
 
     describe("Navigation", () => {
-        it("should navigate to the 'Manage pii contact details' page", () => {
+        it("should navigate to the 'Manage PIIS contact details' page", () => {
             cy.get("[data-cy=manage-pii-details-btn]").click();
             cy.contains(".govuk-heading-l", "Manage professional indemnity insurance");
         });

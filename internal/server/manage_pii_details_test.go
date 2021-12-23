@@ -80,13 +80,13 @@ func TestErrorManagePiiMessageWhenIsEmpty(t *testing.T) {
 
 	validationErrors := sirius.ValidationErrors{
 		"piiReceived": {
-			"isEmpty": "The pii received date is required and can't be empty",
+			"isEmpty": "The PII received date is required and can't be empty",
 		},
 		"piiExpiry": {
-			"isEmpty": "The pii expiry is required and can't be empty",
+			"isEmpty": "The PII expiry is required and can't be empty",
 		},
 		"piiAmount": {
-			"isEmpty": "The pii amount is required and can't be empty",
+			"isEmpty": "The PII amount is required and can't be empty",
 		},
 	}
 
@@ -112,13 +112,13 @@ func TestErrorManagePiiMessageWhenIsEmpty(t *testing.T) {
 	expectedValidationErrors := sirius.ValidationError{
 		Errors: sirius.ValidationErrors{
 			"piiReceived": {
-				"isEmpty": "The pii received date is required and can't be empty",
+				"isEmpty": "The PII received date is required and can't be empty",
 			},
 			"piiExpiry": {
-				"isEmpty": "The pii expiry is required and can't be empty",
+				"isEmpty": "The PII expiry is required and can't be empty",
 			},
 			"piiAmount": {
-				"isEmpty": "The pii amount is required and can't be empty",
+				"isEmpty": "The PII amount is required and can't be empty",
 			},
 		},
 	}

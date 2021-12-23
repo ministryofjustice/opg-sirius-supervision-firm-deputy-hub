@@ -1,4 +1,4 @@
-describe("Manage Pii Details", () => {
+describe("Manage PII Details", () => {
     beforeEach(() => {
         cy.setCookie("Other", "other");
         cy.setCookie("XSRF-TOKEN", "abcde");
@@ -19,17 +19,17 @@ describe("Manage Pii Details", () => {
 
             cy.get(".govuk-error-summary").should(
                 "contain",
-                "The pii expiry date is required and can't be empty"
+                "The PII expiry date is required and can't be empty"
             ); 
             
             cy.get(".govuk-error-summary").should(
                 "contain",
-                "The pii received date is required and can't be empty"
+                "The PII received date is required and can't be empty"
             );
 
             cy.get(".govuk-error-summary").should(
                 "contain",
-                "The pii amount is required and can't be empty"
+                "The PII amount is required and can't be empty"
             );
         });
     });

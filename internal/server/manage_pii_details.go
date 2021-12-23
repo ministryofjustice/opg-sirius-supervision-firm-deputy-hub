@@ -15,12 +15,13 @@ type ManagePiiDetailsInformation interface {
 }
 
 type firmHubManagePiiVars struct {
-	Path         string
-	XSRFToken    string
-	Error        string
-	Errors       sirius.ValidationErrors
-	FirmDetails  sirius.FirmDetails
-	ErrorMessage string
+	Path                 string
+	XSRFToken            string
+	Error                string
+	Errors               sirius.ValidationErrors
+	FirmDetails          sirius.FirmDetails
+	ErrorMessage         string
+	AddFirmPiiDetailForm sirius.PiiDetails
 }
 
 func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
@@ -61,10 +62,11 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			if verr, ok := err.(sirius.ValidationError); ok {
 				verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)
 				vars := firmHubManagePiiVars{
-					Path:        r.URL.Path,
-					XSRFToken:   ctx.XSRFToken,
-					Errors:      verr.Errors,
-					FirmDetails: firmDetails,
+					Path:                 r.URL.Path,
+					XSRFToken:            ctx.XSRFToken,
+					Errors:               verr.Errors,
+					FirmDetails:          firmDetails,
+					AddFirmPiiDetailForm: addFirmPiiDetailForm,
 				}
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
@@ -83,13 +85,13 @@ func renameEditPiiValidationErrorMessages(siriusError sirius.ValidationErrors) s
 		for errorType, errorMessage := range value {
 			err := make(map[string]string)
 			if fieldName == "piiReceived" && errorType == "isEmpty" {
-				err[errorType] = "The pii received date is required and can't be empty"
+				err[errorType] = "The PII received date is required and can't be empty"
 				errorCollection["pii-received"] = err
 			} else if fieldName == "piiExpiry" && errorType == "isEmpty" {
-				err[errorType] = "The pii expiry date is required and can't be empty"
+				err[errorType] = "The PII expiry date is required and can't be empty"
 				errorCollection["pii-expiry"] = err
 			} else if fieldName == "piiAmount" && errorType == "isEmpty" {
-				err[errorType] = "The pii amount is required and can't be empty"
+				err[errorType] = "The PII amount is required and can't be empty"
 				errorCollection["pii-amount"] = err
 			} else {
 				err[errorType] = errorMessage
