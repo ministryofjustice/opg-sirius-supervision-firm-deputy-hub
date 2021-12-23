@@ -2,8 +2,8 @@ package sirius
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"time"
 )
 
 type Deputy struct {
@@ -25,13 +25,15 @@ type FirmDetails struct {
 	County                string   `json:"county"`
 	Postcode              string   `json:"postcode"`
 	Deputies              []Deputy `json:"deputies"`
+	PiiExpiry             string   `json:"piiExpiry"`
+	PiiAmount             string   `json:"piiAmount"`
 	TotalNumberOfDeputies int
 }
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	var v FirmDetails
 
-	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firms/%d", firmId), nil)
+	req, err := c.newRequest(ctx, http.MethodGet, "/api/v1/firms/1", nil)
 
 	if err != nil {
 		return v, err
@@ -54,5 +56,16 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 
 	err = json.NewDecoder(resp.Body).Decode(&v)
 
+	v.PiiExpiry = reformatDate(v.PiiExpiry)
+
 	return v, err
+}
+
+func reformatDate(dateString string) string {
+	if dateString == "" {
+		return ""
+	}
+	dateTime, _ := time.Parse("2006-01-02", dateString)
+
+	return dateTime.Format("02/01/2006")
 }

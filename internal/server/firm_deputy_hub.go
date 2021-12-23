@@ -1,10 +1,11 @@
 package server
 
 import (
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
 type FirmHubInformation interface {
@@ -12,11 +13,13 @@ type FirmHubInformation interface {
 }
 
 type firmHubVars struct {
-	Path        string
-	XSRFToken   string
-	Error       string
-	Errors      sirius.ValidationErrors
-	FirmDetails sirius.FirmDetails
+	Path           string
+	XSRFToken      string
+	Error          string
+	Errors         sirius.ValidationErrors
+	FirmDetails    sirius.FirmDetails
+	Success        bool
+	SuccessMessage string
 }
 
 func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
@@ -35,10 +38,14 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return err
 		}
 
+		hasSuccess, successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName)
+
 		vars := firmHubVars{
-			Path:        r.URL.Path,
-			XSRFToken:   ctx.XSRFToken,
-			FirmDetails: firmDetails,
+			Path:           r.URL.Path,
+			XSRFToken:      ctx.XSRFToken,
+			FirmDetails:    firmDetails,
+			Success:        hasSuccess,
+			SuccessMessage: successMessage,
 		}
 
 		switch r.Method {
@@ -48,4 +55,22 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 	}
+}
+
+func createSuccessAndSuccessMessageForVars(url, firmName string) (bool, string) {
+	splitStringByQuestion := strings.Split(url, "?")
+	if len(splitStringByQuestion) > 1 {
+		splitString := strings.Split(splitStringByQuestion[1], "=")
+
+		if splitString[1] == "firm" {
+			return true, "Firm changed to " + firmName
+		} else if splitString[1] == "newFirm" {
+			return true, "Firm added"
+		} else if splitString[1] == "deputyDetails" {
+			return true, "Deputy details updated"
+		} else if splitString[1] == "piiDetails" {
+			return true, "PII details updated"
+		}
+	}
+	return false, ""
 }
