@@ -25,13 +25,16 @@ type FirmDetails struct {
 	County                string   `json:"county"`
 	Postcode              string   `json:"postcode"`
 	Deputies              []Deputy `json:"deputies"`
+	PiiExpiry             string   `json:"piiExpiry"`
+	PiiAmount             float64  `json:"piiAmount,omitempty"`
 	TotalNumberOfDeputies int
 }
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	var v FirmDetails
 
-	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firms/%d", firmId), nil)
+	requestURL := fmt.Sprintf("/api/v1/firms/%d", firmId)
+	req, err := c.newRequest(ctx, http.MethodGet, requestURL, nil)
 
 	if err != nil {
 		return v, err

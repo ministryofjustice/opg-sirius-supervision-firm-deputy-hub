@@ -1,10 +1,11 @@
 package server
 
 import (
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
 type FirmHubInformation interface {
@@ -12,11 +13,12 @@ type FirmHubInformation interface {
 }
 
 type firmHubVars struct {
-	Path        string
-	XSRFToken   string
-	Error       string
-	Errors      sirius.ValidationErrors
-	FirmDetails sirius.FirmDetails
+	Path           string
+	XSRFToken      string
+	Error          string
+	Errors         sirius.ValidationErrors
+	FirmDetails    sirius.FirmDetails
+	SuccessMessage string
 }
 
 func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
@@ -35,10 +37,13 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return err
 		}
 
+		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName)
+
 		vars := firmHubVars{
-			Path:        r.URL.Path,
-			XSRFToken:   ctx.XSRFToken,
-			FirmDetails: firmDetails,
+			Path:           r.URL.Path,
+			XSRFToken:      ctx.XSRFToken,
+			FirmDetails:    firmDetails,
+			SuccessMessage: successMessage,
 		}
 
 		switch r.Method {
@@ -48,4 +53,22 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 	}
+}
+
+func createSuccessAndSuccessMessageForVars(url, firmName string) string {
+	splitStringByQuestion := strings.Split(url, "?")
+	if len(splitStringByQuestion) > 1 {
+		splitString := strings.Split(splitStringByQuestion[1], "=")
+
+		if splitString[1] == "firm" {
+			return "Firm changed to " + firmName
+		} else if splitString[1] == "newFirm" {
+			return "Firm added"
+		} else if splitString[1] == "deputyDetails" {
+			return "Deputy details updated"
+		} else if splitString[1] == "piiDetails" {
+			return "PII details updated"
+		}
+	}
+	return ""
 }
