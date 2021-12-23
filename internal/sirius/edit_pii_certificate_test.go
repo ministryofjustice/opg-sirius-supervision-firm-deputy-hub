@@ -18,7 +18,7 @@ func TestEditPii(t *testing.T) {
 	json := `{
 		"piiReceived":"20/01/2020",
 		"piiExpiry":"20/01/2025",
-		"piiAmount":"254",
+		"piiAmount":254,
 		"piiRequested":"10/01/2020"
 		}`
 
@@ -35,7 +35,7 @@ func TestEditPii(t *testing.T) {
 		FirmId:       21,
 		PiiReceived:  "20/01/2020",
 		PiiExpiry:    "20/01/2025",
-		PiiAmount:    "254",
+		PiiAmount:    254,
 		PiiRequested: "10/01/2020",
 	}
 
