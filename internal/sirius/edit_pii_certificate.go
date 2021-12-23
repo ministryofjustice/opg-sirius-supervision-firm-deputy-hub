@@ -8,11 +8,11 @@ import (
 )
 
 type PiiDetails struct {
-	FirmId       int    `json:"firmId"`
-	PiiReceived  string `json:"piiReceived"`
-	PiiExpiry    string `json:"piiExpiry"`
-	PiiAmount    string `json:"piiAmount"`
-	PiiRequested string `json:"piiRequested"`
+	FirmId       int     `json:"firmId"`
+	PiiReceived  string  `json:"piiReceived"`
+	PiiExpiry    string  `json:"piiExpiry"`
+	PiiAmount    float64 `json:"piiAmount,omitempty"`
+	PiiRequested string  `json:"piiRequested"`
 }
 
 func (c *Client) EditPiiCertificate(ctx Context, editPiiData PiiDetails) error {

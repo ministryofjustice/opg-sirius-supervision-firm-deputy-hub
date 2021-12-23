@@ -48,18 +48,22 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
-
 			addFirmPiiDetailForm := sirius.PiiDetails{
 				FirmId:       firmId,
 				PiiReceived:  r.PostFormValue("pii-received"),
 				PiiExpiry:    r.PostFormValue("pii-expiry"),
-				PiiAmount:    r.PostFormValue("pii-amount"),
 				PiiRequested: r.PostFormValue("pii-requested"),
 			}
 
-			fmt.Println(r.PostFormValue("pii-received"))
+			if r.PostFormValue("pii-amount") != "" {
+				piiAmountFloat, err := strconv.ParseFloat(r.PostFormValue("pii-amount"), 64)
+				if err != nil {
+					return err
+				}
+				addFirmPiiDetailForm.PiiAmount = piiAmountFloat
+			}
 
-			err := client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
+			err = client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
 				verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)

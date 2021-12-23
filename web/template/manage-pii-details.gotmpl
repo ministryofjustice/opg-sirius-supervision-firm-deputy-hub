@@ -74,16 +74,16 @@
                                     style="text-transform:uppercase" />
                             </div>
 
-                            <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount ""}}govuk-form-group--error{{ end }}{{ end }}">
+                            <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-form-group--error{{ end }}{{ end }}">
                                 <label class="govuk-label" for="pii-amount">
                                     Amount
                                 </label>
-                                 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount ""}}
+                                 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}
                                   <p id="pii-amount-error" class="govuk-error-message">
                                     <span class="govuk-visually-hidden">Error:</span> The PII amount is required and can't be empty
                                  </p>
-                                        {{ end }}
                                     {{ end }}
+                                {{ end }}
                                 <div class="govuk-input__wrapper">
                                     <div
                                         class="govuk-input__prefix"
@@ -91,16 +91,16 @@
                                         £
                                     </div>
                                     <input
-                                        class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount ""}}govuk-input--error{{ end }}{{ end }}"
+                                        class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-input--error{{ end }}{{ end }}"
                                         id="f-pii-amount"
                                         name="pii-amount"
-                                        type="text"
+                                        type="number"
+                                        step=".01"
                                          {{ if .Errors }}
-                                        {{ if ne .AddFirmPiiDetailForm.PiiAmount ""}}
+                                        {{ if ne .AddFirmPiiDetailForm.PiiAmount 0.0}}
                                         value= {{ .AddFirmPiiDetailForm.PiiAmount }}
                                         {{ end }}
-                                    {{ end }}                    
-                                        spellcheck="false"/>
+                                    {{ end }}/>
                                 </div>
                             </div>
                         </fieldset>
