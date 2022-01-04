@@ -1,0 +1,65 @@
+{{ template "page" . }}
+{{ define "main" }}
+    {{ template "error-summary" .Errors }}
+
+    {{ template "firm-details" . }}
+
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+        <div class="govuk-grid-column-full">
+            <header>
+                <div class="main-header">
+                    <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">
+                        Request professional indemnity insurance
+                    </h1>
+                </div>
+            </header>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half">
+                    <form
+                        class=""
+                        method="post">
+                        <input
+                            type="hidden"
+                            name="xsrfToken"
+                            value="{{ .XSRFToken }}" />
+
+                        <fieldset class="govuk-fieldset">
+                            <legend
+                                class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h1 class="govuk-fieldset__heading">
+                                    New PII certificate
+                                </h1>
+                            </legend>
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="pii-requested">
+                                    Date requested
+                                </label>                        
+                                <input
+                                    class="govuk-input govuk-input--width-10"
+                                    id="f-pii-requested"
+                                    name="pii-requested"
+                                    type="date"
+                                    style="text-transform:uppercase"/>
+                            </div>
+                        </fieldset>
+                        <div class="govuk-button-group govuk-!-margin-top-7">
+                            <button
+                                type="submit"
+                                class="govuk-button"
+                                data-module="govuk-button"
+                                data-cy="submit-request-pii-details-form-btn"
+                                >
+                                Request PII details
+                            </button>
+                            <a
+                                class="govuk-link"
+                                href="{{ prefix (printf "/%d" .FirmDetails.ID) }}"
+                                >Cancel</a
+                            >
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ end }}

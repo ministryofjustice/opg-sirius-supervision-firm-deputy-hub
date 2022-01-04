@@ -25,8 +25,10 @@ type FirmDetails struct {
 	County                string   `json:"county"`
 	Postcode              string   `json:"postcode"`
 	Deputies              []Deputy `json:"deputies"`
+	PiiReceived       string   `json:"piiReceived"`
 	PiiExpiry             string   `json:"piiExpiry"`
 	PiiAmount             float64  `json:"piiAmount,omitempty"`
+	PiiRequested      string   `json:"piiRequested"`
 	TotalNumberOfDeputies int
 }
 

@@ -108,6 +108,12 @@
             <h2 class="govuk-heading-m">Professional indemnity insurance</h2>
             <dl class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">PII received</dt>
+                    <dd class="govuk-summary-list__value">
+                        {{ .FirmDetails.PiiReceived }}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">PII expiry</dt>
                     <dd class="govuk-summary-list__value">
                         {{ .FirmDetails.PiiExpiry }}
@@ -121,7 +127,9 @@
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">New PII requested</dt>
-                    <dd class="govuk-summary-list__value">Not requested</dd>
+                    <dd class="govuk-summary-list__value">
+                        {{ .FirmDetails.PiiRequested }}
+                    </dd>
                 </div>
             </dl>
             <a
@@ -133,6 +141,15 @@
                 data-cy="manage-pii-details-btn">
                 Manage PII information
             </a>
+           <a
+                href="{{ prefix (printf "/%d/request-pii-details" .FirmDetails.ID) }}"
+                role="button"
+                draggable="false"
+                class="govuk-button govuk-button--secondary"
+                data-module="govuk-button"
+                data-cy="request-pii-details-btn">
+                Request PII information
+           </a>
         </div>
         </div>
     </div>
