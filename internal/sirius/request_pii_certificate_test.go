@@ -50,7 +50,7 @@ func TestRequestPiiReturnsNewStatusError(t *testing.T) {
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/0/requestPii",
+		URL:    svr.URL + "/api/v1/firms/0/request-indemnity-insurance",
 		Method: http.MethodPut,
 	}, err)
 }

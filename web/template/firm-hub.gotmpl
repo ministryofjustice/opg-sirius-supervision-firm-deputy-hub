@@ -122,7 +122,7 @@
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">PII amount</dt>
                     <dd class="govuk-summary-list__value">
-                        {{ if ne .FirmDetails.PiiAmount 0}}{{ .FirmDetails.PiiAmount }}{{end}}
+                       £{{ if ne .FirmDetails.PiiAmountCommaFormat ""}}{{ .FirmDetails.PiiAmount }}{{end}}
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
@@ -136,6 +136,7 @@
                 href="{{ prefix (printf "/%d/manage-pii-details" .FirmDetails.ID) }}"
                 role="button"
                 draggable="false"
+                id="manage-pii-btn"
                 class="govuk-button govuk-button--secondary"
                 data-module="govuk-button"
                 data-cy="manage-pii-details-btn">
@@ -144,6 +145,7 @@
            <a
                 href="{{ prefix (printf "/%d/request-pii-details" .FirmDetails.ID) }}"
                 role="button"
+                id="request-pii-btn"
                 draggable="false"
                 class="govuk-button govuk-button--secondary"
                 data-module="govuk-button"

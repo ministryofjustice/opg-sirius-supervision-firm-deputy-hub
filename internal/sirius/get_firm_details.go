@@ -28,12 +28,13 @@ type FirmDetails struct {
 	Deputies              []Deputy `json:"deputies"`
 	PiiReceived       string   `json:"piiReceived"`
 	PiiExpiry             string   `json:"piiExpiry"`
-	PiiAmount             int  `json:"piiAmount,omitempty"`
+	PiiAmount             float64  `json:"piiAmount,omitempty"`
 	PiiRequested      string   `json:"piiRequested"`
 	PiiReceivedDateFormat string
 	PiiExpiryDateFormat string
 	PiiRequestedDateFormat string
 	TotalNumberOfDeputies int
+	PiiAmountCommaFormat string
 }
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
