@@ -4,7 +4,7 @@ describe("Manage PII Details", () => {
         cy.setCookie("XSRF-TOKEN", "abcde");
     });
 
-    describe("Navigation", () => {
+    describe("Form", () => {
         beforeEach(() => {
             cy.visit("/supervision/deputies/firm/1/manage-pii-details");
         });
@@ -30,6 +30,23 @@ describe("Manage PII Details", () => {
             cy.get(".govuk-error-summary").should(
                 "contain",
                 "The PII amount is required and can't be empty"
+            );
+        });
+
+        it("will autofill the form fields", () => {
+            cy.get("#f-pii-received").should(
+                "have.value",
+                "2000-12-20"
+            );
+
+            cy.get("#f-pii-expiry").should(
+                "have.value",
+                "2020-12-01"
+            );
+
+            cy.get("#f-pii-amount").should(
+                "have.value",
+                "1000"
             );
         });
     });
