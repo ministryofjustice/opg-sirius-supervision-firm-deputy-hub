@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type Deputy struct {
@@ -27,8 +28,11 @@ type FirmDetails struct {
 	Deputies              []Deputy `json:"deputies"`
 	PiiReceived       string   `json:"piiReceived"`
 	PiiExpiry             string   `json:"piiExpiry"`
-	PiiAmount             float64  `json:"piiAmount,omitempty"`
+	PiiAmount             int  `json:"piiAmount,omitempty"`
 	PiiRequested      string   `json:"piiRequested"`
+	PiiReceivedDateFormat string
+	PiiExpiryDateFormat string
+	PiiRequestedDateFormat string
 	TotalNumberOfDeputies int
 }
 
@@ -59,5 +63,18 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 
 	err = json.NewDecoder(resp.Body).Decode(&v)
 
+	v.PiiReceivedDateFormat = reformatDatesForAutofill(v.PiiReceived)
+	v.PiiExpiryDateFormat = reformatDatesForAutofill(v.PiiExpiry)
+	v.PiiRequestedDateFormat = reformatDatesForAutofill(v.PiiRequested)
+
 	return v, err
+}
+
+func reformatDatesForAutofill(date string) string {
+	if date != "" {
+		dateTime, _ := time.Parse("02/01/2006", date)
+		date = dateTime.Format("2006-01-02")
+		return date
+	}
+	return ""
 }

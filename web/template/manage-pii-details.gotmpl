@@ -49,7 +49,9 @@
                                         value= {{ .AddFirmPiiDetailForm.PiiReceived }}
                                         {{ end }}
                                     {{ end }}
-                                    style="text-transform:uppercase"/>
+                                    value= "{{ .FirmDetails.PiiReceivedDateFormat }}"
+                                    style="text-transform:uppercase"
+                                    />
                                  </div>
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}govuk-form-group--error{{ end }}{{ end }}">
                                 <label class="govuk-label" for="pii-expiry">
@@ -71,7 +73,9 @@
                                         value= {{ .AddFirmPiiDetailForm.PiiExpiry }}
                                         {{ end }}
                                     {{ end }}
-                                    style="text-transform:uppercase" />
+                                    value= "{{ .FirmDetails.PiiExpiryDateFormat }}"
+                                    style="text-transform:uppercase"
+                                    />
                             </div>
 
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-form-group--error{{ end }}{{ end }}">
@@ -100,7 +104,9 @@
                                         {{ if ne .AddFirmPiiDetailForm.PiiAmount 0.0}}
                                         value= {{ .AddFirmPiiDetailForm.PiiAmount }}
                                         {{ end }}
-                                    {{ end }}/>
+                                    {{ end }}
+                                     value={{ .FirmDetails.PiiAmount }}
+                                    />
                                 </div>
                             </div>
                         </fieldset>

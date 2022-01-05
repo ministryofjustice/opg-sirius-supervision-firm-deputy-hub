@@ -30,18 +30,32 @@
                                     New PII certificate
                                 </h1>
                             </legend>
-                            <div class="govuk-form-group">
+                            <div class="govuk-form-group {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}govuk-form-group--error{{ end }}{{ end }}">
                                 <label class="govuk-label" for="pii-requested">
                                     Date requested
-                                </label>                        
+                                </label>
+                                {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}
+                                      <p id="pii-requested-error" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden">Error:</span> The PII requested date is required and can't be empty
+                                     </p>
+                                            {{ end }}
+                                        {{ end }}
                                 <input
-                                    class="govuk-input govuk-input--width-10"
+                                    class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}govuk-input--error{{ end }}{{ end }}"
                                     id="f-pii-requested"
                                     name="pii-requested"
                                     type="date"
-                                    style="text-transform:uppercase"/>
+                                    {{ if .Errors }}
+                                        {{ if ne .RequestPiiDetailsForm.PiiRequested ""}}
+                                        value= {{ .RequestPiiDetailsForm.PiiRequested }}
+                                        {{ end }}
+                                    {{ end }}
+                                    value= "{{ .FirmDetails.PiiRequestedDateFormat }}"
+                                    style="text-transform:uppercase"
+                                    />
                             </div>
                         </fieldset>
+
                         <div class="govuk-button-group govuk-!-margin-top-7">
                             <button
                                 type="submit"
