@@ -37,6 +37,10 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 		wrap(
 			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 
+	router.Handle("/{id}/manage-firm-details",
+		wrap(
+			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+
 	router.Handle("/health-check", healthCheck())
 
 	static := staticFileHandler(webDir)
