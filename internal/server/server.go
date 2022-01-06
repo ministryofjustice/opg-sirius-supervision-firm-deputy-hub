@@ -29,6 +29,8 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
 	router := mux.NewRouter()
+	router.Handle("/health-check", healthCheck())
+
 	router.Handle("/{id}",
 		wrap(
 			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
@@ -36,8 +38,6 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	router.Handle("/{id}/manage-pii-details",
 		wrap(
 			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
-
-	router.Handle("/health-check", healthCheck())
 
 	static := staticFileHandler(webDir)
 	router.PathPrefix("/assets/").Handler(static)
