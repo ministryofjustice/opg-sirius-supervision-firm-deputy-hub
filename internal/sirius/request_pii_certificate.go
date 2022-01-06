@@ -8,15 +8,15 @@ import (
 )
 
 type PiiDetailsRequest struct {
-	FirmId int `json:"firmId"`
-	PiiRequested string  `json:"piiRequested"`
+	FirmId       int    `json:"firmId"`
+	PiiRequested string `json:"piiRequested"`
 }
 
 func (c *Client) RequestPiiCertificate(ctx Context, requestPiiData PiiDetailsRequest) error {
 	var k PiiDetailsRequest
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(PiiDetailsRequest{
-		FirmId: requestPiiData.FirmId,
+		FirmId:       requestPiiData.FirmId,
 		PiiRequested: requestPiiData.PiiRequested,
 	})
 	if err != nil {

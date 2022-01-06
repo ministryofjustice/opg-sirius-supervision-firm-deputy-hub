@@ -106,7 +106,7 @@ func TestErrorRequestPiiMessageWhenIsEmpty(t *testing.T) {
 	expectedValidationErrors := sirius.ValidationError{
 		Errors: sirius.ValidationErrors{
 			"piiRequested": {
-			"isEmpty": "The PII requested date is required and can't be empty",
+				"isEmpty": "The PII requested date is required and can't be empty",
 			},
 		},
 	}

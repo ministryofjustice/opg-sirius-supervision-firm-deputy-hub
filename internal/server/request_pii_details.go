@@ -15,12 +15,12 @@ type RequestPiiDetailsInformation interface {
 }
 
 type firmHubRequestPiiVars struct {
-	Path                 string
-	XSRFToken            string
-	Error                string
-	Errors               sirius.ValidationErrors
-	FirmDetails          sirius.FirmDetails
-	ErrorMessage         string
+	Path                  string
+	XSRFToken             string
+	Error                 string
+	Errors                sirius.ValidationErrors
+	FirmDetails           sirius.FirmDetails
+	ErrorMessage          string
 	RequestPiiDetailsForm sirius.PiiDetailsRequest
 }
 
@@ -59,10 +59,10 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 			if verr, ok := err.(sirius.ValidationError); ok {
 				verr.Errors = renameRequestPiiValidationErrorMessages(verr.Errors)
 				vars := firmHubRequestPiiVars{
-					Path:                 r.URL.Path,
-					XSRFToken:            ctx.XSRFToken,
-					Errors:               verr.Errors,
-					FirmDetails:          firmDetails,
+					Path:                  r.URL.Path,
+					XSRFToken:             ctx.XSRFToken,
+					Errors:                verr.Errors,
+					FirmDetails:           firmDetails,
 					RequestPiiDetailsForm: requestPiiDetailsForm,
 				}
 				return tmpl.ExecuteTemplate(w, "page", vars)
@@ -92,4 +92,3 @@ func renameRequestPiiValidationErrorMessages(siriusError sirius.ValidationErrors
 	}
 	return errorCollection
 }
-
