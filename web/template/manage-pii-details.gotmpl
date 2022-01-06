@@ -105,7 +105,9 @@
                                         value= {{ .AddFirmPiiDetailForm.PiiAmount }}
                                         {{ end }}
                                     {{ end }}
-                                     value={{ .FirmDetails.PiiAmount }}
+                                    {{ if ne .FirmDetails.PiiAmount 0.0}}
+                                        value={{ .FirmDetails.PiiAmount }}
+                                    {{ end }}
                                     />
                                 </div>
                             </div>
