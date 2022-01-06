@@ -11,14 +11,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEditPii(t *testing.T) {
+func TestRequestPii(t *testing.T) {
 	mockClient := &mocks.MockClient{}
 	client, _ := NewClient(mockClient, "http://localhost:3000")
 
 	json := `{
-		"piiReceived":"20/01/2020",
-		"piiExpiry":"20/01/2025",
-		"piiAmount":254,
+		"firmId":2,
 		"piiRequested":"10/01/2020"
 		}`
 
@@ -31,19 +29,16 @@ func TestEditPii(t *testing.T) {
 		}, nil
 	}
 
-	piiDetails := PiiDetails{
-		FirmId:       21,
-		PiiReceived:  "20/01/2020",
-		PiiExpiry:    "20/01/2025",
-		PiiAmount:    254,
+	piiDetails := PiiDetailsRequest{
+		FirmId:       2,
 		PiiRequested: "10/01/2020",
 	}
 
-	err := client.EditPiiCertificate(getContext(nil), piiDetails)
+	err := client.RequestPiiCertificate(getContext(nil), piiDetails)
 	assert.Nil(t, err)
 }
 
-func TestEditPiiReturnsNewStatusError(t *testing.T) {
+func TestRequestPiiReturnsNewStatusError(t *testing.T) {
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}))
@@ -51,16 +46,16 @@ func TestEditPiiReturnsNewStatusError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	err := client.EditPiiCertificate(getContext(nil), PiiDetails{})
+	err := client.RequestPiiCertificate(getContext(nil), PiiDetailsRequest{})
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/0/indemnity-insurance",
+		URL:    svr.URL + "/api/v1/firms/0/request-indemnity-insurance",
 		Method: http.MethodPut,
 	}, err)
 }
 
-func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
+func TestRequestPiiReturnsUnauthorisedClientError(t *testing.T) {
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 	}))
@@ -68,7 +63,7 @@ func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	err := client.EditPiiCertificate(getContext(nil), PiiDetails{})
+	err := client.RequestPiiCertificate(getContext(nil), PiiDetailsRequest{})
 
 	assert.Equal(t, ErrUnauthorized, err)
 

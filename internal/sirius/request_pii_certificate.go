@@ -7,28 +7,23 @@ import (
 	"net/http"
 )
 
-type PiiDetails struct {
-	FirmId       int     `json:"firmId"`
-	PiiReceived  string  `json:"piiReceived"`
-	PiiExpiry    string  `json:"piiExpiry"`
-	PiiAmount    float64 `json:"piiAmount,omitempty"`
-	PiiRequested string  `json:"piiRequested"`
+type PiiDetailsRequest struct {
+	FirmId       int    `json:"firmId"`
+	PiiRequested string `json:"piiRequested"`
 }
 
-func (c *Client) EditPiiCertificate(ctx Context, editPiiData PiiDetails) error {
-	var k PiiDetails
+func (c *Client) RequestPiiCertificate(ctx Context, requestPiiData PiiDetailsRequest) error {
+	var k PiiDetailsRequest
 	var body bytes.Buffer
-	err := json.NewEncoder(&body).Encode(PiiDetails{
-		PiiReceived:  editPiiData.PiiReceived,
-		PiiExpiry:    editPiiData.PiiExpiry,
-		PiiAmount:    editPiiData.PiiAmount,
-		PiiRequested: editPiiData.PiiRequested,
+	err := json.NewEncoder(&body).Encode(PiiDetailsRequest{
+		FirmId:       requestPiiData.FirmId,
+		PiiRequested: requestPiiData.PiiRequested,
 	})
 	if err != nil {
 		return err
 	}
 
-	requestURL := fmt.Sprintf("/api/v1/firms/%d/indemnity-insurance", editPiiData.FirmId)
+	requestURL := fmt.Sprintf("/api/v1/firms/%d/request-indemnity-insurance", requestPiiData.FirmId)
 
 	req, err := c.newRequest(ctx, http.MethodPut, requestURL, &body)
 
