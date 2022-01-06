@@ -62,11 +62,22 @@
                     "isEmpty": ""
                 }
             }
+        },
+        {
+            "id": "request-pii-details",
+            "validation_errors": {
+                "piiRequested": {
+                    "isEmpty": ""
+                }
+            }
         }
     ],
     "successes": [
         {
             "id": "editPii"
+        },
+        {
+            "id": "requestPii"
         }
     ]
 }

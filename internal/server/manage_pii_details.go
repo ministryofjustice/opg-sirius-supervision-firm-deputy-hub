@@ -52,7 +52,6 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				FirmId:       firmId,
 				PiiReceived:  r.PostFormValue("pii-received"),
 				PiiExpiry:    r.PostFormValue("pii-expiry"),
-				PiiRequested: r.PostFormValue("pii-requested"),
 			}
 
 			if r.PostFormValue("pii-amount") != "" {
