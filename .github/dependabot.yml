@@ -24,7 +24,7 @@ updates:
       separator: "-"
 
   - package-ecosystem: "docker"
-    directory: "/docker/sirius-deputy-hub"
+    directory: "/docker/sirius-firm-deputy-hub"
     schedule:
       interval: "daily"
       time: "10:00"
