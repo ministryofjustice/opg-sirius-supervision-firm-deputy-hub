@@ -1,0 +1,79 @@
+{{ template "page" . }}
+{{ define "main" }}
+    {{ template "error-summary" .Errors }}
+
+    {{ template "firm-details" . }}
+
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+        <div class="govuk-grid-column-full">
+            <header>
+                <div class="main-header">
+                    <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">
+                        Request professional indemnity insurance
+                    </h1>
+                </div>
+            </header>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half">
+                    <form
+                        class=""
+                        method="post">
+                        <input
+                            type="hidden"
+                            name="xsrfToken"
+                            value="{{ .XSRFToken }}" />
+
+                        <fieldset class="govuk-fieldset">
+                            <legend
+                                class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h1 class="govuk-fieldset__heading">
+                                    New PII certificate
+                                </h1>
+                            </legend>
+                            <div class="govuk-form-group {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}govuk-form-group--error{{ end }}{{ end }}">
+                                <label class="govuk-label" for="pii-requested">
+                                    Date requested
+                                </label>
+                                {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}
+                                      <p id="pii-requested-error" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden">Error:</span> The PII requested date is required and can't be empty
+                                     </p>
+                                            {{ end }}
+                                        {{ end }}
+                                <input
+                                    class="govuk-input govuk-input--width-10 {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}govuk-input--error{{ end }}{{ end }}"
+                                    id="f-pii-requested"
+                                    name="pii-requested"
+                                    type="date"
+                                    {{ if .Errors }}
+                                        {{ if ne .RequestPiiDetailsForm.PiiRequested ""}}
+                                        value= {{ .RequestPiiDetailsForm.PiiRequested }}
+                                        {{ end }}
+                                    {{ end }}
+                                    value= "{{ .FirmDetails.PiiRequestedDateFormat }}"
+                                    style="text-transform:uppercase"
+                                    />
+                            </div>
+                        </fieldset>
+
+                        <div class="govuk-button-group govuk-!-margin-top-7">
+                            <button
+                                type="submit"
+                                class="govuk-button"
+                                data-module="govuk-button"
+                                data-cy="submit-request-pii-details-form-btn"
+                                >
+                                Request PII details
+                            </button>
+                            <a
+                                class="govuk-link"
+                                href="{{ prefix (printf "/%d" .FirmDetails.ID) }}"
+                                >Cancel</a
+                            >
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ end }}
