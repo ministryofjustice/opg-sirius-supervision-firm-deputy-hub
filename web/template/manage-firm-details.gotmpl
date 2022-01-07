@@ -90,9 +90,14 @@
           </div>
 
           <div class="govuk-button-group govuk-!-margin-top-7">
-            <a class="govuk-button" href="/sirius/pro-hub/1-1/firm-deputy/firm-hub" data-module="govuk-button">
-              Save firm details
-            </a>
+            <button
+                type="submit"
+                class="govuk-button"
+                data-module="govuk-button"
+                data-cy="submit-manage-firm-details-form-btn"
+                >
+                Save Firm details
+            </button>
 
              <a class="govuk-link" href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">Cancel</a>
 
