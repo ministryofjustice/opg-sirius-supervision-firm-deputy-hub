@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,6 +11,7 @@ import (
 
 type ManageFirmDetailsInformation interface {
 	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
+	ManageFirmDetails(sirius.Context, sirius.FirmDetails) error
 }
 
 type firmHubManageFirmVars struct {
@@ -19,10 +21,10 @@ type firmHubManageFirmVars struct {
 	Errors               sirius.ValidationErrors
 	FirmDetails          sirius.FirmDetails
 	ErrorMessage         string
-	AddFirmPiiDetailForm sirius.PiiDetails
+	EditFirmDetailsForm sirius.FirmDetails
 }
 
-func renderTemplateForManageFirmDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
+func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmpl Template) Handler {
 	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
@@ -45,37 +47,42 @@ func renderTemplateForManageFirmDetails(client ManagePiiDetailsInformation, tmpl
 
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
-		//case http.MethodPost:
-		//	addFirmPiiDetailForm := sirius.PiiDetails{
-		//		FirmId:       firmId,
-		//		PiiReceived:  r.PostFormValue("pii-received"),
-		//		PiiExpiry:    r.PostFormValue("pii-expiry"),
-		//		PiiRequested: r.PostFormValue("pii-requested"),
-		//	}
-		//
-		//	if r.PostFormValue("pii-amount") != "" {
-		//		piiAmountFloat, err := strconv.ParseFloat(r.PostFormValue("pii-amount"), 64)
-		//		if err != nil {
-		//			return err
-		//		}
-		//		addFirmPiiDetailForm.PiiAmount = piiAmountFloat
-		//	}
-		//
-		//	err = client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
-		//
-		//	if verr, ok := err.(sirius.ValidationError); ok {
-		//		verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)
-		//		vars := firmHubManagePiiVars{
-		//			Path:                 r.URL.Path,
-		//			XSRFToken:            ctx.XSRFToken,
-		//			Errors:               verr.Errors,
-		//			FirmDetails:          firmDetails,
-		//			AddFirmPiiDetailForm: addFirmPiiDetailForm,
-		//		}
-		//		return tmpl.ExecuteTemplate(w, "page", vars)
-		//	}
-		//
-		//	return Redirect(fmt.Sprintf("/%d?success=piiDetails", firmId))
+		case http.MethodPost:
+			editFirmDetailsForm := sirius.FirmDetails{
+				ID:        firmId,
+				FirmName:   r.PostFormValue("firm-name"),
+				Email:  r.PostFormValue("email"),
+				PhoneNumber:   r.PostFormValue("telephone"),
+				AddressLine1:     r.PostFormValue("address-line-1"),
+				AddressLine2:  r.PostFormValue("address-line-2"),
+				AddressLine3:   r.PostFormValue("address-line-3"),
+				Town:     r.PostFormValue("town"),
+				County:  r.PostFormValue("county"),
+				Postcode:   r.PostFormValue("postcode"),
+			}
+
+			fmt.Println("post method server")
+			fmt.Println(editFirmDetailsForm)
+
+			err = client.ManageFirmDetails(ctx, editFirmDetailsForm)
+
+			fmt.Println("after manage firm details")
+
+			if verr, ok := err.(sirius.ValidationError); ok {
+				verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)
+				vars := firmHubManageFirmVars{
+					Path:                 r.URL.Path,
+					XSRFToken:            ctx.XSRFToken,
+					Errors:               verr.Errors,
+					FirmDetails:          firmDetails,
+					EditFirmDetailsForm: editFirmDetailsForm,
+				}
+				fmt.Println("errors")
+				fmt.Println(vars)
+				return tmpl.ExecuteTemplate(w, "page", vars)
+			}
+
+			return Redirect(fmt.Sprintf("/%d?success=firmDetails", firmId))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

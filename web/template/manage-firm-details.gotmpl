@@ -18,14 +18,16 @@
             If you’re updating the firm’s address, check whether you also need to update any deputy addresses.
           </p>
 
-          <form class="" data-form-type="shipping">
+          <form class="" method="post">
+          <input type="hidden" name="xsrfToken" value="{{ .XSRFToken }}" />
 
           <div class="govuk-form-group">
-            <label class="govuk-label" for="deputy-name">
+            <label class="govuk-label" for="firm-name">
               Firm name (required)
             </label>
-            <input class="govuk-input" id="deputy-name" name="deputy-name" type="text" value="{{.FirmDetails.FirmName}}" required="" data-form-type="name" >
+            <input class="govuk-input" id="firm-name" name="firm-name" type="text" value="{{.FirmDetails.FirmName}}" required="" data-form-type="name" >
           </div>
+
 
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">

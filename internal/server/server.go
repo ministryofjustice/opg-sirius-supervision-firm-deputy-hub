@@ -19,6 +19,7 @@ type Client interface {
 	ErrorHandlerClient
 	FirmHubInformation
 	ManagePiiDetailsInformation
+	ManageFirmDetailsInformation
 }
 
 type Template interface {
