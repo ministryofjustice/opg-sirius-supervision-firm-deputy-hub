@@ -49,10 +49,9 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 
 		case http.MethodPost:
 			addFirmPiiDetailForm := sirius.PiiDetails{
-				FirmId:       firmId,
-				PiiReceived:  r.PostFormValue("pii-received"),
-				PiiExpiry:    r.PostFormValue("pii-expiry"),
-				PiiRequested: r.PostFormValue("pii-requested"),
+				FirmId:      firmId,
+				PiiReceived: r.PostFormValue("pii-received"),
+				PiiExpiry:   r.PostFormValue("pii-expiry"),
 			}
 
 			if r.PostFormValue("pii-amount") != "" {
