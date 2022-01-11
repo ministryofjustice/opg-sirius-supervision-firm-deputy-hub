@@ -30,11 +30,6 @@ func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails FirmDetails) 
 
 	req, err := c.newRequest(ctx, http.MethodPut, requestURL, &body)
 
-	fmt.Println("req")
-	fmt.Println(req)
-	fmt.Println("body")
-	fmt.Println(&body)
-
 	if err != nil {
 		return err
 	}

@@ -8,7 +8,7 @@
     <div class="govuk-grid-column-full">
 
       <header>
-        <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">Manage firm details</h1>
+        <h1 class="govuk-heading-l  govuk-!-margin-bottom-1" id="manage-firm-title">Manage firm details</h1>
       </header>
       <div class="govuk-grid-row">
 
@@ -18,14 +18,20 @@
             If you’re updating the firm’s address, check whether you also need to update any deputy addresses.
           </p>
 
-          <form class="" method="post">
+          <form id="edit-firm-form" class="" method="post">
           <input type="hidden" name="xsrfToken" value="{{ .XSRFToken }}" />
 
-          <div class="govuk-form-group">
+          <div class="govuk-form-group {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}govuk-form-group--error{{end}}{{ end }}">
             <label class="govuk-label" for="firm-name">
               Firm name (required)
             </label>
-            <input class="govuk-input" id="firm-name" name="firm-name" type="text" value="{{.FirmDetails.FirmName}}" required="" data-form-type="name" >
+            {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}
+                <p id="firm-name-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> The Firm Name date is required and can't be empty
+                </p>
+                {{ end }}
+            {{ end }}
+            <input class="govuk-input" id="f-firm-name" name="firm-name" type="text" value="{{.FirmDetails.FirmName}}">
           </div>
 
 

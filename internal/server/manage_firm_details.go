@@ -61,15 +61,10 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 				Postcode:   r.PostFormValue("postcode"),
 			}
 
-			fmt.Println("post method server")
-			fmt.Println(editFirmDetailsForm)
-
 			err = client.ManageFirmDetails(ctx, editFirmDetailsForm)
 
-			fmt.Println("after manage firm details")
-
 			if verr, ok := err.(sirius.ValidationError); ok {
-				verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)
+				verr.Errors = renameEditFirmValidationErrorMessages(verr.Errors)
 				vars := firmHubManageFirmVars{
 					Path:                 r.URL.Path,
 					XSRFToken:            ctx.XSRFToken,
@@ -77,8 +72,6 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 					FirmDetails:          firmDetails,
 					EditFirmDetailsForm: editFirmDetailsForm,
 				}
-				fmt.Println("errors")
-				fmt.Println(vars)
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
@@ -88,4 +81,18 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 	}
+}
+
+func renameEditFirmValidationErrorMessages(siriusError sirius.ValidationErrors) sirius.ValidationErrors {
+	errorCollection := sirius.ValidationErrors{}
+	for fieldName, value := range siriusError {
+		for errorType, _ := range value {
+			err := make(map[string]string)
+			if fieldName == "firmName" && errorType == "isEmpty" {
+				err[errorType] = "The firm name is required and can't be empty"
+				errorCollection["firm-name"] = err
+			}
+		}
+	}
+	return errorCollection
 }
