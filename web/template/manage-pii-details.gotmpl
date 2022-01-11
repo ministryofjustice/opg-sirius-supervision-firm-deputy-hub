@@ -49,7 +49,9 @@
                                         value= {{ .AddFirmPiiDetailForm.PiiReceived }}
                                         {{ end }}
                                     {{ end }}
-                                    style="text-transform:uppercase"/>
+                                    value= "{{ .FirmDetails.PiiReceivedDateFormat }}"
+                                    style="text-transform:uppercase"
+                                    />
                                  </div>
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}govuk-form-group--error{{ end }}{{ end }}">
                                 <label class="govuk-label" for="pii-expiry">
@@ -71,7 +73,9 @@
                                         value= {{ .AddFirmPiiDetailForm.PiiExpiry }}
                                         {{ end }}
                                     {{ end }}
-                                    style="text-transform:uppercase" />
+                                    value= "{{ .FirmDetails.PiiExpiryDateFormat }}"
+                                    style="text-transform:uppercase"
+                                    />
                             </div>
 
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-form-group--error{{ end }}{{ end }}">
@@ -100,30 +104,15 @@
                                         {{ if ne .AddFirmPiiDetailForm.PiiAmount 0.0}}
                                         value= {{ .AddFirmPiiDetailForm.PiiAmount }}
                                         {{ end }}
-                                    {{ end }}/>
+                                    {{ end }}
+                                    {{ if ne .FirmDetails.PiiAmount 0.0}}
+                                        value={{ .FirmDetails.PiiAmount }}
+                                    {{ end }}
+                                    />
                                 </div>
                             </div>
                         </fieldset>
 
-                        <fieldset class="govuk-fieldset">
-                            <legend
-                                class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                                <h1 class="govuk-fieldset__heading">
-                                    New PII certificate
-                                </h1>
-                            </legend>
-                            <div class="govuk-form-group">
-                                <label class="govuk-label" for="pii-requested">
-                                    Date requested
-                                </label>                        
-                                <input
-                                    class="govuk-input govuk-input--width-10"
-                                    id="f-pii-requested"
-                                    name="pii-received"
-                                    type="date"
-                                    style="text-transform:uppercase"/>
-                            </div>
-                        </fieldset>
                         <div class="govuk-button-group govuk-!-margin-top-7">
                             <button
                                 type="submit"
