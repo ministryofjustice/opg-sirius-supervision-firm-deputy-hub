@@ -70,6 +70,22 @@
                     "isEmpty": ""
                 }
             }
+        },
+        {
+            "id": "manage-firm-details-empty",
+            "validation_errors": {
+                "firmName": {
+                    "isEmpty": ""
+                }
+            }
+        },
+        {
+            "id": "manage-firm-details-too-long",
+            "validation_errors": {
+                "firmName": {
+                    "stringLengthTooLong": ""
+                }
+            }
         }
     ],
     "successes": [
@@ -78,6 +94,9 @@
         },
         {
             "id": "requestPii"
+        },
+        {
+            "id": "manageFirm"
         }
     ]
 }

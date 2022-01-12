@@ -19,6 +19,7 @@ type Client interface {
 	ErrorHandlerClient
 	FirmHubInformation
 	ManagePiiDetailsInformation
+	ManageFirmDetailsInformation
 	RequestPiiDetailsInformation
 }
 
@@ -39,6 +40,13 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	router.Handle("/{id}/manage-pii-details",
 		wrap(
 			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+
+	router.Handle("/{id}/manage-firm-details",
+		wrap(
+			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+
+	router.Handle("/health-check", healthCheck())
+
 	router.Handle("/{id}/request-pii-details",
 		wrap(
 			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
