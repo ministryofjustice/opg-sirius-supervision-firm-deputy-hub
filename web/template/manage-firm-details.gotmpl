@@ -25,13 +25,14 @@
             <label class="govuk-label" for="firm-name">
               Firm name (required)
             </label>
-            {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}
-                <p id="firm-name-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> The Firm Name is required and can't be empty
-                </p>
+            {{if .Errors }}
+                {{ if eq .EditFirmDetailsForm.FirmName ""}}
+                    <p id="firm-name-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> The Firm name is required and can't be empty
+                    </p>
                 {{ else if ne .EditFirmDetailsForm.FirmName ""}}
                   <p id="firm-name-error" class="govuk-error-message">
-                   <span class="govuk-visually-hidden">Error:</span> The Firm Name must be 255 characters or fewer
+                   <span class="govuk-visually-hidden">Error:</span> The Firm name must be 255 characters or fewer
                   </p>
                 {{ end }}
             {{ end }}
