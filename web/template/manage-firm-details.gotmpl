@@ -1,0 +1,124 @@
+{{ template "page" . }}
+{{ define "main" }}
+    {{ template "error-summary" .Errors }}
+
+    {{ template "firm-details" . }}
+
+<div class="govuk-grid-row govuk-!-margin-top-5">
+    <div class="govuk-grid-column-full">
+
+      <header>
+        <h1 class="govuk-heading-l  govuk-!-margin-bottom-1" id="manage-firm-title">Manage firm details</h1>
+      </header>
+      <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+
+          <p class="govuk-body  govuk-!-margin-bottom-5">
+            If you’re updating the firm’s address, check whether you also need to update any deputy addresses.
+          </p>
+
+          <form id="edit-firm-form" class="" method="post">
+          <input type="hidden" name="xsrfToken" value="{{ .XSRFToken }}" />
+
+          <div class="govuk-form-group {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}govuk-form-group--error{{end}}{{ end }}">
+            <label class="govuk-label" for="firm-name">
+              Firm name (required)
+            </label>
+            {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}
+                <p id="firm-name-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> The Firm Name date is required and can't be empty
+                </p>
+                {{ end }}
+            {{ end }}
+            <input class="govuk-input" id="f-firm-name" name="firm-name" type="text" value="{{.FirmDetails.FirmName}}">
+          </div>
+
+
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              Address
+            </legend>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="address-line-1">
+                Building and street <span class="govuk-visually-hidden">line 1 of 3</span>
+              </label>
+              <input class="govuk-input" id="address-line-1" name="address-line-1" type="text" value="{{.FirmDetails.AddressLine1}}">
+            </div>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="address-line-2">
+                <span class="govuk-visually-hidden">Building and street line 2 of 3</span>
+              </label>
+              <input class="govuk-input" id="address-line-2" name="address-line-2" type="text" autocomplete="address-line2" value="{{.FirmDetails.AddressLine2}}">
+            </div>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="address-line-3">
+                <span class="govuk-visually-hidden">Building and street line 3 of 3</span>
+              </label>
+              <input class="govuk-input" id="address-line-3" name="address-line-3" type="text" autocomplete="address-line3" value="{{.FirmDetails.AddressLine3}}">
+            </div>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-!-width-two-thirds" for="town">
+                Town or city
+              </label>
+              <input class="govuk-input" id="town" name="town" type="text" value="{{.FirmDetails.Town}}">
+            </div>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-!-width-two-thirds" for="county">
+                County
+              </label>
+              <input class="govuk-input" id="county" name="county" type="text" value="{{.FirmDetails.County}}">
+            </div>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="postcode">
+                Postcode
+              </label>
+              <input class="govuk-input govuk-input--width-10" id="postcode" name="postcode" type="text" value="{{.FirmDetails.Postcode}}">
+            </div>
+          </fieldset>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="telephone">
+              Telephone number
+            </label>
+            <input class="govuk-input" id="telephone" name="telephone" type="text" value="{{.FirmDetails.PhoneNumber}}">
+          </div>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="email">
+              Email address
+            </label>
+            <input class="govuk-input" id="email" name="email" type="text" value="{{.FirmDetails.Email}}">
+          </div>
+
+          <div class="govuk-button-group govuk-!-margin-top-7"  id="manage-firm-details-submit-btn">
+            <button
+                type="submit"
+                class="govuk-button"
+                data-module="govuk-button"
+                data-cy="submit-manage-firm-details-form-btn"
+                >
+                Save Firm details
+            </button>
+
+             <a class="govuk-link" href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">Cancel</a>
+
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</div>
+{{ end }}

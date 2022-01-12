@@ -70,6 +70,14 @@
                     "isEmpty": ""
                 }
             }
+        },
+        {
+            "id": "manage-firm-details",
+            "validation_errors": {
+                "firmName": {
+                    "isEmpty": ""
+                }
+            }
         }
     ],
     "successes": [
@@ -78,6 +86,9 @@
         },
         {
             "id": "requestPii"
+        },
+        {
+            "id": "manageFirm"
         }
     ]
 }
