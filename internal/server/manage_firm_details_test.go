@@ -3,8 +3,8 @@ package server
 import (
 	"net/http"
 	"net/http/httptest"
-	"testing"
 	"strings"
+	"testing"
 
 	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"

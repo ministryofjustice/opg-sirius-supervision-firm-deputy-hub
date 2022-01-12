@@ -51,7 +51,6 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 		wrap(
 			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
 
-
 	static := staticFileHandler(webDir)
 	router.PathPrefix("/assets/").Handler(static)
 	router.PathPrefix("/javascript/").Handler(static)

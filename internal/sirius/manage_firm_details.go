@@ -11,16 +11,16 @@ func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails FirmDetails) 
 	var k FirmDetails
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(FirmDetails{
-		ID:       amendedFirmDetails.ID,
-		FirmName:  amendedFirmDetails.FirmName,
-		Email: amendedFirmDetails.Email,
+		ID:           amendedFirmDetails.ID,
+		FirmName:     amendedFirmDetails.FirmName,
+		Email:        amendedFirmDetails.Email,
 		PhoneNumber:  amendedFirmDetails.PhoneNumber,
-		AddressLine1:    amendedFirmDetails.AddressLine1,
+		AddressLine1: amendedFirmDetails.AddressLine1,
 		AddressLine2: amendedFirmDetails.AddressLine2,
-		AddressLine3:  amendedFirmDetails.AddressLine3,
-		Town:    amendedFirmDetails.Town,
-		County: amendedFirmDetails.County,
-		Postcode:  amendedFirmDetails.Postcode,
+		AddressLine3: amendedFirmDetails.AddressLine3,
+		Town:         amendedFirmDetails.Town,
+		County:       amendedFirmDetails.County,
+		Postcode:     amendedFirmDetails.Postcode,
 	})
 	if err != nil {
 		return err
