@@ -21,14 +21,18 @@
           <form id="edit-firm-form" class="" method="post">
           <input type="hidden" name="xsrfToken" value="{{ .XSRFToken }}" />
 
-          <div class="govuk-form-group {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}govuk-form-group--error{{end}}{{ end }}">
+          <div class="govuk-form-group {{if .Errors }}govuk-form-group--error{{ end }}">
             <label class="govuk-label" for="firm-name">
               Firm name (required)
             </label>
             {{if .Errors }}{{ if eq .EditFirmDetailsForm.FirmName ""}}
                 <p id="firm-name-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> The Firm Name date is required and can't be empty
+                    <span class="govuk-visually-hidden">Error:</span> The Firm Name is required and can't be empty
                 </p>
+                {{ else if ne .EditFirmDetailsForm.FirmName ""}}
+                  <p id="firm-name-error" class="govuk-error-message">
+                   <span class="govuk-visually-hidden">Error:</span> The Firm Name must be 255 characters or fewer
+                  </p>
                 {{ end }}
             {{ end }}
             <input class="govuk-input" id="f-firm-name" name="firm-name" type="text" value="{{.FirmDetails.FirmName}}">

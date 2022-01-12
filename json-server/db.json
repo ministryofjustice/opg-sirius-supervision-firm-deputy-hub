@@ -72,10 +72,18 @@
             }
         },
         {
-            "id": "manage-firm-details",
+            "id": "manage-firm-details-empty",
             "validation_errors": {
                 "firmName": {
                     "isEmpty": ""
+                }
+            }
+        },
+        {
+            "id": "manage-firm-details-too-long",
+            "validation_errors": {
+                "firmName": {
+                    "stringLengthTooLong": ""
                 }
             }
         }

@@ -79,7 +79,7 @@ describe("Manage Firm Details", () => {
         });
 
         it("will show a validation error if form submitted with empty fields", () => {
-            cy.setCookie("fail-route", "manage-firm-details");
+            cy.setCookie("fail-route", "manage-firm-details-empty");
             cy.get("[data-cy=submit-manage-firm-details-form-btn]").click();
             cy.get(".govuk-error-summary__title").should(
                 "contain",
@@ -88,6 +88,18 @@ describe("Manage Firm Details", () => {
             cy.get(".govuk-list > li").should(
                 "contain",
                 "The firm name is required and can't be empty"
+            );
+        })
+        it("will show a validation error if form submitted with empty fields", () => {
+            cy.setCookie("fail-route", "manage-firm-details-too-long");
+            cy.get("[data-cy=submit-manage-firm-details-form-btn]").click();
+            cy.get(".govuk-error-summary__title").should(
+                "contain",
+                "There is a problem"
+            );
+            cy.get(".govuk-list > li").should(
+                "contain",
+                "The firm name must be 255 characters or fewer"
             );
         })
 

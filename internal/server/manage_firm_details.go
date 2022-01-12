@@ -91,6 +91,9 @@ func renameEditFirmValidationErrorMessages(siriusError sirius.ValidationErrors) 
 			if fieldName == "firmName" && errorType == "isEmpty" {
 				err[errorType] = "The firm name is required and can't be empty"
 				errorCollection["firm-name"] = err
+			} else if fieldName == "firmName" && errorType == "stringLengthTooLong" {
+				err[errorType] = "The firm name must be 255 characters or fewer"
+				errorCollection["firm-name"] = err
 			} else {
 				err[errorType] = errorMessage
 				errorCollection[fieldName] = err
