@@ -20,6 +20,7 @@ type Client interface {
 	FirmHubInformation
 	ManagePiiDetailsInformation
 	ManageFirmDetailsInformation
+	RequestPiiDetailsInformation
 }
 
 type Template interface {
@@ -30,6 +31,8 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
 	router := mux.NewRouter()
+	router.Handle("/health-check", healthCheck())
+
 	router.Handle("/{id}",
 		wrap(
 			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
@@ -43,6 +46,11 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
 
 	router.Handle("/health-check", healthCheck())
+
+	router.Handle("/{id}/request-pii-details",
+		wrap(
+			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+
 
 	static := staticFileHandler(webDir)
 	router.PathPrefix("/assets/").Handler(static)
