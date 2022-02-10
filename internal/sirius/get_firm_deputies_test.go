@@ -35,7 +35,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			Surname:              "",
 			DeputyId:             76,
 			DeputyNumber:         21,
-			ActiveClient:         1,
+			ActiveClientsCount:         1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "pro dept",
 		},
@@ -44,7 +44,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			Surname:              "Devito",
 			DeputyId:             77,
 			DeputyNumber:         25,
-			ActiveClient:         1,
+			ActiveClientsCount:         1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "",
 		},
@@ -91,3 +91,37 @@ func TestGetFirmDeputiesReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
 }
+
+
+func TestGetActiveClientCount(t *testing.T) {
+	testOrders := []orders{
+		order{
+			Id: 5,
+			Client: client{
+				Id: 99,
+			},
+			OrderStatus: orderStatus{
+				Handle: "ACTIVE",
+				Label:  "Active",
+			},
+		},
+	}
+	assert.Equal(t, 3, getActiveClientCount(testOrders))
+}
+
+//type T struct {
+//	Orders []struct {
+//		Order struct {
+//			Id     int `json:"id"`
+//			Client struct {
+//				Id        int    `json:"id"`
+//				Firstname string `json:"firstname"`
+//				Surname   string `json:"surname"`
+//			} `json:"client"`
+//			OrderStatus struct {
+//				Handle string `json:"handle"`
+//				Label  string `json:"label"`
+//			} `json:"orderStatus"`
+//		} `json:"order"`
+//	} `json:"orders"`
+//}
