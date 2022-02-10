@@ -35,7 +35,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			Surname:              "",
 			DeputyId:             76,
 			DeputyNumber:         21,
-			ActiveClientsCount:         1,
+			ActiveClientsCount:   1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "pro dept",
 		},
@@ -44,7 +44,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			Surname:              "Devito",
 			DeputyId:             77,
 			DeputyNumber:         25,
-			ActiveClientsCount:         1,
+			ActiveClientsCount:   1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "",
 		},
@@ -92,36 +92,217 @@ func TestGetFirmDeputiesReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, expectedResponse, firmDetails)
 }
 
-
-func TestGetActiveClientCount(t *testing.T) {
+func TestGetActiveClientCountOnlyReturnsOneOrderWithSameClient(t *testing.T) {
 	testOrders := []orders{
-		order{
-			Id: 5,
-			Client: client{
-				Id: 99,
+		{
+			order{
+				Id: 5,
+				Client: client{
+					Id: 99,
+				},
+				OrderStatus: orderStatus{
+					Handle: "ACTIVE",
+					Label:  "Active",
+				},
 			},
-			OrderStatus: orderStatus{
-				Handle: "ACTIVE",
-				Label:  "Active",
+		},
+		{
+			order{
+				Id: 6,
+				Client: client{
+					Id: 99,
+				},
+				OrderStatus: orderStatus{
+					Handle: "ACTIVE",
+					Label:  "Active",
+				},
 			},
 		},
 	}
-	assert.Equal(t, 3, getActiveClientCount(testOrders))
+	assert.Equal(t, 1, getActiveClientCount(testOrders))
 }
 
-//type T struct {
-//	Orders []struct {
-//		Order struct {
-//			Id     int `json:"id"`
-//			Client struct {
-//				Id        int    `json:"id"`
-//				Firstname string `json:"firstname"`
-//				Surname   string `json:"surname"`
-//			} `json:"client"`
-//			OrderStatus struct {
-//				Handle string `json:"handle"`
-//				Label  string `json:"label"`
-//			} `json:"orderStatus"`
-//		} `json:"order"`
-//	} `json:"orders"`
-//}
+func TestGetActiveClientCountReturnsTwoOrdersWithTwoDifferentClients(t *testing.T) {
+	testOrders := []orders{
+		{
+			order{
+				Id: 5,
+				Client: client{
+					Id: 99,
+				},
+				OrderStatus: orderStatus{
+					Handle: "ACTIVE",
+					Label:  "Active",
+				},
+			},
+		},
+		{
+			order{
+				Id: 6,
+				Client: client{
+					Id: 44,
+				},
+				OrderStatus: orderStatus{
+					Handle: "ACTIVE",
+					Label:  "Active",
+				},
+			},
+		},
+	}
+	assert.Equal(t, 2, getActiveClientCount(testOrders))
+}
+
+func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
+	testOrders := []orders{
+		{
+			order{
+				Id: 5,
+				Client: client{
+					Id: 99,
+				},
+				OrderStatus: orderStatus{
+					Handle: "ACTIVE",
+					Label:  "Active",
+				},
+			},
+		},
+		{
+			order{
+				Id: 7,
+				Client: client{
+					Id: 55,
+				},
+				OrderStatus: orderStatus{
+					Handle: "ACTIVE",
+					Label:  "Active",
+				},
+			},
+		},
+		{
+			order{
+				Id: 6,
+				Client: client{
+					Id: 44,
+				},
+				OrderStatus: orderStatus{
+					Handle: "OPEN",
+					Label:  "Open",
+				},
+			},
+		},
+		{
+			order{
+				Id: 4,
+				Client: client{
+					Id: 11,
+				},
+				OrderStatus: orderStatus{
+					Handle: "CLOSED",
+					Label:  "Closed",
+				},
+			},
+		},
+		{
+			order{
+				Id: 3,
+				Client: client{
+					Id: 77,
+				},
+				OrderStatus: orderStatus{
+					Handle: "DUPLICATE",
+					Label:  "Duplicate",
+				},
+			},
+		},
+	}
+	assert.Equal(t, []int{99, 55}, getListOfClientIds(testOrders))
+}
+
+func TestRemoveDuplicateIDs(t *testing.T) {
+	clientIds := []int{99, 99, 55, 12, 46, 87, 99, 12}
+	assert.Equal(t, []int{99, 55, 12, 46, 87}, removeDuplicateIDs(clientIds))
+}
+
+func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
+	firmDeputy :=
+		[]FirmDeputy{
+			{
+				DeputyId:             12,
+				Firstname:            "Missy",
+				Surname:              "Longstocking",
+				DeputyNumber:         25,
+				ActiveClientsCount:   0,
+				ExecutiveCaseManager: "Manager Name",
+				OrganisationName:     "",
+			},
+			{
+				DeputyId:             85,
+				Firstname:            "",
+				Surname:              "",
+				DeputyNumber:         52,
+				ActiveClientsCount:   44,
+				ExecutiveCaseManager: "",
+				OrganisationName:     "OrganisationName",
+			},
+			{
+				DeputyId:             1,
+				Firstname:            "One",
+				Surname:              "Deadpool",
+				DeputyNumber:         99,
+				ActiveClientsCount:   1,
+				ExecutiveCaseManager: "",
+				OrganisationName:     "",
+			},
+			{
+				DeputyId:             1,
+				Firstname:            "Turtle",
+				Surname:              "Pillow",
+				DeputyNumber:         99,
+				ActiveClientsCount:   4,
+				ExecutiveCaseManager: "",
+				OrganisationName:     "",
+			},
+		}
+
+	expectedResult := []FirmDeputy{
+
+		{
+			DeputyId:             85,
+			Firstname:            "",
+			Surname:              "",
+			DeputyNumber:         52,
+			ActiveClientsCount:   44,
+			ExecutiveCaseManager: "",
+			OrganisationName:     "OrganisationName",
+		},
+		{
+			DeputyId:             1,
+			Firstname:            "Turtle",
+			Surname:              "Pillow",
+			DeputyNumber:         99,
+			ActiveClientsCount:   4,
+			ExecutiveCaseManager: "",
+			OrganisationName:     "",
+		},
+		{
+			DeputyId:             1,
+			Firstname:            "One",
+			Surname:              "Deadpool",
+			DeputyNumber:         99,
+			ActiveClientsCount:   1,
+			ExecutiveCaseManager: "",
+			OrganisationName:     "",
+		},
+		{
+			DeputyId:             12,
+			Firstname:            "Missy",
+			Surname:              "Longstocking",
+			DeputyNumber:         25,
+			ActiveClientsCount:   0,
+			ExecutiveCaseManager: "Manager Name",
+			OrganisationName:     "",
+		},
+	}
+
+	assert.Equal(t, expectedResult, sortTheDeputiesByNumberOfClients(firmDeputy))
+}

@@ -16,12 +16,14 @@ type client struct {
 	Id int `json:"id"`
 }
 
+type order struct {
+	Id          int         `json:"id"`
+	Client      client      `json:"client"`
+	OrderStatus orderStatus `json:"orderStatus"`
+}
+
 type orders struct {
-	order struct {
-		Id          int         `json:"id"`
-		Client      client      `json:"client"`
-		OrderStatus orderStatus `json:"orderStatus"`
-	} `json:"order"`
+	Order order `json:"order"`
 }
 
 type executiveCaseManager struct {
@@ -44,7 +46,7 @@ type FirmDeputy struct {
 	Firstname            string
 	Surname              string
 	DeputyNumber         int
-	ActiveClientsCount         int
+	ActiveClientsCount   int
 	ExecutiveCaseManager string
 	OrganisationName     string
 }
@@ -83,7 +85,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 			Firstname:            t.Firstname,
 			Surname:              t.Surname,
 			DeputyNumber:         t.DeputyNumber,
-			ActiveClientsCount:         getActiveClientCount(t.Orders),
+			ActiveClientsCount:   getActiveClientCount(t.Orders),
 			ExecutiveCaseManager: t.ExecutiveCaseManager.EcmName,
 			OrganisationName:     t.OrganisationName,
 		}
@@ -104,8 +106,8 @@ func getActiveClientCount(orders []orders) int {
 func getListOfClientIds(orders []orders) []int {
 	listClientIds := []int{}
 	for _, k := range orders {
-		if k.order.OrderStatus.Handle == "ACTIVE" {
-			listClientIds = append(listClientIds, k.order.Client.Id)
+		if k.Order.OrderStatus.Handle == "ACTIVE" {
+			listClientIds = append(listClientIds, k.Order.Client.Id)
 		}
 	}
 	return listClientIds
