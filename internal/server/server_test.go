@@ -10,7 +10,7 @@ type mockTemplates struct {
 	lastVars interface{}
 }
 
-func (m *mockTemplates) ExecuteTemplate(w io.Writer, name string, vars interface{}) error {
+func (m *mockTemplates) ExecuteTemplate(w io.Writer, name string, prohub string, vars interface{}) error {
 	m.count += 1
 	m.lastName = name
 	m.lastVars = vars

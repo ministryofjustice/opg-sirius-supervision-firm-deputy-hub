@@ -21,13 +21,14 @@ type Client interface {
 	ManagePiiDetailsInformation
 	ManageFirmDetailsInformation
 	RequestPiiDetailsInformation
+	FirmHubDeputyInformation
 }
 
 type Template interface {
 	ExecuteTemplate(io.Writer, string, interface{}) error
 }
 
-func New(logger Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
+func New(logger Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, proHubURL, webDir string) http.Handler {
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
 	router := mux.NewRouter()
@@ -44,6 +45,9 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	router.Handle("/{id}/manage-firm-details",
 		wrap(
 			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+	router.Handle("/{id}/deputies",
+		wrap(
+			renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
 
 	router.Handle("/health-check", healthCheck())
 
