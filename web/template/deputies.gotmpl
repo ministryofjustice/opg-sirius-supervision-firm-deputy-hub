@@ -1,12 +1,15 @@
 {{ template "page" . }}
 {{ define "main" }}
     {{ template "firm-details" . }}
+    {{ template "navigation" . }}
     <div class="main">
         <header>
-            <h1
-                class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0">
-                Deputies
-            </h1>
+            <div class="main-header">
+                <h1
+                    class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0">
+                    Deputies
+                </h1>
+            </div>
         </header>
         <table id="pa-clients-3" class="govuk-table sortable">
             <thead class="govuk-table__head">

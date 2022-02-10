@@ -21,7 +21,7 @@ type Client interface {
 	ManagePiiDetailsInformation
 	ManageFirmDetailsInformation
 	RequestPiiDetailsInformation
-	FirmHubDeputyInformation
+	FirmHubDeputyTabInformation
 }
 
 type Template interface {
@@ -45,6 +45,7 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	router.Handle("/{id}/manage-firm-details",
 		wrap(
 			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+
 	router.Handle("/{id}/deputies",
 		wrap(
 			renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))

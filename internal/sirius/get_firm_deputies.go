@@ -48,9 +48,7 @@ type FirmDeputy struct {
 	OrganisationName     string
 }
 
-type FirmDeputiesDetails []FirmDeputy
-
-func (c *Client) GetFirmDeputies(ctx Context, firmId int) (FirmDeputiesDetails, error) {
+func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) {
 	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firms/%d/deputies", firmId), nil)
 	if err != nil {
 		return nil, err
@@ -60,7 +58,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) (FirmDeputiesDetails, 
 	if err != nil {
 		return nil, err
 	}
-	// io.Copy(os.Stdout, resp.Body)
+
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized {
@@ -76,7 +74,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) (FirmDeputiesDetails, 
 		return nil, err
 	}
 
-	var deputies FirmDeputiesDetails
+	var deputies []FirmDeputy
 
 	for _, t := range v {
 		var deputy = FirmDeputy{

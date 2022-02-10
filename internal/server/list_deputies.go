@@ -8,22 +8,22 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
-type FirmHubDeputyInformation interface {
-	GetFirmDeputies(sirius.Context, int) (sirius.FirmDeputiesDetails, error)
+type FirmHubDeputyTabInformation interface {
+	GetFirmDeputies(sirius.Context, int) ([]sirius.FirmDeputy, error)
 	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type listDeputiesVars struct {
 	Path                string
 	XSRFToken           string
-	FirmDeputiesDetails sirius.FirmDeputiesDetails
+	FirmDeputiesDetails []sirius.FirmDeputy
 	FirmDetails         sirius.FirmDetails
 	Error               string
 	ErrorMessage        string
 	Errors              sirius.ValidationErrors
 }
 
-func renderTemplateForDeputyTab(client FirmHubDeputyInformation, tmpl Template) Handler {
+func renderTemplateForDeputyTab(client FirmHubDeputyTabInformation, tmpl Template) Handler {
 	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
 		if r.Method != http.MethodGet {
 			return StatusError(http.StatusMethodNotAllowed)
