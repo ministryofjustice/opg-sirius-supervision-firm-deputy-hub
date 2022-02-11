@@ -111,10 +111,6 @@ describe("Firm Deputy Hub", () => {
             cy.get("[data-cy=manage-pii-details-btn]").click();
             cy.contains(".govuk-heading-l", "Manage professional indemnity insurance");
         });
-        it("has a Deputies tab that is clickable", () => {
-            cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
-            cy.url().should('include', 'http://localhost:8887/supervision/deputies/firm/1/deputies')
-        });
     });
 
 
