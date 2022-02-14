@@ -1,0 +1,30 @@
+describe("Deputies Tab", () => {
+    beforeEach(() => {
+        cy.setCookie("Other", "other");
+        cy.setCookie("XSRF-TOKEN", "abcde");
+    });
+
+    describe("List of deputies", () => {
+        beforeEach(() => {
+            cy.visit("/supervision/deputies/firm/1/deputies");
+        });
+
+        it("shows all the deputies title", () => {
+            cy.get('.govuk-heading-l').contains('Deputies')
+        });
+
+        it("have depuites name as hyper links", () => {
+            cy.get(':nth-child(1) > .client_name_ref > .govuk-link').contains('pro Deputy')
+            cy.get(':nth-child(1) > .client_name_ref > .govuk-link').should('have.attr', 'href')
+        });
+
+        it("shows a dash if no ECM", () => {
+            cy.get('.govuk-table__body > :nth-child(2) > :nth-child(4)').contains('-')
+        });
+
+        it("has a Firm details tab that is clickable", () => {
+            cy.get(':nth-child(1) > .moj-sub-navigation__link').click()
+            cy.url().should('not.eq', 'http://localhost:8887/supervision/deputies/firm/1/deputies')
+        });
+    });
+})

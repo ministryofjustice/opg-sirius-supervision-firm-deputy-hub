@@ -109,9 +109,20 @@ jobs:
       - name: Build Container
         run: |
           docker build --tag sirius/sirius-firm-deputy-hub:latest -f docker/sirius-firm-deputy-hub/Dockerfile .
-      - name: Scan
-        run: |
-          docker run --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy sirius/sirius-firm-deputy-hub:latest
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: sirius/sirius-firm-deputy-hub:latest
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
+
       - name: Bump version
         id: bump_version
         uses: anothrNick/github-tag-action@1.33.0

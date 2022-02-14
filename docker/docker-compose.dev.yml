@@ -14,6 +14,7 @@ services:
     environment:
       SIRIUS_URL: http://json-server:3000
       SIRIUS_PUBLIC_URL: http://localhost:8080
+      PRO_HUB_URL: http://localhost:8888/supervision/deputies/professional
       PREFIX: /supervision/deputies/firm
 
   json-server:

@@ -48,6 +48,261 @@
         "piiAmount": 1000,
         "piiRequested": "15/11/2000"
     },
+    "deputies": [
+            {
+                "id": 84,
+                "firstname": "pro",
+                "surname": "Deputy",
+                "personType": "Deputy",
+                "specialCorrespondenceRequirements": {
+                    "audioTape": false,
+                    "largePrint": false,
+                    "hearingImpaired": false,
+                    "spellingOfNameRequiresCare": false
+                },
+                "deputyStatus": "Active",
+                "orders": [
+                    {
+                        "order": {
+                            "id": 63,
+                            "client": {
+                                "id": 72,
+                                "firstname": "John",
+                                "surname": "Fearless",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": false,
+                                    "hearingImpaired": true,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": ""
+                            },
+                            "orderStatus": {
+                                "handle": "ACTIVE",
+                                "label": "Active",
+                                "deprecated": false
+                            }
+                        }
+                    },
+                    {
+                        "order": {
+                            "id": 60,
+                            "client": {
+                                "id": 67,
+                                "firstname": "Agnes",
+                                "surname": "Burgundy",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": false,
+                                    "hearingImpaired": true,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": ""
+                            },
+                            "orderStatus": {
+                                "handle": "ACTIVE",
+                                "label": "Active",
+                                "deprecated": false
+                            }
+                        }
+                    },
+                    {
+                        "order": {
+                            "id": 57,
+                            "client": {
+                                "id": 61,
+                                "firstname": "Margaret",
+                                "surname": "Bavaria-Straubing",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": true,
+                                    "hearingImpaired": false,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+                            },
+                            "orderStatus": {
+                                "handle": "ACTIVE",
+                                "label": "Active",
+                                "deprecated": false
+                            }
+                        }
+                    },
+                    {
+                        "order": {
+                            "id": 59,
+                            "client": {
+                                "id": 67,
+                                "firstname": "Agnes",
+                                "surname": "Burgundy",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": false,
+                                    "hearingImpaired": true,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": ""
+                            },
+                            "orderStatus": {
+                                "handle": "ACTIVE",
+                                "label": "Active",
+                                "deprecated": false
+                            }
+                        }
+                    }
+                ],
+                "previousNames": "",
+                "mobileNumber": "",
+                "eveningNumber": "",
+                "newsletter": false,
+                "deputyType": {
+                    "handle": "PRO",
+                    "label": "Professional"
+                },
+                "deputyNumber": 22,
+                "executiveCaseManager": {
+                    "id": 95,
+                    "displayName": "PROTeam2 User1"
+                },
+                "firm": {
+                    "id": 1
+                },
+                "deputySubType": {
+                    "handle": "PERSON",
+                    "label": "Person"
+                }
+            },
+            {
+                "id": 86,
+                "firstname": "Diff",
+                "surname": "Pro",
+                "personType": "Deputy",
+                "specialCorrespondenceRequirements": {
+                    "audioTape": false,
+                    "largePrint": false,
+                    "hearingImpaired": false,
+                    "spellingOfNameRequiresCare": false
+                },
+                "deputyStatus": "Inactive",
+                "orders": [
+                    {
+                        "order": {
+                            "id": 77,
+                            "client": {
+                                "id": 85,
+                                "firstname": "Active",
+                                "surname": "Client",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": false,
+                                    "hearingImpaired": false,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": ""
+                            },
+                            "orderStatus": {
+                                "handle": "OPEN",
+                                "label": "Open",
+                                "deprecated": true
+                            }
+                        }
+                    }
+                ],
+                "previousNames": "",
+                "mobileNumber": "",
+                "eveningNumber": "",
+                "newsletter": false,
+                "deputyType": {
+                    "handle": "PRO",
+                    "label": "Professional"
+                },
+                "deputyNumber": 23,
+                "executiveCaseManager": {
+                    "id": 94,
+                    "displayName": "PROTeam1 User1"
+                },
+                "firm": {
+                    "id": 1
+                },
+                "deputySubType": {
+                    "handle": "PERSON",
+                    "label": "Person"
+                }
+            },
+            {
+                "id": 87,
+                "personType": "Deputy",
+                "specialCorrespondenceRequirements": {
+                    "audioTape": false,
+                    "largePrint": false,
+                    "hearingImpaired": false,
+                    "spellingOfNameRequiresCare": false
+                },
+                "deputyStatus": "Active",
+                "orders": [
+                    {
+                        "order": {
+                            "id": 51,
+                            "client": {
+                                "id": 54,
+                                "firstname": "Alyce",
+                                "surname": "Flamino",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": false,
+                                    "hearingImpaired": false,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+                            },
+                            "orderStatus": {
+                                "handle": "OPEN",
+                                "label": "Open",
+                                "deprecated": true
+                            }
+                        }
+                    },
+                    {
+                        "order": {
+                            "id": 52,
+                            "client": {
+                                "id": 54,
+                                "firstname": "Alyce",
+                                "surname": "Flamino",
+                                "specialCorrespondenceRequirements": {
+                                    "audioTape": false,
+                                    "largePrint": false,
+                                    "hearingImpaired": false,
+                                    "spellingOfNameRequiresCare": false
+                                },
+                                "interpreterRequired": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+                            },
+                            "orderStatus": {
+                                "handle": "ACTIVE",
+                                "label": "Active",
+                                "deprecated": false
+                            }
+                        }
+                    }
+                ],
+                "mobileNumber": "",
+                "eveningNumber": "",
+                "newsletter": false,
+                "deputyType": {
+                    "handle": "PRO",
+                    "label": "Professional"
+                },
+                "deputyNumber": 24,
+                "organisationName": "OrgDep",
+                "firm": {
+                    "id": 1
+                },
+                "deputySubType": {
+                    "handle": "ORGANISATION",
+                    "label": "Organisation"
+                }
+            }
+        ],
     "errors": [
         {
             "id": "pii-details",
