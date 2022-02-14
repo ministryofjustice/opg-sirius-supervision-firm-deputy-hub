@@ -13,6 +13,15 @@ type Deputy struct {
 	OrganisationName string `json:"organisationName"`
 }
 
+type ExecutiveCaseManager struct {
+	EcmId   int    `json:"id"`
+	EcmName string `json:"displayName"`
+}
+
+type ExecutiveCaseManagerOutgoing struct {
+	EcmId int `json:"ecmId"`
+}
+
 type FirmDetails struct {
 	ID                     int      `json:"id"`
 	FirmName               string   `json:"firmName"`
@@ -25,6 +34,12 @@ type FirmDetails struct {
 	Town                   string   `json:"town"`
 	County                 string   `json:"county"`
 	Postcode               string   `json:"postcode"`
+	ExecutiveCaseManager struct {
+		Id          int      `json:"id"`
+		Name        string   `json:"name"`
+		DisplayName string   `json:"displayName"`
+		Suspended   bool     `json:"suspended"`
+	} `json:"executiveCaseManager"`
 	Deputies               []Deputy `json:"deputies"`
 	PiiReceived            string   `json:"piiReceived"`
 	PiiExpiry              string   `json:"piiExpiry"`

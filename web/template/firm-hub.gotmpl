@@ -14,12 +14,38 @@
     {{ template "navigation" . }}
         <header>
             <div class="main-header">
+
+    <div class="govuk-grid-row govuk-!-margin-top-5  govuk-!-margin-bottom-5">
+        <div class="govuk-grid-column-full">
+            <nav class="moj-sub-navigation" aria-label="Primary navigation">
+                <ul class="moj-sub-navigation__list">
+                    <li class="moj-sub-navigation__item">
+                        <a
+                            class="moj-sub-navigation__link"
+                            aria-current="page"
+                            href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">
+                            Firm details
+                       </a>
+                    </li>
+                </ul>
+            </nav>
+            <header>
                 <h1
                     class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0 ">
                     Firm details
                 </h1>
-            </div>
-        </header>
+                <div class="moj-button-menu">
+                    <div class="moj-button-menu__wrapper">
+                           <div class="moj-button-menu__wrapper">
+                              <a href="{{ prefix (printf "/%d/change-ecm" .FirmDetails.ID) }}" role="button" draggable="false" class="govuk-button moj-button-menu__item govuk-button--secondary " data-module="govuk-button">
+                                Change ECM
+                              </a>
+                           </div>
+                    </div>
+                </div>
+
+            </header>
+
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
