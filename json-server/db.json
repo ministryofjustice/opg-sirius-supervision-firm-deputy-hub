@@ -46,7 +46,13 @@
         "piiReceived": "20/12/2000",
         "piiExpiry": "01/12/2020",
         "piiAmount": 1000,
-        "piiRequested": "15/11/2000"
+        "piiRequested": "15/11/2000",
+        "executiveCaseManager": {
+            "id": 76,
+            "name": "LayTeam1",
+            "displayName": "LayTeam1 User6",
+            "surname": "User6"
+        }
     },
     "deputies": [
             {
@@ -303,6 +309,84 @@
                 }
             }
         ],
+    "teams": [
+        {
+            "id": 25,
+            "name": "Pro Team 1 - (Supervision)",
+            "phoneNumber": "0123456789",
+            "displayName": "Pro Team 1 - (Supervision)",
+            "deleted": false,
+            "email": "ProTeam1.team@opgtest.com",
+            "members": [
+                {
+                    "id": 71,
+                    "name": "Anakin",
+                    "phoneNumber": "12345678",
+                    "displayName": "Anakin Skywalker",
+                    "deleted": false,
+                    "email": "ana-1@opgtest.com"
+                },
+                {
+                    "id": 94,
+                    "name": "Luke",
+                    "phoneNumber": "12345678",
+                    "displayName": "Luke Skywalker",
+                    "deleted": false,
+                    "email": "luke@opgtest.com"
+                }
+            ],
+            "groupName": null,
+            "parent": null,
+            "children": [],
+            "teamType": {
+                "handle": "PRO",
+                "label": "Pro",
+                "deprecated": null
+            }
+        },
+        {
+            "id": 26,
+            "name": "Pro Team 2 - (Supervision)",
+            "phoneNumber": "0123456789",
+            "displayName": "Pro Team 2 - (Supervision)",
+            "deleted": false,
+            "email": "ProTeam2.team@opgtest.com",
+            "members": [
+                {
+                    "id": 37,
+                    "name": "obi",
+                    "phoneNumber": "03004560300",
+                    "displayName": "Obi-wan Kenobi",
+                    "deleted": false,
+                    "email": "obiwan@opgtest.com"
+                },
+                {
+                    "id": 44,
+                    "name": "boba",
+                    "phoneNumber": "12345678",
+                    "displayName": "Boba Fett",
+                    "deleted": false,
+                    "email": "boba@opgtest.com"
+                },
+                {
+                    "id": 95,
+                    "name": "han",
+                    "phoneNumber": "12345678",
+                    "displayName": "Han Solo",
+                    "deleted": false,
+                    "email": "han@opgtest.com"
+                }
+            ],
+            "groupName": null,
+            "parent": null,
+            "children": [],
+            "teamType": {
+                "handle": "PRO",
+                "label": "Pro",
+                "deprecated": null
+            }
+        }
+    ],
     "errors": [
         {
             "id": "pii-details",
@@ -352,6 +436,9 @@
         },
         {
             "id": "manageFirm"
+        },
+        {
+            "id": "changeECM"
         }
     ]
 }
