@@ -13,23 +13,33 @@ type Deputy struct {
 	OrganisationName string `json:"organisationName"`
 }
 
+type ExecutiveCaseManager struct {
+	Id          int    `json:"id"`
+	DisplayName string `json:"displayName"`
+}
+
+type ExecutiveCaseManagerOutgoing struct {
+	EcmId int `json:"ecmId"`
+}
+
 type FirmDetails struct {
-	ID                     int      `json:"id"`
-	FirmName               string   `json:"firmName"`
-	FirmNumber             int      `json:"firmNumber"`
-	Email                  string   `json:"email"`
-	PhoneNumber            string   `json:"phoneNumber"`
-	AddressLine1           string   `json:"addressLine1"`
-	AddressLine2           string   `json:"addressLine2"`
-	AddressLine3           string   `json:"addressLine3"`
-	Town                   string   `json:"town"`
-	County                 string   `json:"county"`
-	Postcode               string   `json:"postcode"`
-	Deputies               []Deputy `json:"deputies"`
-	PiiReceived            string   `json:"piiReceived"`
-	PiiExpiry              string   `json:"piiExpiry"`
-	PiiAmount              float64  `json:"piiAmount,omitempty"`
-	PiiRequested           string   `json:"piiRequested"`
+	ID                     int                  `json:"id"`
+	FirmName               string               `json:"firmName"`
+	FirmNumber             int                  `json:"firmNumber"`
+	Email                  string               `json:"email"`
+	PhoneNumber            string               `json:"phoneNumber"`
+	AddressLine1           string               `json:"addressLine1"`
+	AddressLine2           string               `json:"addressLine2"`
+	AddressLine3           string               `json:"addressLine3"`
+	Town                   string               `json:"town"`
+	County                 string               `json:"county"`
+	Postcode               string               `json:"postcode"`
+	ExecutiveCaseManager   ExecutiveCaseManager `json:"executiveCaseManager"`
+	Deputies               []Deputy             `json:"deputies"`
+	PiiReceived            string               `json:"piiReceived"`
+	PiiExpiry              string               `json:"piiExpiry"`
+	PiiAmount              float64              `json:"piiAmount,omitempty"`
+	PiiRequested           string               `json:"piiRequested"`
 	PiiReceivedDateFormat  string
 	PiiExpiryDateFormat    string
 	PiiRequestedDateFormat string

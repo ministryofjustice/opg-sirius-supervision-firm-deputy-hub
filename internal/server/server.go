@@ -22,6 +22,7 @@ type Client interface {
 	ManageFirmDetailsInformation
 	RequestPiiDetailsInformation
 	FirmHubDeputyTabInformation
+	ChangeECMInformation
 }
 
 type Template interface {
@@ -55,6 +56,10 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 	router.Handle("/{id}/request-pii-details",
 		wrap(
 			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+
+	router.Handle("/{id}/change-ecm",
+		wrap(
+			renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
 	static := staticFileHandler(webDir)
 	router.PathPrefix("/assets/").Handler(static)

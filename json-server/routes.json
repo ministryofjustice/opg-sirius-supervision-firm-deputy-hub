@@ -2,5 +2,6 @@
     "/api/v1/*": "/$1",
     "/firms/:id": "/firms",
     "/firms/:firmId/pii": "/pii-details",
-    "/firms/:firmId/deputies": "/deputies"
+    "/firms/:firmId/deputies": "/deputies",
+    "/teams?type=pro": "/teams"
 }
