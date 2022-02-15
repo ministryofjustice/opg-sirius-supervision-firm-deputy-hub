@@ -41,7 +41,7 @@ func TestChangeECMReturnsErrorIfNoEcm(t *testing.T) {
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/deputies/76/ecm",
+		URL:    svr.URL + "/api/v1/firms/76/ecm",
 		Method: http.MethodPut,
 	}, err)
 }
@@ -59,7 +59,7 @@ func TestChangeECMReturnsErrorIfNoId(t *testing.T) {
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/deputies/0/ecm",
+		URL:    svr.URL + "/api/v1/firms/0/ecm",
 		Method: http.MethodPut,
 	}, err)
 }
@@ -77,7 +77,7 @@ func TestChangeECMReturnsNewStatusError(t *testing.T) {
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/deputies/76/ecm",
+		URL:    svr.URL + "/api/v1/firms/76/ecm",
 		Method: http.MethodPut,
 	}, err)
 }

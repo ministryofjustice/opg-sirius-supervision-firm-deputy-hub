@@ -2,7 +2,7 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
@@ -14,29 +14,76 @@ func TestGetPaDeputyTeamUsersReturned(t *testing.T) {
 	mockClient := &mocks.MockClient{}
 	client, _ := NewClient(mockClient, "http://localhost:3000")
 
-	json := `{
-    "id": 23,
-    "name": "PA Team 1 - (Supervision)",
-    "phoneNumber": "0123456789",
-    "displayName": "PA Team 1 - (Supervision)",
-    "deleted": false,
-    "email": "PATeam1.team@opgtest.com",
-    "members": [
-        {
-            "id": 92,
-            "name": "PATeam1",
-            "phoneNumber": "12345678",
-            "displayName": "PATeam1 User1",
-            "deleted": false,
-            "email": "pa1@opgtest.com"
-        }
-    ],
-    "children": [],
-    "teamType": {
-        "handle": "PA",
-        "label": "PA"
-    }
-	}`
+	json := `[
+	{
+		"id": 25,
+		"name": "Pro Team 1 - (Supervision)",
+		"phoneNumber": "0123456789",
+		"displayName": "Pro Team 1 - (Supervision)",
+		"deleted": false,
+		"email": "ProTeam1.team@opgtest.com",
+		"members": [
+			{
+				"id": 90,
+				"name": "LayTeam1",
+				"phoneNumber": "12345678",
+				"displayName": "LayTeam1 User20",
+				"deleted": false,
+				"email": "lay1-20@opgtest.com"
+			},
+			{
+				"id": 94,
+				"name": "PROTeam1",
+				"phoneNumber": "12345678",
+				"displayName": "PROTeam1 User1",
+				"deleted": false,
+				"email": "pro1@opgtest.com"
+			}
+		],
+		"groupName": null,
+		"parent": null,
+		"children": [],
+		"teamType": {
+			"handle": "PRO",
+			"label": "Pro",
+			"deprecated": null
+		}
+	},
+	{
+		"id": 26,
+		"name": "Pro Team 2 - (Supervision)",
+		"phoneNumber": "0123456789",
+		"displayName": "Pro Team 2 - (Supervision)",
+		"deleted": false,
+		"email": "ProTeam2.team@opgtest.com",
+		"members": [
+			{
+				"id": 37,
+				"name": "atwo",
+				"phoneNumber": "03004560300",
+				"displayName": "atwo manager",
+				"deleted": false,
+				"email": "2manager@opgtest.com"
+			},
+			{
+				"id": 101,
+				"name": "CardPayment",
+				"phoneNumber": "12345678",
+				"displayName": "CardPayment User",
+				"deleted": false,
+				"email": "card.payment.user@opgtest.com"
+			}
+		],
+		"groupName": null,
+		"parent": null,
+		"children": [],
+		"teamType": {
+			"handle": "PRO",
+			"label": "Pro",
+			"deprecated": null
+		}
+	}
+]`
 
 	r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
 
@@ -47,16 +94,28 @@ func TestGetPaDeputyTeamUsersReturned(t *testing.T) {
 		}, nil
 	}
 
-	expectedResponse := []TeamMember{
+	expectedResponse := []Member{
 		{
-			ID:          92,
-			DisplayName: "PATeam1 User1",
+			Id:          90,
+			DisplayName: "LayTeam1 User20",
+		},
+		{
+			Id:          94,
+			DisplayName: "PROTeam1 User1",
+		},
+		{
+			Id:          37,
+			DisplayName: "atwo manager",
+		},
+		{
+			Id:          101,
+			DisplayName: "CardPayment User",
 		},
 	}
 
-	paDeputyTeam, err := client.GetPaDeputyTeamMembers(getContext(nil), 23)
+	_, proDeputyTeam, err := client.GetProTeamUsers(getContext(nil))
 
-	assert.Equal(t, expectedResponse, paDeputyTeam)
+	assert.Equal(t, expectedResponse, proDeputyTeam)
 	assert.Equal(t, nil, err)
 }
 
@@ -68,14 +127,14 @@ func TestGetPaDeputyTeamUsersReturnsNewStatusError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	paDeputyTeam, err := client.GetPaDeputyTeamMembers(getContext(nil), 23)
+	_, proDeputyMembers, err := client.GetProTeamUsers(getContext(nil))
 
-	expectedResponse := []TeamMember([]TeamMember{})
+	var expectedResponse []Member
 
-	assert.Equal(t, expectedResponse, paDeputyTeam)
+	assert.Equal(t, expectedResponse, proDeputyMembers)
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/teams/23",
+		URL:    svr.URL + "/api/v1/teams?type=pro",
 		Method: http.MethodGet,
 	}, err)
 }
@@ -88,10 +147,10 @@ func TestGetPaDeputyTeamUsersReturnsUnauthorisedClientError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	paDeputyTeam, err := client.GetPaDeputyTeamMembers(getContext(nil), 23)
+	_, proDeputyMembers, err := client.GetProTeamUsers(getContext(nil))
 
-	expectedResponse := []TeamMember([]TeamMember{})
+	var expectedResponse []Member
 
 	assert.Equal(t, ErrUnauthorized, err)
-	assert.Equal(t, expectedResponse, paDeputyTeam)
+	assert.Equal(t, expectedResponse, proDeputyMembers)
 }

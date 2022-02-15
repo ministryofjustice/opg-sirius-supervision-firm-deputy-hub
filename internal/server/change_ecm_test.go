@@ -12,29 +12,26 @@ import (
 )
 
 type mockChangeECMInformation struct {
-	count          int
-	lastCtx        sirius.Context
-	err            error
-	FirmDetails  sirius.FirmDetails
-	EcmTeamDetails []sirius.TeamMembers
-	Error          string
-	Errors         sirius.ValidationErrors
-	Success        bool
-	DefaultPaTeam  int
+	count             int
+	lastCtx           sirius.Context
+	err               error
+	FirmDetails       sirius.FirmDetails
+	EcmTeamDetails    []sirius.Member
+	EcmTeamApiDetails []sirius.TeamMembers
 }
 
-func (m *mockChangeECMInformation) GetDeputyDetails(ctx sirius.Context, defaultPATeam int, deputyId int) (sirius.FirmDetails, error) {
+func (m *mockChangeECMInformation) GetFirmDetails(ctx sirius.Context, deputyId int) (sirius.FirmDetails, error) {
 	m.count += 1
 	m.lastCtx = ctx
 
 	return m.FirmDetails, m.err
 }
 
-func (m *mockChangeECMInformation) GetPaDeputyTeamMembers(ctx sirius.Context, deputyId int) ([]sirius.TeamMembers, error) {
+func (m *mockChangeECMInformation) GetProTeamUsers(ctx sirius.Context) ([]sirius.TeamMembers, []sirius.Member, error) {
 	m.count += 1
 	m.lastCtx = ctx
 
-	return m.EcmTeamDetails, m.err
+	return m.EcmTeamApiDetails, m.EcmTeamDetails, m.err
 }
 
 func (m *mockChangeECMInformation) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails sirius.FirmDetails) error {
@@ -49,12 +46,11 @@ func TestGetChangeECM(t *testing.T) {
 
 	client := &mockChangeECMInformation{}
 	template := &mockTemplates{}
-	defaultPATeam := 23
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/path", nil)
 
-	handler := renderTemplateForChangeECM(client, defaultPATeam, template)
+	handler := renderTemplateForChangeECM(client, template)
 	err := handler(sirius.PermissionSet{}, w, r)
 
 	assert.Nil(err)
@@ -68,27 +64,25 @@ func TestGetChangeECM(t *testing.T) {
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
 	assert.Equal(changeECMHubVars{
-		Path:          "/path",
-		DefaultPaTeam: 23,
+		Path: "/path",
 	}, template.lastVars)
 }
 
 func TestPostChangeECM(t *testing.T) {
 	assert := assert.New(t)
 	client := &mockChangeECMInformation{}
-	defaultPATeam := 23
 
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/76/ecm", strings.NewReader("{ecmId:26}"))
+	r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader("{ecmId:26}"))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	var returnedError error
 
 	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}/ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, defaultPATeam, template)(sirius.PermissionSet{}, w, r)
+	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
+		returnedError = renderTemplateForChangeECM(client, template)(sirius.PermissionSet{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
@@ -101,7 +95,6 @@ func TestPostChangeECM(t *testing.T) {
 func TestPostChangeECMReturnsErrorWithNoECM(t *testing.T) {
 	assert := assert.New(t)
 	client := &mockChangeECMInformation{}
-	defaultPATeam := 23
 
 	validationErrors := sirius.ValidationErrors{
 		"Change ECM": {"": "Select an executive case manager"},
@@ -114,14 +107,14 @@ func TestPostChangeECMReturnsErrorWithNoECM(t *testing.T) {
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/76/ecm", strings.NewReader(""))
+	r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	var returnedError error
 
 	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}/ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, defaultPATeam, template)(sirius.PermissionSet{}, w, r)
+	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
+		returnedError = renderTemplateForChangeECM(client, template)(sirius.PermissionSet{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
