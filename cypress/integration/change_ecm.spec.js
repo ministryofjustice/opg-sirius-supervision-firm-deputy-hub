@@ -27,7 +27,7 @@ describe("Change Ecm", () => {
 
     });
 
-    describe("Edit Firm Details Form", () => {
+    describe("Change Ecm Form", () => {
         beforeEach(() => {
             cy.visit("/supervision/deputies/firm/1/change-ecm");
         });

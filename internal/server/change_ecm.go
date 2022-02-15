@@ -50,8 +50,6 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 				EcmTeamDetails: ecmTeamDetails,
 			}
 
-			//vars.ErrorMessage = checkForDefaultEcmId(deputyDetails.ExecutiveCaseManager.EcmId, defaultPATeam)
-
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
@@ -86,7 +84,6 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 			}
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				//verr.Errors = renameEditDeputyValidationErrorMessages(verr.Errors)
 				vars.Errors = verr.Errors
 
 				return tmpl.ExecuteTemplate(w, "page", vars)
