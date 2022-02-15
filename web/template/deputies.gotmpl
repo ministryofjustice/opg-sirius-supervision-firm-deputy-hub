@@ -1,0 +1,66 @@
+{{ template "page" . }}
+{{ define "main" }}
+    {{ template "firm-details" . }}
+    {{ template "navigation" . }}
+    <div class="main">
+        <header>
+            <div class="main-header">
+                <h1
+                    class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0">
+                    Deputies
+                </h1>
+            </div>
+        </header>
+        <table id="pa-clients-3" class="govuk-table sortable">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">
+                        Name
+                    </th>
+                    <th scope="col" class="govuk-table__header">
+                        Deputy number
+                    </th>
+                    <th scope="col" class="govuk-table__header">
+                        Active clients
+                    </th>
+                    <th scope="col" class="govuk-table__header">
+                        ECM
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                {{ range .FirmDeputiesDetails }}
+                    <tr class="govuk-table__row">
+                        <td
+                            class="govuk-table__cell client_name_ref nowrap"
+                            label="deputyId {{ .DeputyId }}">
+                            <a
+                                class="govuk-link"
+                                href="{{ prohub (printf "/deputy/%d" .DeputyId) }}">
+                                {{ if .Firstname }}
+                                {{ .Firstname }} {{ .Surname }}
+                                {{ else }}
+                                {{ .OrganisationName}}
+                                {{ end }}
+                            </a>
+                            <br />
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ .DeputyNumber }}
+                        </td>
+                        <td class="govuk-table__cell">
+                           {{ .ActiveClientsCount }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ if .ExecutiveCaseManager }}
+                                {{ .ExecutiveCaseManager }}
+                            {{ else }}
+                                -
+                            {{ end }}
+                        </td>
+                    </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+{{ end }}

@@ -11,28 +11,15 @@
 
     {{ template "error-summary" .Errors }}
 
-    <div class="govuk-grid-row govuk-!-margin-top-5  govuk-!-margin-bottom-5">
-        <div class="govuk-grid-column-full">
-            <nav class="moj-sub-navigation" aria-label="Primary navigation">
-                <ul class="moj-sub-navigation__list">
-                    <li class="moj-sub-navigation__item">
-                        <a
-                            class="moj-sub-navigation__link"
-                            aria-current="page"
-                            href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">
-                            Firm details
-                       </a>
-                    </li>
-                </ul>
-            </nav>
-            <header>
-                <div class="main-header">
-                    <h1
-                        class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0 ">
-                        Firm details
-                    </h1>
-                </div>
-            </header>
+    {{ template "navigation" . }}
+        <header>
+            <div class="main-header">
+                <h1
+                    class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0 ">
+                    Firm details
+                </h1>
+            </div>
+        </header>
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">

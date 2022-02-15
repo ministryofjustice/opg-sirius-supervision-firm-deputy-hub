@@ -73,4 +73,3 @@ func TestPostManageFirm(t *testing.T) {
 	testHandler.ServeHTTP(w, r)
 	assert.Equal(returnedError, Redirect("/123?success=firmDetails"))
 }
-
