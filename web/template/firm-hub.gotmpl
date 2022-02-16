@@ -12,14 +12,26 @@
     {{ template "error-summary" .Errors }}
 
     {{ template "navigation" . }}
-        <header>
-            <div class="main-header">
+
+    <div class="govuk-grid-row govuk-!-margin-top-5  govuk-!-margin-bottom-5">
+        <div class="govuk-grid-column-full">
+            <header>
                 <h1
                     class="govuk-heading-l  govuk-!-margin-bottom-0  govuk-!-margin-top-0 ">
                     Firm details
                 </h1>
-            </div>
-        </header>
+                <div class="moj-button-menu">
+                    <div class="moj-button-menu__wrapper">
+                           <div class="moj-button-menu__wrapper">
+                              <a href="{{ prefix (printf "/%d/change-ecm" .FirmDetails.ID) }}" role="button" draggable="false" class="govuk-button moj-button-menu__item govuk-button--secondary " data-module="govuk-button">
+                                Change ECM
+                              </a>
+                           </div>
+                    </div>
+                </div>
+
+            </header>
+
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">

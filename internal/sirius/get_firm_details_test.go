@@ -47,7 +47,14 @@ func TestFirmDetailsReturned(t *testing.T) {
 		"postcode": "BU1 1TF",
 		"phoneNumber": "123123123",
 		"email": "good@firm.com",
-		"firmNumber": 100005
+		"firmNumber": 100005,
+		"executiveCaseManager": {
+			"id": 71,
+			"name": "LayTeam1",
+			"displayName": "LayTeam1 User1",
+			"surname": "User1"
+		}
+
 	}`
 
 	r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
@@ -82,6 +89,10 @@ func TestFirmDetailsReturned(t *testing.T) {
 				DeputyNumber:     20,
 				OrganisationName: "deputy pro",
 			},
+		},
+		ExecutiveCaseManager: ExecutiveCaseManager{
+			Id:          71,
+			DisplayName: "LayTeam1 User1",
 		},
 	}
 

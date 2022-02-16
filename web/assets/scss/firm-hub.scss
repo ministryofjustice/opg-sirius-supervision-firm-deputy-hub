@@ -44,3 +44,30 @@
       padding-top: 1em;
   }
 }
+
+
+main {
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5em 0 0.5em;
+      border-bottom: 1px solid #b1b4b6;
+      margin-bottom: 2em;
+    }
+
+    .moj-sub-navigation {
+      margin-bottom: 0;
+    }
+  }
+
+  .moj-header__container {
+    max-width: 98%;
+  }
+
+  .moj-timeline__item {
+    max-width: 60em;
+  }
+
+  .govuk-form-group {
+    max-width: 40em;
+  }

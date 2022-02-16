@@ -10,9 +10,9 @@ import (
 )
 
 type mockFirmHubDeputyTabInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
+	count               int
+	lastCtx             sirius.Context
+	err                 error
 	firmDeputiesDetails []sirius.FirmDeputy
 	firmDetails         sirius.FirmDetails
 }
@@ -53,5 +53,3 @@ func TestRenderTemplateForDeputyTab(t *testing.T) {
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
 }
-
-

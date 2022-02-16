@@ -37,7 +37,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return err
 		}
 
-		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName)
+		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName, firmDetails.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
 			Path:           r.URL.Path,
@@ -55,7 +55,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 	}
 }
 
-func createSuccessAndSuccessMessageForVars(url, firmName string) string {
+func createSuccessAndSuccessMessageForVars(url, firmName, ecmName string) string {
 	splitStringByQuestion := strings.Split(url, "?")
 	if len(splitStringByQuestion) > 1 {
 		splitString := strings.Split(splitStringByQuestion[1], "=")
@@ -72,6 +72,8 @@ func createSuccessAndSuccessMessageForVars(url, firmName string) string {
 			return "PII details updated"
 		} else if splitString[1] == "requestPiiDetails" {
 			return "PII details requested"
+		} else if splitString[1] == "ecm" {
+			return "Ecm changed to " + ecmName
 		}
 
 	}
