@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "dependencies": {
-        "@ministryofjustice/frontend": "^0.2.5",
+        "@ministryofjustice/frontend": "^1.0.1",
         "accessible-autocomplete": "^2.0.3",
         "govuk-frontend": "^3.13.0"
     },
