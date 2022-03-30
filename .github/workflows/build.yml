@@ -155,9 +155,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           DEPUTY_HUB_ECR_REPOSITORY: sirius/sirius-firm-deputy-hub
         run: |
-          docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:latest
           docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:${{ steps.bump_version.outputs.tag }}
           if [ $BRANCH_NAME == "main" ]; then
+            docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:latest
+            docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:main-${{ steps.bump_version.outputs.tag }}
             # We want all of the tags pushed
             docker push --all-tags $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY
           else
