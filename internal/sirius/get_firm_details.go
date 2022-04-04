@@ -3,6 +3,7 @@ package sirius
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/dustin/go-humanize"
 	"net/http"
 	"time"
 )
@@ -77,7 +78,7 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	v.PiiReceivedDateFormat = reformatDatesForAutofill(v.PiiReceived)
 	v.PiiExpiryDateFormat = reformatDatesForAutofill(v.PiiExpiry)
 	v.PiiRequestedDateFormat = reformatDatesForAutofill(v.PiiRequested)
-
+	v.PiiAmountCommaFormat = humanize.Commaf(v.PiiAmount)
 	return v, err
 }
 
