@@ -46,6 +46,7 @@ type FirmDetails struct {
 	PiiRequestedDateFormat string
 	TotalNumberOfDeputies  int
 	PiiAmountCommaFormat   string
+	PiiAmountIntFormat     int64
 }
 
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
@@ -78,7 +79,10 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
 	v.PiiReceivedDateFormat = reformatDatesForAutofill(v.PiiReceived)
 	v.PiiExpiryDateFormat = reformatDatesForAutofill(v.PiiExpiry)
 	v.PiiRequestedDateFormat = reformatDatesForAutofill(v.PiiRequested)
-	v.PiiAmountCommaFormat = humanize.Commaf(v.PiiAmount)
+	if v.PiiAmount != 0 {
+		v.PiiAmountCommaFormat = humanize.Commaf(v.PiiAmount)
+		v.PiiAmountIntFormat = int64(v.PiiAmount)
+	}
 	return v, err
 }
 
