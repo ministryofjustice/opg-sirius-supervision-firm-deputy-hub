@@ -8,7 +8,7 @@
 #### Installing dependencies locally:
 
 -   `yarn install`
--   ## `go mod download`
+-   `go mod download`
 
 ## Local development
 
