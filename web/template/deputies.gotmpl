@@ -35,7 +35,7 @@
                             label="deputyId {{ .DeputyId }}">
                             <a
                                 class="govuk-link"
-                                href="{{ prohub (printf "/deputy/%d" .DeputyId) }}">
+                                href="{{ prohub (printf "/%d" .DeputyId) }}">
                                 {{ if .Firstname }}
                                 {{ .Firstname }} {{ .Surname }}
                                 {{ else }}
