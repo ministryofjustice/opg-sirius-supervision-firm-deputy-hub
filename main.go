@@ -22,7 +22,7 @@ func main() {
 	webDir := getEnv("WEB_DIR", "web")
 	siriusURL := getEnv("SIRIUS_URL", "http://localhost:8080")
 	siriusPublicURL := getEnv("SIRIUS_PUBLIC_URL", "")
-	proHubURL := getEnv("PRO_HUB_URL", "http://localhost:8888")
+	proHubURL := getEnv("PRO_HUB_HOST", "") + "/supervision/deputies"
 	prefix := getEnv("PREFIX", "")
 
 	layouts, _ := template.
@@ -54,7 +54,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    ":" + port,
-		Handler: server.New(logger, client, tmpls, prefix, siriusPublicURL, proHubURL, webDir),
+		Handler: server.New(logger, client, tmpls, prefix, siriusPublicURL, webDir),
 	}
 
 	go func() {
