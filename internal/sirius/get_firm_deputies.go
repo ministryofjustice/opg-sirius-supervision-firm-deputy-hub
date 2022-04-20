@@ -39,6 +39,7 @@ type Deputies struct {
 	Orders               []orders             `json:"orders"`
 	ExecutiveCaseManager executiveCaseManager `json:"executiveCaseManager"`
 	OrganisationName     string               `json:"organisationName"`
+	Town                 string               `json:"town"`
 }
 
 type FirmDeputy struct {
@@ -49,6 +50,7 @@ type FirmDeputy struct {
 	ActiveClientsCount   int
 	ExecutiveCaseManager string
 	OrganisationName     string
+	Town                 string
 }
 
 func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) {
@@ -88,6 +90,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 			ActiveClientsCount:   getActiveClientCount(t.Orders),
 			ExecutiveCaseManager: t.ExecutiveCaseManager.EcmName,
 			OrganisationName:     t.OrganisationName,
+			Town:                 t.Town,
 		}
 
 		deputies = append(deputies, deputy)

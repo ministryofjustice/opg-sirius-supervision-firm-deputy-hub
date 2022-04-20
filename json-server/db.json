@@ -20,7 +20,13 @@
                 "orders": [[]],
                 "deputyNumber": 22,
                 "organisationName": "pro dept",
-                "deputySubType": []
+                "deputySubType": [],
+                "addressLine1": "111 Maker Street",
+                "addressLine2": "",
+                "addressLine3": "",
+                "town": "Birmingham",
+                "county": "West Midlands",
+                "postcode": "A10 1GH"
             },
             {
                 "id": 75,
@@ -30,7 +36,13 @@
                 "eveningNumber": "07748933233",
                 "deputyNumber": 20,
                 "organisationName": "deputy pro",
-                "organisationTeamOrDepartmentName": ""
+                "organisationTeamOrDepartmentName": "",
+                "addressLine1": "",
+                "addressLine2": "",
+                "addressLine3": "",
+                "town": "Dullsville",
+                "county": "",
+                "postcode": ""
             }
         ],
         "firmName": "Trustworthy Firm Inc",
@@ -161,6 +173,12 @@
                 "mobileNumber": "",
                 "eveningNumber": "",
                 "newsletter": false,
+                "addressLine1": "The Flat",
+                "addressLine2": "The Road",
+                "addressLine3": "The Parish",
+                "town": "The Town",
+                "county": "The County",
+                "postcode": "X99 99X",
                 "deputyType": {
                     "handle": "PRO",
                     "label": "Professional"
@@ -217,6 +235,12 @@
                 "previousNames": "",
                 "mobileNumber": "",
                 "eveningNumber": "",
+                "addressLine1": "A L 1",
+                "addressLine2": "A L 2",
+                "addressLine3": "A L 3",
+                "town": "Four Oaks",
+                "county": "C",
+                "postcode": "P12 34C",
                 "newsletter": false,
                 "deputyType": {
                     "handle": "PRO",
@@ -293,6 +317,12 @@
                 ],
                 "mobileNumber": "",
                 "eveningNumber": "",
+                "addressLine1": "",
+                "addressLine2": "",
+                "addressLine3": "",
+                "town": "Dullsville",
+                "county": "",
+                "postcode": "",
                 "newsletter": false,
                 "deputyType": {
                     "handle": "PRO",
