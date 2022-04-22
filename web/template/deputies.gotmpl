@@ -17,6 +17,9 @@
                         Name
                     </th>
                     <th scope="col" class="govuk-table__header">
+						Town
+					</th>
+                    <th scope="col" class="govuk-table__header">
                         Deputy number
                     </th>
                     <th scope="col" class="govuk-table__header">
@@ -43,6 +46,9 @@
                                 {{ end }}
                             </a>
                             <br />
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ .Town }}
                         </td>
                         <td class="govuk-table__cell">
                             {{ .DeputyNumber }}
