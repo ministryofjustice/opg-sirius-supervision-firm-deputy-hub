@@ -11,7 +11,7 @@ describe("Firm Deputy Hub", () => {
             cy.contains(".moj-header__link", "Sirius");
         });
 
-        const expected = ["Supervision", "LPA", "Admin", "Logout"];
+        const expected = ["Workflow", "Supervision", "LPA", "Admin", "Logout"];
 
         it("has working nav links within header banner", () => {
             cy.get(".moj-header__navigation-list")
