@@ -11,7 +11,7 @@ RUN apk update \
     git \
     && update-ca-certificates
 
-FROM node:17.8.0-alpine3.14 as asset-env
+FROM node:18.0.0-alpine3.14 as asset-env
 
 WORKDIR /app
 
