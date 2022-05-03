@@ -8,6 +8,7 @@ import (
 	"net/url"
 
 	"github.com/gorilla/mux"
+	"github.com/ministryofjustice/opg-go-common/securityheaders"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
@@ -68,7 +69,7 @@ func New(logger Logger, client Client, templates map[string]*template.Template, 
 
 	router.NotFoundHandler = notFoundHandler(templates["error.gotmpl"], siriusPublicURL)
 
-	return http.StripPrefix(prefix, router)
+	return http.StripPrefix(prefix, securityheaders.Use(router))
 }
 
 type Redirect string
