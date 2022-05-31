@@ -2967,10 +2967,10 @@ preact@^8.3.1:
   resolved "https://registry.yarnpkg.com/preact/-/preact-8.5.3.tgz#78c2a5562fcecb1fed1d0055fa4ac1e27bde17c1"
   integrity sha512-O3kKP+1YdgqHOFsZF2a9JVdtqD+RPzCQc3rP+Ualf7V6rmRDchZ9MJbiGTT7LuyqFKZqlHSOyO/oMFmI2lVTsw==
 
-prettier-plugin-go-template@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.npmjs.org/prettier-plugin-go-template/-/prettier-plugin-go-template-0.0.11.tgz"
-  integrity sha512-qtgoEjvbgmcDp9TOqYNgrPrA41s6S1UMyzMqjcxdxQahTX0webWfbamyA/x3XeBFEEJmgXrRAirzJrIVzImsMg==
+prettier-plugin-go-template@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-go-template/-/prettier-plugin-go-template-0.0.13.tgz#b4047bce76430bc89a8ee8f27fad1b1c14d942be"
+  integrity sha512-gG/xT5kd+kCzoMaTchXvdfBdsunyRCV6G8cgdPGPd2V5JGGKXUG7SjzBKU7jaGh2RTeblcAdBb/E+S/duOAMsA==
   dependencies:
     ulid "^2.3.0"
 
