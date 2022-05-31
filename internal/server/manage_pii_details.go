@@ -65,7 +65,6 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			err = client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				verr.Errors = renameEditPiiValidationErrorMessages(verr.Errors)
 				vars := firmHubManagePiiVars{
 					Path:                 r.URL.Path,
 					XSRFToken:            ctx.XSRFToken,
@@ -82,27 +81,4 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 	}
-}
-
-func renameEditPiiValidationErrorMessages(siriusError sirius.ValidationErrors) sirius.ValidationErrors {
-	errorCollection := sirius.ValidationErrors{}
-	for fieldName, value := range siriusError {
-		for errorType, errorMessage := range value {
-			err := make(map[string]string)
-			if fieldName == "piiReceived" && errorType == "isEmpty" {
-				err[errorType] = "The PII received date is required and can't be empty"
-				errorCollection["pii-received"] = err
-			} else if fieldName == "piiExpiry" && errorType == "isEmpty" {
-				err[errorType] = "The PII expiry date is required and can't be empty"
-				errorCollection["pii-expiry"] = err
-			} else if fieldName == "piiAmount" && errorType == "isEmpty" {
-				err[errorType] = "The PII amount is required and can't be empty"
-				errorCollection["pii-amount"] = err
-			} else {
-				err[errorType] = errorMessage
-				errorCollection[fieldName] = err
-			}
-		}
-	}
-	return errorCollection
 }
