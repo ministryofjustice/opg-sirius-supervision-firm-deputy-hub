@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
 	"html/template"
 	"net/http"
 	"os"
@@ -37,6 +38,7 @@ func main() {
 			"prohub": func(s string) string {
 				return proHubURL + s
 			},
+			"rename_errors": util.RenameErrors,
 		}).
 		ParseGlob(webDir + "/template/*/*.gotmpl")
 

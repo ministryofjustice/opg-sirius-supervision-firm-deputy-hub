@@ -64,7 +64,6 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 			err = client.ManageFirmDetails(ctx, editFirmDetailsForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				verr.Errors = renameEditFirmValidationErrorMessages(verr.Errors)
 				vars := firmHubManageFirmVars{
 					Path:                r.URL.Path,
 					XSRFToken:           ctx.XSRFToken,
@@ -81,24 +80,4 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 	}
-}
-
-func renameEditFirmValidationErrorMessages(siriusError sirius.ValidationErrors) sirius.ValidationErrors {
-	errorCollection := sirius.ValidationErrors{}
-	for fieldName, value := range siriusError {
-		for errorType, errorMessage := range value {
-			err := make(map[string]string)
-			if fieldName == "firmName" && errorType == "isEmpty" {
-				err[errorType] = "The firm name is required and can't be empty"
-				errorCollection["firm-name"] = err
-			} else if fieldName == "firmName" && errorType == "stringLengthTooLong" {
-				err[errorType] = "The firm name must be 255 characters or fewer"
-				errorCollection["firm-name"] = err
-			} else {
-				err[errorType] = errorMessage
-				errorCollection[fieldName] = err
-			}
-		}
-	}
-	return errorCollection
 }

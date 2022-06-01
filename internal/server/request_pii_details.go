@@ -57,7 +57,6 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 			err = client.RequestPiiCertificate(ctx, requestPiiDetailsForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				verr.Errors = renameRequestPiiValidationErrorMessages(verr.Errors)
 				vars := firmHubRequestPiiVars{
 					Path:                  r.URL.Path,
 					XSRFToken:             ctx.XSRFToken,
@@ -74,21 +73,4 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 	}
-}
-
-func renameRequestPiiValidationErrorMessages(siriusError sirius.ValidationErrors) sirius.ValidationErrors {
-	errorCollection := sirius.ValidationErrors{}
-	for fieldName, value := range siriusError {
-		for errorType, errorMessage := range value {
-			err := make(map[string]string)
-			if fieldName == "piiRequested" && errorType == "isEmpty" {
-				err[errorType] = "The PII requested date is required and can't be empty"
-				errorCollection["pii-requested"] = err
-			} else {
-				err[errorType] = errorMessage
-				errorCollection[fieldName] = err
-			}
-		}
-	}
-	return errorCollection
 }
