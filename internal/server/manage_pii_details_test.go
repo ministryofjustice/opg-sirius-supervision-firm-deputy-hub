@@ -74,7 +74,7 @@ func TestPostManagePii(t *testing.T) {
 	assert.Equal(returnedError, Redirect("/123?success=piiDetails"))
 }
 
-func TestErrorManagePiiMessageWhenIsEmpty(t *testing.T) {
+func TestErrorManagePii(t *testing.T) {
 	assert := assert.New(t)
 	client := &mockManagePiiDetailsInformation{}
 

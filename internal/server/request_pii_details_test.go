@@ -74,7 +74,7 @@ func TestPostRequestPii(t *testing.T) {
 	assert.Equal(returnedError, Redirect("/123?success=requestPiiDetails"))
 }
 
-func TestErrorRequestPiiMessageWhenIsEmpty(t *testing.T) {
+func TestErrorRequestPii(t *testing.T) {
 	assert := assert.New(t)
 	client := &mockRequestPiiDetailsInformation{}
 
