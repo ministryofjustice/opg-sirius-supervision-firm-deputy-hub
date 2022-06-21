@@ -89,6 +89,7 @@ jobs:
     name: "Build & Push Containers"
     runs-on: ubuntu-latest
     needs: ["test", "lint", "acceptance-test", "cypress"]
+    if: github.actor != 'dependabot[bot]'
     outputs:
       branch: ${{ steps.set-outputs.outputs.branch }}
       tag: ${{ steps.bump_version.outputs.tag }}
@@ -136,6 +137,7 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
+        if: github.actor != 'dependabot[bot]'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ACTIONS }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ACTIONS }}
@@ -147,6 +149,7 @@ jobs:
       - name: ECR Login
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+        if: github.actor != 'dependabot[bot]'
         with:
           registries: 311462405659
 
@@ -154,6 +157,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           DEPUTY_HUB_ECR_REPOSITORY: sirius/sirius-firm-deputy-hub
+        if: github.actor != 'dependabot[bot]'
         run: |
           docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:${{ steps.bump_version.outputs.tag }}
           if [ $BRANCH_NAME == "main" ]; then
