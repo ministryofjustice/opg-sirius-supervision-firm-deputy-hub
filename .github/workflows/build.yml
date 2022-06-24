@@ -41,6 +41,20 @@ jobs:
       - name: Run Tests
         run: |
           gotestsum --junitfile /tmp/test-results/unit-tests.xml -- ./... -coverprofile=/tmp/test-coverage.txt
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() && github.actor != 'dependabot[bot]' }}
+        with:
+          check_name: "Unit Test Results"
+          files: test-results/*.xml
+
+      - name: Scan with SonarQube
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          
   lint:
     name: GO lint
     runs-on: ubuntu-latest
