@@ -1,4 +1,4 @@
-FROM golang:1.17.3-alpine3.14 as base
+FROM golang:1.18.0-alpine3.14 as base
 WORKDIR /app
 
 ENV CGO_ENABLED=0
@@ -11,7 +11,7 @@ RUN apk update \
     git \
     && update-ca-certificates
 
-FROM node:17.8.0-alpine3.14 as asset-env
+FROM node:18.3.0-alpine3.14 as asset-env
 
 WORKDIR /app
 
@@ -29,7 +29,7 @@ WORKDIR /app
 
 COPY --from=asset-env /app/web/static web/static
 
-RUN go get -u github.com/cosmtrek/air && go install github.com/go-delve/delve/cmd/dlv@latest
+RUN go install github.com/cosmtrek/air@latest && go install github.com/go-delve/delve/cmd/dlv@latest
 EXPOSE 8080
 EXPOSE 2345
 
