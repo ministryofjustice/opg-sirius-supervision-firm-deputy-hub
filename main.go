@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
 	"html/template"
 	"net/http"
 	"os"
@@ -10,7 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/logging"
+	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/server"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
@@ -22,7 +23,7 @@ func main() {
 	webDir := getEnv("WEB_DIR", "web")
 	siriusURL := getEnv("SIRIUS_URL", "http://localhost:8080")
 	siriusPublicURL := getEnv("SIRIUS_PUBLIC_URL", "")
-	proHubURL := getEnv("PRO_HUB_URL", "http://localhost:8888")
+	proHubURL := getEnv("PRO_HUB_HOST", "") + "/supervision/deputies"
 	prefix := getEnv("PREFIX", "")
 
 	layouts, _ := template.
@@ -37,6 +38,7 @@ func main() {
 			"prohub": func(s string) string {
 				return proHubURL + s
 			},
+			"rename_errors": util.RenameErrors,
 		}).
 		ParseGlob(webDir + "/template/*/*.gotmpl")
 
@@ -54,7 +56,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    ":" + port,
-		Handler: server.New(logger, client, tmpls, prefix, siriusPublicURL, proHubURL, webDir),
+		Handler: server.New(logger, client, tmpls, prefix, siriusPublicURL, webDir),
 	}
 
 	go func() {

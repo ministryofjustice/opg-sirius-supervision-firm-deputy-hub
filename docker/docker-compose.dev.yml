@@ -11,10 +11,11 @@ services:
       - "8887:1234"
     volumes:
       - ..:/app:rw,delegated
+      - /app/web/static
     environment:
       SIRIUS_URL: http://json-server:3000
       SIRIUS_PUBLIC_URL: http://localhost:8080
-      PRO_HUB_URL: http://localhost:8888/supervision/deputies/professional
+      PRO_HUB_HOST: http://localhost:8888
       PREFIX: /supervision/deputies/firm
 
   json-server:
