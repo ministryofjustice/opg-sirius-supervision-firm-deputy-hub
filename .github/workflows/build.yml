@@ -36,11 +36,11 @@ jobs:
         with:
           gotestsum_version: 1.6.4
 
-      - run: mkdir -p /tmp/test-results
+      - run: mkdir -p test-results
 
       - name: Run Tests
         run: |
-          gotestsum --junitfile /tmp/test-results/unit-tests.xml -- ./... -coverprofile=/tmp/test-coverage.txt
+          gotestsum --junitfile test-results/unit-tests.xml -- ./... -coverprofile=test-coverage.txt
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
@@ -50,11 +50,12 @@ jobs:
           files: test-results/*.xml
 
       - name: Scan with SonarQube
+        if: ${{ always() && github.actor != 'dependabot[bot]' }}
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          
+
   lint:
     name: GO lint
     runs-on: ubuntu-latest
