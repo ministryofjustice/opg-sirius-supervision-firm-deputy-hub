@@ -33,32 +33,35 @@ type Template interface {
 func New(logger Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
-	router := mux.NewRouter()
+	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/health-check", healthCheck())
 
-	router.Handle("/{id}",
+	pageRouter := router.PathPrefix("/{id}").Subrouter()
+	pageRouter.Use(requestLogger(logger))
+
+	pageRouter.Handle("",
 		wrap(
 			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	router.Handle("/{id}/manage-pii-details",
+	pageRouter.Handle("/manage-pii-details",
 		wrap(
 			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 
-	router.Handle("/{id}/manage-firm-details",
+	pageRouter.Handle("/manage-firm-details",
 		wrap(
 			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
 
-	router.Handle("/{id}/deputies",
+	pageRouter.Handle("/deputies",
 		wrap(
 			renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
 
 	router.Handle("/health-check", healthCheck())
 
-	router.Handle("/{id}/request-pii-details",
+	pageRouter.Handle("/request-pii-details",
 		wrap(
 			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
 
-	router.Handle("/{id}/change-ecm",
+	pageRouter.Handle("/change-ecm",
 		wrap(
 			renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
@@ -186,4 +189,13 @@ func staticFileHandler(webDir string) http.Handler {
 		w.Header().Set("Cache-Control", "must-revalidate")
 		h.ServeHTTP(w, r)
 	})
+}
+
+func requestLogger(logger Logger) func(next http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			logger.Request(r, nil)
+			next.ServeHTTP(w, r)
+		})
+	}
 }
