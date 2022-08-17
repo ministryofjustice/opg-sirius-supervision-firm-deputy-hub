@@ -2,7 +2,7 @@ package sirius
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -20,7 +20,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 		{"id":77, "firstName":"Louis", "surname":"Devito", "orders":[{"order":{"id":49,"client":{"id":99,"firstname":"Bob","surname":"Mortimer"},"orderStatus":{"handle":"ACTIVE","label":"Active"}}}],"deputyNumber":25,"organisationName":"","executiveCaseManager":{"id":94,"displayName":"PROTeam1 User1"},"firm":{"id":1}}
 	]`
 
-	r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
+	r := io.NopCloser(bytes.NewReader([]byte(json)))
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		return &http.Response{
