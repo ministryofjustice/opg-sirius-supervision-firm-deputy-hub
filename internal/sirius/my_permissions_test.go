@@ -3,7 +3,7 @@ package sirius
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -45,7 +45,7 @@ func TestUserPermissionsReturned(t *testing.T) {
  		}
  	  }`
 	// create a new reader with that JSON
-	r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
+	r := io.NopCloser(bytes.NewReader([]byte(json)))
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		return &http.Response{
