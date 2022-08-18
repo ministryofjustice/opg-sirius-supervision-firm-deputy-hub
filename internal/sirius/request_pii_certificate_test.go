@@ -2,7 +2,7 @@ package sirius
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -20,7 +20,7 @@ func TestRequestPii(t *testing.T) {
 		"piiRequested":"10/01/2020"
 		}`
 
-	r := ioutil.NopCloser(bytes.NewReader([]byte(json)))
+	r := io.NopCloser(bytes.NewReader([]byte(json)))
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		return &http.Response{
