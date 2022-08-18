@@ -8,13 +8,11 @@ import (
 	"net/url"
 
 	"github.com/gorilla/mux"
+
+	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-go-common/securityheaders"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
-
-type Logger interface {
-	Request(*http.Request, error)
-}
 
 type Client interface {
 	ErrorHandlerClient
@@ -30,14 +28,14 @@ type Template interface {
 	ExecuteTemplate(io.Writer, string, interface{}) error
 }
 
-func New(logger Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
+func New(logger *logging.Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/health-check", healthCheck())
 
 	pageRouter := router.PathPrefix("/{id}").Subrouter()
-	pageRouter.Use(requestLogger(logger))
+	pageRouter.Use(logging.Use(logger))
 
 	pageRouter.Handle("",
 		wrap(
@@ -110,7 +108,7 @@ type ErrorHandlerClient interface {
 	MyPermissions(sirius.Context) (sirius.PermissionSet, error)
 }
 
-func errorHandler(logger Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
+func errorHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			myPermissions, err := client.MyPermissions(getContext(r))
@@ -189,13 +187,4 @@ func staticFileHandler(webDir string) http.Handler {
 		w.Header().Set("Cache-Control", "must-revalidate")
 		h.ServeHTTP(w, r)
 	})
-}
-
-func requestLogger(logger Logger) func(next http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			logger.Request(r, nil)
-			next.ServeHTTP(w, r)
-		})
-	}
 }
