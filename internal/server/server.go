@@ -8,13 +8,11 @@ import (
 	"net/url"
 
 	"github.com/gorilla/mux"
+
+	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-go-common/securityheaders"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
-
-type Logger interface {
-	Request(*http.Request, error)
-}
 
 type Client interface {
 	ErrorHandlerClient
@@ -30,35 +28,38 @@ type Template interface {
 	ExecuteTemplate(io.Writer, string, interface{}) error
 }
 
-func New(logger Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
+func New(logger *logging.Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
 	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
-	router := mux.NewRouter()
+	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/health-check", healthCheck())
 
-	router.Handle("/{id}",
+	pageRouter := router.PathPrefix("/{id}").Subrouter()
+	pageRouter.Use(logging.Use(logger))
+
+	pageRouter.Handle("",
 		wrap(
 			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	router.Handle("/{id}/manage-pii-details",
+	pageRouter.Handle("/manage-pii-details",
 		wrap(
 			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 
-	router.Handle("/{id}/manage-firm-details",
+	pageRouter.Handle("/manage-firm-details",
 		wrap(
 			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
 
-	router.Handle("/{id}/deputies",
+	pageRouter.Handle("/deputies",
 		wrap(
 			renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
 
 	router.Handle("/health-check", healthCheck())
 
-	router.Handle("/{id}/request-pii-details",
+	pageRouter.Handle("/request-pii-details",
 		wrap(
 			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
 
-	router.Handle("/{id}/change-ecm",
+	pageRouter.Handle("/change-ecm",
 		wrap(
 			renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
@@ -107,7 +108,7 @@ type ErrorHandlerClient interface {
 	MyPermissions(sirius.Context) (sirius.PermissionSet, error)
 }
 
-func errorHandler(logger Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
+func errorHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			myPermissions, err := client.MyPermissions(getContext(r))
