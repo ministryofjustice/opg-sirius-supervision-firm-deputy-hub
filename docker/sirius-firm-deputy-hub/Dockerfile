@@ -1,4 +1,4 @@
-FROM golang:1.19.1-alpine3.16 as base
+FROM golang:1.19.3-alpine3.16 as base
 WORKDIR /app
 
 ENV CGO_ENABLED=0
@@ -11,7 +11,7 @@ RUN apk update \
     git \
     && update-ca-certificates
 
-FROM node:18.10.0-alpine3.16 as asset-env
+FROM node:19.0.0-alpine3.16 as asset-env
 
 WORKDIR /app
 
