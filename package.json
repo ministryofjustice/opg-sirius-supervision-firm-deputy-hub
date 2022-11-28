@@ -12,7 +12,7 @@
         "@babel/preset-env": "^7.20.2",
         "babel-loader": "^9.1.0",
         "copy-webpack-plugin": "^11.0.0",
-        "css-loader": "^6.7.1",
+        "css-loader": "^6.7.2",
         "cypress": "^11.2.0",
         "cypress-failed-log": "^2.9.5",
         "mini-css-extract-plugin": "^2.6.1",
