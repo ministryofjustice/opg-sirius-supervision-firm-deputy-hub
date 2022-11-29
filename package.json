@@ -5,7 +5,7 @@
     "dependencies": {
         "@ministryofjustice/frontend": "^1.6.3",
         "accessible-autocomplete": "^2.0.3",
-        "govuk-frontend": "^4.3.1"
+        "govuk-frontend": "^4.4.0"
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",
