@@ -44,13 +44,13 @@ jobs:
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() && github.actor != 'dependabot[bot]' }}
+        if: ${{ always() }}
         with:
           check_name: "Unit Test Results"
           files: test-results/*.xml
 
       - name: Scan with SonarQube
-        if: ${{ always() && github.actor != 'dependabot[bot]' }}
+        if: ${{ always() }}
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -116,7 +116,7 @@ jobs:
           if [ "$GITHUB_EVENT_NAME" == "push" ]; then
             echo BRANCH_NAME=main >> $GITHUB_ENV
           else
-            echo BRANCH_NAME=${{ github.head_ref }} >> $GITHUB_ENV
+            echo BRANCH_NAME=$(echo ${{ github.head_ref }} | sed 's/\//-/g') >> $GITHUB_ENV
           fi
         id: extract_branch
       - uses: unfor19/install-aws-cli-action@v1
@@ -135,25 +135,23 @@ jobs:
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1
-        if: github.actor != 'dependabot[bot]'
         with:
           sarif_file: 'trivy-results.sarif'
 
       - name: Bump version
         id: bump_version
-        uses: anothrNick/github-tag-action@1.36.0
-        if: github.actor != 'dependabot[bot]'
+        uses: anothrNick/github-tag-action@1.52.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INITIAL_VERSION: 1.0.0
           DEFAULT_BUMP: minor
+          PRERELEASE: true
           PRERELEASE_SUFFIX: ${{ env.BRANCH_NAME }}
           RELEASE_BRANCHES: main
           WITH_V: true
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
-        if: github.actor != 'dependabot[bot]'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ACTIONS }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ACTIONS }}
@@ -165,7 +163,6 @@ jobs:
       - name: ECR Login
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        if: github.actor != 'dependabot[bot]'
         with:
           registries: 311462405659
 
@@ -173,7 +170,6 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           DEPUTY_HUB_ECR_REPOSITORY: sirius/sirius-firm-deputy-hub
-        if: github.actor != 'dependabot[bot]'
         run: |
           docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:${{ steps.bump_version.outputs.tag }}
           if [ $BRANCH_NAME == "main" ]; then
