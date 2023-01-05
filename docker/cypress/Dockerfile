@@ -1,4 +1,4 @@
-FROM cypress/included:10.11.0
+FROM cypress/included:12.3.0
 
 WORKDIR /root
 
