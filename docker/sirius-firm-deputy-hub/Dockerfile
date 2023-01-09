@@ -11,7 +11,7 @@ RUN apk update \
     git \
     && update-ca-certificates
 
-FROM node:19.3.0-alpine3.16 as asset-env
+FROM node:19.4.0-alpine3.16 as asset-env
 
 WORKDIR /app
 
@@ -48,7 +48,7 @@ COPY . .
 
 RUN go build -a -installsuffix cgo -o /go/bin/opg-sirius-supervision-firm-deputy-hub
 
-FROM alpine:3.17.0
+FROM alpine:3.17.1
 
 WORKDIR /go/bin
 
