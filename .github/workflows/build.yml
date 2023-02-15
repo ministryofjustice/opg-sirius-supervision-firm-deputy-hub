@@ -49,13 +49,6 @@ jobs:
           check_name: "Unit Test Results"
           files: test-results/*.xml
 
-      - name: Scan with SonarQube
-        if: ${{ always() }}
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
   lint:
     name: GO lint
     runs-on: ubuntu-latest
