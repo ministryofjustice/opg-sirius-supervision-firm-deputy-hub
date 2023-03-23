@@ -48,15 +48,14 @@ COPY . .
 
 RUN go build -a -installsuffix cgo -o /go/bin/opg-sirius-supervision-firm-deputy-hub
 
-FROM alpine:3.17.2
+FROM alpine:3
 
 WORKDIR /go/bin
 
-RUN apk --update --no-cache add \
-    ca-certificates && \
-    apk upgrade busybox --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
-    rm -rf /var/cache/apk/*
-RUN apk --no-cache add tzdata
+RUN apk --update --no-cache add ca-certificates tzdata
+
+# Patch vulnerabilities
+RUN apk upgrade --no-cache libcrypto3 libssl3
 
 COPY --from=build-env /go/bin/opg-sirius-supervision-firm-deputy-hub opg-sirius-supervision-firm-deputy-hub
 COPY --from=build-env /app/web/template web/template
