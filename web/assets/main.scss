@@ -5,7 +5,7 @@ $govuk-assets-path: "/supervision/deputies/firm/assets/";
 
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
-@import "accessible-autocomplete";
+@import "node_modules/accessible-autocomplete/src/autocomplete";
 @import "./scss/firm-hub";
 
 .moj-header__container {
@@ -13,5 +13,5 @@ $govuk-assets-path: "/supervision/deputies/firm/assets/";
 }
 
 #request-pii-btn {
-   margin-left: 1em;
+  margin-left: 1em;
 }
