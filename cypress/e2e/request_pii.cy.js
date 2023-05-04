@@ -11,7 +11,7 @@ describe("Request PII Details", () => {
 
         it("can be submitted", () => {
             cy.setCookie("success-route", "requestPii");
-            cy.get("#f-pii-requested").type("2013-12-12")
+            cy.get("#f-pii-requested").type("2013-12-12");
             cy.get("[data-cy=submit-request-pii-details-form-btn]").click();
         });
 
@@ -30,10 +30,7 @@ describe("Request PII Details", () => {
         });
 
         it("will autofill the form fields", () => {
-            cy.get("#f-pii-requested").should(
-                "have.value",
-                "2000-11-15"
-            );
+            cy.get("#f-pii-requested").should("have.value", "2000-11-15");
         });
     });
-})
+});

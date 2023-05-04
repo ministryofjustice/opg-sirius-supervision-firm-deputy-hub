@@ -20,8 +20,8 @@ describe("Manage PII Details", () => {
             cy.get(".govuk-error-summary").should(
                 "contain",
                 "The PII expiry date is required and can't be empty"
-            ); 
-            
+            );
+
             cy.get(".govuk-error-summary").should(
                 "contain",
                 "The PII received date is required and can't be empty"
@@ -34,20 +34,11 @@ describe("Manage PII Details", () => {
         });
 
         it("will autofill the form fields", () => {
-            cy.get("#f-pii-received").should(
-                "have.value",
-                "2000-12-20"
-            );
+            cy.get("#f-pii-received").should("have.value", "2000-12-20");
 
-            cy.get("#f-pii-expiry").should(
-                "have.value",
-                "2020-12-01"
-            );
+            cy.get("#f-pii-expiry").should("have.value", "2020-12-01");
 
-            cy.get("#f-pii-amount").should(
-                "have.value",
-                "1000"
-            );
+            cy.get("#f-pii-amount").should("have.value", "1000");
         });
     });
-})
+});

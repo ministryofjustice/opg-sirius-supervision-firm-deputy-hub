@@ -16,7 +16,6 @@ FROM node:19.6.0-alpine3.16 as asset-env
 WORKDIR /app
 
 COPY web/assets web/assets
-COPY webpack.config.js .
 COPY package.json .
 COPY yarn.lock .
 
