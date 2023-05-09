@@ -99,20 +99,30 @@ describe("Firm Deputy Hub", () => {
 
     describe("Firm PII Details Body", () => {
         it("should show the PII expiry date", () => {
-            cy.get(':nth-child(3) > .govuk-summary-list > :nth-child(1) > .govuk-summary-list__value').should("contain", "20/12/2000");
-            cy.get(':nth-child(3) > .govuk-summary-list > :nth-child(2) > .govuk-summary-list__value').should("contain", "01/12/2020");
-            cy.get(':nth-child(3) > .govuk-summary-list > :nth-child(3) > .govuk-summary-list__value').should("contain", "1,000");
-            cy.get(':nth-child(3) > .govuk-summary-list > :nth-child(4) > .govuk-summary-list__value').should("contain", "15/11/2000");
+            cy.get(
+                ":nth-child(3) > .govuk-summary-list > :nth-child(1) > .govuk-summary-list__value"
+            ).should("contain", "20/12/2000");
+            cy.get(
+                ":nth-child(3) > .govuk-summary-list > :nth-child(2) > .govuk-summary-list__value"
+            ).should("contain", "01/12/2020");
+            cy.get(
+                ":nth-child(3) > .govuk-summary-list > :nth-child(3) > .govuk-summary-list__value"
+            ).should("contain", "1,000");
+            cy.get(
+                ":nth-child(3) > .govuk-summary-list > :nth-child(4) > .govuk-summary-list__value"
+            ).should("contain", "15/11/2000");
         });
     });
 
     describe("Navigation", () => {
         it("should navigate to the 'Manage PIIS contact details' page", () => {
             cy.get("[data-cy=manage-pii-details-btn]").click();
-            cy.contains(".govuk-heading-l", "Manage professional indemnity insurance");
+            cy.contains(
+                ".govuk-heading-l",
+                "Manage professional indemnity insurance"
+            );
         });
     });
-
 
     describe("Footer", () => {
         it("the footer should contain a link to the open government licence", () => {
