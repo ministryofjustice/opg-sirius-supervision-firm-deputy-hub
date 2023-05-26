@@ -70,3 +70,24 @@ main {
 .govuk-form-group {
   max-width: 40em;
 }
+
+span.rag {
+  font-weight: bold;
+  &.green {
+    color: #28a197 !important;
+  }
+  &.amber {
+    color: #f47738 !important;
+  }
+  &.red {
+    color: #d4351c !important;
+  }
+}
+
+span.secondary {
+  display: block;
+  color: #505a5f;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+}
