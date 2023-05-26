@@ -26,6 +26,9 @@
                         Active clients
                     </th>
                     <th scope="col" class="govuk-table__header">
+                        Assurance visit
+                    </th>
+                    <th scope="col" class="govuk-table__header">
                         ECM
                     </th>
                 </tr>
@@ -55,6 +58,14 @@
                         </td>
                         <td class="govuk-table__cell">
                            {{ .ActiveClientsCount }}
+                        </td>
+                        <td class="govuk-table__cell visit_type nowrap">
+                            {{ if and .ReviewDate .MarkedAsLabel }}
+                                {{ .ReviewDate }}
+                                <span class="secondary rag {{ .MarkedAsClass }}">{{ .MarkedAsLabel }}</span>
+                            {{ else }}
+                                - 
+                            {{ end }}
                         </td>
                         <td class="govuk-table__cell">
                             {{ if .ExecutiveCaseManager }}

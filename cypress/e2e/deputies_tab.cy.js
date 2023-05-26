@@ -23,9 +23,15 @@ describe("Deputies Tab", () => {
             );
         });
 
-        it("shows a dash if no ECM", () => {
+        it("shows a dash if no assurance visit", () => {
             cy.get(
                 ".govuk-table__body > :nth-child(2) > :nth-child(5)"
+            ).contains("-");
+        });
+
+        it("shows a dash if no ECM", () => {
+            cy.get(
+                ".govuk-table__body > :nth-child(2) > :nth-child(6)"
             ).contains("-");
         });
 

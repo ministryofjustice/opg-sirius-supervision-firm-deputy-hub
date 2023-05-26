@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
+	"strings"
 )
 
 type orderStatus struct {
@@ -26,6 +27,12 @@ type orders struct {
 	Order order `json:"order"`
 }
 
+type assuranceVisit struct {
+	ReportReviewDate     string  `json:"reportReviewDate"`
+	VisitReportMarkedAs  RefData `json:"assuranceVisitReportMarkedAs"` 
+	AssuranceType        RefData `json:"assuranceType"`  
+}
+
 type executiveCaseManager struct {
 	EcmId   int    `json:"id"`
 	EcmName string `json:"displayName"`
@@ -40,6 +47,7 @@ type Deputies struct {
 	ExecutiveCaseManager executiveCaseManager `json:"executiveCaseManager"`
 	OrganisationName     string               `json:"organisationName"`
 	Town                 string               `json:"town"`
+	AssuranceVisit       assuranceVisit       `json:"mostRecentlyCompletedAssuranceVisit"`
 }
 
 type FirmDeputy struct {
@@ -50,7 +58,18 @@ type FirmDeputy struct {
 	ActiveClientsCount   int
 	ExecutiveCaseManager string
 	OrganisationName     string
-	Town                 string
+	Town                 string  
+	ReviewDate           string
+	MarkedAsLabel        string
+	MarkedAsClass        string
+	AssuranceType        string
+}
+
+
+
+type RefData struct {
+	Handle string `json:"handle"`
+	Label  string `json:"label"`
 }
 
 func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) {
@@ -65,7 +84,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 	}
 
 	defer resp.Body.Close()
-
+	
 	if resp.StatusCode == http.StatusUnauthorized {
 		return nil, ErrUnauthorized
 	}
@@ -91,6 +110,10 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 			ExecutiveCaseManager: t.ExecutiveCaseManager.EcmName,
 			OrganisationName:     t.OrganisationName,
 			Town:                 t.Town,
+			AssuranceType:        t.AssuranceVisit.AssuranceType.Label,
+			MarkedAsLabel:        t.AssuranceVisit.VisitReportMarkedAs.Label,
+			MarkedAsClass:        strings.ToLower(t.AssuranceVisit.VisitReportMarkedAs.Label),
+			ReviewDate:           FormatDateAndTime(DateTimeFormat, t.AssuranceVisit.ReportReviewDate, DateTimeDisplayFormat),
 		}
 
 		deputies = append(deputies, deputy)
