@@ -102,7 +102,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			ActiveClientsCount:   1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "pro dept",
-			ReviewDate: "05/26/2023",
+			ReviewDate: "26/05/2023",
 			MarkedAsLabel: "Green",
 			MarkedAsClass: "green",
 			AssuranceType: "Visit",
