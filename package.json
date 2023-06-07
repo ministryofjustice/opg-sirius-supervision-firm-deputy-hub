@@ -23,6 +23,7 @@
         "test-sirius": "cd internal/sirius && go test",
         "test-server": "cd internal/server && go test",
         "cypress": "cypress open",
+        "cypress-m1": "export CYPRESS_BASE_URL=http://localhost:8888; cypress open",
         "fmt": "prettier --write ."
     },
     "resolutions": {
