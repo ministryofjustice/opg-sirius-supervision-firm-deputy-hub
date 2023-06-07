@@ -15,9 +15,73 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 	mockClient := &mocks.MockClient{}
 	client, _ := NewClient(mockClient, "http://localhost:3000")
 
-	json := `[
-		{"id":76,"orders":[{"order":{"id":63,"client":{"id":74,"firstname":"Louis","surname":"Dauphin"},"orderStatus":{"handle":"ACTIVE","label":"Active"}}}],"deputyNumber":21,"organisationName":"pro dept","executiveCaseManager":{"id":94,"displayName":"PROTeam1 User1"},"firm":{"id":1}},
-		{"id":77, "firstName":"Louis", "surname":"Devito", "orders":[{"order":{"id":49,"client":{"id":99,"firstname":"Bob","surname":"Mortimer"},"orderStatus":{"handle":"ACTIVE","label":"Active"}}}],"deputyNumber":25,"organisationName":"","executiveCaseManager":{"id":94,"displayName":"PROTeam1 User1"},"firm":{"id":1}}
+	json := `[{
+			"id":76,
+			"orders":[
+				{
+					"order":{
+						"id":63,
+						"client":{
+							"id":74,
+							"firstname":"Louis",
+							"surname":"Dauphin"
+						},
+						"orderStatus":{
+							"handle":"ACTIVE",
+							"label":"Active"
+						}
+					}
+				}
+			],
+			"deputyNumber":21,
+			"organisationName":"pro dept",
+			"executiveCaseManager":{
+				"id":94,
+				"displayName":"PROTeam1 User1"
+			},
+			"firm":{
+				"id":1
+			},
+			"mostRecentlyCompletedAssuranceVisit": {
+				"reportReviewDate" : "2023-05-26T00:00:00+00:00",
+				"assuranceVisitReportMarkedAs": {
+					"handle": "GREEN",
+					"label": "Green"
+				},
+				"assuranceType": {
+					"handle": "VISIT",
+					"label": "Visit"
+				}
+			}
+			
+		},
+		{
+			"id":77, 
+			"firstName":"Louis", 
+			"surname":"Devito", 
+			"orders":[
+				{
+					"order":{
+						"id":49,
+						"client":{
+							"id":99,
+							"firstname":"Bob",
+							"surname":"Mortimer"
+						},
+						"orderStatus":{
+							"handle":"ACTIVE",
+							"label":"Active"
+						}
+					}
+				}
+			],
+			"deputyNumber":25,
+			"organisationName":"",
+			"executiveCaseManager":{"id":94,"displayName":"PROTeam1 User1"},
+			"firm":{
+				"id":1
+			}
+		}
 	]`
 
 	r := io.NopCloser(bytes.NewReader([]byte(json)))
@@ -38,6 +102,10 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			ActiveClientsCount:   1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "pro dept",
+			ReviewDate: "26/05/2023",
+			MarkedAsLabel: "Green",
+			MarkedAsClass: "green",
+			AssuranceType: "Visit",
 		},
 		{
 			Firstname:            "Louis",
