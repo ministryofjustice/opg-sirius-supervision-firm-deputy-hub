@@ -194,7 +194,18 @@
             "deputySubType": {
                 "handle": "PERSON",
                 "label": "Person"
-            }
+            },
+            "mostRecentlyCompletedAssuranceVisit": {
+				"reportReviewDate" : "2023-05-26T00:00:00+00:00",
+				"assuranceVisitReportMarkedAs": {
+					"handle": "GREEN",
+					"label": "Green"
+				},
+				"assuranceType": {
+					"handle": "VISIT",
+					"label": "Visit"
+				}
+			}
         },
         {
             "id": 86,
