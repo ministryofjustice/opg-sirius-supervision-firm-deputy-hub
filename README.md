@@ -43,6 +43,14 @@ there are assets missing) as the developer version of the docker compose file do
 
 ---
 
+## Run Cypress tests for M1 chipset
+
+`docker-compose -f docker/docker-compose.ci.yml up -d --build `
+
+`yarn cypress-m1 `
+
+---
+
 ## Run the unit/functional tests
 
 test sirius files: `yarn run test-sirius`
