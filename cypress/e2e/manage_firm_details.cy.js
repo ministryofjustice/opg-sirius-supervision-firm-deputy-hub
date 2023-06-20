@@ -14,12 +14,12 @@ describe("Manage Firm Details", () => {
             cy.get("#manage-firm-title").should("be.visible");
         });
 
-        // it("has a cancel link which returns to the main firms page", () => {
-        //     cy.visit("/supervision/deputies/firm/1/manage-firm-details");
-        //     cy.get(".govuk-link").should("contain", "Cancel").click();
-        //     cy.url().should("not.include", "firm/1/manage-firm-details");
-        //     cy.get(".govuk-heading-l").should("contain", "Firm details");
-        // });
+        it("has a cancel link which returns to the main firms page", () => {
+            cy.visit("/supervision/deputies/firm/1/manage-firm-details");
+            cy.get(".govuk-link").should("contain", "Cancel").click();
+            cy.url().should("not.include", "firm/1/manage-firm-details");
+            cy.get(".govuk-heading-l").should("contain", "Firm details");
+        });
     });
 
     describe("Edit Firm Details Form", () => {
