@@ -7,22 +7,23 @@ describe("Firm Deputy Hub", () => {
 
     describe("Header", () => {
         it("shows opg sirius within banner", () => {
-            cy.contains(".moj-header__link", "OPG");
-            cy.contains(".moj-header__link", "Sirius");
+            cy.contains(".moj-header__link", "Sirius - Supervision");
         });
 
-        const expected = ["Workflow", "Supervision", "LPA", "Admin", "Logout"];
+        const expectedTitle = ["Power of Attorney", "Supervision", "Admin", "Sign out"];
+        const expectedUrl = ["/lpa", "/Supervision", "/Admin", "/Logout"];
+
 
         it("has working nav links within header banner", () => {
             cy.get(".moj-header__navigation-list")
                 .children()
                 .each(($el, index) => {
-                    cy.wrap($el).should("contain", expected[index]);
-                    const $linkName = expected[index].toLowerCase();
+                    cy.wrap($el).should("contain", expectedTitle[index]);
+                    const $expectedLinkName = expectedUrl[index].toLowerCase();
                     cy.wrap($el)
                         .find("a")
                         .should("have.attr", "href")
-                        .and("contain", `/${$linkName}`);
+                        .and("contain", `${$expectedLinkName}`);
                 });
         });
     });
