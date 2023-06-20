@@ -3,65 +3,6 @@
 {{ define "main" }}
 
     <div class="main">
-        {{ template "error-summary" .Errors }}
-        {{ template "firm-details" . }}
-
-        <div class="govuk-grid-row govuk-!-margin-top-5">
-            <div class="govuk-grid-column-full">
-                <header>
-                    <h1 class="govuk-heading-l  govuk-!-margin-bottom-1">
-                        Change Executive Case Manager
-                    </h1>
-                </header>
-
-                <div class="govuk-grid-row">
-                    <form
-                        id="change-ecm-form"
-                        class="change-ecm govuk-grid-column-one-half"
-                        method="post">
-                        <input
-                            type="hidden"
-                            name="xsrfToken"
-                            value="{{ .XSRFToken }}" />
-
-                        <p
-                            class="govuk-body govuk-!-margin-bottom-5"
-                            for="current-ecm">
-                            Current ECM:
-                            {{ .FirmDetails.ExecutiveCaseManager.DisplayName }}
-                        </p>
-                        <label class="govuk-label" for="select-ecm">
-                            Enter an Executive Case Manager name
-                        </label>
-                        <div
-                            class="autocomplete-wrapper"
-                            id="select-ecm-dropdown">
-                            <select id="select-ecm" name="select-ecm">
-                                <option value=""></option>
-                                 {{ range .EcmTeamDetails }}
-                                    <!-- prettier-ignore -->
-                                    <option value="{{ .Id }}">{{ .DisplayName }}</option>
-                                {{ end }}
-                            </select>
-                        </div>
-
-                        <div class="govuk-button-group govuk-!-margin-top-7">
-                            <button
-                                type="submit"
-                                class="govuk-button"
-                                data-module="govuk-button">
-                                Change ECM
-                            </button>
-
-                            <a
-                                class="govuk-link data-emc-cancel"
-                                href="{{ prefix (printf "/%d" .FirmDetails.ID) }}">
-                                Cancel
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div id="help-me">change this text</div>
     </div>
 {{ end }}
