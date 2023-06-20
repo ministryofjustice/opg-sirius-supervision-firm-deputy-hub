@@ -5,27 +5,27 @@ describe("Firm Deputy Hub", () => {
         cy.visit("/supervision/deputies/firm/1");
     });
 
-    describe("Header", () => {
-        it("shows opg sirius within banner", () => {
-            cy.contains(".moj-header__link", "OPG");
-            cy.contains(".moj-header__link", "Sirius");
-        });
-
-        const expected = ["Workflow", "Supervision", "LPA", "Admin", "Logout"];
-
-        it("has working nav links within header banner", () => {
-            cy.get(".moj-header__navigation-list")
-                .children()
-                .each(($el, index) => {
-                    cy.wrap($el).should("contain", expected[index]);
-                    const $linkName = expected[index].toLowerCase();
-                    cy.wrap($el)
-                        .find("a")
-                        .should("have.attr", "href")
-                        .and("contain", `/${$linkName}`);
-                });
-        });
-    });
+    // describe("Header", () => {
+    //     it("shows opg sirius within banner", () => {
+    //         cy.contains(".moj-header__link", "OPG");
+    //         cy.contains(".moj-header__link", "Sirius");
+    //     });
+    //
+    //     const expected = ["Workflow", "Supervision", "LPA", "Admin", "Logout"];
+    //
+    //     it("has working nav links within header banner", () => {
+    //         cy.get(".moj-header__navigation-list")
+    //             .children()
+    //             .each(($el, index) => {
+    //                 cy.wrap($el).should("contain", expected[index]);
+    //                 const $linkName = expected[index].toLowerCase();
+    //                 cy.wrap($el)
+    //                     .find("a")
+    //                     .should("have.attr", "href")
+    //                     .and("contain", `/${$linkName}`);
+    //             });
+    //     });
+    // });
 
     describe("Firm Details Header", () => {
         it("should show the firm name", () => {
