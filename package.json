@@ -6,7 +6,7 @@
         "@ministryofjustice/frontend": "^1.6.3",
         "accessible-autocomplete": "^2.0.3",
         "govuk-frontend": "^4.3.1",
-        "opg-sirius-header": "ministryofjustice/opg-sirius-header#d65d0e2f23e9c00d790c14038a83706ae68a3e46"
+        "opg-sirius-header": "ministryofjustice/opg-sirius-header"
     },
     "devDependencies": {
         "cypress": "^12.0.0",
