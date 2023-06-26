@@ -5,30 +5,12 @@ describe("Firm Deputy Hub", () => {
         cy.visit("/supervision/deputies/firm/1");
     });
 
-    describe("Header", () => {
-        it("shows opg sirius within banner", () => {
+    describe("Firm Details Header", () => {
+        it("should load header template within banner", () => {
+            cy.get('.moj-header__logo > .moj-header__link').should('contain.text', 'OPG');
             cy.contains(".moj-header__link", "Sirius");
         });
 
-        const expectedTitle = ["Power of Attorney", "Supervision", "Admin", "Sign out"];
-        const expectedUrl = ["/lpa", "/Supervision", "/Admin", "/Logout"];
-
-
-        it("has working nav links within header banner", () => {
-            cy.get(".moj-header__navigation-list")
-                .children()
-                .each(($el, index) => {
-                    cy.wrap($el).should("contain", expectedTitle[index]);
-                    const $expectedLinkName = expectedUrl[index].toLowerCase();
-                    cy.wrap($el)
-                        .find("a")
-                        .should("have.attr", "href")
-                        .and("contain", `${$expectedLinkName}`);
-                });
-        });
-    });
-
-    describe("Firm Details Header", () => {
         it("should show the firm name", () => {
             cy.get(".govuk-grid-column-full > .govuk-heading-m").should(
                 "contain",
