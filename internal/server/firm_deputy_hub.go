@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"html/template"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
@@ -18,7 +19,7 @@ type firmHubVars struct {
 	Error          string
 	Errors         sirius.ValidationErrors
 	FirmDetails    sirius.FirmDetails
-	SuccessMessage string
+	SuccessMessage template.HTML
 }
 
 func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
@@ -43,7 +44,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			Path:           r.URL.Path,
 			XSRFToken:      ctx.XSRFToken,
 			FirmDetails:    firmDetails,
-			SuccessMessage: successMessage,
+			SuccessMessage: template.HTML(successMessage),
 		}
 
 		switch r.Method {
@@ -73,7 +74,7 @@ func createSuccessAndSuccessMessageForVars(url, firmName, ecmName string) string
 		} else if splitString[1] == "requestPiiDetails" {
 			return "PII details requested"
 		} else if splitString[1] == "ecm" {
-			return "Ecm changed to " + ecmName
+			return "<abbr title='Executive Case Manager'>ECM</abbr> changed to " + ecmName
 		}
 
 	}
