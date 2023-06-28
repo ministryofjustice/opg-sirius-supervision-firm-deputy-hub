@@ -15,3 +15,13 @@ $govuk-assets-path: "/supervision/deputies/firm/assets/";
 #request-pii-btn {
   margin-left: 1em;
 }
+
+.moj-header__navigation-link {
+    &[aria-current="page"] {
+        color: govuk-colour("blue") !important;
+        font-weight: bold;
+        a:hover {
+            text-decoration: none !important;
+        }
+    }
+}
