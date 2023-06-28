@@ -48,7 +48,7 @@ describe("Change Ecm", () => {
             cy.url().should("not.include", "firm/1/change-ecm");
             cy.get(".moj-banner").should(
                 "contain",
-                "Ecm changed to LayTeam1 User6"
+                "ECM changed to LayTeam1 User6"
             );
             cy.get(".govuk-heading-l").should("contain", "Firm details");
         });
