@@ -2,6 +2,7 @@ version: "3.6"
 
 services:
   firm-deputy-hub:
+    image: sirius/sirius-firm-deputy-hub:latest
     build:
       context: ..
       dockerfile: ./docker/sirius-firm-deputy-hub/Dockerfile
@@ -24,7 +25,7 @@ services:
       - firm-deputy-hub
       - json-server
     environment:
-      - LHCI_BUILD_CONTEXT__CURRENT_HASH=$GITHUB_SHA
+      - LHCI_BUILD_CONTEXT__CURRENT_HASH=${GITHUB_SHA:-$(git rev-parse HEAD)}
       - LHCI_BUILD_CONTEXT__GITHUB_REPO_SLUG=ministryofjustice/opg-sirius-supervision-firm-deputy-hub
       - LHCI_GITHUB_APP_TOKEN
 
@@ -39,3 +40,18 @@ services:
     depends_on:
       - firm-deputy-hub
       - json-server
+
+  test-runner:
+    build:
+      context: ./docker/test-runner/
+    working_dir: /go/src/app
+    volumes:
+      - ../:/go/src/app
+
+  go-lint:
+    image: golangci/golangci-lint:v1.53.3
+    working_dir: /go/src/app
+    volumes:
+      - ../:/go/src/app
+      - ../.cache/golangci-lint/v1.53.3:/root/.cache
+    command: golangci-lint run -v --timeout 5m

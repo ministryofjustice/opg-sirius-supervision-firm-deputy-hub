@@ -19,29 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-      - uses: unfor19/install-aws-cli-action@v1
-
-      - name: Resolve GO mod cache
-        uses: actions/cache@v3
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-      - name: Resolve GO Dependencies
-        run: |
-          go mod download
-      - name: Setup gotestsum
-        uses: autero1/action-gotestsum@v2.0.0
-        with:
-          gotestsum_version: 1.6.4
-
-      - run: mkdir -p -m 0777 test-results
-
       - name: Run Tests
-        run: |
-          gotestsum --junitfile test-results/unit-tests.xml -- ./... -coverprofile=test-results/test-coverage.txt
+        run: make unit-test
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -65,12 +44,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run pa11y
-        run: |
-          docker-compose -f docker/docker-compose.ci.yml run --entrypoint="pa11y-ci" puppeteer
+        run: make pa11y
 
       - name: Run Lighthouse
-        run: |
-          docker-compose -f docker/docker-compose.ci.yml run --entrypoint="lhci autorun" puppeteer
+        run: make lighthouse
 
   cypress:
     name: Cypress
@@ -79,8 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run cypress
-        run: |
-          docker-compose -f docker/docker-compose.ci.yml run cypress
+        run: make cypress
       - name: Store screenshots
         uses: actions/upload-artifact@v3
         if: failure()
@@ -116,8 +92,7 @@ jobs:
       - uses: unfor19/install-aws-cli-action@v1
 
       - name: Build Container
-        run: |
-          docker build --tag sirius/sirius-firm-deputy-hub:latest -f docker/sirius-firm-deputy-hub/Dockerfile .
+        run: make build
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -126,6 +101,8 @@ jobs:
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
+          exit-code: '1'
+          ignore-unfixed: true
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
