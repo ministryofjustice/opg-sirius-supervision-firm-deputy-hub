@@ -16,7 +16,7 @@ The application ran through Docker can be accessed on `localhost:8887/supervisio
 
 To enable debugging and hot-reloading of Go files:
 
-`docker-compose -f docker/docker-compose.dev.yml up --build`
+`docker compose -f docker/docker-compose.dev.yml up --build`
 
 If you are using VSCode, you can then attach a remote debugger on port `2345`. The same is also possible in Goland.
 You will then be able to use breakpoints to stop and inspect the application.
@@ -37,7 +37,7 @@ there are assets missing) as the developer version of the docker compose file do
 
 ## Run Cypress tests
 
-`docker-compose -f docker/docker-compose.dev.yml up -d --build `
+`docker compose -f docker/docker-compose.dev.yml up -d --build `
 
 `yarn && yarn cypress `
 
@@ -45,7 +45,7 @@ there are assets missing) as the developer version of the docker compose file do
 
 ## Run Cypress tests for M1 chipset
 
-`docker-compose -f docker/docker-compose.ci.yml up -d --build `
+`docker compose -f docker/docker-compose.ci.yml up -d --build `
 
 `yarn cypress-m1 `
 

@@ -13,3 +13,6 @@ cypress/videos
 
 # IDEs
 .idea
+
+test-results/**
+.cache
