@@ -111,10 +111,10 @@ type ErrorHandlerClient interface {
 func errorHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			myPermissions, err := client.MyPermissions(getContext(r))
+			perms, err := client.MyPermissions(getContext(r))
 
 			if err == nil {
-				err = next(myPermissions, w, r)
+				err = next(perms, w, r)
 			}
 
 			if err != nil {
