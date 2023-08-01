@@ -21,10 +21,11 @@ type listDeputiesVars struct {
 	Error               string
 	ErrorMessage        string
 	Errors              sirius.ValidationErrors
+	AppVars
 }
 
 func renderTemplateForDeputyTab(client FirmHubDeputyTabInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		if r.Method != http.MethodGet {
 			return StatusError(http.StatusMethodNotAllowed)
 		}
@@ -48,6 +49,7 @@ func renderTemplateForDeputyTab(client FirmHubDeputyTabInformation, tmpl Templat
 			FirmDeputiesDetails: firmDeputiesDetails,
 			FirmDetails:         firmDetails,
 		}
+		vars.AppVars = app
 
 		return tmpl.ExecuteTemplate(w, "page", vars)
 	}

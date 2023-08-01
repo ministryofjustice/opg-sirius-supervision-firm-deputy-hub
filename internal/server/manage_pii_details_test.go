@@ -42,7 +42,7 @@ func TestManagePiiDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForManagePiiDetails(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{}, w, r)
 
 	assert.Nil(err)
 
@@ -67,7 +67,7 @@ func TestPostManagePii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, nil)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForManagePiiDetails(client, nil)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
@@ -104,7 +104,7 @@ func TestErrorManagePii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, template)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForManagePiiDetails(client, template)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

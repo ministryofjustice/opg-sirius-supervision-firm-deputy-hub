@@ -22,10 +22,11 @@ type firmHubManagePiiVars struct {
 	FirmDetails          sirius.FirmDetails
 	ErrorMessage         string
 	AddFirmPiiDetailForm sirius.PiiDetails
+	AppVars
 }
 
 func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
 		routeVars := mux.Vars(r)
@@ -36,15 +37,15 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			return err
 		}
 
+		vars := firmHubManagePiiVars{
+			Path:        r.URL.Path,
+			XSRFToken:   ctx.XSRFToken,
+			FirmDetails: firmDetails,
+		}
+		vars.AppVars = app
+
 		switch r.Method {
 		case http.MethodGet:
-
-			vars := firmHubManagePiiVars{
-				Path:        r.URL.Path,
-				XSRFToken:   ctx.XSRFToken,
-				FirmDetails: firmDetails,
-			}
-
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
@@ -65,13 +66,8 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			err = client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				vars := firmHubManagePiiVars{
-					Path:                 r.URL.Path,
-					XSRFToken:            ctx.XSRFToken,
-					Errors:               verr.Errors,
-					FirmDetails:          firmDetails,
-					AddFirmPiiDetailForm: addFirmPiiDetailForm,
-				}
+				vars.Errors = verr.Errors
+				vars.AddFirmPiiDetailForm = addFirmPiiDetailForm
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 

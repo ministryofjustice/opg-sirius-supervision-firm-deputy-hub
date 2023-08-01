@@ -25,7 +25,7 @@ type firmHubRequestPiiVars struct {
 }
 
 func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
 		routeVars := mux.Vars(r)

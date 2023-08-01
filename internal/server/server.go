@@ -95,7 +95,11 @@ func (e StatusError) Code() int {
 	return int(e)
 }
 
-type Handler func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error
+type AppVars struct {
+	user sirius.Assignee
+}
+
+type Handler func(app AppVars, w http.ResponseWriter, r *http.Request) error
 
 type errorVars struct {
 	SiriusURL string
@@ -105,16 +109,16 @@ type errorVars struct {
 }
 
 type ErrorHandlerClient interface {
-	MyPermissions(sirius.Context) (sirius.PermissionSet, error)
+	GetUserDetails(sirius.Context) (sirius.Assignee, error)
 }
 
 func errorHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			myPermissions, err := client.MyPermissions(getContext(r))
+			user, err := client.GetUserDetails(getContext(r))
 
 			if err == nil {
-				err = next(myPermissions, w, r)
+				err = next(AppVars{user}, w, r)
 			}
 
 			if err != nil {

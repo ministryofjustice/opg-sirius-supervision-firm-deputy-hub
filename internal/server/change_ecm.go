@@ -22,10 +22,11 @@ type changeECMHubVars struct {
 	EcmTeamDetails []sirius.Member
 	Error          string
 	Errors         sirius.ValidationErrors
+	AppVars
 }
 
 func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
 		routeVars := mux.Vars(r)
@@ -41,26 +42,19 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 			return err
 		}
 
+		vars := changeECMHubVars{
+			Path:           r.URL.Path,
+			XSRFToken:      ctx.XSRFToken,
+			FirmDetails:    firmDetails,
+			EcmTeamDetails: ecmTeamDetails,
+		}
+		vars.AppVars = app
+
 		switch r.Method {
 		case http.MethodGet:
-			vars := changeECMHubVars{
-				Path:           r.URL.Path,
-				XSRFToken:      ctx.XSRFToken,
-				FirmDetails:    firmDetails,
-				EcmTeamDetails: ecmTeamDetails,
-			}
-
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
-
-			vars := changeECMHubVars{
-				Path:           r.URL.Path,
-				XSRFToken:      ctx.XSRFToken,
-				FirmDetails:    firmDetails,
-				EcmTeamDetails: ecmTeamDetails,
-			}
-
 			EcmIdStringValue := r.PostFormValue("select-ecm")
 
 			if EcmIdStringValue == "" {

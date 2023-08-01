@@ -1,10 +1,10 @@
 package server
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
-	"html/template"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
@@ -20,10 +20,11 @@ type firmHubVars struct {
 	Errors         sirius.ValidationErrors
 	FirmDetails    sirius.FirmDetails
 	SuccessMessage template.HTML
+	AppVars
 }
 
 func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		if r.Method != http.MethodGet {
 			return StatusError(http.StatusMethodNotAllowed)
 		}
@@ -46,6 +47,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			FirmDetails:    firmDetails,
 			SuccessMessage: template.HTML(successMessage),
 		}
+		vars.AppVars = app
 
 		switch r.Method {
 		case http.MethodGet:

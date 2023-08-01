@@ -42,7 +42,7 @@ func TestManageFirmDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForManageFirmDetails(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{}, w, r)
 
 	assert.Nil(err)
 
@@ -67,7 +67,7 @@ func TestPostManageFirm(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManageFirmDetails(client, nil)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
