@@ -15,10 +15,6 @@ type ManagePiiDetailsInformation interface {
 }
 
 type firmHubManagePiiVars struct {
-	Path                 string
-	XSRFToken            string
-	Error                string
-	Errors               sirius.ValidationErrors
 	FirmDetails          sirius.FirmDetails
 	ErrorMessage         string
 	AddFirmPiiDetailForm sirius.PiiDetails
@@ -38,8 +34,6 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 		}
 
 		vars := firmHubManagePiiVars{
-			Path:        r.URL.Path,
-			XSRFToken:   ctx.XSRFToken,
 			FirmDetails: firmDetails,
 		}
 		vars.AppVars = app

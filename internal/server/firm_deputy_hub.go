@@ -14,10 +14,6 @@ type FirmHubInformation interface {
 }
 
 type firmHubVars struct {
-	Path           string
-	XSRFToken      string
-	Error          string
-	Errors         sirius.ValidationErrors
 	FirmDetails    sirius.FirmDetails
 	SuccessMessage template.HTML
 	AppVars
@@ -42,8 +38,6 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName, firmDetails.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
-			Path:           r.URL.Path,
-			XSRFToken:      ctx.XSRFToken,
 			FirmDetails:    firmDetails,
 			SuccessMessage: template.HTML(successMessage),
 		}

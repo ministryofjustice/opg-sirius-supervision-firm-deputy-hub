@@ -15,10 +15,6 @@ type ManageFirmDetailsInformation interface {
 }
 
 type firmHubManageFirmVars struct {
-	Path                string
-	XSRFToken           string
-	Error               string
-	Errors              sirius.ValidationErrors
 	FirmDetails         sirius.FirmDetails
 	ErrorMessage        string
 	EditFirmDetailsForm sirius.FirmDetails
@@ -38,8 +34,6 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 		}
 
 		vars := firmHubManageFirmVars{
-			Path:        r.URL.Path,
-			XSRFToken:   ctx.XSRFToken,
 			FirmDetails: firmDetails,
 		}
 		vars.AppVars = app

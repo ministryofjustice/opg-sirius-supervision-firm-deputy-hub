@@ -14,13 +14,9 @@ type FirmHubDeputyTabInformation interface {
 }
 
 type listDeputiesVars struct {
-	Path                string
-	XSRFToken           string
 	FirmDeputiesDetails []sirius.FirmDeputy
 	FirmDetails         sirius.FirmDetails
-	Error               string
 	ErrorMessage        string
-	Errors              sirius.ValidationErrors
 	AppVars
 }
 
@@ -44,8 +40,6 @@ func renderTemplateForDeputyTab(client FirmHubDeputyTabInformation, tmpl Templat
 		}
 
 		vars := listDeputiesVars{
-			Path:                r.URL.Path,
-			XSRFToken:           ctx.XSRFToken,
 			FirmDeputiesDetails: firmDeputiesDetails,
 			FirmDetails:         firmDetails,
 		}

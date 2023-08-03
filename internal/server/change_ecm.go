@@ -16,12 +16,8 @@ type ChangeECMInformation interface {
 }
 
 type changeECMHubVars struct {
-	Path           string
-	XSRFToken      string
 	FirmDetails    sirius.FirmDetails
 	EcmTeamDetails []sirius.Member
-	Error          string
-	Errors         sirius.ValidationErrors
 	AppVars
 }
 
@@ -43,8 +39,6 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 		}
 
 		vars := changeECMHubVars{
-			Path:           r.URL.Path,
-			XSRFToken:      ctx.XSRFToken,
 			FirmDetails:    firmDetails,
 			EcmTeamDetails: ecmTeamDetails,
 		}

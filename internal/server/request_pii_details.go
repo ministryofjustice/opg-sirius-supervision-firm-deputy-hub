@@ -15,18 +15,14 @@ type RequestPiiDetailsInformation interface {
 }
 
 type firmHubRequestPiiVars struct {
-	Path                  string
-	XSRFToken             string
-	Error                 string
-	Errors                sirius.ValidationErrors
 	FirmDetails           sirius.FirmDetails
 	ErrorMessage          string
 	RequestPiiDetailsForm sirius.PiiDetailsRequest
+	AppVars
 }
 
 func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmpl Template) Handler {
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
-
 		ctx := getContext(r)
 		routeVars := mux.Vars(r)
 		firmId, _ := strconv.Atoi(routeVars["id"])
@@ -36,15 +32,12 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 			return err
 		}
 
+		vars := firmHubRequestPiiVars{
+			FirmDetails: firmDetails,
+		}
+
 		switch r.Method {
 		case http.MethodGet:
-
-			vars := firmHubRequestPiiVars{
-				Path:        r.URL.Path,
-				XSRFToken:   ctx.XSRFToken,
-				FirmDetails: firmDetails,
-			}
-
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
@@ -57,13 +50,8 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 			err = client.RequestPiiCertificate(ctx, requestPiiDetailsForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				vars := firmHubRequestPiiVars{
-					Path:                  r.URL.Path,
-					XSRFToken:             ctx.XSRFToken,
-					Errors:                verr.Errors,
-					FirmDetails:           firmDetails,
-					RequestPiiDetailsForm: requestPiiDetailsForm,
-				}
+				vars.Errors = verr.Errors
+				vars.RequestPiiDetailsForm = requestPiiDetailsForm
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
