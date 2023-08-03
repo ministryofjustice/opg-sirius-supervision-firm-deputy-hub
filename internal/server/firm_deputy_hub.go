@@ -3,18 +3,13 @@ package server
 import (
 	"html/template"
 	"net/http"
-	"strconv"
 	"strings"
-
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
 type FirmHubInformation interface {
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type firmHubVars struct {
-	FirmDetails    sirius.FirmDetails
 	SuccessMessage template.HTML
 	AppVars
 }
@@ -25,23 +20,12 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 
-		ctx := getContext(r)
-		url := r.URL.Path
-		idFromParams := strings.Trim(url, "/")
-
-		firmId, _ := strconv.Atoi(idFromParams)
-		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil {
-			return err
-		}
-
-		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName, firmDetails.ExecutiveCaseManager.DisplayName)
+		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), app.Firm.FirmName, app.Firm.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
-			FirmDetails:    firmDetails,
 			SuccessMessage: template.HTML(successMessage),
+			AppVars:        app,
 		}
-		vars.AppVars = app
 
 		switch r.Method {
 		case http.MethodGet:

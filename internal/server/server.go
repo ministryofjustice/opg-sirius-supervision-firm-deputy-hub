@@ -2,10 +2,12 @@ package server
 
 import (
 	"fmt"
+	"golang.org/x/sync/errgroup"
 	"html/template"
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/gorilla/mux"
 
@@ -29,7 +31,7 @@ type Template interface {
 }
 
 func New(logger *logging.Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
-	wrap := errorHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
+	wrap := wrapHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/health-check", healthCheck())
@@ -98,7 +100,8 @@ func (e StatusError) Code() int {
 type AppVars struct {
 	Path      string
 	XSRFToken string
-	user      sirius.Assignee
+	User      sirius.Assignee
+	Firm      sirius.FirmDetails
 	Error     string
 	Errors    sirius.ValidationErrors
 }
@@ -114,22 +117,43 @@ type errorVars struct {
 
 type ErrorHandlerClient interface {
 	GetUserDetails(sirius.Context) (sirius.Assignee, error)
+	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
-func errorHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
+func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ctx := getContext(r)
 
-			user, err := client.GetUserDetails(ctx)
+			group, groupCtx := errgroup.WithContext(ctx.Context)
+
+			vars := AppVars{
+				Path:      r.URL.Path,
+				XSRFToken: ctx.XSRFToken,
+			}
+
+			group.Go(func() error {
+				user, err := client.GetUserDetails(ctx.With(groupCtx))
+				if err != nil {
+					return err
+				}
+				vars.User = user
+				return nil
+			})
+			group.Go(func() error {
+				firmId, _ := strconv.Atoi(mux.Vars(r)["id"])
+				firm, err := client.GetFirmDetails(ctx.With(groupCtx), firmId)
+				if err != nil {
+					return err
+				}
+				vars.Firm = firm
+				return nil
+			})
+
+			err := group.Wait()
 
 			if err == nil {
-				appVars := AppVars{
-					Path:      r.URL.Path,
-					XSRFToken: ctx.XSRFToken,
-					user:      user,
-				}
-				err = next(appVars, w, r)
+				err = next(vars, w, r)
 			}
 
 			if err != nil {

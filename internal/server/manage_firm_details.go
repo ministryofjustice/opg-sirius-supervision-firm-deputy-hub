@@ -2,20 +2,15 @@ package server
 
 import (
 	"fmt"
-	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
+	"net/http"
 )
 
 type ManageFirmDetailsInformation interface {
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 	ManageFirmDetails(sirius.Context, sirius.FirmDetails) error
 }
 
 type firmHubManageFirmVars struct {
-	FirmDetails         sirius.FirmDetails
 	ErrorMessage        string
 	EditFirmDetailsForm sirius.FirmDetails
 	AppVars
@@ -25,18 +20,10 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
-		routeVars := mux.Vars(r)
-		firmId, _ := strconv.Atoi(routeVars["id"])
-
-		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil {
-			return err
-		}
 
 		vars := firmHubManageFirmVars{
-			FirmDetails: firmDetails,
+			AppVars: app,
 		}
-		vars.AppVars = app
 
 		switch r.Method {
 		case http.MethodGet:
@@ -44,7 +31,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 
 		case http.MethodPost:
 			editFirmDetailsForm := sirius.FirmDetails{
-				ID:           firmId,
+				ID:           app.Firm.ID,
 				FirmName:     r.PostFormValue("firm-name"),
 				Email:        r.PostFormValue("email"),
 				PhoneNumber:  r.PostFormValue("telephone"),
@@ -56,7 +43,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 				Postcode:     r.PostFormValue("postcode"),
 			}
 
-			err = client.ManageFirmDetails(ctx, editFirmDetailsForm)
+			err := client.ManageFirmDetails(ctx, editFirmDetailsForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
 				vars.Errors = verr.Errors
@@ -64,7 +51,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=firmDetails", firmId))
+			return Redirect(fmt.Sprintf("/%d?success=firmDetails", app.Firm.ID))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

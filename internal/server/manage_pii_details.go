@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
@@ -15,7 +14,6 @@ type ManagePiiDetailsInformation interface {
 }
 
 type firmHubManagePiiVars struct {
-	FirmDetails          sirius.FirmDetails
 	ErrorMessage         string
 	AddFirmPiiDetailForm sirius.PiiDetails
 	AppVars
@@ -25,18 +23,10 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
-		routeVars := mux.Vars(r)
-		firmId, _ := strconv.Atoi(routeVars["id"])
-
-		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil {
-			return err
-		}
 
 		vars := firmHubManagePiiVars{
-			FirmDetails: firmDetails,
+			AppVars: app,
 		}
-		vars.AppVars = app
 
 		switch r.Method {
 		case http.MethodGet:
@@ -44,7 +34,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 
 		case http.MethodPost:
 			addFirmPiiDetailForm := sirius.PiiDetails{
-				FirmId:      firmId,
+				FirmId:      app.Firm.ID,
 				PiiReceived: r.PostFormValue("pii-received"),
 				PiiExpiry:   r.PostFormValue("pii-expiry"),
 			}
@@ -57,7 +47,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				addFirmPiiDetailForm.PiiAmount = piiAmountFloat
 			}
 
-			err = client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
+			err := client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
 				vars.Errors = verr.Errors
@@ -65,7 +55,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=piiDetails", firmId))
+			return Redirect(fmt.Sprintf("/%d?success=piiDetails", app.Firm.ID))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

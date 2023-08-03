@@ -18,13 +18,6 @@ type mockManageFirmDetailsInformation struct {
 	firmDetails sirius.FirmDetails
 }
 
-func (m *mockManageFirmDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
-}
-
 func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context, firmDetails sirius.FirmDetails) error {
 	m.count += 1
 	m.lastCtx = ctx

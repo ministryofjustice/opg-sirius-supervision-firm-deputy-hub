@@ -1,21 +1,16 @@
 package server
 
 import (
-	"net/http"
-	"strconv"
-
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
+	"net/http"
 )
 
 type FirmHubDeputyTabInformation interface {
 	GetFirmDeputies(sirius.Context, int) ([]sirius.FirmDeputy, error)
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type listDeputiesVars struct {
 	FirmDeputiesDetails []sirius.FirmDeputy
-	FirmDetails         sirius.FirmDetails
 	ErrorMessage        string
 	AppVars
 }
@@ -27,23 +22,16 @@ func renderTemplateForDeputyTab(client FirmHubDeputyTabInformation, tmpl Templat
 		}
 
 		ctx := getContext(r)
-		routeVars := mux.Vars(r)
-		firmId, _ := strconv.Atoi(routeVars["id"])
-		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil {
-			return err
-		}
 
-		firmDeputiesDetails, err := client.GetFirmDeputies(ctx, firmId)
+		firmDeputiesDetails, err := client.GetFirmDeputies(ctx, app.Firm.ID)
 		if err != nil {
 			return err
 		}
 
 		vars := listDeputiesVars{
 			FirmDeputiesDetails: firmDeputiesDetails,
-			FirmDetails:         firmDetails,
+			AppVars:             app,
 		}
-		vars.AppVars = app
 
 		return tmpl.ExecuteTemplate(w, "page", vars)
 	}

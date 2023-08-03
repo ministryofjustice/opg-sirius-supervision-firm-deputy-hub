@@ -16,13 +16,6 @@ type mockFirmHubInformation struct {
 	firmDetails sirius.FirmDetails
 }
 
-func (m *mockFirmHubInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
-}
-
 func TestCanRenderFirmDetailsPage(t *testing.T) {
 	assert := assert.New(t)
 
@@ -39,7 +32,7 @@ func TestCanRenderFirmDetailsPage(t *testing.T) {
 	assert.Equal(getContext(r), client.lastCtx)
 	assert.Equal("page", template.lastName)
 	assert.Equal(firmHubVars{
-		Path: "/supervision/deputies/firm/3",
+		AppVars: AppVars{Path: "/supervision/deputies/firm/3"},
 	}, template.lastVars)
 
 	resp := w.Result()
