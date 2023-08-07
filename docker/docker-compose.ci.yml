@@ -43,10 +43,11 @@ services:
 
   test-runner:
     build:
-      context: ./docker/test-runner/
+      context: ../docker/test-runner/
     working_dir: /go/src/app
     volumes:
       - ../:/go/src/app
+      - ../.gocache:/go/pkg/mod
 
   go-lint:
     image: golangci/golangci-lint:v1.53.3
