@@ -16,3 +16,4 @@ cypress/videos
 
 test-results/**
 .cache
+.gocache
