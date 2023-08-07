@@ -10,10 +10,9 @@ import (
 )
 
 type mockFirmHubInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
+	count   int
+	lastCtx sirius.Context
+	err     error
 }
 
 func TestCanRenderFirmDetailsPage(t *testing.T) {
@@ -26,13 +25,13 @@ func TestCanRenderFirmDetailsPage(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/supervision/deputies/firm/3", nil)
 
 	handler := renderTemplateForFirmHub(client, template)
-	err := handler(AppVars{}, w, r)
+	app := AppVars{Firm: mockFirmDetails}
+	err := handler(app, w, r)
 
 	assert.Nil(err)
-	assert.Equal(getContext(r), client.lastCtx)
 	assert.Equal("page", template.lastName)
 	assert.Equal(firmHubVars{
-		AppVars: AppVars{Path: "/supervision/deputies/firm/3"},
+		AppVars: app,
 	}, template.lastVars)
 
 	resp := w.Result()

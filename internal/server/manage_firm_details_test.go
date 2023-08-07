@@ -42,8 +42,6 @@ func TestManageFirmDetails(t *testing.T) {
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
 
-	assert.Equal(1, client.count)
-
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
 }
@@ -60,7 +58,7 @@ func TestPostManageFirm(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{}, w, r)
+		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{Firm: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

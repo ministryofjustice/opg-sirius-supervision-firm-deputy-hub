@@ -1,15 +1,11 @@
 package server
 
 import (
-	"fmt"
-	"golang.org/x/sync/errgroup"
+	"github.com/gorilla/mux"
 	"html/template"
 	"io"
 	"net/http"
 	"net/url"
-	"strconv"
-
-	"github.com/gorilla/mux"
 
 	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-go-common/securityheaders"
@@ -30,8 +26,8 @@ type Template interface {
 	ExecuteTemplate(io.Writer, string, interface{}) error
 }
 
-func New(logger *logging.Logger, client Client, templates map[string]*template.Template, prefix, siriusPublicURL, webDir string) http.Handler {
-	wrap := wrapHandler(logger, client, templates["error.gotmpl"], prefix, siriusPublicURL)
+func New(logger *logging.Logger, client Client, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
+	wrap := wrapHandler(logger, client, templates["error.gotmpl"], envVars)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/health-check", healthCheck())
@@ -65,136 +61,19 @@ func New(logger *logging.Logger, client Client, templates map[string]*template.T
 		wrap(
 			renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
-	static := staticFileHandler(webDir)
+	static := staticFileHandler(envVars.WebDir)
 	router.PathPrefix("/assets/").Handler(static)
 	router.PathPrefix("/javascript/").Handler(static)
 	router.PathPrefix("/stylesheets/").Handler(static)
 
-	router.NotFoundHandler = notFoundHandler(templates["error.gotmpl"], siriusPublicURL)
+	router.NotFoundHandler = notFoundHandler(templates["error.gotmpl"], envVars.SiriusPublicURL)
 
-	return http.StripPrefix(prefix, securityheaders.Use(router))
-}
-
-type Redirect string
-
-func (e Redirect) Error() string {
-	return "redirect to " + string(e)
-}
-
-func (e Redirect) To() string {
-	return string(e)
-}
-
-type StatusError int
-
-func (e StatusError) Error() string {
-	code := e.Code()
-
-	return fmt.Sprintf("%d %s", code, http.StatusText(code))
-}
-
-func (e StatusError) Code() int {
-	return int(e)
-}
-
-type AppVars struct {
-	Path      string
-	XSRFToken string
-	User      sirius.Assignee
-	Firm      sirius.FirmDetails
-	Error     string
-	Errors    sirius.ValidationErrors
-}
-
-type Handler func(app AppVars, w http.ResponseWriter, r *http.Request) error
-
-type errorVars struct {
-	SiriusURL string
-	Code      int
-	Error     string
-	Errors    bool
-}
-
-type ErrorHandlerClient interface {
-	GetUserDetails(sirius.Context) (sirius.Assignee, error)
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
-}
-
-func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, prefix, siriusURL string) func(next Handler) http.Handler {
-	return func(next Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ctx := getContext(r)
-
-			group, groupCtx := errgroup.WithContext(ctx.Context)
-
-			vars := AppVars{
-				Path:      r.URL.Path,
-				XSRFToken: ctx.XSRFToken,
-			}
-
-			group.Go(func() error {
-				user, err := client.GetUserDetails(ctx.With(groupCtx))
-				if err != nil {
-					return err
-				}
-				vars.User = user
-				return nil
-			})
-			group.Go(func() error {
-				firmId, _ := strconv.Atoi(mux.Vars(r)["id"])
-				firm, err := client.GetFirmDetails(ctx.With(groupCtx), firmId)
-				if err != nil {
-					return err
-				}
-				vars.Firm = firm
-				return nil
-			})
-
-			err := group.Wait()
-
-			if err == nil {
-				err = next(vars, w, r)
-			}
-
-			if err != nil {
-				if err == sirius.ErrUnauthorized {
-					http.Redirect(w, r, siriusURL+"/auth", http.StatusFound)
-					return
-				}
-
-				if redirect, ok := err.(Redirect); ok {
-					http.Redirect(w, r, prefix+redirect.To(), http.StatusFound)
-					return
-				}
-
-				logger.Request(r, err)
-
-				code := http.StatusInternalServerError
-				if status, ok := err.(StatusError); ok {
-					if status.Code() == http.StatusForbidden || status.Code() == http.StatusNotFound {
-						code = status.Code()
-					}
-				}
-
-				w.WriteHeader(code)
-				err = tmplError.ExecuteTemplate(w, "page", errorVars{
-					SiriusURL: siriusURL,
-					Code:      code,
-					Error:     err.Error(),
-				})
-
-				if err != nil {
-					logger.Request(r, err)
-					http.Error(w, err.Error(), http.StatusInternalServerError)
-				}
-			}
-		})
-	}
+	return http.StripPrefix(envVars.Prefix, securityheaders.Use(router))
 }
 
 func notFoundHandler(tmplError Template, siriusURL string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		_ = tmplError.ExecuteTemplate(w, "page", errorVars{
+		_ = tmplError.ExecuteTemplate(w, "page", ErrorVars{
 			SiriusURL: siriusURL,
 			Code:      http.StatusNotFound,
 			Error:     "Not Found",
