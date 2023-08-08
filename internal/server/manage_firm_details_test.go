@@ -12,17 +12,9 @@ import (
 )
 
 type mockManageFirmDetailsInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
-}
-
-func (m *mockManageFirmDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
+	count   int
+	lastCtx sirius.Context
+	err     error
 }
 
 func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context, firmDetails sirius.FirmDetails) error {
@@ -42,14 +34,12 @@ func TestManageFirmDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForManageFirmDetails(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{}, w, r)
 
 	assert.Nil(err)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-
-	assert.Equal(1, client.count)
 
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
@@ -67,7 +57,7 @@ func TestPostManageFirm(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManageFirmDetails(client, nil)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

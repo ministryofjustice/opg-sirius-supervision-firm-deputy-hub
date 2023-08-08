@@ -19,44 +19,42 @@ import (
 func main() {
 	logger := logging.New(os.Stdout, "opg-sirius-firm-deputy-hub ")
 
-	port := getEnv("PORT", "1234")
-	webDir := getEnv("WEB_DIR", "web")
-	siriusURL := getEnv("SIRIUS_URL", "http://localhost:8080")
-	siriusPublicURL := getEnv("SIRIUS_PUBLIC_URL", "")
-	proHubURL := getEnv("PRO_HUB_HOST", "") + "/supervision/deputies"
-	prefix := getEnv("PREFIX", "")
+	envVars, err := server.NewEnvironmentVars()
+	if err != nil {
+		logger.Fatal(err)
+	}
 
 	layouts, _ := template.
 		New("").
 		Funcs(map[string]interface{}{
 			"prefix": func(s string) string {
-				return prefix + s
+				return envVars.Prefix + s
 			},
 			"sirius": func(s string) string {
-				return siriusPublicURL + s
+				return envVars.SiriusPublicURL + s
 			},
 			"prohub": func(s string) string {
-				return proHubURL + s
+				return envVars.ProHubURL + s
 			},
 			"rename_errors": util.RenameErrors,
 		}).
-		ParseGlob(webDir + "/template/*/*.gotmpl")
+		ParseGlob(envVars.WebDir + "/template/*/*.gotmpl")
 
-	files, _ := filepath.Glob(webDir + "/template/*.gotmpl")
+	files, _ := filepath.Glob(envVars.WebDir + "/template/*.gotmpl")
 	tmpls := map[string]*template.Template{}
 
 	for _, file := range files {
 		tmpls[filepath.Base(file)] = template.Must(template.Must(layouts.Clone()).ParseFiles(file))
 	}
 
-	client, err := sirius.NewClient(http.DefaultClient, siriusURL)
+	client, err := sirius.NewClient(http.DefaultClient, envVars.SiriusURL)
 	if err != nil {
 		logger.Fatal(err)
 	}
 
 	server := &http.Server{
-		Addr:    ":" + port,
-		Handler: server.New(logger, client, tmpls, prefix, siriusPublicURL, webDir),
+		Addr:    ":" + envVars.Port,
+		Handler: server.New(logger, client, tmpls, envVars),
 	}
 
 	go func() {
@@ -65,7 +63,7 @@ func main() {
 		}
 	}()
 
-	logger.Print("Running at :" + port)
+	logger.Print("Running at :" + envVars.Port)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
@@ -79,12 +77,4 @@ func main() {
 	if err := server.Shutdown(tc); err != nil {
 		logger.Print(err)
 	}
-}
-
-func getEnv(key, def string) string {
-	if value := os.Getenv(key); value != "" {
-		return value
-	}
-
-	return def
 }

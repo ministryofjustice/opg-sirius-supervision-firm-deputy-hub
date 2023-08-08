@@ -12,10 +12,9 @@ import (
 )
 
 type mockManagePiiDetailsInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
+	count   int
+	lastCtx sirius.Context
+	err     error
 }
 
 func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetails) error {
@@ -23,13 +22,6 @@ func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context,
 	m.lastCtx = ctx
 
 	return m.err
-}
-
-func (m *mockManagePiiDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
 }
 
 func TestManagePiiDetails(t *testing.T) {
@@ -42,14 +34,12 @@ func TestManagePiiDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForManagePiiDetails(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{}, w, r)
 
 	assert.Nil(err)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-
-	assert.Equal(1, client.count)
 
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
@@ -67,7 +57,7 @@ func TestPostManagePii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, nil)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
@@ -104,24 +94,28 @@ func TestErrorManagePii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, template)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForManagePiiDetails(client, template)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
 
-	expectedValidationErrors := sirius.ValidationError{
-		Errors: sirius.ValidationErrors{
-			"piiReceived": {
-				"isEmpty": "The PII received date is required and can't be empty",
-			},
-			"piiExpiry": {
-				"isEmpty": "The PII expiry is required and can't be empty",
-			},
-			"piiAmount": {
-				"isEmpty": "The PII amount is required and can't be empty",
-			},
+	expectedValidationErrors := sirius.ValidationErrors{
+		"piiReceived": {
+			"isEmpty": "The PII received date is required and can't be empty",
+		},
+		"piiExpiry": {
+			"isEmpty": "The PII expiry is required and can't be empty",
+		},
+		"piiAmount": {
+			"isEmpty": "The PII amount is required and can't be empty",
 		},
 	}
 
-	assert.Equal(expectedValidationErrors, returnedError)
+	assert.Equal(firmHubManagePiiVars{
+		AppVars: AppVars{
+			Errors: expectedValidationErrors,
+		},
+	}, template.lastVars)
+
+	assert.Nil(returnedError)
 }

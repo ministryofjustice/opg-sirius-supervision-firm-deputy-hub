@@ -1,50 +1,30 @@
 package server
 
 import (
-	"net/http"
-	"strconv"
-	"strings"
 	"html/template"
-
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
+	"net/http"
+	"strings"
 )
 
 type FirmHubInformation interface {
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type firmHubVars struct {
-	Path           string
-	XSRFToken      string
-	Error          string
-	Errors         sirius.ValidationErrors
-	FirmDetails    sirius.FirmDetails
 	SuccessMessage template.HTML
+	AppVars
 }
 
 func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		if r.Method != http.MethodGet {
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 
-		ctx := getContext(r)
-		url := r.URL.Path
-		idFromParams := strings.Trim(url, "/")
-
-		firmId, _ := strconv.Atoi(idFromParams)
-		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil {
-			return err
-		}
-
-		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), firmDetails.FirmName, firmDetails.ExecutiveCaseManager.DisplayName)
+		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), app.FirmDetails.FirmName, app.FirmDetails.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
-			Path:           r.URL.Path,
-			XSRFToken:      ctx.XSRFToken,
-			FirmDetails:    firmDetails,
 			SuccessMessage: template.HTML(successMessage),
+			AppVars:        app,
 		}
 
 		switch r.Method {

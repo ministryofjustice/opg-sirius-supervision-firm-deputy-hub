@@ -58,6 +58,14 @@ type Context struct {
 	XSRFToken string
 }
 
+func (ctx Context) With(c context.Context) Context {
+	return Context{
+		Context:   c,
+		Cookies:   ctx.Cookies,
+		XSRFToken: ctx.XSRFToken,
+	}
+}
+
 func NewClient(httpClient HTTPClient, baseURL string) (*Client, error) {
 	return &Client{
 		http:    httpClient,

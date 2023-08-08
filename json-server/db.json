@@ -1,14 +1,26 @@
 {
-    "permissions": {
-        "v1-users": {
-            "permissions": ["PUT", "POST", "DELETE"]
-        },
-        "team": {
-            "permissions": ["GET", "POST", "PUT"]
-        },
-        "v1-teams": {
-            "permissions": ["DELETE"]
-        }
+    "users": {
+        "deleted": false,
+        "displayName": "case manager",
+        "email": "case.manager@opgtest.com",
+        "firstname": "case",
+        "id": 65,
+        "locked": false,
+        "name": "case",
+        "phoneNumber": "12345678",
+        "roles": [
+            "Case Manager",
+            "Manager",
+            "Finance Manager"
+        ],
+        "surname": "manager",
+        "suspended": false,
+        "teams": [
+            {
+                "displayName": "Lay Team 1 - (Supervision)",
+                "id": 13
+            }
+        ]
     },
     "firms": {
         "id": 1,
