@@ -15,16 +15,8 @@ type mockChangeECMInformation struct {
 	count             int
 	lastCtx           sirius.Context
 	err               error
-	FirmDetails       sirius.FirmDetails
 	EcmTeamDetails    []sirius.Member
 	EcmTeamApiDetails []sirius.TeamMembers
-}
-
-func (m *mockChangeECMInformation) GetFirmDetails(ctx sirius.Context, deputyId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.FirmDetails, m.err
 }
 
 func (m *mockChangeECMInformation) GetProTeamUsers(ctx sirius.Context) ([]sirius.TeamMembers, []sirius.Member, error) {
@@ -51,20 +43,21 @@ func TestGetChangeECM(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForChangeECM(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	app := AppVars{FirmDetails: mockFirmDetails}
+	err := handler(app, w, r)
 
 	assert.Nil(err)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
 
-	assert.Equal(2, client.count)
+	assert.Equal(1, client.count)
 	assert.Equal(getContext(r), client.lastCtx)
 
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
 	assert.Equal(changeECMHubVars{
-		Path: "/path",
+		AppVars: app,
 	}, template.lastVars)
 }
 
@@ -82,7 +75,7 @@ func TestPostChangeECM(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, template)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForChangeECM(client, template)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
@@ -114,7 +107,7 @@ func TestPostChangeECMReturnsErrorWithNoECM(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, template)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForChangeECM(client, template)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

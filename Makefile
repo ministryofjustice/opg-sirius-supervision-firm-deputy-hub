@@ -1,4 +1,4 @@
-all: go-lint unit-test build scan acceptance-testing cypress
+all: go-lint build-test unit-test build scan acceptance-testing cypress
 
 .PHONY: cypress
 
@@ -15,6 +15,9 @@ unit-test: setup-directories
 
 build:
 	docker compose -f docker/docker-compose.ci.yml build firm-deputy-hub
+
+build-test:
+	docker compose -f docker/docker-compose.ci.yml build test-runner
 
 scan:
 	trivy image sirius/sirius-firm-deputy-hub:latest
