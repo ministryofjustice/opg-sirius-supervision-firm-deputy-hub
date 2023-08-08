@@ -74,7 +74,7 @@ func Test_wrapHandler_successful_request(t *testing.T) {
 	assert.Equal(t, 1, next.Called)
 	assert.Equal(t, "test-url", next.app.Path)
 	assert.Equal(t, mockClient.CurrentUserDetails, next.app.User)
-	assert.Equal(t, mockClient.FirmDetails, next.app.Firm)
+	assert.Equal(t, mockClient.FirmDetails, next.app.FirmDetails)
 	assert.Equal(t, 200, w.Result().StatusCode)
 }
 

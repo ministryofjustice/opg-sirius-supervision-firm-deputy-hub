@@ -35,7 +35,7 @@ type ErrorVars struct {
 	SiriusURL string
 	Code      int
 	Error     string
-	EnvironmentVars
+	AppVars
 }
 
 type ErrorHandlerClient interface {
@@ -48,7 +48,9 @@ func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Te
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			vars, err := NewAppVars(client, r, envVars)
 
+			var errVars ErrorVars
 			if err == nil {
+				errVars.AppVars = *vars
 				err = next(*vars, w, r)
 			}
 
@@ -73,11 +75,9 @@ func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Te
 				}
 
 				w.WriteHeader(code)
-				errVars := ErrorVars{
-					Code:            code,
-					Error:           err.Error(),
-					EnvironmentVars: envVars,
-				}
+				errVars.SiriusURL = envVars.SiriusURL
+				errVars.Code = code
+				errVars.Error = err.Error()
 				err = tmplError.ExecuteTemplate(w, "page", errVars)
 
 				if err != nil {

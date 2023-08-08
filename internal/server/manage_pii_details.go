@@ -10,7 +10,6 @@ import (
 
 type ManagePiiDetailsInformation interface {
 	EditPiiCertificate(sirius.Context, sirius.PiiDetails) error
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type firmHubManagePiiVars struct {
@@ -21,7 +20,6 @@ type firmHubManagePiiVars struct {
 
 func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
-
 		ctx := getContext(r)
 
 		vars := firmHubManagePiiVars{

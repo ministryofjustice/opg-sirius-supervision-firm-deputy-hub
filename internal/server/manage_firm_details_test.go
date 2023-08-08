@@ -12,10 +12,9 @@ import (
 )
 
 type mockManageFirmDetailsInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
+	count   int
+	lastCtx sirius.Context
+	err     error
 }
 
 func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context, firmDetails sirius.FirmDetails) error {
@@ -58,7 +57,7 @@ func TestPostManageFirm(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{Firm: mockFirmDetails}, w, r)
+		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

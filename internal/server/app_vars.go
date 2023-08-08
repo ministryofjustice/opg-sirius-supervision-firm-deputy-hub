@@ -9,17 +9,17 @@ import (
 )
 
 type AppVars struct {
-	Path      string
-	XSRFToken string
-	User      sirius.Assignee
-	Firm      sirius.FirmDetails
-	Error     string
-	Errors    sirius.ValidationErrors
+	Path        string
+	XSRFToken   string
+	User        sirius.Assignee
+	FirmDetails sirius.FirmDetails
+	Error       string
+	Errors      sirius.ValidationErrors
 	EnvironmentVars
 }
 
 func (a AppVars) FirmId() int {
-	return a.Firm.ID
+	return a.FirmDetails.ID
 }
 
 type AppVarsClient interface {
@@ -51,7 +51,7 @@ func NewAppVars(client AppVarsClient, r *http.Request, envVars EnvironmentVars) 
 		if err != nil {
 			return err
 		}
-		vars.Firm = firm
+		vars.FirmDetails = firm
 		return nil
 	})
 

@@ -14,7 +14,6 @@ type mockFirmHubDeputyTabInformation struct {
 	lastCtx             sirius.Context
 	err                 error
 	firmDeputiesDetails []sirius.FirmDeputy
-	firmDetails         sirius.FirmDetails
 }
 
 func (m *mockFirmHubDeputyTabInformation) GetFirmDeputies(ctx sirius.Context, firmId int) ([]sirius.FirmDeputy, error) {

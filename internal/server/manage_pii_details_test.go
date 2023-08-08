@@ -12,10 +12,9 @@ import (
 )
 
 type mockManagePiiDetailsInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
+	count   int
+	lastCtx sirius.Context
+	err     error
 }
 
 func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetails) error {
@@ -23,13 +22,6 @@ func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context,
 	m.lastCtx = ctx
 
 	return m.err
-}
-
-func (m *mockManagePiiDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
 }
 
 func TestManagePiiDetails(t *testing.T) {
@@ -65,7 +57,7 @@ func TestPostManagePii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, nil)(AppVars{Firm: mockFirmDetails}, w, r)
+		returnedError = renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

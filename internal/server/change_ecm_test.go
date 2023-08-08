@@ -15,7 +15,6 @@ type mockChangeECMInformation struct {
 	count             int
 	lastCtx           sirius.Context
 	err               error
-	FirmDetails       sirius.FirmDetails
 	EcmTeamDetails    []sirius.Member
 	EcmTeamApiDetails []sirius.TeamMembers
 }
@@ -44,7 +43,7 @@ func TestGetChangeECM(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForChangeECM(client, template)
-	app := AppVars{Firm: mockFirmDetails}
+	app := AppVars{FirmDetails: mockFirmDetails}
 	err := handler(app, w, r)
 
 	assert.Nil(err)

@@ -46,7 +46,7 @@ func TestNewAppVars(t *testing.T) {
 		Path:            "/path",
 		XSRFToken:       "",
 		User:            mockUserDetails,
-		Firm:            mockFirmDetails,
+		FirmDetails:     mockFirmDetails,
 		Error:           "",
 		Errors:          nil,
 		EnvironmentVars: envVars,

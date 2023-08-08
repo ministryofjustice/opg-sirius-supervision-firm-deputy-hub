@@ -34,7 +34,7 @@ func TestGetRequestPiiDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForRequestPiiDetails(client, template)
-	err := handler(AppVars{Firm: mockFirmDetails}, w, r)
+	err := handler(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
 	assert.Nil(err)
 
@@ -57,7 +57,7 @@ func TestPostRequestPii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, nil)(AppVars{Firm: mockFirmDetails}, w, r)
+		returnedError = renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
