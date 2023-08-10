@@ -72,6 +72,7 @@ func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Te
 				}
 
 				w.WriteHeader(code)
+
 				errVars := ErrorVars{
 					Code:            code,
 					Error:           err.Error(),
