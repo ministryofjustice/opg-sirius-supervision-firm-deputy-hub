@@ -50,7 +50,7 @@ services:
       - ../.gocache:/go/pkg/mod
 
   go-lint:
-    image: golangci/golangci-lint:v1.53.3
+    image: golangci/golangci-lint:v1.54.0
     working_dir: /go/src/app
     volumes:
       - ../:/go/src/app
