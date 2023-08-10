@@ -10,7 +10,6 @@ import (
 
 type ManagePiiDetailsInformation interface {
 	EditPiiCertificate(sirius.Context, sirius.PiiDetails) error
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
 }
 
 type firmHubManagePiiVars struct {
@@ -21,7 +20,6 @@ type firmHubManagePiiVars struct {
 
 func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
-
 		ctx := getContext(r)
 
 		vars := firmHubManagePiiVars{
@@ -34,7 +32,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 
 		case http.MethodPost:
 			addFirmPiiDetailForm := sirius.PiiDetails{
-				FirmId:      app.Firm.ID,
+				FirmId:      app.FirmId(),
 				PiiReceived: r.PostFormValue("pii-received"),
 				PiiExpiry:   r.PostFormValue("pii-expiry"),
 			}
@@ -55,7 +53,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=piiDetails", app.Firm.ID))
+			return Redirect(fmt.Sprintf("/%d?success=piiDetails", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

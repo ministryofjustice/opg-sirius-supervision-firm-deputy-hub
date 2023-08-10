@@ -31,7 +31,7 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 		case http.MethodPost:
 
 			requestPiiDetailsForm := sirius.PiiDetailsRequest{
-				FirmId:       app.Firm.ID,
+				FirmId:       app.FirmId(),
 				PiiRequested: r.PostFormValue("pii-requested"),
 			}
 
@@ -43,7 +43,7 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=requestPiiDetails", app.Firm.ID))
+			return Redirect(fmt.Sprintf("/%d?success=requestPiiDetails", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

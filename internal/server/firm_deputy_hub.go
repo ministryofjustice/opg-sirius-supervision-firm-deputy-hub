@@ -20,7 +20,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 			return StatusError(http.StatusMethodNotAllowed)
 		}
 
-		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), app.Firm.FirmName, app.Firm.ExecutiveCaseManager.DisplayName)
+		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), app.FirmDetails.FirmName, app.FirmDetails.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
 			SuccessMessage: template.HTML(successMessage),

@@ -14,7 +14,6 @@ type mockFirmHubDeputyTabInformation struct {
 	lastCtx             sirius.Context
 	err                 error
 	firmDeputiesDetails []sirius.FirmDeputy
-	firmDetails         sirius.FirmDetails
 }
 
 func (m *mockFirmHubDeputyTabInformation) GetFirmDeputies(ctx sirius.Context, firmId int) ([]sirius.FirmDeputy, error) {
@@ -41,7 +40,7 @@ func TestRenderTemplateForDeputyTab(t *testing.T) {
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
 
-	assert.Equal(2, client.count)
+	assert.Equal(1, client.count)
 
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)

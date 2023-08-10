@@ -3,5 +3,6 @@
     "/firms/:id": "/firms",
     "/firms/:firmId/pii": "/pii-details",
     "/firms/:firmId/deputies": "/deputies",
-    "/teams?type=pro": "/teams"
+    "/teams?type=pro": "/teams",
+    "/users/current": "/users"
 }

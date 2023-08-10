@@ -23,7 +23,7 @@ func renderTemplateForDeputyTab(client FirmHubDeputyTabInformation, tmpl Templat
 
 		ctx := getContext(r)
 
-		firmDeputiesDetails, err := client.GetFirmDeputies(ctx, app.Firm.ID)
+		firmDeputiesDetails, err := client.GetFirmDeputies(ctx, app.FirmId())
 		if err != nil {
 			return err
 		}

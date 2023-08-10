@@ -31,7 +31,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 
 		case http.MethodPost:
 			editFirmDetailsForm := sirius.FirmDetails{
-				ID:           app.Firm.ID,
+				ID:           app.FirmId(),
 				FirmName:     r.PostFormValue("firm-name"),
 				Email:        r.PostFormValue("email"),
 				PhoneNumber:  r.PostFormValue("telephone"),
@@ -51,7 +51,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=firmDetails", app.Firm.ID))
+			return Redirect(fmt.Sprintf("/%d?success=firmDetails", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

@@ -53,7 +53,7 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 
 			changeECMForm := sirius.ExecutiveCaseManagerOutgoing{EcmId: EcmIdValue}
 
-			err = client.ChangeECM(ctx, changeECMForm, app.Firm)
+			err = client.ChangeECM(ctx, changeECMForm, app.FirmDetails)
 
 			if len(vars.Errors) >= 1 {
 				return tmpl.ExecuteTemplate(w, "page", vars)
@@ -64,7 +64,7 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
-			return Redirect(fmt.Sprintf("/%d?success=ecm", app.Firm.ID))
+			return Redirect(fmt.Sprintf("/%d?success=ecm", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

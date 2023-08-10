@@ -5,15 +5,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
 )
 
 type mockFirmHubInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
 }
 
 func TestCanRenderFirmDetailsPage(t *testing.T) {
@@ -26,13 +21,13 @@ func TestCanRenderFirmDetailsPage(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/supervision/deputies/firm/3", nil)
 
 	handler := renderTemplateForFirmHub(client, template)
-	err := handler(AppVars{}, w, r)
+	app := AppVars{FirmDetails: mockFirmDetails}
+	err := handler(app, w, r)
 
 	assert.Nil(err)
-	assert.Equal(getContext(r), client.lastCtx)
 	assert.Equal("page", template.lastName)
 	assert.Equal(firmHubVars{
-		AppVars: AppVars{Path: "/supervision/deputies/firm/3"},
+		AppVars: app,
 	}, template.lastVars)
 
 	resp := w.Result()
