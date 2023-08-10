@@ -25,13 +25,6 @@ func (m *mockRequestPiiDetailsInformation) RequestPiiCertificate(ctx sirius.Cont
 	return m.err
 }
 
-func (m *mockRequestPiiDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
-}
-
 func TestRequestPiiDetails(t *testing.T) {
 	assert := assert.New(t)
 
@@ -42,7 +35,7 @@ func TestRequestPiiDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForRequestPiiDetails(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{}, w, r)
 
 	assert.Nil(err)
 
@@ -67,7 +60,7 @@ func TestPostRequestPii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, nil)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForRequestPiiDetails(client, nil)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
@@ -98,7 +91,7 @@ func TestErrorRequestPii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, template)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForRequestPiiDetails(client, template)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)

@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
@@ -15,41 +14,27 @@ type ManagePiiDetailsInformation interface {
 }
 
 type firmHubManagePiiVars struct {
-	Path                 string
-	XSRFToken            string
-	Error                string
-	Errors               sirius.ValidationErrors
-	FirmDetails          sirius.FirmDetails
 	ErrorMessage         string
 	AddFirmPiiDetailForm sirius.PiiDetails
+	AppVars
 }
 
 func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
-	return func(perm sirius.PermissionSet, w http.ResponseWriter, r *http.Request) error {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 
 		ctx := getContext(r)
-		routeVars := mux.Vars(r)
-		firmId, _ := strconv.Atoi(routeVars["id"])
 
-		firmDetails, err := client.GetFirmDetails(ctx, firmId)
-		if err != nil {
-			return err
+		vars := firmHubManagePiiVars{
+			AppVars: app,
 		}
 
 		switch r.Method {
 		case http.MethodGet:
-
-			vars := firmHubManagePiiVars{
-				Path:        r.URL.Path,
-				XSRFToken:   ctx.XSRFToken,
-				FirmDetails: firmDetails,
-			}
-
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
 			addFirmPiiDetailForm := sirius.PiiDetails{
-				FirmId:      firmId,
+				FirmId:      app.Firm.ID,
 				PiiReceived: r.PostFormValue("pii-received"),
 				PiiExpiry:   r.PostFormValue("pii-expiry"),
 			}
@@ -62,20 +47,15 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				addFirmPiiDetailForm.PiiAmount = piiAmountFloat
 			}
 
-			err = client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
+			err := client.EditPiiCertificate(ctx, addFirmPiiDetailForm)
 
 			if verr, ok := err.(sirius.ValidationError); ok {
-				vars := firmHubManagePiiVars{
-					Path:                 r.URL.Path,
-					XSRFToken:            ctx.XSRFToken,
-					Errors:               verr.Errors,
-					FirmDetails:          firmDetails,
-					AddFirmPiiDetailForm: addFirmPiiDetailForm,
-				}
+				vars.Errors = verr.Errors
+				vars.AddFirmPiiDetailForm = addFirmPiiDetailForm
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=piiDetails", firmId))
+			return Redirect(fmt.Sprintf("/%d?success=piiDetails", app.Firm.ID))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

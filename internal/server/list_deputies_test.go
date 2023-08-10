@@ -24,13 +24,6 @@ func (m *mockFirmHubDeputyTabInformation) GetFirmDeputies(ctx sirius.Context, fi
 	return m.firmDeputiesDetails, m.err
 }
 
-func (m *mockFirmHubDeputyTabInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
-}
-
 func TestRenderTemplateForDeputyTab(t *testing.T) {
 	assert := assert.New(t)
 
@@ -41,7 +34,7 @@ func TestRenderTemplateForDeputyTab(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForDeputyTab(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{}, w, r)
 
 	assert.Nil(err)
 
