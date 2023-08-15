@@ -1,6 +1,7 @@
 package sirius
 
 import (
+	"context"
 	"net/http"
 	"testing"
 
@@ -28,4 +29,12 @@ func TestStatusError(t *testing.T) {
 	assert.Equal(t, "POST /some/url returned 418", err.Error())
 	assert.Equal(t, "unexpected response from Sirius", err.Title())
 	assert.Equal(t, err, err.Data())
+}
+
+func getContext(cookies []*http.Cookie) Context {
+	return Context{
+		Context:   context.Background(),
+		Cookies:   cookies,
+		XSRFToken: "abcde",
+	}
 }

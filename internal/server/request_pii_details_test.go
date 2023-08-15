@@ -12,10 +12,9 @@ import (
 )
 
 type mockRequestPiiDetailsInformation struct {
-	count       int
-	lastCtx     sirius.Context
-	err         error
-	firmDetails sirius.FirmDetails
+	count   int
+	lastCtx sirius.Context
+	err     error
 }
 
 func (m *mockRequestPiiDetailsInformation) RequestPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetailsRequest) error {
@@ -25,14 +24,7 @@ func (m *mockRequestPiiDetailsInformation) RequestPiiCertificate(ctx sirius.Cont
 	return m.err
 }
 
-func (m *mockRequestPiiDetailsInformation) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.firmDetails, m.err
-}
-
-func TestRequestPiiDetails(t *testing.T) {
+func TestGetRequestPiiDetails(t *testing.T) {
 	assert := assert.New(t)
 
 	client := &mockRequestPiiDetailsInformation{}
@@ -42,14 +34,12 @@ func TestRequestPiiDetails(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForRequestPiiDetails(client, template)
-	err := handler(sirius.PermissionSet{}, w, r)
+	err := handler(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
 	assert.Nil(err)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-
-	assert.Equal(1, client.count)
 
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
@@ -67,7 +57,7 @@ func TestPostRequestPii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, nil)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
@@ -98,18 +88,22 @@ func TestErrorRequestPii(t *testing.T) {
 
 	testHandler := mux.NewRouter()
 	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, template)(sirius.PermissionSet{}, w, r)
+		returnedError = renderTemplateForRequestPiiDetails(client, template)(AppVars{}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
 
-	expectedValidationErrors := sirius.ValidationError{
-		Errors: sirius.ValidationErrors{
-			"piiRequested": {
-				"isEmpty": "The PII requested date is required and can't be empty",
-			},
+	expectedValidationErrors := sirius.ValidationErrors{
+		"piiRequested": {
+			"isEmpty": "The PII requested date is required and can't be empty",
 		},
 	}
 
-	assert.Equal(expectedValidationErrors, returnedError)
+	assert.Equal(firmHubRequestPiiVars{
+		AppVars: AppVars{
+			Errors: expectedValidationErrors,
+		},
+	}, template.lastVars)
+
+	assert.Nil(returnedError)
 }
