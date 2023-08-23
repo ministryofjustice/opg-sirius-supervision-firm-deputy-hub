@@ -65,10 +65,11 @@ func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Te
 				logger.Request(r, err)
 
 				code := http.StatusInternalServerError
-				if status, ok := err.(StatusError); ok {
-					if status.Code() == http.StatusForbidden || status.Code() == http.StatusNotFound {
-						code = status.Code()
-					}
+				if serverStatusError, ok := err.(StatusError); ok {
+					code = serverStatusError.Code()
+				}
+				if siriusStatusError, ok := err.(sirius.StatusError); ok {
+					code = siriusStatusError.Code
 				}
 
 				w.WriteHeader(code)
