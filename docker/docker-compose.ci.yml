@@ -19,16 +19,6 @@ services:
     ports:
       - "3000:3000"
 
-  puppeteer:
-    build: ./puppeteer
-    depends_on:
-      - firm-deputy-hub
-      - json-server
-    environment:
-      - LHCI_BUILD_CONTEXT__CURRENT_HASH=${GITHUB_SHA:-$(git rev-parse HEAD)}
-      - LHCI_BUILD_CONTEXT__GITHUB_REPO_SLUG=ministryofjustice/opg-sirius-supervision-firm-deputy-hub
-      - LHCI_GITHUB_APP_TOKEN
-
   cypress:
     build:
       context: ..
