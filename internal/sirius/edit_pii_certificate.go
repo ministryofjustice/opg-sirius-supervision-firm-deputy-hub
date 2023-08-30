@@ -4,21 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 )
 
-type PiiDetails struct {
-	FirmId       int     `json:"firmId"`
-	PiiReceived  string  `json:"piiReceived"`
-	PiiExpiry    string  `json:"piiExpiry"`
-	PiiAmount    float64 `json:"piiAmount,omitempty"`
-	PiiRequested string  `json:"piiRequested"`
-}
-
-func (c *Client) EditPiiCertificate(ctx Context, editPiiData PiiDetails) error {
-	var k PiiDetails
+func (c *Client) EditPiiCertificate(ctx Context, editPiiData model.PiiDetails) error {
+	var k model.PiiDetails
 	var body bytes.Buffer
-	err := json.NewEncoder(&body).Encode(PiiDetails{
+	err := json.NewEncoder(&body).Encode(model.PiiDetails{
 		PiiReceived:  editPiiData.PiiReceived,
 		PiiExpiry:    editPiiData.PiiExpiry,
 		PiiAmount:    editPiiData.PiiAmount,

@@ -2,17 +2,18 @@ package server
 
 import (
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 )
 
 type ManageFirmDetailsInformation interface {
-	ManageFirmDetails(sirius.Context, sirius.FirmDetails) error
+	ManageFirmDetails(sirius.Context, model.FirmDetails) error
 }
 
 type firmHubManageFirmVars struct {
 	ErrorMessage        string
-	EditFirmDetailsForm sirius.FirmDetails
+	EditFirmDetailsForm model.FirmDetails
 	AppVars
 }
 
@@ -30,7 +31,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
-			editFirmDetailsForm := sirius.FirmDetails{
+			editFirmDetailsForm := model.FirmDetails{
 				ID:           app.FirmId(),
 				FirmName:     r.PostFormValue("firm-name"),
 				Email:        r.PostFormValue("email"),

@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -38,7 +39,7 @@ func TestManageFirmDetails(t *testing.T) {
 		}, nil
 	}
 
-	firmDetails := FirmDetails{
+	firmDetails := model.FirmDetails{
 		ID:           1,
 		FirmName:     "good firm inc",
 		Email:        "good@firm.com",
@@ -63,7 +64,7 @@ func TestManageFirmReturnsNewStatusError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	err := client.ManageFirmDetails(getContext(nil), FirmDetails{ID: 1})
+	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{ID: 1})
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
@@ -80,7 +81,7 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	err := client.ManageFirmDetails(getContext(nil), FirmDetails{})
+	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{})
 
 	assert.Equal(t, ErrUnauthorized, err)
 

@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -22,7 +23,6 @@ func TestFirmDetailsReturned(t *testing.T) {
 				"id":77,
 				"personType":"Deputy",
 				"deputyStatus":"Inactive",
-				"orders":[[]],
 				"deputyNumber":22,
 				"organisationName":"pro dept",
 				"deputySubType":[]
@@ -31,7 +31,6 @@ func TestFirmDetailsReturned(t *testing.T) {
 				"id":75,
 				"personType":"Deputy",
 				"deputyStatus":"Active",
-				"orders":[[]],
 				"eveningNumber":"07748933233",
 				"deputyNumber":20,
 				"organisationName":"deputy pro",
@@ -66,7 +65,7 @@ func TestFirmDetailsReturned(t *testing.T) {
 		}, nil
 	}
 
-	expectedResponse := FirmDetails{
+	expectedResponse := model.FirmDetails{
 		ID:           2,
 		FirmName:     "Good Firm Inc",
 		FirmNumber:   100005,
@@ -78,7 +77,7 @@ func TestFirmDetailsReturned(t *testing.T) {
 		Town:         "London",
 		County:       "Buckinghamshire",
 		Postcode:     "BU1 1TF",
-		Deputies: []Deputy{
+		Deputies: []model.Deputies{
 			{
 				DeputyId:         77,
 				DeputyNumber:     22,
@@ -90,7 +89,7 @@ func TestFirmDetailsReturned(t *testing.T) {
 				OrganisationName: "deputy pro",
 			},
 		},
-		ExecutiveCaseManager: ExecutiveCaseManager{
+		ExecutiveCaseManager: model.ExecutiveCaseManager{
 			Id:          71,
 			DisplayName: "LayTeam1 User1",
 		},
@@ -112,7 +111,7 @@ func TestGetFirmReturnsNewStatusError(t *testing.T) {
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 
-	expectedResponse := FirmDetails{}
+	expectedResponse := model.FirmDetails{}
 
 	assert.Equal(t, expectedResponse, firmDetails)
 	assert.Equal(t, StatusError{
@@ -132,7 +131,7 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 
 	firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 
-	expectedResponse := FirmDetails{}
+	expectedResponse := model.FirmDetails{}
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)

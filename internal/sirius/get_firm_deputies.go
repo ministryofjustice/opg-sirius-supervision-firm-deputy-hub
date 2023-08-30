@@ -3,81 +3,13 @@ package sirius
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"sort"
 	"strings"
 )
 
-type orderStatus struct {
-	Handle string `json:"handle"`
-	Label  string `json:"label"`
-}
-
-type client struct {
-	Id int `json:"id"`
-}
-
-type order struct {
-	Id          int         `json:"id"`
-	Client      client      `json:"client"`
-	OrderStatus orderStatus `json:"orderStatus"`
-}
-
-type orders struct {
-	Order order `json:"order"`
-}
-
-type assuranceVisit struct {
-	ReportReviewDate    string  `json:"reportReviewDate"`
-	VisitReportMarkedAs RefData `json:"assuranceVisitReportMarkedAs"`
-	AssuranceType       RefData `json:"assuranceType"`
-}
-
-type executiveCaseManager struct {
-	EcmId   int    `json:"id"`
-	EcmName string `json:"displayName"`
-}
-
-type deputyImportantInformation struct {
-	PanelDeputy bool `json:"panelDeputy"`
-}
-
-type Deputies struct {
-	DeputyId                   int                        `json:"id"`
-	Firstname                  string                     `json:"firstname"`
-	Surname                    string                     `json:"surname"`
-	DeputyNumber               int                        `json:"deputyNumber"`
-	Orders                     []orders                   `json:"orders"`
-	ExecutiveCaseManager       executiveCaseManager       `json:"executiveCaseManager"`
-	OrganisationName           string                     `json:"organisationName"`
-	Town                       string                     `json:"town"`
-	AssuranceVisit             assuranceVisit             `json:"mostRecentlyCompletedAssuranceVisit"`
-	PanelDeputy                bool                       `json:"panel_deputy"`
-	DeputyImportantInformation deputyImportantInformation `json:"deputyImportantInformation"`
-}
-
-type FirmDeputy struct {
-	DeputyId             int
-	Firstname            string
-	Surname              string
-	DeputyNumber         int
-	ActiveClientsCount   int
-	ExecutiveCaseManager string
-	OrganisationName     string
-	Town                 string
-	ReviewDate           string
-	MarkedAsLabel        string
-	MarkedAsClass        string
-	AssuranceType        string
-	PanelDeputy          bool
-}
-
-type RefData struct {
-	Handle string `json:"handle"`
-	Label  string `json:"label"`
-}
-
-func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) {
+func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]model.FirmDeputy, error) {
 	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf("/api/v1/firms/%d/deputies", firmId), nil)
 	if err != nil {
 		return nil, err
@@ -98,21 +30,21 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 		return nil, newStatusError(resp)
 	}
 
-	var v []Deputies
+	var v []model.Deputies
 	if err = json.NewDecoder(resp.Body).Decode(&v); err != nil {
 		return nil, err
 	}
 
-	var deputies []FirmDeputy
+	var deputies []model.FirmDeputy
 
 	for _, t := range v {
-		var deputy = FirmDeputy{
+		var deputy = model.FirmDeputy{
 			DeputyId:             t.DeputyId,
 			Firstname:            t.Firstname,
 			Surname:              t.Surname,
 			DeputyNumber:         t.DeputyNumber,
 			ActiveClientsCount:   getActiveClientCount(t.Orders),
-			ExecutiveCaseManager: t.ExecutiveCaseManager.EcmName,
+			ExecutiveCaseManager: t.ExecutiveCaseManager.DisplayName,
 			OrganisationName:     t.OrganisationName,
 			Town:                 t.Town,
 			AssuranceType:        t.AssuranceVisit.AssuranceType.Label,
@@ -128,14 +60,14 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 	return sortedDeputies, err
 }
 
-func getActiveClientCount(orders []orders) int {
+func getActiveClientCount(orders []model.Orders) int {
 	clientId := getListOfClientIds(orders)
 	uniqueClientIds := removeDuplicateIDs(clientId)
 
 	return len(uniqueClientIds)
 }
 
-func getListOfClientIds(orders []orders) []int {
+func getListOfClientIds(orders []model.Orders) []int {
 	listClientIds := []int{}
 	for _, k := range orders {
 		if k.Order.OrderStatus.Handle == "ACTIVE" {
@@ -157,7 +89,7 @@ func removeDuplicateIDs(clientIds []int) []int {
 	return uniqueClientIds
 }
 
-func sortTheDeputiesByNumberOfClients(firmDeputies []FirmDeputy) []FirmDeputy {
+func sortTheDeputiesByNumberOfClients(firmDeputies []model.FirmDeputy) []model.FirmDeputy {
 	sort.Slice(firmDeputies, func(i, j int) bool {
 		return firmDeputies[i].ActiveClientsCount > firmDeputies[j].ActiveClientsCount
 	})

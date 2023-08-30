@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"golang.org/x/sync/errgroup"
 	"net/http"
@@ -11,8 +12,8 @@ import (
 type AppVars struct {
 	Path        string
 	XSRFToken   string
-	User        sirius.Assignee
-	FirmDetails sirius.FirmDetails
+	User        model.Assignee
+	FirmDetails model.FirmDetails
 	Error       string
 	Errors      sirius.ValidationErrors
 	EnvironmentVars
@@ -23,8 +24,8 @@ func (a AppVars) FirmId() int {
 }
 
 type AppVarsClient interface {
-	GetUserDetails(sirius.Context) (sirius.Assignee, error)
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
+	GetUserDetails(sirius.Context) (model.Assignee, error)
+	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
 }
 
 func NewAppVars(client AppVarsClient, r *http.Request, envVars EnvironmentVars) (*AppVars, error) {

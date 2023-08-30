@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/ministryofjustice/opg-go-common/logging"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 )
@@ -38,8 +39,8 @@ type ErrorVars struct {
 }
 
 type ErrorHandlerClient interface {
-	GetUserDetails(sirius.Context) (sirius.Assignee, error)
-	GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error)
+	GetUserDetails(sirius.Context) (model.Assignee, error)
+	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
 }
 
 func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {

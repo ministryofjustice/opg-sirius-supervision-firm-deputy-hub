@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -15,18 +16,18 @@ type mockChangeECMInformation struct {
 	count             int
 	lastCtx           sirius.Context
 	err               error
-	EcmTeamDetails    []sirius.Member
-	EcmTeamApiDetails []sirius.TeamMembers
+	EcmTeamDetails    []model.Member
+	EcmTeamApiDetails []model.TeamMembers
 }
 
-func (m *mockChangeECMInformation) GetProTeamUsers(ctx sirius.Context) ([]sirius.TeamMembers, []sirius.Member, error) {
+func (m *mockChangeECMInformation) GetProTeamUsers(ctx sirius.Context) ([]model.TeamMembers, []model.Member, error) {
 	m.count += 1
 	m.lastCtx = ctx
 
 	return m.EcmTeamApiDetails, m.EcmTeamDetails, m.err
 }
 
-func (m *mockChangeECMInformation) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails sirius.FirmDetails) error {
+func (m *mockChangeECMInformation) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 

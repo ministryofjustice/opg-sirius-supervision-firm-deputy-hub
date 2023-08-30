@@ -4,53 +4,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/dustin/go-humanize"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"time"
 )
-
-type Deputy struct {
-	DeputyId         int    `json:"id"`
-	DeputyNumber     int    `json:"deputyNumber"`
-	OrganisationName string `json:"organisationName"`
-}
-
-type ExecutiveCaseManager struct {
-	Id          int    `json:"id"`
-	DisplayName string `json:"displayName"`
-}
 
 type ExecutiveCaseManagerOutgoing struct {
 	EcmId int `json:"ecmId"`
 }
 
-type FirmDetails struct {
-	ID                     int                  `json:"id"`
-	FirmName               string               `json:"firmName"`
-	FirmNumber             int                  `json:"firmNumber"`
-	Email                  string               `json:"email"`
-	PhoneNumber            string               `json:"phoneNumber"`
-	AddressLine1           string               `json:"addressLine1"`
-	AddressLine2           string               `json:"addressLine2"`
-	AddressLine3           string               `json:"addressLine3"`
-	Town                   string               `json:"town"`
-	County                 string               `json:"county"`
-	Postcode               string               `json:"postcode"`
-	ExecutiveCaseManager   ExecutiveCaseManager `json:"executiveCaseManager"`
-	Deputies               []Deputy             `json:"deputies"`
-	PiiReceived            string               `json:"piiReceived"`
-	PiiExpiry              string               `json:"piiExpiry"`
-	PiiAmount              float64              `json:"piiAmount,omitempty"`
-	PiiRequested           string               `json:"piiRequested"`
-	PiiReceivedDateFormat  string
-	PiiExpiryDateFormat    string
-	PiiRequestedDateFormat string
-	TotalNumberOfDeputies  int
-	PiiAmountCommaFormat   string
-	PiiAmountIntFormat     int64
-}
-
-func (c *Client) GetFirmDetails(ctx Context, firmId int) (FirmDetails, error) {
-	var v FirmDetails
+func (c *Client) GetFirmDetails(ctx Context, firmId int) (model.FirmDetails, error) {
+	var v model.FirmDetails
 
 	requestURL := fmt.Sprintf("/api/v1/firms/%d", firmId)
 	req, err := c.newRequest(ctx, http.MethodGet, requestURL, nil)
