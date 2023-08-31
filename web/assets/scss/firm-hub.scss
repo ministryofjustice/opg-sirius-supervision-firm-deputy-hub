@@ -17,7 +17,7 @@
     display: flex;
     justify-content: space-between;
     padding: 1em 0 0.5em;
-    border-bottom: 1px solid #b1b4b6;
+    border-bottom: 1px solid $govuk-border-colour;
     margin-bottom: 2em;
   }
 
@@ -26,7 +26,7 @@
     justify-content: flex-start;
     margin-bottom: 2em;
     padding-bottom: 1em;
-    border-bottom: 1px solid #b1b4b6;
+    border-bottom: 1px solid $govuk-border-colour;
   }
 
   .moj-sub-navigation {
@@ -39,7 +39,7 @@ main {
     display: flex;
     justify-content: space-between;
     padding: 0.5em 0 0.5em;
-    border-bottom: 1px solid #b1b4b6;
+    border-bottom: 1px solid $govuk-border-colour;
     margin-bottom: 2em;
   }
 
@@ -63,19 +63,19 @@ main {
 span.rag {
   font-weight: bold;
   &.green {
-    color: #28a197 !important;
+    color: govuk-colour("green") !important;
   }
   &.amber {
-    color: #f47738 !important;
+    color: govuk-colour("orange") !important;
   }
   &.red {
-    color: #d4351c !important;
+    color: govuk-colour("red") !important;
   }
 }
 
 span.secondary {
   display: block;
-  color: #505a5f;
+  color: $govuk-secondary-text-colour;
   font-size: 16px;
   font-size: 1rem;
   line-height: 1.25;
