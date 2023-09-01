@@ -19,13 +19,5 @@ build:
 scan:
 	trivy image sirius/sirius-firm-deputy-hub:latest
 
-acceptance-testing: pa11y lighthouse
-
-pa11y:
-	docker compose -f docker/docker-compose.ci.yml run --entrypoint="pa11y-ci" puppeteer
-
-lighthouse:
-	docker compose -f docker/docker-compose.ci.yml run --entrypoint="lhci autorun" puppeteer
-
 cypress:
 	docker compose -f docker/docker-compose.ci.yml run cypress

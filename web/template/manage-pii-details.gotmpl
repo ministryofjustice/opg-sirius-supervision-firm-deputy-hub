@@ -28,7 +28,7 @@
                                 </h1>
                             </legend>
                             <div class="govuk-form-group {{if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiReceived ""}}govuk-form-group--error{{end}}{{ end }}">
-                                <label class="govuk-label" for="pii-received">
+                                <label class="govuk-label" for="f-pii-received">
                                     Date received
                                 </label>
                                     {{if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiReceived ""}}
@@ -47,12 +47,12 @@
                                         value= {{ .AddFirmPiiDetailForm.PiiReceived }}
                                         {{ end }}
                                     {{ end }}
-                                    value= "{{ .FirmDetails.PiiReceivedDateFormat }}"
+                                    value="{{ .FirmDetails.PiiReceivedDateFormat }}"
                                     style="text-transform:uppercase"
-                                    />
+                                />
                                  </div>
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}govuk-form-group--error{{ end }}{{ end }}">
-                                <label class="govuk-label" for="pii-expiry">
+                                <label class="govuk-label" for="f-pii-expiry">
                                     Expiry date
                                 </label>
                                   {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiExpiry ""}}
@@ -77,7 +77,7 @@
                             </div>
 
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}govuk-form-group--error{{ end }}{{ end }}">
-                                <label class="govuk-label" for="pii-amount">
+                                <label class="govuk-label" for="f-pii-amount">
                                     Amount
                                 </label>
                                  {{ if .Errors }}{{ if eq .AddFirmPiiDetailForm.PiiAmount 0.0}}
