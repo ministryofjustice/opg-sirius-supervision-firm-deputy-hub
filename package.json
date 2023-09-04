@@ -9,7 +9,9 @@
         "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.16.0"
     },
     "devDependencies": {
+        "axe-core": "^4.3.5",
         "cypress": "^12.0.0",
+        "cypress-axe": "^0.13.0",
         "cypress-failed-log": "^2.9.5",
         "esbuild": "^0.15.14",
         "prettier": "2.8.4",
