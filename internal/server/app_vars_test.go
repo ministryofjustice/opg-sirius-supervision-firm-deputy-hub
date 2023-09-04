@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -10,27 +11,27 @@ import (
 type mockAppVarsClient struct {
 	lastCtx sirius.Context
 	err     error
-	user    sirius.Assignee
-	firm    sirius.FirmDetails
+	user    model.Assignee
+	firm    model.FirmDetails
 }
 
-func (m *mockAppVarsClient) GetUserDetails(ctx sirius.Context) (sirius.Assignee, error) {
+func (m *mockAppVarsClient) GetUserDetails(ctx sirius.Context) (model.Assignee, error) {
 	m.lastCtx = ctx
 
 	return m.user, m.err
 }
 
-func (m *mockAppVarsClient) GetFirmDetails(ctx sirius.Context, firmId int) (sirius.FirmDetails, error) {
+func (m *mockAppVarsClient) GetFirmDetails(ctx sirius.Context, firmId int) (model.FirmDetails, error) {
 	m.lastCtx = ctx
 
 	return m.firm, m.err
 }
 
-var mockUserDetails = sirius.Assignee{
+var mockUserDetails = model.Assignee{
 	ID: 1,
 }
 
-var mockFirmDetails = sirius.FirmDetails{
+var mockFirmDetails = model.FirmDetails{
 	ID: 123,
 }
 

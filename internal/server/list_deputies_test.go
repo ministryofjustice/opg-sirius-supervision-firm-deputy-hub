@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,10 +14,10 @@ type mockFirmHubDeputyTabInformation struct {
 	count               int
 	lastCtx             sirius.Context
 	err                 error
-	firmDeputiesDetails []sirius.FirmDeputy
+	firmDeputiesDetails []model.FirmDeputy
 }
 
-func (m *mockFirmHubDeputyTabInformation) GetFirmDeputies(ctx sirius.Context, firmId int) ([]sirius.FirmDeputy, error) {
+func (m *mockFirmHubDeputyTabInformation) GetFirmDeputies(ctx sirius.Context, firmId int) ([]model.FirmDeputy, error) {
 	m.count += 1
 	m.lastCtx = ctx
 
