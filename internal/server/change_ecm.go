@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"strconv"
 
@@ -9,12 +10,12 @@ import (
 )
 
 type ChangeECMInformation interface {
-	GetProTeamUsers(sirius.Context) ([]sirius.TeamMembers, []sirius.Member, error)
-	ChangeECM(sirius.Context, sirius.ExecutiveCaseManagerOutgoing, sirius.FirmDetails) error
+	GetProTeamUsers(sirius.Context) ([]model.TeamMembers, []model.Member, error)
+	ChangeECM(sirius.Context, sirius.ExecutiveCaseManagerOutgoing, model.FirmDetails) error
 }
 
 type changeECMHubVars struct {
-	EcmTeamDetails []sirius.Member
+	EcmTeamDetails []model.Member
 	AppVars
 }
 

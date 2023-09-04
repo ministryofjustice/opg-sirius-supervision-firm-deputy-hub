@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -17,7 +18,7 @@ type mockManageFirmDetailsInformation struct {
 	err     error
 }
 
-func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context, firmDetails sirius.FirmDetails) error {
+func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context, firmDetails model.FirmDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 

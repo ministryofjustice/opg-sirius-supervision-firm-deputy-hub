@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -93,7 +94,7 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 		}, nil
 	}
 
-	expectedResponse := []FirmDeputy{
+	expectedResponse := []model.FirmDeputy{
 		{
 			Firstname:            "",
 			Surname:              "",
@@ -102,10 +103,10 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			ActiveClientsCount:   1,
 			ExecutiveCaseManager: "PROTeam1 User1",
 			OrganisationName:     "pro dept",
-			ReviewDate: "26/05/2023",
-			MarkedAsLabel: "Green",
-			MarkedAsClass: "green",
-			AssuranceType: "Visit",
+			ReviewDate:           "26/05/2023",
+			MarkedAsLabel:        "Green",
+			MarkedAsClass:        "green",
+			AssuranceType:        "Visit",
 		},
 		{
 			Firstname:            "Louis",
@@ -134,7 +135,7 @@ func TestGetFirmDeputiesReturnsNewStatusError(t *testing.T) {
 
 	firmDetails, err := client.GetFirmDeputies(getContext(nil), 1)
 
-	var expectedResponse []FirmDeputy
+	var expectedResponse []model.FirmDeputy
 
 	assert.Equal(t, expectedResponse, firmDetails)
 	assert.Equal(t, StatusError{
@@ -154,33 +155,33 @@ func TestGetFirmDeputiesReturnsUnauthorisedClientError(t *testing.T) {
 
 	firmDetails, err := client.GetFirmDeputies(getContext(nil), 1)
 
-	var expectedResponse []FirmDeputy
+	var expectedResponse []model.FirmDeputy
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
 }
 
 func TestGetActiveClientCountOnlyReturnsOneOrderWithSameClient(t *testing.T) {
-	testOrders := []orders{
+	testOrders := []model.Orders{
 		{
-			order{
+			Order: model.Order{
 				Id: 5,
-				Client: client{
+				Client: model.Client{
 					Id: 99,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "ACTIVE",
 					Label:  "Active",
 				},
 			},
 		},
 		{
-			order{
+			Order: model.Order{
 				Id: 6,
-				Client: client{
+				Client: model.Client{
 					Id: 99,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "ACTIVE",
 					Label:  "Active",
 				},
@@ -191,26 +192,26 @@ func TestGetActiveClientCountOnlyReturnsOneOrderWithSameClient(t *testing.T) {
 }
 
 func TestGetActiveClientCountReturnsTwoOrdersWithTwoDifferentClients(t *testing.T) {
-	testOrders := []orders{
+	testOrders := []model.Orders{
 		{
-			order{
+			Order: model.Order{
 				Id: 5,
-				Client: client{
+				Client: model.Client{
 					Id: 99,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "ACTIVE",
 					Label:  "Active",
 				},
 			},
 		},
 		{
-			order{
+			Order: model.Order{
 				Id: 6,
-				Client: client{
+				Client: model.Client{
 					Id: 44,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "ACTIVE",
 					Label:  "Active",
 				},
@@ -221,62 +222,62 @@ func TestGetActiveClientCountReturnsTwoOrdersWithTwoDifferentClients(t *testing.
 }
 
 func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
-	testOrders := []orders{
+	testOrders := []model.Orders{
 		{
-			order{
+			Order: model.Order{
 				Id: 5,
-				Client: client{
+				Client: model.Client{
 					Id: 99,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "ACTIVE",
 					Label:  "Active",
 				},
 			},
 		},
 		{
-			order{
+			Order: model.Order{
 				Id: 7,
-				Client: client{
+				Client: model.Client{
 					Id: 55,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "ACTIVE",
 					Label:  "Active",
 				},
 			},
 		},
 		{
-			order{
+			Order: model.Order{
 				Id: 6,
-				Client: client{
+				Client: model.Client{
 					Id: 44,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "OPEN",
 					Label:  "Open",
 				},
 			},
 		},
 		{
-			order{
+			Order: model.Order{
 				Id: 4,
-				Client: client{
+				Client: model.Client{
 					Id: 11,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "CLOSED",
 					Label:  "Closed",
 				},
 			},
 		},
 		{
-			order{
+			Order: model.Order{
 				Id: 3,
-				Client: client{
+				Client: model.Client{
 					Id: 77,
 				},
-				OrderStatus: orderStatus{
+				OrderStatus: model.OrderStatus{
 					Handle: "DUPLICATE",
 					Label:  "Duplicate",
 				},
@@ -293,7 +294,7 @@ func TestRemoveDuplicateIDs(t *testing.T) {
 
 func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 	firmDeputy :=
-		[]FirmDeputy{
+		[]model.FirmDeputy{
 			{
 				DeputyId:             12,
 				Firstname:            "Missy",
@@ -332,7 +333,7 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 			},
 		}
 
-	expectedResult := []FirmDeputy{
+	expectedResult := []model.FirmDeputy{
 
 		{
 			DeputyId:             85,
