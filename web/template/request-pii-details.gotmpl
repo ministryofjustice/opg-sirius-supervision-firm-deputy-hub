@@ -29,7 +29,7 @@
                                 </h1>
                             </legend>
                             <div class="govuk-form-group {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}govuk-form-group--error{{ end }}{{ end }}">
-                                <label class="govuk-label" for="pii-requested">
+                                <label class="govuk-label" for="f-pii-requested">
                                     Date requested
                                 </label>
                                 {{ if .Errors }}{{ if eq .RequestPiiDetailsForm.PiiRequested ""}}
@@ -44,13 +44,13 @@
                                     name="pii-requested"
                                     type="date"
                                     {{ if .Errors }}
-                                        {{ if ne .RequestPiiDetailsForm.PiiRequested ""}}
-                                        value= {{ .RequestPiiDetailsForm.PiiRequested }}
-                                        {{ end }}
+                                    {{ if ne .RequestPiiDetailsForm.PiiRequested ""}}
+                                    value= {{ .RequestPiiDetailsForm.PiiRequested }}
                                     {{ end }}
-                                    value= "{{ .FirmDetails.PiiRequestedDateFormat }}"
+                                    {{ end }}
+                                    value="{{ .FirmDetails.PiiRequestedDateFormat }}"
                                     style="text-transform:uppercase"
-                                    />
+                                />
                             </div>
                         </fieldset>
 
