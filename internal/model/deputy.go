@@ -14,7 +14,6 @@ type Deputies struct {
 	OrganisationName           string                     `json:"organisationName"`
 	Town                       string                     `json:"town"`
 	AssuranceVisit             AssuranceVisit             `json:"mostRecentlyCompletedAssuranceVisit"`
-	PanelDeputy                bool                       `json:"panel_deputy"`
 	DeputyImportantInformation DeputyImportantInformation `json:"deputyImportantInformation"`
 }
 
