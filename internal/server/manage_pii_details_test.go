@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -17,7 +18,7 @@ type mockManagePiiDetailsInformation struct {
 	err     error
 }
 
-func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetails) error {
+func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context, piiData model.PiiDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 
