@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -31,7 +32,7 @@ func TestEditPii(t *testing.T) {
 		}, nil
 	}
 
-	piiDetails := PiiDetails{
+	piiDetails := model.PiiDetails{
 		FirmId:       21,
 		PiiReceived:  "20/01/2020",
 		PiiExpiry:    "20/01/2025",
@@ -51,7 +52,7 @@ func TestEditPiiReturnsNewStatusError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	err := client.EditPiiCertificate(getContext(nil), PiiDetails{})
+	err := client.EditPiiCertificate(getContext(nil), model.PiiDetails{})
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
@@ -68,7 +69,7 @@ func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 
-	err := client.EditPiiCertificate(getContext(nil), PiiDetails{})
+	err := client.EditPiiCertificate(getContext(nil), model.PiiDetails{})
 
 	assert.Equal(t, ErrUnauthorized, err)
 

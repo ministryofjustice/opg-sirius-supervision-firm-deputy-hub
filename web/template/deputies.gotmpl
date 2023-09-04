@@ -39,15 +39,14 @@
                         <td
                             class="govuk-table__cell client_name_ref nowrap"
                             label="deputyId {{ .DeputyId }}">
-                            <a
-                                class="govuk-link"
-                                href="{{ prohub (printf "/%d" .DeputyId) }}">
-                                {{ if .Firstname }}
-                                {{ .Firstname }} {{ .Surname }}
-                                {{ else }}
-                                {{ .OrganisationName}}
-                                {{ end }}
+                            <a class="govuk-link govuk-!-margin-right-1" href="{{ prohub (printf "/%d" .DeputyId) }}">
+                                {{ if .Firstname }}{{.Firstname}} {{.Surname}}{{ else }}{{.OrganisationName}}{{ end }}
                             </a>
+                            {{ if eq .PanelDeputy true }}
+                                <span class="moj-badge">
+                                    Panel Deputy
+                                </span>
+                            {{end}}
                             <br />
                         </td>
                         <td class="govuk-table__cell">
