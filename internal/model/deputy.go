@@ -1,6 +1,6 @@
 package model
 
-type deputyImportantInformation struct {
+type DeputyImportantInformation struct {
 	PanelDeputy bool `json:"panelDeputy"`
 }
 
@@ -15,12 +15,7 @@ type Deputies struct {
 	Town                       string                     `json:"town"`
 	AssuranceVisit             AssuranceVisit             `json:"mostRecentlyCompletedAssuranceVisit"`
 	PanelDeputy                bool                       `json:"panel_deputy"`
-	DeputyImportantInformation deputyImportantInformation `json:"deputyImportantInformation"`
-}
-
-type ExecutiveCaseManager struct {
-	Id          int    `json:"id"`
-	DisplayName string `json:"displayName"`
+	DeputyImportantInformation DeputyImportantInformation `json:"deputyImportantInformation"`
 }
 
 type FirmDeputy struct {

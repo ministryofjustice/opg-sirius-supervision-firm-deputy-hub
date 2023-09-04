@@ -164,7 +164,7 @@ func TestGetFirmDeputiesReturnsUnauthorisedClientError(t *testing.T) {
 func TestGetActiveClientCountOnlyReturnsOneOrderWithSameClient(t *testing.T) {
 	testOrders := []model.Orders{
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 5,
 				Client: model.Client{
 					Id: 99,
@@ -176,7 +176,7 @@ func TestGetActiveClientCountOnlyReturnsOneOrderWithSameClient(t *testing.T) {
 			},
 		},
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 6,
 				Client: model.Client{
 					Id: 99,
@@ -194,7 +194,7 @@ func TestGetActiveClientCountOnlyReturnsOneOrderWithSameClient(t *testing.T) {
 func TestGetActiveClientCountReturnsTwoOrdersWithTwoDifferentClients(t *testing.T) {
 	testOrders := []model.Orders{
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 5,
 				Client: model.Client{
 					Id: 99,
@@ -206,7 +206,7 @@ func TestGetActiveClientCountReturnsTwoOrdersWithTwoDifferentClients(t *testing.
 			},
 		},
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 6,
 				Client: model.Client{
 					Id: 44,
@@ -224,7 +224,7 @@ func TestGetActiveClientCountReturnsTwoOrdersWithTwoDifferentClients(t *testing.
 func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
 	testOrders := []model.Orders{
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 5,
 				Client: model.Client{
 					Id: 99,
@@ -236,7 +236,7 @@ func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
 			},
 		},
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 7,
 				Client: model.Client{
 					Id: 55,
@@ -248,7 +248,7 @@ func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
 			},
 		},
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 6,
 				Client: model.Client{
 					Id: 44,
@@ -260,7 +260,7 @@ func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
 			},
 		},
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 4,
 				Client: model.Client{
 					Id: 11,
@@ -272,7 +272,7 @@ func TestGetListOfClientIdsReturnsOnlyActiveClientsOnOrders(t *testing.T) {
 			},
 		},
 		{
-			model.Order{
+			Order: model.Order{
 				Id: 3,
 				Client: model.Client{
 					Id: 77,

@@ -13,7 +13,7 @@ type FirmDetails struct {
 	County                 string               `json:"county"`
 	Postcode               string               `json:"postcode"`
 	ExecutiveCaseManager   ExecutiveCaseManager `json:"executiveCaseManager"`
-	Deputies               []Deputies           `json:"deputies"`
+	Deputies               []FirmDeputies       `json:"deputies"`
 	PiiReceived            string               `json:"piiReceived"`
 	PiiExpiry              string               `json:"piiExpiry"`
 	PiiAmount              float64              `json:"piiAmount,omitempty"`
@@ -24,4 +24,10 @@ type FirmDetails struct {
 	TotalNumberOfDeputies  int
 	PiiAmountCommaFormat   string
 	PiiAmountIntFormat     int64
+}
+
+type FirmDeputies struct {
+	DeputyId         int    `json:"id"`
+	DeputyNumber     int    `json:"deputyNumber"`
+	OrganisationName string `json:"organisationName"`
 }

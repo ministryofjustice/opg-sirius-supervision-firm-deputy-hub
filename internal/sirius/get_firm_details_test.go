@@ -77,7 +77,7 @@ func TestFirmDetailsReturned(t *testing.T) {
 		Town:         "London",
 		County:       "Buckinghamshire",
 		Postcode:     "BU1 1TF",
-		Deputies: []model.Deputies{
+		Deputies: []model.FirmDeputies{
 			{
 				DeputyId:         77,
 				DeputyNumber:     22,
