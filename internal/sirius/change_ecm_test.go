@@ -11,8 +11,7 @@ import (
 )
 
 func TestChangeECM(t *testing.T) {
-	mockClient := &mocks.MockClient{}
-	client, _ := NewClient(mockClient, "http://localhost:3000")
+	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
 
 	json := `{"ecmId": 32}`
 	r := io.NopCloser(bytes.NewReader([]byte(json)))
@@ -28,39 +27,26 @@ func TestChangeECM(t *testing.T) {
 	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 76})
 	assert.Equal(t, nil, err)
 }
-func TestChangeECMReturnsErrorIfNoEcm(t *testing.T) {
-	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}))
-	defer svr.Close()
 
-	client, _ := NewClient(http.DefaultClient, svr.URL)
-	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 0}
+func TestChangeECMReturnsValidationError(t *testing.T) {
+	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
 
-	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 76})
+	json := `{"validation_errors": {"Test": {"error": "message"}}}`
+	r := io.NopCloser(bytes.NewReader([]byte(json)))
 
-	assert.Equal(t, StatusError{
-		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/76/ecm",
-		Method: http.MethodPut,
-	}, err)
-}
+	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: 400,
+			Body:       r,
+		}, nil
+	}
 
-func TestChangeECMReturnsErrorIfNoId(t *testing.T) {
-	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}))
-	defer svr.Close()
-
-	client, _ := NewClient(http.DefaultClient, svr.URL)
 	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 23}
 
 	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 0})
 
-	assert.Equal(t, StatusError{
-		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/0/ecm",
-		Method: http.MethodPut,
+	assert.Equal(t, ValidationError{
+		Errors: ValidationErrors{"Test": {"error": "message"}},
 	}, err)
 }
 
