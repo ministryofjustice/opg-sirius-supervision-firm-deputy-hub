@@ -3,21 +3,21 @@ package server
 import (
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
 )
 
-type mockRequestPiiDetailsInformation struct {
+type mockRequestPiiDetailsClient struct {
 	count   int
 	lastCtx sirius.Context
 	err     error
 }
 
-func (m *mockRequestPiiDetailsInformation) RequestPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetailsRequest) error {
+func (m *mockRequestPiiDetailsClient) RequestPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetailsRequest) error {
 	m.count += 1
 	m.lastCtx = ctx
 
@@ -27,7 +27,7 @@ func (m *mockRequestPiiDetailsInformation) RequestPiiCertificate(ctx sirius.Cont
 func TestGetRequestPiiDetails(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockRequestPiiDetailsInformation{}
+	client := &mockRequestPiiDetailsClient{}
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
@@ -46,64 +46,61 @@ func TestGetRequestPiiDetails(t *testing.T) {
 }
 
 func TestPostRequestPii(t *testing.T) {
-	assert := assert.New(t)
-	client := &mockRequestPiiDetailsInformation{}
+	client := &mockRequestPiiDetailsClient{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	var returnedError error
+	returnedError := renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
-	assert.Equal(returnedError, Redirect("/123?success=requestPiiDetails"))
+	assert.Equal(t, Redirect("/123?success=requestPiiDetails"), returnedError)
 }
 
-func TestErrorRequestPii(t *testing.T) {
-	assert := assert.New(t)
-	client := &mockRequestPiiDetailsInformation{}
-
-	validationErrors := sirius.ValidationErrors{
-		"piiRequested": {
-			"isEmpty": "The PII requested date is required and can't be empty",
+func TestPostRequestPiiReturnsError(t *testing.T) {
+	tests := []struct {
+		apiError             error
+		wantValidationErrors sirius.ValidationErrors
+		wantError            error
+		wantCode             int
+	}{
+		{
+			apiError: sirius.ValidationError{
+				Errors: sirius.ValidationErrors{
+					"Error": {"": "Test error"},
+				},
+			},
+			wantValidationErrors: sirius.ValidationErrors{
+				"Error": {"": "Test error"},
+			},
+			wantError: nil,
+			wantCode:  400,
+		},
+		{
+			apiError:             sirius.StatusError{Code: 503},
+			wantValidationErrors: nil,
+			wantError:            sirius.StatusError{Code: 503},
+			wantCode:             503,
 		},
 	}
+	for i, test := range tests {
+		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
+			client := &mockRequestPiiDetailsClient{err: test.apiError}
+			template := &mockTemplates{}
 
-	client.err = sirius.ValidationError{
-		Errors: validationErrors,
+			w := httptest.NewRecorder()
+			r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+			err := renderTemplateForRequestPiiDetails(client, template)(AppVars{}, w, r)
+
+			if test.wantValidationErrors != nil {
+				assert.Equal(t, test.apiError.(sirius.ValidationError).Errors, template.lastVars.(firmHubRequestPiiVars).Errors)
+				assert.Equal(t, test.wantCode, w.Result().StatusCode)
+			} else {
+				assert.Nil(t, template.lastVars)
+				assert.Equal(t, test.wantError, err)
+			}
+		})
 	}
-
-	template := &mockTemplates{}
-
-	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/133", strings.NewReader(""))
-	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
-	var returnedError error
-
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForRequestPiiDetails(client, template)(AppVars{}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
-
-	expectedValidationErrors := sirius.ValidationErrors{
-		"piiRequested": {
-			"isEmpty": "The PII requested date is required and can't be empty",
-		},
-	}
-
-	assert.Equal(firmHubRequestPiiVars{
-		AppVars: AppVars{
-			Errors: expectedValidationErrors,
-		},
-	}, template.lastVars)
-
-	assert.Nil(returnedError)
 }

@@ -22,62 +22,64 @@
             }
         ]
     },
-    "firms": {
-        "id": 1,
-        "deputies": [
-            {
-                "id": 77,
-                "personType": "Deputy",
-                "deputyStatus": "Inactive",
-                "orders": [[]],
-                "deputyNumber": 22,
-                "organisationName": "pro dept",
-                "deputySubType": [],
-                "addressLine1": "111 Maker Street",
-                "addressLine2": "",
-                "addressLine3": "",
-                "town": "Birmingham",
-                "county": "West Midlands",
-                "postcode": "A10 1GH"
-            },
-            {
-                "id": 75,
-                "personType": "Deputy",
-                "deputyStatus": "Active",
-                "orders": [[]],
-                "eveningNumber": "07748933233",
-                "deputyNumber": 20,
-                "organisationName": "deputy pro",
-                "organisationTeamOrDepartmentName": "",
-                "addressLine1": "",
-                "addressLine2": "",
-                "addressLine3": "",
-                "town": "Dullsville",
-                "county": "",
-                "postcode": ""
+    "firms": [
+        {
+            "id": 1,
+            "deputies": [
+                {
+                    "id": 77,
+                    "personType": "Deputy",
+                    "deputyStatus": "Inactive",
+                    "orders": [[]],
+                    "deputyNumber": 22,
+                    "organisationName": "pro dept",
+                    "deputySubType": [],
+                    "addressLine1": "111 Maker Street",
+                    "addressLine2": "",
+                    "addressLine3": "",
+                    "town": "Birmingham",
+                    "county": "West Midlands",
+                    "postcode": "A10 1GH"
+                },
+                {
+                    "id": 75,
+                    "personType": "Deputy",
+                    "deputyStatus": "Active",
+                    "orders": [[]],
+                    "eveningNumber": "07748933233",
+                    "deputyNumber": 20,
+                    "organisationName": "deputy pro",
+                    "organisationTeamOrDepartmentName": "",
+                    "addressLine1": "",
+                    "addressLine2": "",
+                    "addressLine3": "",
+                    "town": "Dullsville",
+                    "county": "",
+                    "postcode": ""
+                }
+            ],
+            "firmName": "Trustworthy Firm Inc",
+            "addressLine1": "221 Baker Street",
+            "addressLine2": "Covent Garden",
+            "addressLine3": "",
+            "town": "London",
+            "county": "Buckinghamshire",
+            "postcode": "B10 1FG",
+            "phoneNumber": "333222111",
+            "email": "trusty@firm.com",
+            "firmNumber": 100004,
+            "piiReceived": "20/12/2000",
+            "piiExpiry": "01/12/2020",
+            "piiAmount": 1000,
+            "piiRequested": "15/11/2000",
+            "executiveCaseManager": {
+                "id": 76,
+                "name": "LayTeam1",
+                "displayName": "LayTeam1 User6",
+                "surname": "User6"
             }
-        ],
-        "firmName": "Trustworthy Firm Inc",
-        "addressLine1": "221 Baker Street",
-        "addressLine2": "Covent Garden",
-        "addressLine3": "",
-        "town": "London",
-        "county": "Buckinghamshire",
-        "postcode": "B10 1FG",
-        "phoneNumber": "333222111",
-        "email": "trusty@firm.com",
-        "firmNumber": 100004,
-        "piiReceived": "20/12/2000",
-        "piiExpiry": "01/12/2020",
-        "piiAmount": 1000,
-        "piiRequested": "15/11/2000",
-        "executiveCaseManager": {
-            "id": 76,
-            "name": "LayTeam1",
-            "displayName": "LayTeam1 User6",
-            "surname": "User6"
         }
-    },
+    ],
     "deputies": [
         {
             "id": 84,
@@ -441,6 +443,12 @@
         }
     ],
     "errors": [
+        {
+            "id": "500-example",
+            "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
+            "title": "Internal Server Error",
+            "detail": "blah"
+        },
         {
             "id": "pii-details",
             "validation_errors": {
