@@ -2,13 +2,12 @@ package server
 
 import (
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 	"strconv"
-
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
-type ChangeECMInformation interface {
+type ChangeECMClient interface {
 	GetProTeamUsers(sirius.Context) ([]sirius.TeamMembers, []sirius.Member, error)
 	ChangeECM(sirius.Context, sirius.ExecutiveCaseManagerOutgoing, sirius.FirmDetails) error
 }
@@ -18,7 +17,7 @@ type changeECMHubVars struct {
 	AppVars
 }
 
-func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Handler {
+func renderTemplateForChangeECM(client ChangeECMClient, tmpl Template) Handler {
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		ctx := getContext(r)
 
@@ -43,7 +42,7 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 				vars.Errors = sirius.ValidationErrors{
 					"Change ECM": {"": "Select an executive case manager"},
 				}
-				EcmIdStringValue = "0"
+				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
 
 			EcmIdValue, err := strconv.Atoi(EcmIdStringValue)
@@ -55,15 +54,15 @@ func renderTemplateForChangeECM(client ChangeECMInformation, tmpl Template) Hand
 
 			err = client.ChangeECM(ctx, changeECMForm, app.FirmDetails)
 
-			if len(vars.Errors) >= 1 {
-				return tmpl.ExecuteTemplate(w, "page", vars)
-			}
-
 			if verr, ok := err.(sirius.ValidationError); ok {
 				vars.Errors = verr.Errors
-
+				w.WriteHeader(http.StatusBadRequest)
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
+			if err != nil {
+				return err
+			}
+
 			return Redirect(fmt.Sprintf("/%d?success=ecm", app.FirmId()))
 
 		default:

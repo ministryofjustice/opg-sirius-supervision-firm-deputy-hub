@@ -1,6 +1,6 @@
 {
     "/api/v1/*": "/$1",
-    "/firms/:id": "/firms",
+    "/firms/:id": "/firms/:id",
     "/firms/:firmId/pii": "/pii-details",
     "/firms/:firmId/deputies": "/deputies",
     "/teams?type=pro": "/teams",
