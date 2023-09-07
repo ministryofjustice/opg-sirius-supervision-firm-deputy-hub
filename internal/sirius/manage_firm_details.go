@@ -9,7 +9,6 @@ import (
 )
 
 func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails model.FirmDetails) error {
-	var k model.FirmDetails
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(model.FirmDetails{
 		ID:           amendedFirmDetails.ID,
@@ -59,10 +58,7 @@ func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails model.FirmDet
 				Errors: v.ValidationErrors,
 			}
 		}
-
 		return newStatusError(resp)
 	}
-
-	err = json.NewDecoder(resp.Body).Decode(&k)
 	return err
 }
