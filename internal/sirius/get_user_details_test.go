@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -29,7 +30,7 @@ func TestGetUserDetailsReturned(t *testing.T) {
 		}, nil
 	}
 
-	expectedResponse := Assignee{
+	expectedResponse := model.Assignee{
 		ID:    68,
 		Roles: []string{"Finance Manager", "System Admin"},
 	}
@@ -50,7 +51,7 @@ func TestUserDetailsReturnsNewStatusError(t *testing.T) {
 
 	userDetails, err := client.GetUserDetails(getContext(nil))
 
-	expectedResponse := Assignee{ID: 0}
+	expectedResponse := model.Assignee{ID: 0}
 
 	assert.Equal(t, expectedResponse, userDetails)
 	assert.Equal(t, StatusError{
@@ -70,7 +71,7 @@ func TestUserDetailsReturnsUnauthorisedClientError(t *testing.T) {
 
 	userDetails, err := client.GetUserDetails(getContext(nil))
 
-	expectedResponse := Assignee{ID: 0}
+	expectedResponse := model.Assignee{ID: 0}
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, userDetails)

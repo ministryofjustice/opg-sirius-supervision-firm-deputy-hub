@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 )
 
-func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoing, firmDetails FirmDetails) error {
+func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
 	var body bytes.Buffer
 
 	err := json.NewEncoder(&body).Encode(ExecutiveCaseManagerOutgoing{EcmId: changeECMForm.EcmId})
