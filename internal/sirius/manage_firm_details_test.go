@@ -69,7 +69,7 @@ func TestManageFirmReturnsValidationError(t *testing.T) {
 		}, nil
 	}
 
-	err := client.ManageFirmDetails(getContext(nil), FirmDetails{ID: 1})
+	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{ID: 1})
 
 	assert.Equal(t, ValidationError{
 		Errors: ValidationErrors{"Test": {"error": "message"}},

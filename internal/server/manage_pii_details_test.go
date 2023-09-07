@@ -18,7 +18,7 @@ type mockManagePiiDetailsClient struct {
 	err     error
 }
 
-func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context, piiData model.PiiDetails) error {
+func (m *mockManagePiiDetailsClient) EditPiiCertificate(ctx sirius.Context, piiData model.PiiDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 

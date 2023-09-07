@@ -13,22 +13,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mockChangeECMInformation struct {
-	count             int
-	lastCtx           sirius.Context
-	err               error
-	EcmTeamDetails    []model.Member
-	EcmTeamApiDetails []model.TeamMembers
+type mockChangeECMClient struct {
+	count                int
+	lastCtx              sirius.Context
+	getProTeamUsersError error
+	changeECMError       error
+	EcmTeamDetails       []model.Member
+	EcmTeamApiDetails    []model.TeamMembers
 }
 
-func (m *mockChangeECMInformation) GetProTeamUsers(ctx sirius.Context) ([]model.TeamMembers, []model.Member, error) {
+func (m *mockChangeECMClient) GetProTeamUsers(ctx sirius.Context) ([]model.TeamMembers, []model.Member, error) {
 	m.count += 1
 	m.lastCtx = ctx
 
 	return m.EcmTeamApiDetails, m.EcmTeamDetails, m.getProTeamUsersError
 }
 
-func (m *mockChangeECMInformation) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
+func (m *mockChangeECMClient) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 

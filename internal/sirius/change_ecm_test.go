@@ -29,10 +29,8 @@ func TestChangeECM(t *testing.T) {
 	assert.Equal(t, nil, err)
 }
 
-	client, _ := NewClient(http.DefaultClient, svr.URL)
-	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 0}
-
-	err := client.ChangeECM(getContext(nil), changeEcmForm, model.FirmDetails{ID: 76})
+func TestChangeECMReturnsValidationError(t *testing.T) {
+	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
 
 	json := `{"validation_errors": {"Test": {"error": "message"}}}`
 	r := io.NopCloser(bytes.NewReader([]byte(json)))

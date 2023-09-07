@@ -57,7 +57,7 @@ func TestEditPiiReturnsValidationError(t *testing.T) {
 		}, nil
 	}
 
-	err := client.EditPiiCertificate(getContext(nil), PiiDetails{})
+	err := client.EditPiiCertificate(getContext(nil), model.PiiDetails{})
 
 	assert.Equal(t, ValidationError{
 		Errors: ValidationErrors{"Test": {"error": "message"}},

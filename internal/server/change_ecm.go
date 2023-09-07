@@ -3,11 +3,12 @@ package server
 import (
 	"fmt"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 	"strconv"
 )
 
-type ChangeECMInformation interface {
+type ChangeECMClient interface {
 	GetProTeamUsers(sirius.Context) ([]model.TeamMembers, []model.Member, error)
 	ChangeECM(sirius.Context, sirius.ExecutiveCaseManagerOutgoing, model.FirmDetails) error
 }

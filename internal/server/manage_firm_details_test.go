@@ -18,7 +18,7 @@ type mockManageFirmDetailsClient struct {
 	err     error
 }
 
-func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context, firmDetails model.FirmDetails) error {
+func (m *mockManageFirmDetailsClient) ManageFirmDetails(ctx sirius.Context, firmDetails model.FirmDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 
