@@ -13,7 +13,7 @@ describe("Deputies Tab", () => {
             cy.get(".govuk-heading-l").contains("Deputies");
         });
 
-        it("have depuites name as hyper links", () => {
+        it("have deputies name as hyper links", () => {
             cy.get(":nth-child(1) > .client_name_ref > .govuk-link").contains(
                 "pro Deputy"
             );
@@ -21,6 +21,11 @@ describe("Deputies Tab", () => {
                 "have.attr",
                 "href"
             );
+        });
+
+        it("shows panel deputy badge for relevant deputies", () => {
+            cy.get(':nth-child(1) > .client_name_ref > .moj-badge').should('not.exist');
+            cy.get(':nth-child(2) > .client_name_ref > .moj-badge').should('be.visible');
         });
 
         it("shows a dash if no assurance visit", () => {

@@ -28,9 +28,9 @@ type orders struct {
 }
 
 type assuranceVisit struct {
-	ReportReviewDate     string  `json:"reportReviewDate"`
-	VisitReportMarkedAs  RefData `json:"assuranceVisitReportMarkedAs"` 
-	AssuranceType        RefData `json:"assuranceType"`  
+	ReportReviewDate    string  `json:"reportReviewDate"`
+	VisitReportMarkedAs RefData `json:"assuranceVisitReportMarkedAs"`
+	AssuranceType       RefData `json:"assuranceType"`
 }
 
 type executiveCaseManager struct {
@@ -38,16 +38,21 @@ type executiveCaseManager struct {
 	EcmName string `json:"displayName"`
 }
 
+type deputyImportantInformation struct {
+	PanelDeputy bool `json:"panelDeputy"`
+}
+
 type Deputies struct {
-	DeputyId             int                  `json:"id"`
-	Firstname            string               `json:"firstname"`
-	Surname              string               `json:"surname"`
-	DeputyNumber         int                  `json:"deputyNumber"`
-	Orders               []orders             `json:"orders"`
-	ExecutiveCaseManager executiveCaseManager `json:"executiveCaseManager"`
-	OrganisationName     string               `json:"organisationName"`
-	Town                 string               `json:"town"`
-	AssuranceVisit       assuranceVisit       `json:"mostRecentlyCompletedAssuranceVisit"`
+	DeputyId                   int                        `json:"id"`
+	Firstname                  string                     `json:"firstname"`
+	Surname                    string                     `json:"surname"`
+	DeputyNumber               int                        `json:"deputyNumber"`
+	Orders                     []orders                   `json:"orders"`
+	ExecutiveCaseManager       executiveCaseManager       `json:"executiveCaseManager"`
+	OrganisationName           string                     `json:"organisationName"`
+	Town                       string                     `json:"town"`
+	AssuranceVisit             assuranceVisit             `json:"mostRecentlyCompletedAssuranceVisit"`
+	DeputyImportantInformation deputyImportantInformation `json:"deputyImportantInformation"`
 }
 
 type FirmDeputy struct {
@@ -58,14 +63,13 @@ type FirmDeputy struct {
 	ActiveClientsCount   int
 	ExecutiveCaseManager string
 	OrganisationName     string
-	Town                 string  
+	Town                 string
 	ReviewDate           string
 	MarkedAsLabel        string
 	MarkedAsClass        string
 	AssuranceType        string
+	//PanelDeputy          bool
 }
-
-
 
 type RefData struct {
 	Handle string `json:"handle"`
@@ -84,7 +88,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 	}
 
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode == http.StatusUnauthorized {
 		return nil, ErrUnauthorized
 	}
@@ -114,6 +118,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]FirmDeputy, error) 
 			MarkedAsLabel:        t.AssuranceVisit.VisitReportMarkedAs.Label,
 			MarkedAsClass:        strings.ToLower(t.AssuranceVisit.VisitReportMarkedAs.Label),
 			ReviewDate:           FormatDateAndTime(DateTimeFormat, t.AssuranceVisit.ReportReviewDate, DateTimeDisplayFormat),
+			//PanelDeputy:          t.DeputyImportantInformation.PanelDeputy,
 		}
 
 		deputies = append(deputies, deputy)

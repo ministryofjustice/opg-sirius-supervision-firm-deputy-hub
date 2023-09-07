@@ -51,9 +51,9 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 				w.WriteHeader(http.StatusBadRequest)
 				return tmpl.ExecuteTemplate(w, "page", vars)
 			}
-			if err != nil {
-				return err
-			}
+			//if err != nil {
+			//	return err
+			//}
 
 			return Redirect(fmt.Sprintf("/%d?success=firmDetails", app.FirmId()))
 
