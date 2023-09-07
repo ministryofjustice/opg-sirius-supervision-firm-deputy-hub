@@ -51,7 +51,11 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			if verr, ok := err.(sirius.ValidationError); ok {
 				vars.Errors = verr.Errors
 				vars.AddFirmPiiDetailForm = addFirmPiiDetailForm
+				w.WriteHeader(http.StatusBadRequest)
 				return tmpl.ExecuteTemplate(w, "page", vars)
+			}
+			if err != nil {
+				return err
 			}
 
 			return Redirect(fmt.Sprintf("/%d?success=piiDetails", app.FirmId()))

@@ -5,6 +5,7 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -24,20 +25,20 @@ func (m *mockChangeECMInformation) GetProTeamUsers(ctx sirius.Context) ([]model.
 	m.count += 1
 	m.lastCtx = ctx
 
-	return m.EcmTeamApiDetails, m.EcmTeamDetails, m.err
+	return m.EcmTeamApiDetails, m.EcmTeamDetails, m.getProTeamUsersError
 }
 
 func (m *mockChangeECMInformation) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
 	m.count += 1
 	m.lastCtx = ctx
 
-	return m.err
+	return m.changeECMError
 }
 
 func TestGetChangeECM(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockChangeECMInformation{}
+	client := &mockChangeECMClient{}
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
@@ -64,7 +65,7 @@ func TestGetChangeECM(t *testing.T) {
 
 func TestPostChangeECM(t *testing.T) {
 	assert := assert.New(t)
-	client := &mockChangeECMInformation{}
+	client := &mockChangeECMClient{}
 
 	template := &mockTemplates{}
 
@@ -86,40 +87,50 @@ func TestPostChangeECM(t *testing.T) {
 	assert.Nil(returnedError)
 }
 
-func TestPostChangeECMReturnsErrorWithNoECM(t *testing.T) {
-	assert := assert.New(t)
-	client := &mockChangeECMInformation{}
-
-	validationErrors := sirius.ValidationErrors{
-		"Change ECM": {"": "Select an executive case manager"},
-	}
-
-	client.err = sirius.ValidationError{
-		Errors: validationErrors,
-	}
-
-	template := &mockTemplates{}
-
-	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader(""))
-	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
-	var returnedError error
-
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, template)(AppVars{}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
-
-	expectedValidationError := sirius.ValidationError{
-		Errors: sirius.ValidationErrors{
-			"Change ECM": {
-				"": "Select an executive case manager",
+func TestPostChangeECMReturnsError(t *testing.T) {
+	tests := []struct {
+		apiError             error
+		wantValidationErrors sirius.ValidationErrors
+		wantError            error
+		wantCode             int
+	}{
+		{
+			apiError: sirius.ValidationError{
+				Errors: sirius.ValidationErrors{
+					"Error": {"": "Test error"},
+				},
 			},
+			wantValidationErrors: sirius.ValidationErrors{
+				"Error": {"": "Test error"},
+			},
+			wantError: nil,
+			wantCode:  400,
+		},
+		{
+			apiError:             sirius.StatusError{Code: 503},
+			wantValidationErrors: nil,
+			wantError:            sirius.StatusError{Code: 503},
+			wantCode:             503,
 		},
 	}
+	for i, test := range tests {
+		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
+			client := &mockChangeECMClient{changeECMError: test.apiError}
+			template := &mockTemplates{}
 
-	assert.Equal(expectedValidationError, returnedError)
+			w := httptest.NewRecorder()
+			r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader("select-ecm=1"))
+			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+			err := renderTemplateForChangeECM(client, template)(AppVars{}, w, r)
+
+			if test.wantValidationErrors != nil {
+				assert.Equal(t, test.apiError.(sirius.ValidationError).Errors, template.lastVars.(changeECMHubVars).Errors)
+				assert.Equal(t, test.wantCode, w.Result().StatusCode)
+			} else {
+				assert.Nil(t, template.lastVars)
+				assert.Equal(t, test.wantError, err)
+			}
+		})
+	}
 }

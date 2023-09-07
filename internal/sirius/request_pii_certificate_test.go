@@ -38,6 +38,26 @@ func TestRequestPii(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestRequestPiiReturnsValidationError(t *testing.T) {
+	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
+
+	json := `{"validation_errors": {"Test": {"error": "message"}}}`
+	r := io.NopCloser(bytes.NewReader([]byte(json)))
+
+	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: 400,
+			Body:       r,
+		}, nil
+	}
+
+	err := client.RequestPiiCertificate(getContext(nil), PiiDetailsRequest{})
+
+	assert.Equal(t, ValidationError{
+		Errors: ValidationErrors{"Test": {"error": "message"}},
+	}, err)
+}
+
 func TestRequestPiiReturnsNewStatusError(t *testing.T) {
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)

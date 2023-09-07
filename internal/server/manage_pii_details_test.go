@@ -4,15 +4,15 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
 )
 
-type mockManagePiiDetailsInformation struct {
+type mockManagePiiDetailsClient struct {
 	count   int
 	lastCtx sirius.Context
 	err     error
@@ -28,14 +28,13 @@ func (m *mockManagePiiDetailsInformation) EditPiiCertificate(ctx sirius.Context,
 func TestManagePiiDetails(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockManagePiiDetailsInformation{}
+	client := &mockManagePiiDetailsClient{}
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/path", nil)
 
-	handler := renderTemplateForManagePiiDetails(client, template)
-	err := handler(AppVars{}, w, r)
+	err := renderTemplateForManagePiiDetails(client, template)(AppVars{}, w, r)
 
 	assert.Nil(err)
 
@@ -47,76 +46,61 @@ func TestManagePiiDetails(t *testing.T) {
 }
 
 func TestPostManagePii(t *testing.T) {
-	assert := assert.New(t)
-	client := &mockManagePiiDetailsInformation{}
+	client := &mockManagePiiDetailsClient{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	var returnedError error
+	returnedError := renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
-	assert.Equal(returnedError, Redirect("/123?success=piiDetails"))
+	assert.Equal(t, Redirect("/123?success=piiDetails"), returnedError)
 }
 
-func TestErrorManagePii(t *testing.T) {
-	assert := assert.New(t)
-	client := &mockManagePiiDetailsInformation{}
-
-	validationErrors := sirius.ValidationErrors{
-		"piiReceived": {
-			"isEmpty": "The PII received date is required and can't be empty",
+func TestPostManagePiiReturnsError(t *testing.T) {
+	tests := []struct {
+		apiError             error
+		wantValidationErrors sirius.ValidationErrors
+		wantError            error
+		wantCode             int
+	}{
+		{
+			apiError: sirius.ValidationError{
+				Errors: sirius.ValidationErrors{
+					"Error": {"": "Test error"},
+				},
+			},
+			wantValidationErrors: sirius.ValidationErrors{
+				"Error": {"": "Test error"},
+			},
+			wantError: nil,
+			wantCode:  400,
 		},
-		"piiExpiry": {
-			"isEmpty": "The PII expiry is required and can't be empty",
-		},
-		"piiAmount": {
-			"isEmpty": "The PII amount is required and can't be empty",
-		},
-	}
-
-	client.err = sirius.ValidationError{
-		Errors: validationErrors,
-	}
-
-	template := &mockTemplates{}
-
-	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/133", strings.NewReader(""))
-	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
-	var returnedError error
-
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManagePiiDetails(client, template)(AppVars{}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
-
-	expectedValidationErrors := sirius.ValidationErrors{
-		"piiReceived": {
-			"isEmpty": "The PII received date is required and can't be empty",
-		},
-		"piiExpiry": {
-			"isEmpty": "The PII expiry is required and can't be empty",
-		},
-		"piiAmount": {
-			"isEmpty": "The PII amount is required and can't be empty",
+		{
+			apiError:             sirius.StatusError{Code: 503},
+			wantValidationErrors: nil,
+			wantError:            sirius.StatusError{Code: 503},
+			wantCode:             503,
 		},
 	}
+	for i, test := range tests {
+		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
+			client := &mockManagePiiDetailsClient{err: test.apiError}
+			template := &mockTemplates{}
 
-	assert.Equal(firmHubManagePiiVars{
-		AppVars: AppVars{
-			Errors: expectedValidationErrors,
-		},
-	}, template.lastVars)
+			w := httptest.NewRecorder()
+			r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	assert.Nil(returnedError)
+			err := renderTemplateForManagePiiDetails(client, template)(AppVars{}, w, r)
+
+			if test.wantValidationErrors != nil {
+				assert.Equal(t, test.apiError.(sirius.ValidationError).Errors, template.lastVars.(firmHubManagePiiVars).Errors)
+				assert.Equal(t, test.wantCode, w.Result().StatusCode)
+			} else {
+				assert.Nil(t, template.lastVars)
+				assert.Equal(t, test.wantError, err)
+			}
+		})
+	}
 }

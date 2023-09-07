@@ -19,7 +19,7 @@ type Client interface {
 	ManageFirmDetailsInformation
 	RequestPiiDetailsInformation
 	FirmHubDeputyTabInformation
-	ChangeECMInformation
+	ChangeECMClient
 }
 
 type Template interface {
@@ -66,18 +66,19 @@ func New(logger *logging.Logger, client Client, templates map[string]*template.T
 	router.PathPrefix("/javascript/").Handler(static)
 	router.PathPrefix("/stylesheets/").Handler(static)
 
-	router.NotFoundHandler = notFoundHandler(templates["error.gotmpl"], envVars)
+	router.NotFoundHandler = wrap(notFoundHandler(templates["error.gotmpl"], envVars))
 
 	return http.StripPrefix(envVars.Prefix, securityheaders.Use(router))
 }
 
-func notFoundHandler(tmplError Template, envVars EnvironmentVars) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func notFoundHandler(tmplError Template, envVars EnvironmentVars) Handler {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		_ = tmplError.ExecuteTemplate(w, "page", ErrorVars{
 			Code:            http.StatusNotFound,
-			Error:           "Not Found",
+			Error:           "Page not found",
 			EnvironmentVars: envVars,
 		})
+		return nil
 	}
 }
 

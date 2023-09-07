@@ -56,6 +56,26 @@ func TestManageFirmDetails(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestManageFirmReturnsValidationError(t *testing.T) {
+	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
+
+	json := `{"validation_errors": {"Test": {"error": "message"}}}`
+	r := io.NopCloser(bytes.NewReader([]byte(json)))
+
+	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: 400,
+			Body:       r,
+		}, nil
+	}
+
+	err := client.ManageFirmDetails(getContext(nil), FirmDetails{ID: 1})
+
+	assert.Equal(t, ValidationError{
+		Errors: ValidationErrors{"Test": {"error": "message"}},
+	}, err)
+}
+
 func TestManageFirmReturnsNewStatusError(t *testing.T) {
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -84,5 +104,4 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{})
 
 	assert.Equal(t, ErrUnauthorized, err)
-
 }

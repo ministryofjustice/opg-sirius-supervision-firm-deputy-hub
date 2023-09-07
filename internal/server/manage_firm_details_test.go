@@ -4,15 +4,15 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
 )
 
-type mockManageFirmDetailsInformation struct {
+type mockManageFirmDetailsClient struct {
 	count   int
 	lastCtx sirius.Context
 	err     error
@@ -28,14 +28,13 @@ func (m *mockManageFirmDetailsInformation) ManageFirmDetails(ctx sirius.Context,
 func TestManageFirmDetails(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockManageFirmDetailsInformation{}
+	client := &mockManageFirmDetailsClient{}
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/path", nil)
 
-	handler := renderTemplateForManageFirmDetails(client, template)
-	err := handler(AppVars{}, w, r)
+	err := renderTemplateForManageFirmDetails(client, template)(AppVars{}, w, r)
 
 	assert.Nil(err)
 
@@ -47,20 +46,61 @@ func TestManageFirmDetails(t *testing.T) {
 }
 
 func TestPostManageFirm(t *testing.T) {
-	assert := assert.New(t)
-	client := &mockManageFirmDetailsInformation{}
+	client := &mockManageFirmDetailsClient{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	var returnedError error
+	returnedError := renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
-	})
+	assert.Equal(t, Redirect("/123?success=firmDetails"), returnedError)
+}
 
-	testHandler.ServeHTTP(w, r)
-	assert.Equal(returnedError, Redirect("/123?success=firmDetails"))
+func TestPostManageFirmReturnsError(t *testing.T) {
+	tests := []struct {
+		apiError             error
+		wantValidationErrors sirius.ValidationErrors
+		wantError            error
+		wantCode             int
+	}{
+		{
+			apiError: sirius.ValidationError{
+				Errors: sirius.ValidationErrors{
+					"Error": {"": "Test error"},
+				},
+			},
+			wantValidationErrors: sirius.ValidationErrors{
+				"Error": {"": "Test error"},
+			},
+			wantError: nil,
+			wantCode:  400,
+		},
+		{
+			apiError:             sirius.StatusError{Code: 503},
+			wantValidationErrors: nil,
+			wantError:            sirius.StatusError{Code: 503},
+			wantCode:             503,
+		},
+	}
+	for i, test := range tests {
+		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
+			client := &mockManageFirmDetailsClient{err: test.apiError}
+			template := &mockTemplates{}
+
+			w := httptest.NewRecorder()
+			r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+			err := renderTemplateForManageFirmDetails(client, template)(AppVars{}, w, r)
+
+			if test.wantValidationErrors != nil {
+				assert.Equal(t, test.apiError.(sirius.ValidationError).Errors, template.lastVars.(firmHubManageFirmVars).Errors)
+				assert.Equal(t, test.wantCode, w.Result().StatusCode)
+			} else {
+				assert.Nil(t, template.lastVars)
+				assert.Equal(t, test.wantError, err)
+			}
+		})
+	}
 }
