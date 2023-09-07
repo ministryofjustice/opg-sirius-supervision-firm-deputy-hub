@@ -3,6 +3,7 @@ package sirius
 import (
 	"bytes"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -24,7 +25,7 @@ func TestChangeECM(t *testing.T) {
 	}
 	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 23}
 
-	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 76})
+	err := client.ChangeECM(getContext(nil), changeEcmForm, model.FirmDetails{ID: 76})
 	assert.Equal(t, nil, err)
 }
 
@@ -43,7 +44,7 @@ func TestChangeECMReturnsValidationError(t *testing.T) {
 
 	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 23}
 
-	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 0})
+	err := client.ChangeECM(getContext(nil), changeEcmForm, model.FirmDetails{ID: 0})
 
 	assert.Equal(t, ValidationError{
 		Errors: ValidationErrors{"Test": {"error": "message"}},
@@ -59,7 +60,7 @@ func TestChangeECMReturnsNewStatusError(t *testing.T) {
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 23}
 
-	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 76})
+	err := client.ChangeECM(getContext(nil), changeEcmForm, model.FirmDetails{ID: 76})
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
@@ -77,7 +78,7 @@ func TestChangeECMReturnsUnauthorisedClientError(t *testing.T) {
 	client, _ := NewClient(http.DefaultClient, svr.URL)
 	changeEcmForm := ExecutiveCaseManagerOutgoing{EcmId: 23}
 
-	err := client.ChangeECM(getContext(nil), changeEcmForm, FirmDetails{ID: 76})
+	err := client.ChangeECM(getContext(nil), changeEcmForm, model.FirmDetails{ID: 76})
 
 	assert.Equal(t, ErrUnauthorized, err)
 }

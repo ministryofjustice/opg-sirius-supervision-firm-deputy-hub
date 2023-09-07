@@ -1,16 +1,17 @@
 package server
 
 import (
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 )
 
 type FirmHubDeputyTabInformation interface {
-	GetFirmDeputies(sirius.Context, int) ([]sirius.FirmDeputy, error)
+	GetFirmDeputies(sirius.Context, int) ([]model.FirmDeputy, error)
 }
 
 type listDeputiesVars struct {
-	FirmDeputiesDetails []sirius.FirmDeputy
+	FirmDeputiesDetails []model.FirmDeputy
 	ErrorMessage        string
 	AppVars
 }
