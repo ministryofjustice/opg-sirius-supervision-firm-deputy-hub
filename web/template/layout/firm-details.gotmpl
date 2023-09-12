@@ -1,9 +1,7 @@
 {{ define "firm-details" }}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <a href="javascript: history.go(-1)" class="govuk-back-link">
-            Back
-            </a>
+            <a id="f-back-button" class="govuk-back-link">Back</a>
             {{ if ne .FirmDetails.FirmName "" }}
                 <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
                     {{ .FirmDetails.FirmName }}
