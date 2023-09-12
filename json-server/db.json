@@ -361,6 +361,9 @@
             "deputySubType": {
                 "handle": "ORGANISATION",
                 "label": "Organisation"
+            },
+            "deputyImportantInformation": {
+                "panelDeputy": true
             }
         }
     ],

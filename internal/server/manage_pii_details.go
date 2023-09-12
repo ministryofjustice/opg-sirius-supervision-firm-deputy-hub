@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"strconv"
 
@@ -9,12 +10,12 @@ import (
 )
 
 type ManagePiiDetailsInformation interface {
-	EditPiiCertificate(sirius.Context, sirius.PiiDetails) error
+	EditPiiCertificate(sirius.Context, model.PiiDetails) error
 }
 
 type firmHubManagePiiVars struct {
 	ErrorMessage         string
-	AddFirmPiiDetailForm sirius.PiiDetails
+	AddFirmPiiDetailForm model.PiiDetails
 	AppVars
 }
 
@@ -31,7 +32,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
-			addFirmPiiDetailForm := sirius.PiiDetails{
+			addFirmPiiDetailForm := model.PiiDetails{
 				FirmId:      app.FirmId(),
 				PiiReceived: r.PostFormValue("pii-received"),
 				PiiExpiry:   r.PostFormValue("pii-expiry"),

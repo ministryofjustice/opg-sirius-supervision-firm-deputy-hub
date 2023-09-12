@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"io"
 )
@@ -21,14 +22,14 @@ func (m *mockTemplates) ExecuteTemplate(w io.Writer, name string, vars interface
 
 type mockApiClient struct {
 	error              error
-	CurrentUserDetails sirius.Assignee
-	FirmDetails        sirius.FirmDetails
+	CurrentUserDetails model.Assignee
+	FirmDetails        model.FirmDetails
 }
 
-func (m mockApiClient) GetUserDetails(sirius.Context) (sirius.Assignee, error) {
+func (m mockApiClient) GetUserDetails(sirius.Context) (model.Assignee, error) {
 	return m.CurrentUserDetails, m.error
 }
 
-func (m mockApiClient) GetFirmDetails(sirius.Context, int) (sirius.FirmDetails, error) {
+func (m mockApiClient) GetFirmDetails(sirius.Context, int) (model.FirmDetails, error) {
 	return m.FirmDetails, m.error
 }
