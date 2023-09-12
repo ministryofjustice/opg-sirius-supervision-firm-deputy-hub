@@ -3,6 +3,7 @@ package sirius
 import (
 	"bytes"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -94,7 +95,7 @@ func TestGetPaDeputyTeamUsersReturned(t *testing.T) {
 		}, nil
 	}
 
-	expectedResponse := []Member{
+	expectedResponse := []model.Member{
 		{
 			Id:          90,
 			DisplayName: "LayTeam1 User20",
@@ -129,7 +130,7 @@ func TestGetPaDeputyTeamUsersReturnsNewStatusError(t *testing.T) {
 
 	_, proDeputyMembers, err := client.GetProTeamUsers(getContext(nil))
 
-	var expectedResponse []Member
+	var expectedResponse []model.Member
 
 	assert.Equal(t, expectedResponse, proDeputyMembers)
 	assert.Equal(t, StatusError{
@@ -149,7 +150,7 @@ func TestGetPaDeputyTeamUsersReturnsUnauthorisedClientError(t *testing.T) {
 
 	_, proDeputyMembers, err := client.GetProTeamUsers(getContext(nil))
 
-	var expectedResponse []Member
+	var expectedResponse []model.Member
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, proDeputyMembers)
