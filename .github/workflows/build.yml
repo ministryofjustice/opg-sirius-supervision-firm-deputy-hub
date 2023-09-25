@@ -35,7 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run linting
-        uses: golangci/golangci-lint-action@v3
+        run: make go-lint
 
   cypress:
     name: Cypress
@@ -83,19 +83,12 @@ jobs:
         run: make build
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: sirius/sirius-firm-deputy-hub:latest
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-          exit-code: '1'
-          ignore-unfixed: true
+        run: make scan
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: 'test-results/trivy.sarif'
 
       - name: Bump version
         id: bump_version
@@ -126,18 +119,14 @@ jobs:
           registries: 311462405659
 
       - name: Push Container
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          DEPUTY_HUB_ECR_REPOSITORY: sirius/sirius-firm-deputy-hub
         run: |
-          docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:${{ steps.bump_version.outputs.tag }}
+          docker tag 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:latest 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:${{ steps.bump_version.outputs.tag }}
           if [ $BRANCH_NAME == "main" ]; then
-            docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:latest
-            docker tag sirius/sirius-firm-deputy-hub:latest $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:main-${{ steps.bump_version.outputs.tag }}
+            docker tag 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:latest 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:main-${{ steps.bump_version.outputs.tag }}
             # We want all of the tags pushed
-            docker push --all-tags $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY
+            docker push  --all-tags 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub
           else
-            docker push $ECR_REGISTRY/$DEPUTY_HUB_ECR_REPOSITORY:${{ steps.bump_version.outputs.tag }}
+            docker push 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:${{ steps.bump_version.outputs.tag }}
           fi
   push-tags:
     runs-on: ubuntu-latest
