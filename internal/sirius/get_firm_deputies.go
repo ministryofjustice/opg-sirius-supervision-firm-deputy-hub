@@ -47,10 +47,10 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]model.FirmDeputy, e
 			ExecutiveCaseManager: t.ExecutiveCaseManager.DisplayName,
 			OrganisationName:     t.OrganisationName,
 			Town:                 t.Town,
-			AssuranceType:        t.AssuranceVisit.AssuranceType.Label,
-			MarkedAsLabel:        t.AssuranceVisit.VisitReportMarkedAs.Label,
-			MarkedAsClass:        strings.ToLower(t.AssuranceVisit.VisitReportMarkedAs.Label),
-			ReviewDate:           FormatDateAndTime(DateTimeFormat, t.AssuranceVisit.ReportReviewDate, DateTimeDisplayFormat),
+			AssuranceType:        t.Assurance.AssuranceType.Label,
+			MarkedAsLabel:        t.Assurance.VisitReportMarkedAs.Label,
+			MarkedAsClass:        strings.ToLower(t.Assurance.VisitReportMarkedAs.Label),
+			ReviewDate:           FormatDateAndTime(DateTimeFormat, t.Assurance.ReportReviewDate, DateTimeDisplayFormat),
 			PanelDeputy:          t.DeputyImportantInformation.PanelDeputy,
 		}
 
