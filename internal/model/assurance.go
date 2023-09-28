@@ -1,7 +1,7 @@
 package model
 
-type AssuranceVisit struct {
+type Assurance struct {
 	ReportReviewDate    string  `json:"reportReviewDate"`
-	VisitReportMarkedAs RefData `json:"assuranceVisitReportMarkedAs"`
+	VisitReportMarkedAs RefData `json:"reportMarkedAs"`
 	AssuranceType       RefData `json:"assuranceType"`
 }
