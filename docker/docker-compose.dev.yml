@@ -3,24 +3,19 @@ version: "3.6"
 services:
   firm-deputy-hub:
     build:
-      context: ..
-      dockerfile: ./docker/sirius-firm-deputy-hub/Dockerfile
       target: dev
     ports:
       - "2345:2345"
       - "8887:1234"
     volumes:
-      - ..:/app:rw,delegated
-      - /app/web/static
-    environment:
-      SIRIUS_URL: http://json-server:3000
-      SIRIUS_PUBLIC_URL: http://localhost:8080
-      PRO_HUB_HOST: http://localhost:8888
-      PREFIX: /supervision/deputies/firm
+      - .:/app:rw,delegated
+      - ./json-server/config:/app/config
+
+  yarn:
+    command: watch
 
   json-server:
     build:
-      context: ..
-      dockerfile: ./docker/json-server/Dockerfile
+      dockerfile: docker/json-server/Dockerfile
     ports:
       - "3000:3000"
