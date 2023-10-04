@@ -28,7 +28,9 @@ up:
 	docker compose up --build -d firm-deputy-hub
 
 dev-up:
-	docker compose -f docker/docker-compose.dev.yml up --build firm-deputy-hub json-server
+	docker compose run --rm yarn
+	docker compose run --rm yarn build
+	docker compose -f docker-compose.yml -f docker/docker-compose.dev.yml up --build firm-deputy-hub json-server
 
 down:
 	docker compose down

@@ -27,7 +27,8 @@
         "test-server": "cd internal/server && go test",
         "cypress": "cypress open",
         "cypress-m1": "cypress open -c baseUrl=http://localhost:8888",
-        "fmt": "prettier --write ."
+        "fmt": "prettier --write .",
+        "watch": "yarn build:js --watch=forever"
     },
     "resolutions": {
         "colors": "1.4.0"
