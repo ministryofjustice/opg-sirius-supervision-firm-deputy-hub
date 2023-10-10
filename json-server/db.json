@@ -209,9 +209,9 @@
                 "handle": "PERSON",
                 "label": "Person"
             },
-            "mostRecentlyCompletedAssuranceVisit": {
+            "mostRecentlyCompletedAssurance": {
 				"reportReviewDate" : "2023-05-26T00:00:00+00:00",
-				"assuranceVisitReportMarkedAs": {
+				"reportMarkedAs": {
 					"handle": "GREEN",
 					"label": "Green"
 				},

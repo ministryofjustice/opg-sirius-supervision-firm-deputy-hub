@@ -13,7 +13,7 @@ type Deputies struct {
 	ExecutiveCaseManager       ExecutiveCaseManager       `json:"executiveCaseManager"`
 	OrganisationName           string                     `json:"organisationName"`
 	Town                       string                     `json:"town"`
-	AssuranceVisit             AssuranceVisit             `json:"mostRecentlyCompletedAssuranceVisit"`
+	Assurance                  Assurance                  `json:"mostRecentlyCompletedAssurance"`
 	DeputyImportantInformation DeputyImportantInformation `json:"deputyImportantInformation"`
 }
 

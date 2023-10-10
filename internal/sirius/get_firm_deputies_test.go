@@ -43,9 +43,9 @@ func TestGetFirmDeputiesReturned(t *testing.T) {
 			"firm":{
 				"id":1
 			},
-			"mostRecentlyCompletedAssuranceVisit": {
+			"mostRecentlyCompletedAssurance": {
 				"reportReviewDate" : "2023-05-26T00:00:00+00:00",
-				"assuranceVisitReportMarkedAs": {
+				"reportMarkedAs": {
 					"handle": "GREEN",
 					"label": "Green"
 				},
