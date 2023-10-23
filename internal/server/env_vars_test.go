@@ -13,7 +13,7 @@ func TestNewEnvironmentVars(t *testing.T) {
 		Port:            "1234",
 		WebDir:          "web",
 		SiriusURL:       "http://localhost:8080",
-		SiriusPublicURL: "",
+		SiriusPublicURL: "http://localhost:8080",
 		ProHubURL:       "/supervision/deputies",
 		Prefix:          "",
 	}, vars)
