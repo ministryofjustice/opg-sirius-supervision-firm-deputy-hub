@@ -148,10 +148,12 @@ func Test_wrapHandler_redirects_if_unauthorized(t *testing.T) {
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodGet, "test-url", nil)
 
+	r.RequestURI = "/test-redirect"
+
 	mockClient := mockApiClient{error: sirius.ErrUnauthorized}
 
 	errorTemplate := &mockTemplates{}
-	envVars := EnvironmentVars{SiriusURL: "sirius-url", Prefix: "prefix/"}
+	envVars := EnvironmentVars{SiriusPublicURL: "sirius-url", Prefix: "prefix/"}
 	nextHandlerFunc := wrapHandler(logger, mockClient, errorTemplate, envVars)
 	next := mockNext{}
 	httpHandler := nextHandlerFunc(next.GetHandler())
@@ -161,7 +163,7 @@ func Test_wrapHandler_redirects_if_unauthorized(t *testing.T) {
 	assert.Equal(t, 302, w.Result().StatusCode)
 	location, err := w.Result().Location()
 	assert.Nil(t, err)
-	assert.Equal(t, "sirius-url/auth", location.String())
+	assert.Equal(t, "sirius-url/auth?redirect=/test-redirect", location.String())
 }
 
 func Test_wrapHandler_follows_local_redirect(t *testing.T) {
