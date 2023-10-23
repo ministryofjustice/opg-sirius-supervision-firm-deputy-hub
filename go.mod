@@ -3,11 +3,11 @@ module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 go 1.17
 
 require (
-	github.com/ministryofjustice/opg-go-common v0.0.0-20220816144329-763497f29f90
+	github.com/ministryofjustice/opg-go-common v0.0.0-20231009133357-1f236d604316
 	github.com/stretchr/testify v1.8.1
 )
 
-require golang.org/x/sync v0.3.0 // indirect
+require golang.org/x/sync v0.3.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
