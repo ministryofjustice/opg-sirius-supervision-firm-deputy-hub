@@ -1199,6 +1199,7 @@ onetime@^5.1.0:
 
 "opg-sirius-header@ministryofjustice/opg-sirius-header#semver:v0.16.0":
   version "1.0.0"
+  uid "1d1ddeb05b15b812c8905463d04fcb700cfe5d55"
   resolved "https://codeload.github.com/ministryofjustice/opg-sirius-header/tar.gz/1d1ddeb05b15b812c8905463d04fcb700cfe5d55"
   dependencies:
     scss "^0.2.4"
