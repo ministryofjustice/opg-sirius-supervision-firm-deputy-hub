@@ -39,7 +39,7 @@ describe("Deputies Tab", () => {
                 "26/05/2023"
             );
             cy.get(":nth-child(1) > .visit_type > .secondary").contains(
-                "Green"
+                "Low risk"
             );
         });
 
