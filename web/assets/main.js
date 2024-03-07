@@ -2,8 +2,11 @@ import "govuk-frontend/dist/govuk/all.mjs";
 import MojBannerAutoHide from "./javascript/moj-banner-auto-hide";
 import accessibleAutocomplete from "accessible-autocomplete";
 import "opg-sirius-header/sirius-header.js";
+import {initAll} from "govuk-frontend";
 
-document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+document.body.className += ' js-enabled'
+    + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+
 initAll();
 
 MojBannerAutoHide(document.querySelector(".app-main-class"));
