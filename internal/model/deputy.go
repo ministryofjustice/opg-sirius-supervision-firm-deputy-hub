@@ -1,5 +1,7 @@
 package model
 
+import "strings"
+
 type DeputyImportantInformation struct {
 	PanelDeputy bool `json:"panelDeputy"`
 }
@@ -31,4 +33,25 @@ type FirmDeputy struct {
 	MarkedAsClass        string
 	AssuranceType        string
 	PanelDeputy          bool
+}
+
+type RAGRating struct {
+	Name   string
+	Colour string
+}
+
+func (fd FirmDeputy) GetRAGRating() RAGRating {
+	var rag RAGRating
+	switch strings.ToUpper(fd.MarkedAsClass) {
+	case "RED":
+		rag.Name = "High risk"
+		rag.Colour = "red"
+	case "AMBER":
+		rag.Name = "Medium risk"
+		rag.Colour = "orange"
+	case "GREEN":
+		rag.Name = "Low risk"
+		rag.Colour = "green"
+	}
+	return rag
 }

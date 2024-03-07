@@ -59,9 +59,10 @@
                            {{ .ActiveClientsCount }}
                         </td>
                         <td class="govuk-table__cell visit_type nowrap">
-                            {{ if and .ReviewDate .MarkedAsLabel }}
-                                {{ .ReviewDate }}
-                                <span class="secondary rag {{ .MarkedAsClass }}">{{ .MarkedAsLabel }}</span>
+                            {{ if and .ReviewDate .MarkedAsClass }}
+                                {{ $rag := .GetRAGRating }}
+                                <label>{{ .ReviewDate }}</label>
+                                <span class="secondary"><strong class="govuk-tag govuk-tag--{{ $rag.Colour }}">{{ $rag.Name }}</strong></span>
                             {{ else }}
                                 - 
                             {{ end }}
