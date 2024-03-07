@@ -1,4 +1,4 @@
-import GOVUKFrontend from "govuk-frontend/govuk/all.js";
+import * as GOVUKFrontend from "govuk-frontend/dist/govuk/all.mjs";
 import MojBannerAutoHide from "./javascript/moj-banner-auto-hide";
 import accessibleAutocomplete from "accessible-autocomplete";
 import "opg-sirius-header/sirius-header.js";
