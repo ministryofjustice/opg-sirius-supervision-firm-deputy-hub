@@ -3,25 +3,25 @@
     "version": "1.0.0",
     "license": "MIT",
     "dependencies": {
-        "@ministryofjustice/frontend": "^1.6.3",
+        "@ministryofjustice/frontend": "^2.1.0",
+        "govuk-frontend": "^5.0.0",
         "accessible-autocomplete": "^2.0.3",
-        "govuk-frontend": "^4.3.1",
         "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.16.0"
     },
     "devDependencies": {
-        "axe-core": "^4.3.5",
-        "cypress": "^13.0.0",
-        "cypress-axe": "^1.0.0",
-        "cypress-failed-log": "^2.9.5",
+        "axe-core": "^4.8.3",
+        "cypress": "^13.6.4",
+        "cypress-axe": "^1.5.0",
+        "cypress-failed-log": "^2.10.0",
         "esbuild": "^0.20.0",
         "prettier": "3.2.5",
-        "sass": "^1.38.1"
+        "sass": "^1.70.0"
     },
     "scripts": {
         "build": "yarn build:js && yarn build:css && yarn build:images",
         "build:js": "esbuild --bundle web/assets/main.js --minify --outfile=web/static/javascript/all.js --sourcemap --resolve-extensions=.mjs,.js",
         "build:css": "sass --load-path . --style compressed web/assets/main.scss web/static/stylesheets/all.css",
-        "build:images": "mkdir -p web/static/assets/images && cp node_modules/govuk-frontend/govuk/assets/images/* node_modules/@ministryofjustice/frontend/moj/assets/images/* web/static/assets/images",
+        "build:images": "mkdir -p web/static/assets/images && cp node_modules/govuk-frontend/dist/govuk/assets/images/* node_modules/@ministryofjustice/frontend/moj/assets/images/* web/static/assets/images",
         "clean": "rm -rf web/static",
         "test-sirius": "cd internal/sirius && go test",
         "test-server": "cd internal/server && go test",
