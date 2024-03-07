@@ -1,9 +1,10 @@
-import * as GOVUKFrontend from "govuk-frontend/dist/govuk/all.mjs";
+import "govuk-frontend/dist/govuk/all.mjs";
 import MojBannerAutoHide from "./javascript/moj-banner-auto-hide";
 import accessibleAutocomplete from "accessible-autocomplete";
 import "opg-sirius-header/sirius-header.js";
 
-GOVUKFrontend.initAll();
+document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+initAll();
 
 MojBannerAutoHide(document.querySelector(".app-main-class"));
 
