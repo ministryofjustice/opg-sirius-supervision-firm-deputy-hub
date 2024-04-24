@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	logger := util.NewLogger("opg-sirius-supervision-firm-deputy-hub ")
+	logger := util.NewLogger("opg-sirius-firm-deputy-hub ")
 
 	envVars, err := server.NewEnvironmentVars()
 	if err != nil {
