@@ -50,7 +50,7 @@ func (m *mockNext) GetHandler() Handler {
 	}
 }
 
-var logger = util.NewLogger("test")
+var logger = util.NewLogger("test ")
 
 func Test_wrapHandler_successful_request(t *testing.T) {
 	w := httptest.NewRecorder()
