@@ -2,9 +2,10 @@ package server
 
 import (
 	"fmt"
-	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
+	"log/slog"
 	"net/http"
 )
 
@@ -43,7 +44,7 @@ type ErrorHandlerClient interface {
 	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
 }
 
-func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {
+func wrapHandler(logger *slog.Logger, client ErrorHandlerClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			vars, err := NewAppVars(client, r, envVars)
@@ -69,7 +70,7 @@ func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Te
 					return
 				}
 
-				logger.Request(r, err)
+				util.LoggerRequest(logger, r, err)
 
 				code := http.StatusInternalServerError
 				if serverStatusError, ok := err.(StatusError); ok {
@@ -88,7 +89,7 @@ func wrapHandler(logger *logging.Logger, client ErrorHandlerClient, tmplError Te
 				err = tmplError.ExecuteTemplate(w, "page", errVars)
 
 				if err != nil {
-					logger.Request(r, err)
+					util.LoggerRequest(logger, r, nil)
 					http.Error(w, err.Error(), http.StatusInternalServerError)
 				}
 			}
