@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
+	"github.com/ministryofjustice/opg-go-common/telemetry"
 	"html/template"
 	"io"
 	"log/slog"
@@ -34,12 +34,7 @@ func New(logger *slog.Logger, client Client, templates map[string]*template.Temp
 	router.Handle("/health-check", healthCheck())
 
 	pageRouter := router.PathPrefix("/{id}").Subrouter()
-	pageRouter.Use(func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			util.LoggerRequest(logger, r, nil)
-			next.ServeHTTP(w, r)
-		})
-	})
+	pageRouter.Use(telemetry.Middleware(logger))
 
 	pageRouter.Handle("",
 		wrap(

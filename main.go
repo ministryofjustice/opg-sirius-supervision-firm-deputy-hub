@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/ministryofjustice/opg-go-common/telemetry"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
 	"html/template"
 	"net/http"
@@ -17,7 +18,7 @@ import (
 )
 
 func main() {
-	logger := util.NewLogger("opg-sirius-firm-deputy-hub ")
+	logger := telemetry.NewLogger("opg-sirius-firm-deputy-hub ")
 
 	envVars, err := server.NewEnvironmentVars()
 	if err != nil {

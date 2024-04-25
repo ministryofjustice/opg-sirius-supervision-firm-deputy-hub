@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
 	"log/slog"
 	"net/http"
 )
@@ -39,6 +38,28 @@ type ErrorVars struct {
 	EnvironmentVars
 }
 
+type ExpandedError interface {
+	Title() string
+	Data() interface{}
+}
+
+func LoggerRequest(l *slog.Logger, r *http.Request, err error) {
+	if ee, ok := err.(ExpandedError); ok {
+		l.Info(ee.Title(),
+			slog.String("request_method", r.Method),
+			slog.String("request_uri", r.URL.String()),
+			slog.Any("data", ee.Data()))
+	} else if err != nil {
+		l.Info(err.Error(),
+			slog.String("request_method", r.Method),
+			slog.String("request_uri", r.URL.String()))
+	} else {
+		l.Info("",
+			slog.String("request_method", r.Method),
+			slog.String("request_uri", r.URL.String()))
+	}
+}
+
 type ErrorHandlerClient interface {
 	GetUserDetails(sirius.Context) (model.Assignee, error)
 	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
@@ -70,7 +91,7 @@ func wrapHandler(logger *slog.Logger, client ErrorHandlerClient, tmplError Templ
 					return
 				}
 
-				util.LoggerRequest(logger, r, err)
+				LoggerRequest(logger, r, err)
 
 				code := http.StatusInternalServerError
 				if serverStatusError, ok := err.(StatusError); ok {
@@ -89,7 +110,7 @@ func wrapHandler(logger *slog.Logger, client ErrorHandlerClient, tmplError Templ
 				err = tmplError.ExecuteTemplate(w, "page", errVars)
 
 				if err != nil {
-					util.LoggerRequest(logger, r, nil)
+					LoggerRequest(logger, r, nil)
 					http.Error(w, err.Error(), http.StatusInternalServerError)
 				}
 			}

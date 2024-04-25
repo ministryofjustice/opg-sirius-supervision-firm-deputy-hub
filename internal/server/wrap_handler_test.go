@@ -2,8 +2,8 @@ package server
 
 import (
 	"errors"
+	"github.com/ministryofjustice/opg-go-common/telemetry"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -50,7 +50,7 @@ func (m *mockNext) GetHandler() Handler {
 	}
 }
 
-var logger = util.NewLogger("test ")
+var logger = telemetry.NewLogger("test ")
 
 func Test_wrapHandler_successful_request(t *testing.T) {
 	w := httptest.NewRecorder()
