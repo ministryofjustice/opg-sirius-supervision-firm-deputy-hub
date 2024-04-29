@@ -18,6 +18,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.0 h1:Wqo399gCIufwto+VfwCSvsnfGpF
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.0/go.mod h1:qmOFXW2epJhM0qSnUUYpldc7gVz2KMQwJ/QYCDIa7XU=
 github.com/ministryofjustice/opg-go-common v0.0.0-20240422101718-0e820ea906d2 h1:I7j5OFhC17U5Z2BdyBm1SADrMj1YpHPHibl+b0mwZ+o=
 github.com/ministryofjustice/opg-go-common v0.0.0-20240422101718-0e820ea906d2/go.mod h1:quiAne9HW2seduWV//T+2+G02K3Gpr5t8rjY+pWUa0Q=
+github.com/ministryofjustice/opg-go-common v1.1.0-SW-6856-add-versioning.2 h1:le87UcUUfSc5v9JNFds1nUFyoFy0ih0HE5DFkKAVsC0=
+github.com/ministryofjustice/opg-go-common v1.1.0-SW-6856-add-versioning.2/go.mod h1:quiAne9HW2seduWV//T+2+G02K3Gpr5t8rjY+pWUa0Q=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
