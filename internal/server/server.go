@@ -2,12 +2,13 @@ package server
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/ministryofjustice/opg-go-common/telemetry"
 	"html/template"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 
-	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-go-common/securityheaders"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
@@ -26,14 +27,14 @@ type Template interface {
 	ExecuteTemplate(io.Writer, string, interface{}) error
 }
 
-func New(logger *logging.Logger, client Client, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
+func New(logger *slog.Logger, client Client, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
 	wrap := wrapHandler(logger, client, templates["error.gotmpl"], envVars)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/health-check", healthCheck())
 
 	pageRouter := router.PathPrefix("/{id}").Subrouter()
-	pageRouter.Use(logging.Use(logger))
+	pageRouter.Use(telemetry.Middleware(logger))
 
 	pageRouter.Handle("",
 		wrap(

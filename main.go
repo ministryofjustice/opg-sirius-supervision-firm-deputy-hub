@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"github.com/ministryofjustice/opg-go-common/telemetry"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/util"
 	"html/template"
 	"net/http"
@@ -11,17 +13,16 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ministryofjustice/opg-go-common/logging"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/server"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
 func main() {
-	logger := logging.New(os.Stdout, "opg-sirius-firm-deputy-hub ")
+	logger := telemetry.NewLogger("opg-sirius-firm-deputy-hub ")
 
 	envVars, err := server.NewEnvironmentVars()
 	if err != nil {
-		logger.Fatal(err)
+		logger.Info(err.Error())
 	}
 
 	layouts, _ := template.
@@ -49,7 +50,7 @@ func main() {
 
 	client, err := sirius.NewClient(http.DefaultClient, envVars.SiriusURL)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Info(err.Error())
 	}
 
 	server := &http.Server{
@@ -59,22 +60,22 @@ func main() {
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
-			logger.Fatal(err)
+			logger.Info(err.Error())
 		}
 	}()
 
-	logger.Print("Running at :" + envVars.Port)
+	logger.Info("Running at :" + envVars.Port)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 
 	sig := <-c
-	logger.Print("signal received: ", sig)
+	logger.Info(fmt.Sprint("signal received: ", sig))
 
 	tc, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
 	if err := server.Shutdown(tc); err != nil {
-		logger.Print(err)
+		logger.Info(fmt.Sprint(err))
 	}
 }
