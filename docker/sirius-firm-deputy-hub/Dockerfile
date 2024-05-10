@@ -1,4 +1,4 @@
-FROM golang:1.22.2-alpine3.19 as base
+FROM golang:1.22.3-alpine3.19 as base
 WORKDIR /app
 
 ENV CGO_ENABLED=0
