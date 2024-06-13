@@ -39,7 +39,7 @@
                         <td
                             class="govuk-table__cell client_name_ref nowrap"
                             label="deputyId {{ .DeputyId }}">
-                            <a class="govuk-link govuk-!-margin-right-1" href="{{ prohub (printf "/%d" .DeputyId) }}">
+                            <a id="deputy-name" class="govuk-link govuk-!-margin-right-1" href="{{ prohub (printf "/%d" .DeputyId) }}">
                                 {{ if .Firstname }}{{.Firstname}} {{.Surname}}{{ else }}{{.OrganisationName}}{{ end }}
                             </a>
                             {{ if eq .PanelDeputy true }}
