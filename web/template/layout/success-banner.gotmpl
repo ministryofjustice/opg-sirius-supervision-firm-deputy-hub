@@ -17,7 +17,7 @@
             data-cy="success-banner">
             <span class="moj-banner__assistive"> Success </span>
             {{ .SuccessMessage }}
-            <a class="govuk-link" href="{{ prefix .Path }}">Close</a>
+            <a id="close-success-message" class="govuk-link" href="{{ prefix .Path }}">Close</a>
         </div>
     </div>
 {{ end }}
