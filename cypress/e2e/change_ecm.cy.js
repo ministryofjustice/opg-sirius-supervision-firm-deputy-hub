@@ -19,7 +19,7 @@ describe("Change Ecm", () => {
 
         it("has a cancel link which returns to the main firms page", () => {
             cy.visit("/supervision/deputies/firm/1/change-ecm");
-            cy.get(".govuk-link").should("contain", "Cancel").click();
+            cy.get("#change-ecm-cancel").should("contain", "Cancel").click();
             cy.url().should("not.include", "firm/1/change-ecm");
             cy.get(".govuk-heading-l").should("contain", "Firm details");
         });
