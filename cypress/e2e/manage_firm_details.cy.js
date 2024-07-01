@@ -16,7 +16,7 @@ describe("Manage Firm Details", () => {
 
         it("has a cancel link which returns to the main firms page", () => {
             cy.visit("/supervision/deputies/firm/1/manage-firm-details");
-            cy.get(".govuk-link").should("contain", "Cancel").click();
+            cy.get("#cancel-manage-firms").should("contain", "Cancel").click();
             cy.url().should("not.include", "firm/1/manage-firm-details");
             cy.get(".govuk-heading-l").should("contain", "Firm details");
         });
