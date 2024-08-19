@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/ministryofjustice/opg-go-common/telemetry"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"html/template"
 	"io"
 	"log/slog"
@@ -13,63 +13,70 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
-type Client interface {
-	ErrorHandlerClient
-	FirmHubInformation
-	ManagePiiDetailsInformation
-	ManageFirmDetailsInformation
-	RequestPiiDetailsInformation
-	FirmHubDeputyTabInformation
-	ChangeECMClient
+//
+//type Client interface {
+//	ErrorHandlerClient
+//	ManagePiiDetailsInformation
+//	ManageFirmDetailsInformation
+//	RequestPiiDetailsInformation
+//	FirmHubDeputyTabInformation
+//	ChangeECMClient
+//}
+
+type ApiClient interface {
+	GetUserDetails(sirius.Context) (model.Assignee, error)
+	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
+	EditPiiCertificate(sirius.Context, model.PiiDetails) error
+	ManageFirmDetails(sirius.Context, model.FirmDetails) error
+	RequestPiiCertificate(sirius.Context, sirius.PiiDetailsRequest) error
+	GetFirmDeputies(sirius.Context, int) ([]model.FirmDeputy, error)
+	GetProTeamUsers(sirius.Context) ([]model.TeamMembers, []model.Member, error)
+	ChangeECM(sirius.Context, sirius.ExecutiveCaseManagerOutgoing, model.FirmDetails) error
 }
 
 type Template interface {
 	ExecuteTemplate(io.Writer, string, interface{}) error
 }
 
-func New(logger *slog.Logger, client Client, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
+func New(logger *slog.Logger, client ApiClient, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
 	wrap := wrapHandler(logger, client, templates["error.gotmpl"], envVars)
 
-	router := mux.NewRouter().StrictSlash(true)
-	router.Handle("/health-check", healthCheck())
+	//router := mux.NewRouter().StrictSlash(true)
+	//router.Handle("/health-check", healthCheck())
 
-	pageRouter := router.PathPrefix("/{id}").Subrouter()
-	pageRouter.Use(telemetry.Middleware(logger))
+	mux := http.NewServeMux()
+	mux.Handle("GET /{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	pageRouter.Handle("",
-		wrap(
-			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("POST /{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	pageRouter.Handle("/manage-pii-details",
-		wrap(
-			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+	mux.Handle("GET /{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+	mux.Handle("GET /{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+	mux.Handle("GET /{firmId}/deputies", wrap(renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
+	mux.Handle("GET /{firmId}/health-check", healthCheck())
+	mux.Handle("GET /{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+	mux.Handle("GET /{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
-	pageRouter.Handle("/manage-firm-details",
-		wrap(
-			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
-
-	pageRouter.Handle("/deputies",
-		wrap(
-			renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
-
-	router.Handle("/health-check", healthCheck())
-
-	pageRouter.Handle("/request-pii-details",
-		wrap(
-			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
-
-	pageRouter.Handle("/change-ecm",
-		wrap(
-			renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
+	//static := http.FileServer(http.Dir(envVars.WebDir))
+	//mux.Handle("/assets/", static)
+	//mux.Handle("/javascript/", static)
+	//mux.Handle("/stylesheets/", static)
 
 	static := staticFileHandler(envVars.WebDir)
-	router.PathPrefix("/assets/").Handler(static)
-	router.PathPrefix("/javascript/").Handler(static)
-	router.PathPrefix("/stylesheets/").Handler(static)
+	mux.Handle("/assets/", static)
+	mux.Handle("/javascript/", static)
+	mux.Handle("/stylesheets/", static)
 
-	router.NotFoundHandler = wrap(notFoundHandler(templates["error.gotmpl"], envVars))
+	//router.NotFoundHandler = wrap(notFoundHandler(templates["error.gotmpl"], envVars))
 
-	return http.StripPrefix(envVars.Prefix, securityheaders.Use(router))
+	return otelhttp.NewHandler(http.StripPrefix(envVars.Prefix, securityheaders.Use(mux)), "supervision-firm-hub")
+}
+
+func staticFileHandler(webDir string) http.Handler {
+	h := http.FileServer(http.Dir(webDir + "/static"))
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "must-revalidate")
+		h.ServeHTTP(w, r)
+	})
 }
 
 func notFoundHandler(tmplError Template, envVars EnvironmentVars) Handler {
@@ -99,12 +106,4 @@ func getContext(r *http.Request) sirius.Context {
 		Cookies:   r.Cookies(),
 		XSRFToken: token,
 	}
-}
-
-func staticFileHandler(webDir string) http.Handler {
-	h := http.FileServer(http.Dir(webDir + "/static"))
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Cache-Control", "must-revalidate")
-		h.ServeHTTP(w, r)
-	})
 }
