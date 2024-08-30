@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"log/slog"
 	"net/http"
@@ -60,18 +59,14 @@ func LoggerRequest(l *slog.Logger, r *http.Request, err error) {
 	}
 }
 
-type ErrorHandlerClient interface {
-	GetUserDetails(sirius.Context) (model.Assignee, error)
-	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
-}
-
-func wrapHandler(logger *slog.Logger, client ErrorHandlerClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {
+func wrapHandler(logger *slog.Logger, client ApiClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			vars, err := NewAppVars(client, r, envVars)
 
+			var err error
+			vars, err := NewAppVars(client, r, envVars)
 			if err == nil {
-				err = next(*vars, w, r)
+				err = next(vars, w, r)
 			}
 
 			if err != nil {
