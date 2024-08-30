@@ -33,8 +33,8 @@ func New(logger *slog.Logger, client ApiClient, templates map[string]*template.T
 
 	mux := http.NewServeMux()
 
-	mux.Handle("GET /firm/{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
-	mux.Handle("POST /firm/{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 	mux.Handle("GET /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 	mux.Handle("POST /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 	mux.Handle("GET /firm/{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
