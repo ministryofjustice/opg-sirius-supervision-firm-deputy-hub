@@ -1,15 +1,19 @@
-version: "3.6"
-
 services:
   firm-deputy-hub:
     build:
       target: dev
     ports:
       - "2345:2345"
-      - "8887:1234"
     volumes:
-      - .:/app:rw,delegated
-      - ./json-server/config:/app/config
+      - ./.air.toml:/app/.air.toml
+      - ./go.mod:/app/go.mod
+      - ./go.sum:/app/go.sum
+      - ./internal:/app/internal
+      - ./shared:/app/shared
+      - ./main_test.go:/app/main_test.go
+      - ./main.go:/app/main.go
+      - ./web/static:/app/web/static
+      - ./web/template:/app/web/template
 
   yarn:
     command: watch
@@ -17,5 +21,7 @@ services:
   json-server:
     build:
       dockerfile: docker/json-server/Dockerfile
+    volumes:
+      - ./json-server/config:/app/config
     ports:
       - "3000:3000"
