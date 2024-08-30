@@ -1,11 +1,10 @@
-version: "3.6"
-
 services:
   firm-deputy-hub:
     image: 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:latest
     build:
       dockerfile: docker/sirius-firm-deputy-hub/Dockerfile
-    ports: ["8888:8888"]
+    ports:
+      - "8888:8888"
     environment:
       PORT: 8888
       SIRIUS_URL: http://json-server:3000
@@ -28,7 +27,6 @@ services:
       - ./cypress/logs:/root/cypress/logs:rw,delegated
     depends_on:
       - firm-deputy-hub
-      - json-server
 
   test-runner:
     build:
