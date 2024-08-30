@@ -41,25 +41,17 @@ type Template interface {
 func New(logger *slog.Logger, client ApiClient, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
 	wrap := wrapHandler(logger, client, templates["error.gotmpl"], envVars)
 
-	//router := mux.NewRouter().StrictSlash(true)
-	//router.Handle("/health-check", healthCheck())
-
 	mux := http.NewServeMux()
-	mux.Handle("GET /{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	mux.Handle("POST /{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
 
-	mux.Handle("GET /{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
-	mux.Handle("GET /{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
-	mux.Handle("GET /{firmId}/deputies", wrap(renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
-	mux.Handle("GET /{firmId}/health-check", healthCheck())
-	mux.Handle("GET /{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
-	mux.Handle("GET /{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
-
-	//static := http.FileServer(http.Dir(envVars.WebDir))
-	//mux.Handle("/assets/", static)
-	//mux.Handle("/javascript/", static)
-	//mux.Handle("/stylesheets/", static)
+	mux.Handle("GET /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/deputies", wrap(renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/health-check", healthCheck())
+	mux.Handle("GET /firm/{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
 	static := staticFileHandler(envVars.WebDir)
 	mux.Handle("/assets/", static)
