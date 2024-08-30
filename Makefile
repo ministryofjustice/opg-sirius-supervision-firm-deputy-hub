@@ -42,5 +42,5 @@ test-results:
 unit-test: setup-directories
 	docker compose run --rm test-runner gotestsum --junitfile test-results/unit-tests.xml -- ./... -coverprofile=test-results/test-coverage.txt
 
-up: clean build-dev
-	docker compose -f docker-compose.yml -f docker/docker-compose.dev.yml up firm-deputy-hub json-server yarn
+up: clean
+	docker compose -f docker-compose.yml up --build firm-deputy-hub json-server yarn
