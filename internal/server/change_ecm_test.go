@@ -30,9 +30,6 @@ func TestGetChangeECM(t *testing.T) {
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
 
-	//assert.Equal(1, client.count)
-	//assert.Equal(getContext(r), client.lastCtx)
-
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
 	assert.Equal(changeECMHubVars{
