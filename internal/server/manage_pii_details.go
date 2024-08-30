@@ -9,17 +9,13 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
-type ManagePiiDetailsInformation interface {
-	EditPiiCertificate(sirius.Context, model.PiiDetails) error
-}
-
 type firmHubManagePiiVars struct {
 	ErrorMessage         string
 	AddFirmPiiDetailForm model.PiiDetails
 	AppVars
 }
 
-func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl Template) Handler {
+func renderTemplateForManagePiiDetails(client ApiClient, tmpl Template) Handler {
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		ctx := getContext(r)
 

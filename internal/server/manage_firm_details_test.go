@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -12,23 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mockManageFirmDetailsClient struct {
-	count   int
-	lastCtx sirius.Context
-	err     error
-}
-
-func (m *mockManageFirmDetailsClient) ManageFirmDetails(ctx sirius.Context, firmDetails model.FirmDetails) error {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.err
-}
-
 func TestManageFirmDetails(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockManageFirmDetailsClient{}
+	client := mockClient
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
@@ -46,13 +32,13 @@ func TestManageFirmDetails(t *testing.T) {
 }
 
 func TestPostManageFirm(t *testing.T) {
-	client := &mockManageFirmDetailsClient{}
+	client := mockClient
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	returnedError := renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
+	returnedError := renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockClient.firmDetails}, w, r)
 
 	assert.Equal(t, Redirect("/firm/123?success=firmDetails"), returnedError)
 }
@@ -85,7 +71,8 @@ func TestPostManageFirmReturnsError(t *testing.T) {
 	}
 	for i, test := range tests {
 		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
-			client := &mockManageFirmDetailsClient{err: test.apiError}
+			client := mockClient
+			client.manageFirmDetailsErr = test.apiError
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()

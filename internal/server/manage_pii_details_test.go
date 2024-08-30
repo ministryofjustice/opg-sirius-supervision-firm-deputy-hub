@@ -1,34 +1,20 @@
 package server
 
 import (
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"strings"
 	"testing"
 
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
 )
-
-type mockManagePiiDetailsClient struct {
-	count   int
-	lastCtx sirius.Context
-	err     error
-}
-
-func (m *mockManagePiiDetailsClient) EditPiiCertificate(ctx sirius.Context, piiData model.PiiDetails) error {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.err
-}
 
 func TestManagePiiDetails(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockManagePiiDetailsClient{}
+	client := mockClient
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
@@ -46,13 +32,13 @@ func TestManagePiiDetails(t *testing.T) {
 }
 
 func TestPostManagePii(t *testing.T) {
-	client := &mockManagePiiDetailsClient{}
+	client := mockClient
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	returnedError := renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
+	returnedError := renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockClient.firmDetails}, w, r)
 
 	assert.Equal(t, Redirect("/firm/123?success=piiDetails"), returnedError)
 }
@@ -85,7 +71,8 @@ func TestPostManagePiiReturnsError(t *testing.T) {
 	}
 	for i, test := range tests {
 		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
-			client := &mockManagePiiDetailsClient{err: test.apiError}
+			client := mockClient
+			client.editPiiCertificateErr = test.apiError
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()
