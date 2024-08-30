@@ -7,6 +7,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkpeCY=
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
+github.com/felixge/httpsnoop v1.0.4 h1:NFTV2Zj1bL4mc9sqWACXbQFVBBg2W3GPvqp8/ESS2Wg=
+github.com/felixge/httpsnoop v1.0.4/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
 github.com/go-logr/logr v1.2.2/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
 github.com/go-logr/logr v1.4.1 h1:pKouT5E8xu9zeFC39JXRDukb6JFQPXM5p5I91188VAQ=
 github.com/go-logr/logr v1.4.1/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
@@ -46,6 +48,8 @@ go.opentelemetry.io/contrib/detectors/aws/ecs v1.27.0 h1:3VwT2JwYqorDQZS5CGnKD5O
 go.opentelemetry.io/contrib/detectors/aws/ecs v1.27.0/go.mod h1:uqNiuQtZU5YjW2mu58xptApZaxxDJefKrSd+QaAMoWw=
 go.opentelemetry.io/contrib/detectors/aws/ecs v1.28.0 h1:m5PcF0VJ5BcX9AQmPQl9nNmm268s1JCVkQKeQPmavKc=
 go.opentelemetry.io/contrib/detectors/aws/ecs v1.28.0/go.mod h1:M3swUI/YXREpfrK9HoVP3CnXtxc7EHSDpKNI+Tjr7Mw=
+go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.53.0 h1:4K4tsIXefpVJtvA/8srF4V4y0akAoPHkIslgAkjixJA=
+go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.53.0/go.mod h1:jjdQuTGVsXV4vSs+CJ2qYDeDPf9yIJV23qlIzBm73Vg=
 go.opentelemetry.io/contrib/propagators/aws v1.27.0 h1:RJexJi4R0S9CpxzuhhzGlTCIpaaK9SJH9g9BFrCWfPE=
 go.opentelemetry.io/contrib/propagators/aws v1.27.0/go.mod h1:bqU5Ma1dEQ7VtRbPMUsH8UDTuTMiLJN4W+eUmyNVayc=
 go.opentelemetry.io/contrib/propagators/aws v1.28.0 h1:acyTl4oyin/iLr5Nz3u7p/PKHUbLh42w/fqg9LblExk=

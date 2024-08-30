@@ -11,30 +11,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mockRequestPiiDetailsClient struct {
-	count   int
-	lastCtx sirius.Context
-	err     error
-}
-
-func (m *mockRequestPiiDetailsClient) RequestPiiCertificate(ctx sirius.Context, piiData sirius.PiiDetailsRequest) error {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.err
-}
-
 func TestGetRequestPiiDetails(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockRequestPiiDetailsClient{}
+	client := mockClient
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForRequestPiiDetails(client, template)
-	err := handler(AppVars{FirmDetails: mockFirmDetails}, w, r)
+	err := handler(AppVars{FirmDetails: mockClient.firmDetails}, w, r)
 
 	assert.Nil(err)
 
@@ -46,15 +33,15 @@ func TestGetRequestPiiDetails(t *testing.T) {
 }
 
 func TestPostRequestPii(t *testing.T) {
-	client := &mockRequestPiiDetailsClient{}
+	client := mockClient
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	returnedError := renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
+	returnedError := renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockClient.firmDetails}, w, r)
 
-	assert.Equal(t, Redirect("/123?success=requestPiiDetails"), returnedError)
+	assert.Equal(t, Redirect("/firm/123?success=requestPiiDetails"), returnedError)
 }
 
 func TestPostRequestPiiReturnsError(t *testing.T) {
@@ -85,7 +72,8 @@ func TestPostRequestPiiReturnsError(t *testing.T) {
 	}
 	for i, test := range tests {
 		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
-			client := &mockRequestPiiDetailsClient{err: test.apiError}
+			client := mockClient
+			client.requestPiiCertificateErr = test.apiError
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()
