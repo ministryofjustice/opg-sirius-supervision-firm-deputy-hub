@@ -31,10 +31,6 @@ func (e StatusError) Code() int {
 
 type Handler func(app AppVars, w http.ResponseWriter, r *http.Request) error
 
-//type Handler interface {
-//	render(app AppVars, w http.ResponseWriter, r *http.Request) error
-//}
-
 type ErrorVars struct {
 	Code  int
 	Error string
@@ -62,11 +58,6 @@ func LoggerRequest(l *slog.Logger, r *http.Request, err error) {
 			slog.String("request_uri", r.URL.String()))
 	}
 }
-
-//type ErrorHandlerClient interface {
-//	GetUserDetails(sirius.Context) (model.Assignee, error)
-//	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
-//}
 
 func wrapHandler(logger *slog.Logger, client ApiClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {

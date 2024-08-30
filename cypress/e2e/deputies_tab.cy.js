@@ -53,7 +53,7 @@ describe("Deputies Tab", () => {
             cy.get(":nth-child(1) > .moj-sub-navigation__link").click();
             cy.url().should(
                 "not.eq",
-                "http://localhost:8888/supervision/deputies/firm/1/deputies"
+                "http://localhost:8887/supervision/deputies/firm/1/deputies"
             );
         });
 
