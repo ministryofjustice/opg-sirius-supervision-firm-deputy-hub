@@ -56,7 +56,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 				return err
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=firmDetails", app.FirmId()))
+			return Redirect(fmt.Sprintf("/firm/%d?success=firmDetails", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

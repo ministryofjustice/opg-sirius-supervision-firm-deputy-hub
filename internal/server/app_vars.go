@@ -22,11 +22,6 @@ func (a AppVars) FirmId() int {
 	return a.FirmDetails.ID
 }
 
-//type AppVarsClient interface {
-//	GetUserDetails(sirius.Context) (model.Assignee, error)
-//	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
-//}
-
 func NewAppVars(client ApiClient, r *http.Request, envVars EnvironmentVars) (*AppVars, error) {
 	ctx := getContext(r)
 	group, groupCtx := errgroup.WithContext(ctx.Context)

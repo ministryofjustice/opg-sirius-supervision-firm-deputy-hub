@@ -54,7 +54,7 @@ func TestPostManagePii(t *testing.T) {
 
 	returnedError := renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	assert.Equal(t, Redirect("/123?success=piiDetails"), returnedError)
+	assert.Equal(t, Redirect("/firm/123?success=piiDetails"), returnedError)
 }
 
 func TestPostManagePiiReturnsError(t *testing.T) {

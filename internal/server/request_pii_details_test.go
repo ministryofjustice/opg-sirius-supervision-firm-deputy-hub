@@ -54,7 +54,7 @@ func TestPostRequestPii(t *testing.T) {
 
 	returnedError := renderTemplateForRequestPiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	assert.Equal(t, Redirect("/123?success=requestPiiDetails"), returnedError)
+	assert.Equal(t, Redirect("/firm/123?success=requestPiiDetails"), returnedError)
 }
 
 func TestPostRequestPiiReturnsError(t *testing.T) {

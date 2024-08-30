@@ -54,7 +54,7 @@ func TestPostManageFirm(t *testing.T) {
 
 	returnedError := renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	assert.Equal(t, Redirect("/123?success=firmDetails"), returnedError)
+	assert.Equal(t, Redirect("/firm/123?success=firmDetails"), returnedError)
 }
 
 func TestPostManageFirmReturnsError(t *testing.T) {

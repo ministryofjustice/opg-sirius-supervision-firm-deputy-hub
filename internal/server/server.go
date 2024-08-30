@@ -13,16 +13,6 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
-//
-//type Client interface {
-//	ErrorHandlerClient
-//	ManagePiiDetailsInformation
-//	ManageFirmDetailsInformation
-//	RequestPiiDetailsInformation
-//	FirmHubDeputyTabInformation
-//	ChangeECMClient
-//}
-
 type ApiClient interface {
 	GetUserDetails(sirius.Context) (model.Assignee, error)
 	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
@@ -42,16 +32,19 @@ func New(logger *slog.Logger, client ApiClient, templates map[string]*template.T
 	wrap := wrapHandler(logger, client, templates["error.gotmpl"], envVars)
 
 	mux := http.NewServeMux()
+
 	mux.Handle("GET /firm/{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
-
 	mux.Handle("POST /firm/{firmId}/", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
-
 	mux.Handle("GET /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
 	mux.Handle("GET /firm/{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
 	mux.Handle("GET /firm/{firmId}/deputies", wrap(renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
 	mux.Handle("GET /firm/{firmId}/health-check", healthCheck())
 	mux.Handle("GET /firm/{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
 	mux.Handle("GET /firm/{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
 	static := staticFileHandler(envVars.WebDir)
 	mux.Handle("/assets/", static)
