@@ -22,7 +22,7 @@ func (a AppVars) FirmId() int {
 	return a.FirmDetails.ID
 }
 
-func NewAppVars(client ApiClient, r *http.Request, envVars EnvironmentVars) (*AppVars, error) {
+func NewAppVars(client ApiClient, r *http.Request, envVars EnvironmentVars) (AppVars, error) {
 	ctx := getContext(r)
 	group, groupCtx := errgroup.WithContext(ctx.Context)
 
@@ -51,8 +51,8 @@ func NewAppVars(client ApiClient, r *http.Request, envVars EnvironmentVars) (*Ap
 	})
 
 	if err := group.Wait(); err != nil {
-		return nil, err
+		return AppVars{}, err
 	}
 
-	return &vars, nil
+	return vars, nil
 }

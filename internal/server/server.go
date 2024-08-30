@@ -50,6 +50,7 @@ func New(logger *slog.Logger, client ApiClient, templates map[string]*template.T
 	mux.Handle("/assets/", static)
 	mux.Handle("/javascript/", static)
 	mux.Handle("/stylesheets/", static)
+	mux.Handle("/", wrap(notFoundHandler(templates["error.gotmpl"], envVars)))
 
 	return otelhttp.NewHandler(http.StripPrefix(envVars.Prefix, securityheaders.Use(mux)), "supervision-firm-hub")
 }
@@ -60,6 +61,17 @@ func staticFileHandler(webDir string) http.Handler {
 		w.Header().Set("Cache-Control", "must-revalidate")
 		h.ServeHTTP(w, r)
 	})
+}
+
+func notFoundHandler(tmplError Template, envVars EnvironmentVars) Handler {
+	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
+		_ = tmplError.ExecuteTemplate(w, "page", ErrorVars{
+			Code:            http.StatusNotFound,
+			Error:           "Page not found",
+			EnvironmentVars: envVars,
+		})
+		return nil
+	}
 }
 
 func getContext(r *http.Request) sirius.Context {

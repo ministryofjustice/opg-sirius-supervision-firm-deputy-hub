@@ -31,6 +31,10 @@ func (e StatusError) Code() int {
 
 type Handler func(app AppVars, w http.ResponseWriter, r *http.Request) error
 
+//type Handler interface {
+//	render(app AppVars, w http.ResponseWriter, r *http.Request) error
+//}
+
 type ErrorVars struct {
 	Code  int
 	Error string
@@ -67,10 +71,11 @@ func LoggerRequest(l *slog.Logger, r *http.Request, err error) {
 func wrapHandler(logger *slog.Logger, client ApiClient, tmplError Template, envVars EnvironmentVars) func(next Handler) http.Handler {
 	return func(next Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			vars, err := NewAppVars(client, r, envVars)
 
+			var err error
+			vars, err := NewAppVars(client, r, envVars)
 			if err == nil {
-				err = next(*vars, w, r)
+				err = next(vars, w, r)
 			}
 
 			if err != nil {

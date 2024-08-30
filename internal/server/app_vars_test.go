@@ -35,5 +35,5 @@ func TestNewAppVars(t *testing.T) {
 		Error:           "",
 		Errors:          nil,
 		EnvironmentVars: envVars,
-	}, *vars)
+	}, vars)
 }
