@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"golang.org/x/sync/errgroup"
@@ -23,12 +22,7 @@ func (a AppVars) FirmId() int {
 	return a.FirmDetails.ID
 }
 
-type AppVarsClient interface {
-	GetUserDetails(sirius.Context) (model.Assignee, error)
-	GetFirmDetails(sirius.Context, int) (model.FirmDetails, error)
-}
-
-func NewAppVars(client AppVarsClient, r *http.Request, envVars EnvironmentVars) (*AppVars, error) {
+func NewAppVars(client ApiClient, r *http.Request, envVars EnvironmentVars) (AppVars, error) {
 	ctx := getContext(r)
 	group, groupCtx := errgroup.WithContext(ctx.Context)
 
@@ -47,7 +41,7 @@ func NewAppVars(client AppVarsClient, r *http.Request, envVars EnvironmentVars) 
 		return nil
 	})
 	group.Go(func() error {
-		firmId, _ := strconv.Atoi(mux.Vars(r)["id"])
+		firmId, _ := strconv.Atoi(r.PathValue("firmId"))
 		firm, err := client.GetFirmDetails(ctx.With(groupCtx), firmId)
 		if err != nil {
 			return err
@@ -57,8 +51,8 @@ func NewAppVars(client AppVarsClient, r *http.Request, envVars EnvironmentVars) 
 	})
 
 	if err := group.Wait(); err != nil {
-		return nil, err
+		return AppVars{}, err
 	}
 
-	return &vars, nil
+	return vars, nil
 }

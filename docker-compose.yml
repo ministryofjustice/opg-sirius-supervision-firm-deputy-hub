@@ -8,7 +8,7 @@ services:
     environment:
       PORT: 8888
       SIRIUS_URL: http://json-server:3000
-      PREFIX: /supervision/deputies/firm
+      PREFIX: /supervision/deputies
     depends_on:
       - json-server
 
