@@ -23,7 +23,7 @@
                 <div class="moj-button-menu">
                     <div class="moj-button-menu__wrapper">
                            <div class="moj-button-menu__wrapper">
-                              <a href="{{ prefix (printf "/%d/change-ecm" .FirmDetails.ID) }}" role="button" draggable="false" class="govuk-button moj-button-menu__item govuk-button--secondary " data-module="govuk-button">
+                              <a href="{{ prefix (printf "/firm/%d/change-ecm" .FirmDetails.ID) }}" role="button" draggable="false" class="govuk-button moj-button-menu__item govuk-button--secondary " data-module="govuk-button">
                                 Change ECM
                               </a>
                            </div>
@@ -102,7 +102,7 @@
                             </dd>
                         </div>
                     </dl>
-                    <a href="{{ prefix (printf "/%d/manage-firm-details" .FirmDetails.ID) }}" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    <a href="{{ prefix (printf "/firm/%d/manage-firm-details" .FirmDetails.ID) }}" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                             Manage firm details
                     </a>
                 </div>
@@ -135,7 +135,7 @@
                 </div>
             </dl>
             <a
-                href="{{ prefix (printf "/%d/manage-pii-details" .FirmDetails.ID) }}"
+                href="{{ prefix (printf "/firm/%d/manage-pii-details" .FirmDetails.ID) }}"
                 role="button"
                 draggable="false"
                 id="manage-pii-btn"
@@ -145,7 +145,7 @@
                 Manage PII information
             </a>
            <a
-                href="{{ prefix (printf "/%d/request-pii-details" .FirmDetails.ID) }}"
+                href="{{ prefix (printf "/firm/%d/request-pii-details" .FirmDetails.ID) }}"
                 role="button"
                 id="request-pii-btn"
                 draggable="false"
