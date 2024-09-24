@@ -49,12 +49,12 @@ func TestPostManageFirm(t *testing.T) {
 	client := &mockManageFirmDetailsClient{}
 
 	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+	r, _ := http.NewRequest("POST", "/firm/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	returnedError := renderTemplateForManageFirmDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	assert.Equal(t, Redirect("/123?success=firmDetails"), returnedError)
+	assert.Equal(t, Redirect("/firm/123?success=firmDetails"), returnedError)
 }
 
 func TestPostManageFirmReturnsError(t *testing.T) {
@@ -89,7 +89,7 @@ func TestPostManageFirmReturnsError(t *testing.T) {
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()
-			r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+			r, _ := http.NewRequest("POST", "/firm/123", strings.NewReader(""))
 			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 			err := renderTemplateForManageFirmDetails(client, template)(AppVars{}, w, r)
