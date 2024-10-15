@@ -58,7 +58,7 @@ func renderTemplateForManagePiiDetails(client ManagePiiDetailsInformation, tmpl 
 				return err
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=piiDetails", app.FirmId()))
+			return Redirect(fmt.Sprintf("/firm/%d?success=piiDetails", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)

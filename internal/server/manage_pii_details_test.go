@@ -49,12 +49,12 @@ func TestPostManagePii(t *testing.T) {
 	client := &mockManagePiiDetailsClient{}
 
 	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+	r, _ := http.NewRequest("POST", "/firm/123", strings.NewReader(""))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	returnedError := renderTemplateForManagePiiDetails(client, nil)(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
-	assert.Equal(t, Redirect("/123?success=piiDetails"), returnedError)
+	assert.Equal(t, Redirect("/firm/123?success=piiDetails"), returnedError)
 }
 
 func TestPostManagePiiReturnsError(t *testing.T) {
@@ -89,7 +89,7 @@ func TestPostManagePiiReturnsError(t *testing.T) {
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()
-			r, _ := http.NewRequest("POST", "/123", strings.NewReader(""))
+			r, _ := http.NewRequest("POST", "/firm/123", strings.NewReader(""))
 			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 			err := renderTemplateForManagePiiDetails(client, template)(AppVars{}, w, r)

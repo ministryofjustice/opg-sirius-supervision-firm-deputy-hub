@@ -1,8 +1,6 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/ministryofjustice/opg-go-common/telemetry"
 	"html/template"
 	"io"
 	"log/slog"
@@ -11,6 +9,7 @@ import (
 
 	"github.com/ministryofjustice/opg-go-common/securityheaders"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 
 type Client interface {
@@ -30,46 +29,28 @@ type Template interface {
 func New(logger *slog.Logger, client Client, templates map[string]*template.Template, envVars EnvironmentVars) http.Handler {
 	wrap := wrapHandler(logger, client, templates["error.gotmpl"], envVars)
 
-	router := mux.NewRouter().StrictSlash(true)
-	router.Handle("/health-check", healthCheck())
+	mux := http.NewServeMux()
 
-	pageRouter := router.PathPrefix("/{id}").Subrouter()
-	pageRouter.Use(telemetry.Middleware(logger))
-
-	pageRouter.Handle("",
-		wrap(
-			renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
-
-	pageRouter.Handle("/manage-pii-details",
-		wrap(
-			renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
-
-	pageRouter.Handle("/manage-firm-details",
-		wrap(
-			renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
-
-	pageRouter.Handle("/deputies",
-		wrap(
-			renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
-
-	router.Handle("/health-check", healthCheck())
-
-	pageRouter.Handle("/request-pii-details",
-		wrap(
-			renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
-
-	pageRouter.Handle("/change-ecm",
-		wrap(
-			renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}", wrap(renderTemplateForFirmHub(client, templates["firm-hub.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/manage-pii-details", wrap(renderTemplateForManagePiiDetails(client, templates["manage-pii-details.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/manage-firm-details", wrap(renderTemplateForManageFirmDetails(client, templates["manage-firm-details.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/deputies", wrap(renderTemplateForDeputyTab(client, templates["deputies.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/health-check", healthCheck())
+	mux.Handle("GET /firm/{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/request-pii-details", wrap(renderTemplateForRequestPiiDetails(client, templates["request-pii-details.gotmpl"])))
+	mux.Handle("GET /firm/{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
+	mux.Handle("POST /firm/{firmId}/change-ecm", wrap(renderTemplateForChangeECM(client, templates["change-ecm.gotmpl"])))
 
 	static := staticFileHandler(envVars.WebDir)
-	router.PathPrefix("/assets/").Handler(static)
-	router.PathPrefix("/javascript/").Handler(static)
-	router.PathPrefix("/stylesheets/").Handler(static)
+	mux.Handle("/assets/", static)
+	mux.Handle("/javascript/", static)
+	mux.Handle("/stylesheets/", static)
+	mux.Handle("/", wrap(notFoundHandler(templates["error.gotmpl"], envVars)))
 
-	router.NotFoundHandler = wrap(notFoundHandler(templates["error.gotmpl"], envVars))
-
-	return http.StripPrefix(envVars.Prefix, securityheaders.Use(router))
+	return otelhttp.NewHandler(http.StripPrefix(envVars.Prefix, securityheaders.Use(mux)), "supervision-firm-hub")
 }
 
 func notFoundHandler(tmplError Template, envVars EnvironmentVars) Handler {
