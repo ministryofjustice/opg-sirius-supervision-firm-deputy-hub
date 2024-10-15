@@ -56,10 +56,7 @@ func Test_wrapHandler_successful_request(t *testing.T) {
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodGet, "test-url", nil)
 
-	mockClient := mockApiClient{
-		CurrentUserDetails: mockUserDetails,
-		FirmDetails:        mockFirmDetails,
-	}
+	mockClient := mockClient
 
 	errorTemplate := &mockTemplates{}
 	envVars := EnvironmentVars{}
@@ -73,8 +70,8 @@ func Test_wrapHandler_successful_request(t *testing.T) {
 	assert.Equal(t, r, next.r)
 	assert.Equal(t, 1, next.Called)
 	assert.Equal(t, "test-url", next.app.Path)
-	assert.Equal(t, mockClient.CurrentUserDetails, next.app.User)
-	assert.Equal(t, mockClient.FirmDetails, next.app.FirmDetails)
+	assert.Equal(t, mockClient.currentUserDetails, next.app.User)
+	assert.Equal(t, mockClient.firmDetails, next.app.FirmDetails)
 	assert.Equal(t, 200, w.Result().StatusCode)
 }
 
@@ -119,10 +116,7 @@ func Test_wrapHandler_status_error_handling(t *testing.T) {
 			w := httptest.NewRecorder()
 			r, _ := http.NewRequest(http.MethodGet, "test-url", nil)
 
-			mockClient := mockApiClient{
-				CurrentUserDetails: mockUserDetails,
-				FirmDetails:        mockFirmDetails,
-			}
+			mockClient := mockClient
 
 			errorTemplate := &mockTemplates{error: errors.New("some template error")}
 			envVars := EnvironmentVars{}
@@ -169,10 +163,7 @@ func Test_wrapHandler_follows_local_redirect(t *testing.T) {
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodGet, "test-url", nil)
 
-	mockClient := mockApiClient{
-		CurrentUserDetails: mockUserDetails,
-		FirmDetails:        mockFirmDetails,
-	}
+	mockClient := mockClient
 
 	errorTemplate := &mockTemplates{}
 	envVars := EnvironmentVars{Prefix: "prefix/"}

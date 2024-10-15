@@ -8,20 +8,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mockFirmHubInformation struct {
-}
-
 func TestCanRenderFirmDetailsPage(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockFirmHubInformation{}
+	client := mockClient
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/supervision/deputies/firm/3", nil)
 
 	handler := renderTemplateForFirmHub(client, template)
-	app := AppVars{FirmDetails: mockFirmDetails}
+	app := AppVars{FirmDetails: mockClient.firmDetails}
 	err := handler(app, w, r)
 
 	assert.Nil(err)

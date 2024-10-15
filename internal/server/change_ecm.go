@@ -64,7 +64,7 @@ func renderTemplateForChangeECM(client ChangeECMClient, tmpl Template) Handler {
 				return err
 			}
 
-			return Redirect(fmt.Sprintf("/%d?success=ecm", app.FirmId()))
+			return Redirect(fmt.Sprintf("/firm/%d?success=ecm", app.FirmId()))
 
 		default:
 			return StatusError(http.StatusMethodNotAllowed)
