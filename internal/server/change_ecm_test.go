@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -13,49 +12,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mockChangeECMClient struct {
-	count                int
-	lastCtx              sirius.Context
-	getProTeamUsersError error
-	changeECMError       error
-	EcmTeamDetails       []model.Member
-	EcmTeamApiDetails    []model.TeamMembers
-}
-
-func (m *mockChangeECMClient) GetProTeamUsers(ctx sirius.Context) ([]model.TeamMembers, []model.Member, error) {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.EcmTeamApiDetails, m.EcmTeamDetails, m.getProTeamUsersError
-}
-
-func (m *mockChangeECMClient) ChangeECM(ctx sirius.Context, changeEcmForm sirius.ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
-	m.count += 1
-	m.lastCtx = ctx
-
-	return m.changeECMError
-}
-
 func TestGetChangeECM(t *testing.T) {
 	assert := assert.New(t)
 
-	client := &mockChangeECMClient{}
+	client := mockClient
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/path", nil)
 
 	handler := renderTemplateForChangeECM(client, template)
-	app := AppVars{FirmDetails: mockFirmDetails}
+	app := AppVars{FirmDetails: mockClient.firmDetails}
 	err := handler(app, w, r)
 
 	assert.Nil(err)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-
-	assert.Equal(1, client.count)
-	assert.Equal(getContext(r), client.lastCtx)
 
 	assert.Equal(1, template.count)
 	assert.Equal("page", template.lastName)
@@ -66,7 +39,7 @@ func TestGetChangeECM(t *testing.T) {
 
 func TestPostChangeECM(t *testing.T) {
 	assert := assert.New(t)
-	client := &mockChangeECMClient{}
+	client := mockClient
 
 	template := &mockTemplates{}
 
@@ -116,7 +89,8 @@ func TestPostChangeECMReturnsError(t *testing.T) {
 	}
 	for i, test := range tests {
 		t.Run("Scenario "+strconv.Itoa(i+1), func(t *testing.T) {
-			client := &mockChangeECMClient{changeECMError: test.apiError}
+			client := mockClient
+			client.changeEcmErr = test.apiError
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()

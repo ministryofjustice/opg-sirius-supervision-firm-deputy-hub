@@ -6,15 +6,12 @@ import (
 	"strings"
 )
 
-type FirmHubInformation interface {
-}
-
 type firmHubVars struct {
 	SuccessMessage template.HTML
 	AppVars
 }
 
-func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler {
+func renderTemplateForFirmHub(client ApiClient, tmpl Template) Handler {
 	return func(app AppVars, w http.ResponseWriter, r *http.Request) error {
 		if r.Method != http.MethodGet {
 			return StatusError(http.StatusMethodNotAllowed)
