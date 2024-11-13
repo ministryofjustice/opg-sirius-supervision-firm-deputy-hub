@@ -1,15 +1,15 @@
 module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 
-go 1.22
+go 1.22.7
 
-toolchain go1.23.2
+toolchain go1.23.3
 
 require (
-	github.com/ministryofjustice/opg-go-common v1.31.0
+	github.com/ministryofjustice/opg-go-common v1.32.0
 	github.com/stretchr/testify v1.9.0
 )
 
-require golang.org/x/sync v0.8.0
+require golang.org/x/sync v0.9.0
 
 require (
 	github.com/brunoscheufler/aws-ecs-metadata-go v0.0.0-20221221133751-67e37ae746cd // indirect
@@ -18,8 +18,8 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0 // indirect
-	go.opentelemetry.io/contrib/detectors/aws/ecs v1.30.0 // indirect
-	go.opentelemetry.io/contrib/propagators/aws v1.30.0 // indirect
+	go.opentelemetry.io/contrib/detectors/aws/ecs v1.31.0 // indirect
+	go.opentelemetry.io/contrib/propagators/aws v1.31.0 // indirect
 	go.opentelemetry.io/otel v1.31.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.31.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.31.0 // indirect
@@ -32,7 +32,7 @@ require (
 	golang.org/x/text v0.19.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241007155032-5fefd90f89a9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241007155032-5fefd90f89a9 // indirect
-	google.golang.org/grpc v1.67.1 // indirect
+	google.golang.org/grpc v1.68.0 // indirect
 	google.golang.org/protobuf v1.35.1 // indirect
 )
 
