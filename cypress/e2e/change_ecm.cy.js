@@ -7,8 +7,10 @@ describe("Change Ecm", () => {
     describe("Navigation", () => {
         it("has a link from the main firms page", () => {
             cy.visit("/supervision/deputies/firm/1");
-            cy.get(".moj-button-menu__wrapper > .govuk-button")
-                .should("contain", "Change ECM")
+            cy.get('a[href*="/change-ecm"]')
+                .should('exist')
+                .and('be.visible')
+                .and('contain.text', 'Change ECM')
                 .click();
             cy.url().should("include", "firm/1/change-ecm");
             cy.get(".govuk-heading-l").should(
