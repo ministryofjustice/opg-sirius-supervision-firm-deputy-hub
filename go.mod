@@ -5,8 +5,8 @@ go 1.22.7
 toolchain go1.23.3
 
 require (
-	github.com/ministryofjustice/opg-go-common v1.34.0
-	github.com/stretchr/testify v1.9.0
+	github.com/ministryofjustice/opg-go-common v1.38.0
+	github.com/stretchr/testify v1.10.0
 )
 
 require golang.org/x/sync v0.9.0
