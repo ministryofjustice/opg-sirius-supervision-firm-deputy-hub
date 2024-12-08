@@ -2,14 +2,14 @@ module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 
 go 1.22.7
 
-toolchain go1.23.3
+toolchain go1.23.4
 
 require (
-	github.com/ministryofjustice/opg-go-common v1.34.0
-	github.com/stretchr/testify v1.9.0
+	github.com/ministryofjustice/opg-go-common v1.39.0
+	github.com/stretchr/testify v1.10.0
 )
 
-require golang.org/x/sync v0.9.0
+require golang.org/x/sync v0.10.0
 
 require (
 	github.com/brunoscheufler/aws-ecs-metadata-go v0.0.0-20221221133751-67e37ae746cd // indirect
