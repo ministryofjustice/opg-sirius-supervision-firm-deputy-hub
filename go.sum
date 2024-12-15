@@ -46,6 +46,8 @@ github.com/ministryofjustice/opg-go-common v1.34.0 h1:z/GVe5McNwl0qhRuM6mUm4nlG4
 github.com/ministryofjustice/opg-go-common v1.34.0/go.mod h1:pHtsj+7zCtw+vJm9nFvtY9gT/SsVNouQJYz33JRlibE=
 github.com/ministryofjustice/opg-go-common v1.41.0 h1:IUNeuENR76VrW9x4+bWY+KzuJmzil4fU03XOr765uQg=
 github.com/ministryofjustice/opg-go-common v1.41.0/go.mod h1:ChMNWq0LXn5CexlllRmuMxiWlCcIB0+msrPNJ8mXktQ=
+github.com/ministryofjustice/opg-go-common v1.42.0 h1:4dY8yrDVQ5qd2NKqso3ZJWjNL77IFiVrlO5Hlz6uGfY=
+github.com/ministryofjustice/opg-go-common v1.42.0/go.mod h1:DNUfpJyK2636vjpuzKSVCWYMEuwe7Jm6/nOrR5eHcMw=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-internal v1.12.0 h1:exVL4IDcn6na9z1rAb56Vxr+CgyK3nn3O+epU5NdKM8=
@@ -202,6 +204,8 @@ google.golang.org/grpc v1.67.1 h1:zWnc1Vrcno+lHZCOofnIMvycFcc0QRGIzm9dhnDX68E=
 google.golang.org/grpc v1.67.1/go.mod h1:1gLDyUQU7CTLJI90u3nXZ9ekeghjeM7pTDZlqFNg2AA=
 google.golang.org/grpc v1.68.0 h1:aHQeeJbo8zAkAa3pRzrVjZlbz6uSfeOXlJNQM0RAbz0=
 google.golang.org/grpc v1.68.0/go.mod h1:fmSPC5AsjSBCK54MyHRx48kpOti1/jRfOlwEWywNjWA=
+google.golang.org/grpc v1.69.0 h1:quSiOM1GJPmPH5XtU+BCoVXcDVJJAzNcoyfC2cCjGkI=
+google.golang.org/grpc v1.69.0/go.mod h1:vyjdE6jLBI76dgpDojsFGNaHlxdjXN9ghpnd2o7JGZ4=
 google.golang.org/protobuf v1.34.1 h1:9ddQBjfCyZPOHPUiPxpYESBLc+T8P3E+Vo4IbKZgFWg=
 google.golang.org/protobuf v1.34.1/go.mod h1:c6P6GXX6sHbq/GpV6MGZEdwhWPcYBgnhAHhKbcUYpos=
 google.golang.org/protobuf v1.34.2 h1:6xV6lTsCfpGD21XK49h7MhtcApnLqkfYgPcdHftf6hg=
