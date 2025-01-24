@@ -16,6 +16,6 @@ func TestNewEnvironmentVars(t *testing.T) {
 		SiriusPublicURL:  "http://localhost:8080",
 		ProHubURL:        "/supervision/deputies",
 		Prefix:           "",
-		FinanceAdminLink: "1",
+		FinanceAdminLink: "0",
 	}, vars)
 }

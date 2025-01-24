@@ -22,7 +22,7 @@ func NewEnvironmentVars() (EnvironmentVars, error) {
 		SiriusPublicURL:  getEnv("SIRIUS_PUBLIC_URL", "http://localhost:8080"),
 		ProHubURL:        getEnv("PRO_HUB_HOST", "") + "/supervision/deputies",
 		Prefix:           getEnv("PREFIX", ""),
-		FinanceAdminLink: getEnv("FINANCE_ADMIN_LINK", "1"),
+		FinanceAdminLink: getEnv("FINANCE_ADMIN_LINK", "0"),
 	}, nil
 }
 
