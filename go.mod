@@ -9,7 +9,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 )
 
-require golang.org/x/sync v0.10.0
+require golang.org/x/sync v0.11.0
 
 require (
 	github.com/brunoscheufler/aws-ecs-metadata-go v0.0.0-20221221133751-67e37ae746cd // indirect
