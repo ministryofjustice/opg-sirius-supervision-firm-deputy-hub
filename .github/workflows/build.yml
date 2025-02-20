@@ -37,10 +37,25 @@ jobs:
       - name: Run linting
         run: make go-lint
 
+  gosec:
+    name: Go Sec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Go Sec
+        continue-on-error: true
+        run: make gosec
+      - name: Upload GoSec results to GitHub Security tab
+        if: ${{ always() }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'test-results/gosec.sarif'
+          category: gosec
+
   cypress:
     name: Cypress
     runs-on: ubuntu-latest
-    needs: test
+    needs: ['test','lint','gosec']
     steps:
       - uses: actions/checkout@v4
       - name: Run cypress
@@ -61,7 +76,7 @@ jobs:
   build:
     name: "Build & Push Containers"
     runs-on: ubuntu-latest
-    needs: ["test", "lint", "cypress"]
+    needs: ['test','lint','gosec']
     outputs:
       branch: ${{ steps.set-outputs.outputs.branch }}
       tag: ${{ steps.bump_version.outputs.tag }}
@@ -110,6 +125,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'test-results/trivy.sarif'
+          category: trivy-docker-firm-deputy-hub
 
       - name: Bump version
         id: bump_version
@@ -136,7 +152,7 @@ jobs:
           fi
   push-tags:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [ 'build', 'cypress' ]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
