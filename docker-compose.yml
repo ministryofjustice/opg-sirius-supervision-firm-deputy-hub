@@ -21,7 +21,7 @@ services:
   cypress:
     build:
       dockerfile: docker/cypress/Dockerfile
-    command: ["--headless", "-b", "chrome"]
+    command: [ "--headless", "-b", "chrome" ]
     volumes:
       - ./cypress/screenshots:/root/cypress/screenshots:rw,delegated
       - ./cypress/logs:/root/cypress/logs:rw,delegated
@@ -41,8 +41,15 @@ services:
     working_dir: /go/src/app
     volumes:
       - ./:/go/src/app
-      - ./.cache/golangci-lint/v1.53.3:/root/.cache
+      - ./.cache/golangci-lint/v11.63.4:/root/.cache
     command: golangci-lint run -v --timeout 5m
+
+  gosec:
+    image: securego/gosec:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: -exclude-dir=.gocache -fmt=sarif -out=/app/test-results/gosec.sarif -stdout -verbose=text /app/...
 
   trivy:
     image: aquasec/trivy:latest
