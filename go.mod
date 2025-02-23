@@ -2,10 +2,10 @@ module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 
 go 1.22.7
 
-toolchain go1.23.5
+toolchain go1.24.0
 
 require (
-	github.com/ministryofjustice/opg-go-common v1.70.0
+	github.com/ministryofjustice/opg-go-common v1.71.0
 	github.com/stretchr/testify v1.10.0
 )
 
