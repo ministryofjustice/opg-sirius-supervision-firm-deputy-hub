@@ -9,5 +9,5 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ministryofjustice/opg-repository-scanner@latest
+      - uses: actions/checkout@v4.2.2
+      - uses: ministryofjustice/opg-repository-scanner@v2.0.18
