@@ -23,7 +23,7 @@ func (c *Client) RequestPiiCertificate(ctx Context, requestPiiData PiiDetailsReq
 		return err
 	}
 
-	requestURL := fmt.Sprintf("/api/v1/firms/%d/indemnity-insurance", requestPiiData.FirmId)
+	requestURL := fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d/indemnity-insurance", requestPiiData.FirmId)
 
 	req, err := c.newRequest(ctx, http.MethodPatch, requestURL, &body)
 
