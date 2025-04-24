@@ -26,7 +26,7 @@ func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails model.FirmDet
 		return err
 	}
 
-	requestURL := fmt.Sprintf("/api/v1/firms/%d", amendedFirmDetails.ID)
+	requestURL := fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d", amendedFirmDetails.ID)
 
 	req, err := c.newRequest(ctx, http.MethodPut, requestURL, &body)
 

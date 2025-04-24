@@ -64,7 +64,7 @@ func TestChangeECMReturnsNewStatusError(t *testing.T) {
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/76/ecm",
+		URL:    svr.URL + SupervisionAPIPath + "/v1/firms/76/ecm",
 		Method: http.MethodPut,
 	}, err)
 }

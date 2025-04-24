@@ -116,7 +116,7 @@ func TestGetFirmReturnsNewStatusError(t *testing.T) {
 	assert.Equal(t, expectedResponse, firmDetails)
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/1",
+		URL:    svr.URL + SupervisionAPIPath + "/v1/firms/1",
 		Method: http.MethodGet,
 	}, err)
 }
