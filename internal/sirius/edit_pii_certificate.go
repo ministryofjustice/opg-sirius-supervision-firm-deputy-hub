@@ -21,7 +21,7 @@ func (c *Client) EditPiiCertificate(ctx Context, editPiiData model.PiiDetails) e
 		return err
 	}
 
-	requestURL := fmt.Sprintf("/api/v1/firms/%d/indemnity-insurance", editPiiData.FirmId)
+	requestURL := fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d/indemnity-insurance", editPiiData.FirmId)
 
 	req, err := c.newRequest(ctx, http.MethodPut, requestURL, &body)
 

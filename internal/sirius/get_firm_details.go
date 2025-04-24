@@ -16,7 +16,7 @@ type ExecutiveCaseManagerOutgoing struct {
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (model.FirmDetails, error) {
 	var v model.FirmDetails
 
-	requestURL := fmt.Sprintf("/api/v1/firms/%d", firmId)
+	requestURL := fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d", firmId)
 	req, err := c.newRequest(ctx, http.MethodGet, requestURL, nil)
 
 	if err != nil {

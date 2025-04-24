@@ -7,7 +7,7 @@ import (
 )
 
 func (c *Client) GetProTeamUsers(ctx Context) ([]model.TeamMembers, []model.Member, error) {
-	req, err := c.newRequest(ctx, http.MethodGet, "/api/v1/teams?type=pro", nil)
+	req, err := c.newRequest(ctx, http.MethodGet, SupervisionAPIPath + "/v1/teams?type=pro", nil)
 	if err != nil {
 		return []model.TeamMembers{}, nil, err
 	}

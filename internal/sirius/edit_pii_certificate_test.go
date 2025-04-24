@@ -76,7 +76,7 @@ func TestEditPiiReturnsNewStatusError(t *testing.T) {
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
-		URL:    svr.URL + "/api/v1/firms/0/indemnity-insurance",
+		URL:    svr.URL + SupervisionAPIPath + "/v1/firms/0/indemnity-insurance",
 		Method: http.MethodPut,
 	}, err)
 }
