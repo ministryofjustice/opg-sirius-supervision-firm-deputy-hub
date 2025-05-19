@@ -1,6 +1,7 @@
 package server
 
 import (
+	"html"
 	"html/template"
 	"net/http"
 	"strings"
@@ -42,7 +43,7 @@ func createSuccessAndSuccessMessageForVars(url, firmName, ecmName string) string
 		splitString := strings.Split(splitStringByQuestion[1], "=")
 
 		if splitString[1] == "firm" {
-			return "Firm changed to " + firmName
+			return "Firm changed to " + html.EscapeString(firmName)
 		} else if splitString[1] == "newFirm" {
 			return "Firm added"
 		} else if splitString[1] == "firmDetails" {
@@ -54,7 +55,7 @@ func createSuccessAndSuccessMessageForVars(url, firmName, ecmName string) string
 		} else if splitString[1] == "requestPiiDetails" {
 			return "PII details requested"
 		} else if splitString[1] == "ecm" {
-			return "<abbr title='Executive Case Manager'>ECM</abbr> changed to " + ecmName
+			return "<abbr title='Executive Case Manager'>ECM</abbr> changed to " + html.EscapeString(ecmName)
 		}
 
 	}
