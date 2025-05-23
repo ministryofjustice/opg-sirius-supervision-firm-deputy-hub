@@ -1,8 +1,8 @@
 $govuk-new-link-styles: true;
 $govuk-include-default-font-face: false;
 $govuk-moj-table-background-color: #e7f2fb;
-$moj-assets-path: "/supervision/deputies/firm/assets/";
-$govuk-assets-path: "/supervision/deputies/firm/assets/";
+$moj-assets-path: "/supervision/deputies/firm/static/assets/";
+$govuk-assets-path: "/supervision/deputies/firm/static/assets/";
 
 @import "node_modules/govuk-frontend/dist/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
