@@ -1,12 +1,12 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
+
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"golang.org/x/sync/errgroup"
-	"net/http"
-	"strconv"
 )
 
 type AppVars struct {
@@ -47,7 +47,7 @@ func NewAppVars(client AppVarsClient, r *http.Request, envVars EnvironmentVars) 
 		return nil
 	})
 	group.Go(func() error {
-		firmId, _ := strconv.Atoi(mux.Vars(r)["id"])
+		firmId, _ := strconv.Atoi(r.PathValue("id"))
 		firm, err := client.GetFirmDetails(ctx.With(groupCtx), firmId)
 		if err != nil {
 			return err
