@@ -16,7 +16,7 @@ compile-assets:
 	docker compose run --rm yarn build
 
 cypress: setup-directories clean
-	docker compose up -d --wait firm-deputy-hub
+	docker compose up -d --wait firm-deputy-hub json-server
 	docker compose run --rm cypress run --env grepUntagged=true
 
 dev-up:

@@ -7,7 +7,7 @@ import (
 )
 
 func (c *Client) GetProTeamUsers(ctx Context) ([]model.TeamMembers, []model.Member, error) {
-	req, err := c.newRequest(ctx, http.MethodGet, SupervisionAPIPath + "/v1/teams?type=pro", nil)
+	req, err := c.newRequest(ctx, http.MethodGet, SupervisionAPIPath+"/v1/teams?type=pro", nil)
 	if err != nil {
 		return []model.TeamMembers{}, nil, err
 	}
@@ -16,7 +16,8 @@ func (c *Client) GetProTeamUsers(ctx Context) ([]model.TeamMembers, []model.Memb
 	if err != nil {
 		return []model.TeamMembers{}, nil, err
 	}
-	defer resp.Body.Close()
+
+	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return []model.TeamMembers{}, nil, ErrUnauthorized

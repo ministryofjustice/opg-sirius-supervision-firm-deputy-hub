@@ -42,22 +42,22 @@ func createSuccessAndSuccessMessageForVars(url, firmName, ecmName string) string
 	if len(splitStringByQuestion) > 1 {
 		splitString := strings.Split(splitStringByQuestion[1], "=")
 
-		if splitString[1] == "firm" {
+		switch splitString[1] {
+		case "firm":
 			return "Firm changed to " + html.EscapeString(firmName)
-		} else if splitString[1] == "newFirm" {
+		case "newFirm":
 			return "Firm added"
-		} else if splitString[1] == "firmDetails" {
+		case "firmDetails":
 			return "Firm details updated"
-		} else if splitString[1] == "deputyDetails" {
+		case "deputyDetails":
 			return "Deputy details updated"
-		} else if splitString[1] == "piiDetails" {
+		case "piiDetails":
 			return "PII details updated"
-		} else if splitString[1] == "requestPiiDetails" {
+		case "requestPiiDetails":
 			return "PII details requested"
-		} else if splitString[1] == "ecm" {
+		case "ecm":
 			return "<abbr title='Executive Case Manager'>ECM</abbr> changed to " + html.EscapeString(ecmName)
 		}
-
 	}
 	return ""
 }
