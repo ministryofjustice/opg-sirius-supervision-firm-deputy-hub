@@ -10,7 +10,7 @@ import (
 )
 
 func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]model.FirmDeputy, error) {
-	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d/deputies", firmId), nil)
+	req, err := c.newRequest(ctx, http.MethodGet, fmt.Sprintf(SupervisionAPIPath+"/v1/firms/%d/deputies", firmId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +20,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]model.FirmDeputy, e
 		return nil, err
 	}
 
-	defer resp.Body.Close()
+	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return nil, ErrUnauthorized

@@ -16,7 +16,7 @@ func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoi
 		return err
 	}
 
-	requestURL := fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d/ecm", firmDetails.ID)
+	requestURL := fmt.Sprintf(SupervisionAPIPath+"/v1/firms/%d/ecm", firmDetails.ID)
 
 	req, err := c.newRequest(ctx, http.MethodPut, requestURL, &body)
 
@@ -31,7 +31,7 @@ func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoi
 		return err
 	}
 
-	defer resp.Body.Close()
+	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return ErrUnauthorized
