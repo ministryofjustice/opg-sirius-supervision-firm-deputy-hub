@@ -97,3 +97,9 @@ func (c *Client) newRequest(ctx Context, method, path string, body io.Reader) (*
 
 	return req, err
 }
+
+// unchecked allows errors to be unchecked when deferring a function, e.g. closing a reader where a failure would only
+// occur when the process is likely to already be unrecoverable
+func unchecked(f func() error) {
+	_ = f()
+}
