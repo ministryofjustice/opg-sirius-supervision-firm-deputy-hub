@@ -9,7 +9,7 @@ import (
 func (c *Client) GetUserDetails(ctx Context) (model.Assignee, error) {
 	var v model.Assignee
 
-	req, err := c.newRequest(ctx, http.MethodGet, SupervisionAPIPath + "/v1/users/current", nil)
+	req, err := c.newRequest(ctx, http.MethodGet, SupervisionAPIPath+"/v1/users/current", nil)
 	if err != nil {
 		return v, err
 	}
@@ -18,7 +18,8 @@ func (c *Client) GetUserDetails(ctx Context) (model.Assignee, error) {
 	if err != nil {
 		return v, err
 	}
-	defer resp.Body.Close()
+
+	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return v, ErrUnauthorized

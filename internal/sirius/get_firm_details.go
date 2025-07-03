@@ -16,7 +16,7 @@ type ExecutiveCaseManagerOutgoing struct {
 func (c *Client) GetFirmDetails(ctx Context, firmId int) (model.FirmDetails, error) {
 	var v model.FirmDetails
 
-	requestURL := fmt.Sprintf(SupervisionAPIPath + "/v1/firms/%d", firmId)
+	requestURL := fmt.Sprintf(SupervisionAPIPath+"/v1/firms/%d", firmId)
 	req, err := c.newRequest(ctx, http.MethodGet, requestURL, nil)
 
 	if err != nil {
@@ -28,7 +28,7 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (model.FirmDetails, err
 		return v, err
 	}
 
-	defer resp.Body.Close()
+	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return v, ErrUnauthorized
