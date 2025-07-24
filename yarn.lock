@@ -1300,10 +1300,10 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
-"opg-sirius-header@ministryofjustice/opg-sirius-header#semver:v0.46.0":
+"opg-sirius-header@ministryofjustice/opg-sirius-header#semver:v0.50.0":
   version "1.0.0"
-  uid e0b5b56745e132debca81e0163130e2f99ecf884
-  resolved "https://codeload.github.com/ministryofjustice/opg-sirius-header/tar.gz/e0b5b56745e132debca81e0163130e2f99ecf884"
+  uid a576496d0d84ecbff80a836e0cbce6dccf34fe0d
+  resolved "https://codeload.github.com/ministryofjustice/opg-sirius-header/tar.gz/a576496d0d84ecbff80a836e0cbce6dccf34fe0d"
   dependencies:
     "@cypress/request" "3.0.0"
     scss "^0.2.4"
@@ -1345,10 +1345,10 @@ pify@^2.2.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
-prettier@3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.5.3.tgz#4fc2ce0d657e7a02e602549f053b239cb7dfe1b5"
-  integrity sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==
+prettier@3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.6.2.tgz#ccda02a1003ebbb2bfda6f83a074978f608b9393"
+  integrity sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==
 
 pretty-bytes@^5.6.0:
   version "5.6.0"
