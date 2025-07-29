@@ -39,6 +39,10 @@ there are assets missing) as the developer version of the docker compose file do
 
 `make cypress`
 
+## Run Cypress tests in UI
+
+- `make up && yarn cypress`
+
 ---
 
 ## Run the unit/functional tests
