@@ -259,9 +259,9 @@
     "@parcel/watcher-win32-x64" "2.5.1"
 
 "@types/node@*":
-  version "24.2.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.2.1.tgz#83e41543f0a518e006594bb394e2cd961de56727"
-  integrity sha512-DRh5K+ka5eJic8CjH7td8QpYEV6Zo10gfRkjHCO3weqZHWDtAaSTFtl4+VMqOJ4N5jcuhZ9/l+yy8rVgw7BQeQ==
+  version "24.3.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.3.0.tgz#89b09f45cb9a8ee69466f18ee5864e4c3eb84dec"
+  integrity sha512-aPTXCrfwnDLj4VvXrm+UUCQjNEvJgNA8s5F1cvwQU+3KNltTOkBm1j30uNLyqqPNe7gE3KFzImYoZEfLhp4Yow==
   dependencies:
     undici-types "~7.10.0"
 
@@ -944,9 +944,9 @@ gopd@^1.2.0:
   integrity sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==
 
 govuk-frontend@^5.0.0:
-  version "5.11.1"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-5.11.1.tgz#06cd64d2bbe0bfd26aa8ce393a348bff14c59f4f"
-  integrity sha512-hJJFpaer4MZLvz/2F9RZ7xZ6FqlzpxL9aw6YWOGK3F1tn419xj2WcVXwOC8Bcj/dc/LanknbWJDGkb+IdkuhTQ==
+  version "5.11.2"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-5.11.2.tgz#4c6f5f9617636c002f27c99ba62d2631be7ed19f"
+  integrity sha512-eHV8EMxYNjc+omFhB0HktQ3QmA3ZRdDsgRDlUIik+TpUHerR3XKXpo4zh/OGO2/C2mz65cX0XT0k4QrRFJZU8Q==
 
 graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.11"
