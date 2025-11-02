@@ -36,7 +36,7 @@ jobs:
         run: make unit-test
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@3a74b2957438d0b6e2e61d67b05318aa25c9e6c6 # v2.20.0
+        uses: EnricoMi/publish-unit-test-result-action@34d7c956a59aed1bfebf31df77b8de55db9bbaaf # v2.21.0
         if: ${{ always() }}
         with:
           check_name: "Unit Test Results"
@@ -60,7 +60,7 @@ jobs:
         run: make gosec
       - name: Upload GoSec results to GitHub Security tab
         if: ${{ always() }}
-        uses: github/codeql-action/upload-sarif@16140ae1a102900babc80a33c44059580f687047 # v4.30.9
+        uses: github/codeql-action/upload-sarif@5fe9434cd24fe243e33e7f3305f8a5b519b70280 # v4.31.1
         with:
           sarif_file: 'test-results/gosec.sarif'
           category: gosec
@@ -92,7 +92,7 @@ jobs:
 
   build:
     name: Build Firm Deputy Hub
-    uses: ministryofjustice/opg-github-workflows/.github/workflows/build-multi-architecture-image.yml@27a0f72b83c6b026fa4131230289bfbed9049cc7 # v3.15.0
+    uses: ministryofjustice/opg-github-workflows/.github/workflows/build-multi-architecture-image.yml@361d19a6d7b291dab5d46f04765239341a4ca86b # v3.16.0
     with:
       image_name: 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub
       build_options: --file docker/sirius-firm-deputy-hub/Dockerfile
@@ -121,7 +121,7 @@ jobs:
           docker load -i /tmp/images/multi-arch-image.tar
 
       - name: Configure OIDC AWS credentials for ECR push
-        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838 # v5.0.0
+        uses: aws-actions/configure-aws-credentials@00943011d9042930efac3dcd3a170e4273319bc8 # v5.1.0
         with:
           role-to-assume: arn:aws:iam::311462405659:role/sirius-component-ecr-role
           role-session-name: opg-sirius-supervision-firm-deputy-hub-github-actions-ecr-push
@@ -143,7 +143,7 @@ jobs:
         run: make scan
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@16140ae1a102900babc80a33c44059580f687047 # v4.30.9
+        uses: github/codeql-action/upload-sarif@5fe9434cd24fe243e33e7f3305f8a5b519b70280 # v4.31.1
         with:
           sarif_file: 'test-results/trivy.sarif'
           category: trivy-docker-firm-deputy-hub
@@ -186,7 +186,7 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Configure OIDC AWS credentials for SSM
-        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838 # v5.0.0
+        uses: aws-actions/configure-aws-credentials@00943011d9042930efac3dcd3a170e4273319bc8 # v5.1.0
         with:
           role-to-assume: arn:aws:iam::997462338508:role/sirius-component-ssm-role
           role-session-name: opg-sirius-supervision-firm-deputy-hub-github-actions-ssm-push
