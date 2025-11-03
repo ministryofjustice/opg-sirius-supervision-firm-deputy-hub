@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "dependencies": {
-        "@ministryofjustice/frontend": "^6.0.0",
+        "@ministryofjustice/frontend": "^7.0.0",
         "accessible-autocomplete": "^3.0.0",
         "govuk-frontend": "^5.0.0",
         "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.52.6"
