@@ -6,7 +6,7 @@
         "@ministryofjustice/frontend": "^6.0.0",
         "accessible-autocomplete": "^3.0.0",
         "govuk-frontend": "^5.0.0",
-        "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.52.8"
+        "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.52.9"
     },
     "devDependencies": {
         "axe-core": "^4.8.3",
@@ -14,7 +14,7 @@
         "cypress-axe": "^1.5.0",
         "cypress-failed-log": "^2.10.0",
         "esbuild": "^0.27.0",
-        "prettier": "3.7.1",
+        "prettier": "3.7.4",
         "sass": "^1.70.0"
     },
     "scripts": {
