@@ -5,7 +5,7 @@ go 1.24.3
 toolchain go1.25.5
 
 require (
-	github.com/ministryofjustice/opg-go-common v1.144.0
+	github.com/ministryofjustice/opg-go-common v1.145.0
 	github.com/stretchr/testify v1.11.1
 )
 
