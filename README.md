@@ -35,8 +35,11 @@ there are assets missing) as the developer version of the docker compose file do
 
     ***
 
-## Run Cypress tests
+## Run *one* Cypress test headless (i.e. not in UI)
+`make cypress-single SPEC=accessibility.cy.js`
 
+## Run *all* the Cypress tests headless
+`make build` (optional) <br>
 `make cypress`
 
 ## Run Cypress tests in UI
