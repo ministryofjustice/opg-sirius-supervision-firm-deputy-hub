@@ -19,6 +19,10 @@ cypress: setup-directories clean
 	docker compose up -d --wait firm-deputy-hub json-server
 	docker compose run --rm cypress run --env grepUntagged=true
 
+cypress-single: setup-directories clean
+	docker compose up -d --wait firm-deputy-hub json-server
+	docker compose run --rm cypress run --spec cypress/e2e/$(SPEC)
+
 dev-up:
 	docker compose run --rm yarn
 	docker compose run --rm yarn build
