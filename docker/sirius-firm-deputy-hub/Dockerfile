@@ -48,7 +48,7 @@ WORKDIR /go/bin
 RUN apk --update --no-cache add ca-certificates tzdata
 
 # Patch vulnerabilities
-RUN apk upgrade --no-cache busybox libcrypto3 libssl3
+RUN apk upgrade --no-cache busybox libcrypto3 libssl3 zlib
 
 COPY --from=build-env /go/bin/opg-sirius-supervision-firm-deputy-hub opg-sirius-supervision-firm-deputy-hub
 COPY --from=build-env /app/web/template web/template
