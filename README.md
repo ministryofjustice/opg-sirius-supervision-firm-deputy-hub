@@ -51,8 +51,3 @@ there are assets missing) as the developer version of the docker compose file do
 ## Run the unit/functional tests
 
 `make unit-test`
-
--------------------------------------------------------------------
-## Run Trivy scanning
-
-`make scan`
