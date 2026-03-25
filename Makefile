@@ -37,14 +37,10 @@ go-lint:
 gosec: setup-directories
 	docker compose run --rm gosec
 
-scan: setup-directories
-	docker compose run --rm trivy image --format table --exit-code 0 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:latest
-	docker compose run --rm trivy image --format sarif --output /test-results/trivy.sarif --exit-code 1 311462405659.dkr.ecr.eu-west-1.amazonaws.com/sirius/sirius-firm-deputy-hub:latest
-
 setup-directories: test-results
 
 test-results:
-	mkdir -p -m 0777 test-results .gocache pacts logs cypress/screenshots .trivy-cache
+	mkdir -p -m 0777 test-results .gocache pacts logs cypress/screenshots
 
 unit-test: setup-directories
 	docker compose run --rm test-runner gotestsum --junitfile test-results/unit-tests.xml -- ./... -coverprofile=test-results/test-coverage.txt
