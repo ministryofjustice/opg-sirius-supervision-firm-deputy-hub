@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "dependencies": {
-        "@ministryofjustice/frontend": "^5.0.0",
+        "@ministryofjustice/frontend": "^6.0.0",
         "accessible-autocomplete": "^3.0.0",
         "govuk-frontend": "^5.0.0",
         "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.53.3"
@@ -13,8 +13,8 @@
         "cypress": "^15.0.0",
         "cypress-axe": "^1.5.0",
         "cypress-failed-log": "^2.10.0",
-        "esbuild": "^0.25.0",
-        "prettier": "3.6.2",
+        "esbuild": "^0.28.0",
+        "prettier": "3.8.2",
         "sass": "^1.70.0"
     },
     "scripts": {

@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine AS base
+FROM golang:1.26-alpine AS base
 WORKDIR /app
 
 ENV CGO_ENABLED=0 GOOS=linux
@@ -14,7 +14,7 @@ COPY web/assets web/assets
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install
+RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn build
 
 FROM base AS dev
@@ -48,7 +48,7 @@ WORKDIR /go/bin
 RUN apk --update --no-cache add ca-certificates tzdata
 
 # Patch vulnerabilities
-RUN apk upgrade --no-cache busybox libcrypto3 libssl3
+RUN apk upgrade --no-cache busybox libcrypto3 libssl3 zlib
 
 COPY --from=build-env /go/bin/opg-sirius-supervision-firm-deputy-hub opg-sirius-supervision-firm-deputy-hub
 COPY --from=build-env /app/web/template web/template

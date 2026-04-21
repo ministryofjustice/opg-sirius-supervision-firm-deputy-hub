@@ -2,7 +2,8 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
-        "helpers:pinGitHubActionDigests"
+        "helpers:pinGitHubActionDigests",
+        "schedule:earlyMondays"
     ],
     "branchPrefix": "renovate-",
     "commitMessageAction": "Renovate Update",
@@ -10,6 +11,7 @@
     "lockFileMaintenance": {
         "enabled": true
     },
+    "minimumReleaseAge": "7 days",
     "packageRules": [
         {
             "automerge": true,
@@ -17,8 +19,16 @@
             "groupSlug": "all-minor-patch-updates",
             "matchUpdateTypes": ["minor", "patch"],
             "prPriority": 1,
-            "minimumReleaseAge": "3 days",
             "matchPackageNames": ["*"]
+        },
+        {
+            "automerge": true,
+            "groupName": "Github Patch & Minor Updates",
+            "groupSlug": "github-minor-patch-updates",
+            "matchUpdateTypes": ["minor", "patch"],
+            "prPriority": 2,
+            "matchPackageNames": ["*"],
+            "matchFileNames": [".github/**"]
         }
     ],
     "major": {
