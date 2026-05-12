@@ -2,6 +2,7 @@ package server
 
 import (
 	"html"
+	"html/template"
 	"net/http"
 	"strings"
 )
@@ -10,7 +11,7 @@ type FirmHubInformation interface {
 }
 
 type firmHubVars struct {
-	SuccessMessage string
+	SuccessMessage template.HTML
 	AppVars
 }
 
@@ -23,7 +24,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), app.FirmDetails.FirmName, app.FirmDetails.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
-			SuccessMessage: successMessage,
+			SuccessMessage: template.HTML(successMessage),
 			AppVars:        app,
 		}
 
