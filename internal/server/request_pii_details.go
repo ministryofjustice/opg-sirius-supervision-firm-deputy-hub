@@ -2,8 +2,9 @@ package server
 
 import (
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"net/http"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 )
 
 type RequestPiiDetailsInformation interface {
@@ -23,6 +24,8 @@ func renderTemplateForRequestPiiDetails(client RequestPiiDetailsInformation, tmp
 		vars := firmHubRequestPiiVars{
 			AppVars: app,
 		}
+
+		r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
 
 		switch r.Method {
 		case http.MethodGet:

@@ -2,9 +2,10 @@ package server
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
-	"net/http"
 )
 
 type ManageFirmDetailsInformation interface {
@@ -25,6 +26,8 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 		vars := firmHubManageFirmVars{
 			AppVars: app,
 		}
+
+		r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
 
 		switch r.Method {
 		case http.MethodGet:
