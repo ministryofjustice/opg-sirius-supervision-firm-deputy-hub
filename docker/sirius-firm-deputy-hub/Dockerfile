@@ -1,11 +1,11 @@
-FROM golang:1.26-alpine AS base
+FROM golang:1.26-alpine@sha256:f23e8b227fb4493eabe03bede4d5a32d04092da71962f1fb79b5f7d1e6c2a17f AS base
 WORKDIR /app
 
 ENV CGO_ENABLED=0 GOOS=linux
 
 RUN update-ca-certificates
 
-FROM node:24.14.0-alpine3.23 AS asset-env
+FROM node:24.14.0-alpine3.23@sha256:7fddd9ddeae8196abf4a3ef2de34e11f7b1a722119f91f28ddf1e99dcafdf114 AS asset-env
 WORKDIR /app
 
 RUN mkdir -p web/static
@@ -42,7 +42,7 @@ RUN go mod download
 
 RUN go build -a -installsuffix cgo -o /go/bin/opg-sirius-supervision-firm-deputy-hub
 
-FROM alpine:3
+FROM alpine:3@sha256:fa1b3b8cd12d2b2ded5ef366f99b5a7556884646af680404989d626535a3ac14
 WORKDIR /go/bin
 
 RUN apk --update --no-cache add ca-certificates tzdata
