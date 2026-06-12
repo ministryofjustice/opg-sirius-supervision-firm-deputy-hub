@@ -1,4 +1,4 @@
-FROM golang:1.26-alpine AS base
+FROM golang:1.26-alpine@sha256:7a3e50096189ad57c9f9f865e7e4aa8585ed1585248513dc5cda498e2f41812c AS base
 WORKDIR /app
 
 ENV CGO_ENABLED=0 GOOS=linux
@@ -42,7 +42,7 @@ RUN go mod download
 
 RUN go build -a -installsuffix cgo -o /go/bin/opg-sirius-supervision-firm-deputy-hub
 
-FROM alpine:3
+FROM alpine:3@sha256:a2d49ea686c2adfe3c992e47dc3b5e7fa6e6b5055609400dc2acaeb241c829f4
 WORKDIR /go/bin
 
 RUN apk --update --no-cache add ca-certificates tzdata
