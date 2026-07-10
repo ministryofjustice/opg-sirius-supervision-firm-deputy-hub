@@ -5,7 +5,10 @@ services:
       dockerfile: docker/sirius-firm-deputy-hub/Dockerfile
     ports:
       - "8888:8888"
+    privileged: false
+    user: app
     environment:
+      HEALTHCHECK: /supervision/deputies/firm/health-check
       PORT: 8888
       SIRIUS_URL: http://json-server:3000
       PREFIX: /supervision/deputies/firm
