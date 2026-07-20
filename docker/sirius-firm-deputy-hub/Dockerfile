@@ -18,7 +18,7 @@ RUN apk --update --no-cache add \
 
 RUN update-ca-certificates
 
-FROM node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS asset-env
+FROM node:24.18.0-alpine3.23@sha256:595398b0081eacda8e1c4c5b97b76cd1020e4d58a8ebcb4843b9bca1e79e7436 AS asset-env
 WORKDIR /app
 
 RUN mkdir -p web/static
