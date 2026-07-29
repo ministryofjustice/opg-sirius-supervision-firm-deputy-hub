@@ -1,14 +1,6 @@
-$govuk-new-link-styles: true;
-$govuk-include-default-font-face: false;
-$govuk-moj-table-background-color: #e7f2fb;
-$moj-assets-path: "/supervision/deputies/firm/static/assets/";
-$govuk-assets-path: "/supervision/deputies/firm/static/assets/";
-
-@import "node_modules/govuk-frontend/dist/govuk/all";
-@import "node_modules/@ministryofjustice/frontend/moj/all";
-@import "node_modules/accessible-autocomplete/src/autocomplete";
-@import "node_modules/opg-sirius-header/sass/sirius-header";
-@import "./scss/firm-hub";
+@use "node_modules/accessible-autocomplete/src/autocomplete";
+@use "node_modules/opg-sirius-header/sass/main";
+@use "./scss/firm-hub";
 
 .moj-header__container {
   max-width: 98%;
@@ -21,3 +13,4 @@ $govuk-assets-path: "/supervision/deputies/firm/static/assets/";
 #footer-background {
   background: #f4f8fb;
 }
+
