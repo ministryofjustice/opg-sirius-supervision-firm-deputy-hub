@@ -6,7 +6,7 @@
         "@ministryofjustice/frontend": "^9.0.0",
         "accessible-autocomplete": "^3.0.0",
         "govuk-frontend": "^6.1.0",
-        "opg-sirius-header": "ministryofjustice/opg-sirius-header#v0.53.19-sfs282updatefr.8"
+        "opg-sirius-header": "ministryofjustice/opg-sirius-header#5c5151248e13b09f62ebce408e0346cae92e07a4"
     },
     "devDependencies": {
         "axe-core": "^4.8.3",
