@@ -1,4 +1,20 @@
+@use "node_modules/govuk-frontend/dist/govuk" as *;
+@forward "node_modules/@ministryofjustice/frontend/moj/all";
+$moj-assets-path: "/supervision/deputies/firm/static/assets/";
+
 // Sirius specific styles
+
+.moj-header__container {
+  max-width: 98%;
+}
+
+#request-pii-btn {
+  margin-left: 1em;
+}
+
+#footer-background {
+  background: govuk-functional-colour("body-background");
+}
 
 .sirius-firmhub {
   .govuk-width-container,
@@ -17,7 +33,7 @@
     display: flex;
     justify-content: space-between;
     padding: 1em 0 0.5em;
-    border-bottom: 1px solid $govuk-border-colour;
+    border-bottom: 1px solid govuk-functional-colour("border");
     margin-bottom: 2em;
   }
 
@@ -26,7 +42,7 @@
     justify-content: flex-start;
     margin-bottom: 2em;
     padding-bottom: 1em;
-    border-bottom: 1px solid $govuk-border-colour;
+    border-bottom: 1px solid govuk-functional-colour("border");
   }
 
   .moj-sub-navigation {
@@ -39,7 +55,7 @@ main {
     display: flex;
     justify-content: space-between;
     padding: 0.5em 0 0.5em;
-    border-bottom: 1px solid $govuk-border-colour;
+    border-bottom: 1px solid govuk-functional-colour("border");
     margin-bottom: 2em;
   }
 
@@ -75,8 +91,31 @@ span.rag {
 
 span.secondary {
   display: block;
-  color: $govuk-secondary-text-colour;
+  color: govuk-functional-colour("secondary-text");
   font-size: 16px;
   font-size: 1rem;
   line-height: 1.25;
+}
+
+@supports (-webkit-mask-position: initial) or (mask-position: initial) {
+  .govuk-footer__copyright-logo::before {
+    mask-image: url("#{$moj-assets-path}images/govuk-crest.svg");
+    mask-repeat: no-repeat;
+    mask-size: 125px 102px;
+    background: currentcolor;
+    mask-position: 50% 0%;
+  }
+}
+
+.govuk-footer__copyright-logo::before {
+  content: "";
+  display: block;
+  width: 100%;
+  padding-top: 112px;
+  background-image: url("#{$moj-assets-path}images/govuk-crest.svg");
+  background-repeat: no-repeat;
+  background-size: 125px 102px;
+  text-align: center;
+  background-position: 50% 0%;
+  white-space: nowrap;
 }
