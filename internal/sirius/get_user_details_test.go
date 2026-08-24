@@ -90,7 +90,7 @@ func TestGetUserDetails_contract(t *testing.T) {
 	assert.NoError(t, err)
 	err = pact.
 		AddInteraction().
-		Given("A user is logged in").
+		Given("I am a System Admin").
 		UponReceiving("A request to get the current user details").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current").
 		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
