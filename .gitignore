@@ -1,6 +1,7 @@
 node_modules
 tmp/
 web/static
+/pacts/
 
 # Cypress cli run artifact folders
 cypress/logs

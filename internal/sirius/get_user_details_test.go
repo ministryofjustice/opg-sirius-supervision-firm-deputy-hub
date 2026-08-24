@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
@@ -9,6 +10,8 @@ import (
 	"testing"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -75,4 +78,39 @@ func TestUserDetailsReturnsUnauthorisedClientError(t *testing.T) {
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, userDetails)
+}
+
+func TestGetUserDetails_contract(t *testing.T) {
+	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+	err = pact.
+		AddInteraction().
+		Given("A user is logged in").
+		UponReceiving("A request to get the current user details").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current").
+		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(matchers.MapMatcher{
+				"id":          matchers.Like(123),
+				"displayName": matchers.Like("Ian Finance"),
+				"roles":       matchers.EachLike("Finance Manager", 1),
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+
+			userDetails, err := client.GetUserDetails(getContext(nil))
+			if err != nil {
+				return err
+			}
+
+			assert.Equal(t, "Finance Manager", userDetails.Roles[0])
+			return nil
+		})
+	assert.NoError(t, err)
 }
