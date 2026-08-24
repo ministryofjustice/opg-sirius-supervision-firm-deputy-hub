@@ -5,7 +5,9 @@ go 1.26.0
 require (
 	github.com/ministryofjustice/opg-go-common v1.165.28
 	github.com/stretchr/testify v1.12.1
+	github.com/pact-foundation/pact-go/v2 v2.4.2
 )
+
 
 require golang.org/x/sync v0.23.0
 
