@@ -2,7 +2,10 @@ package sirius
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -135,4 +138,51 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
+}
+
+func TestGetFirmDetails_contract(t *testing.T) {
+	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		UponReceiving("A request to get firm details").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/2").
+		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(matchers.MapMatcher{
+				"id":           matchers.Like(2),
+				"firmName":     matchers.Like("Good Firm Inc"),
+				"firmNumber":   matchers.Like(100005),
+				"email":        matchers.Like("good@firm.com"),
+				"phoneNumber":  matchers.Like("123123123"),
+				"addressLine1": matchers.Like("10 St Hope Street"),
+				"addressLine2": matchers.Like("Wellington"),
+				"addressLine3": matchers.Like(""),
+				"town":         matchers.Like("London"),
+				"county":       matchers.Like("Buckinghamshire"),
+				"postcode":     matchers.Like("BU1 1TF"),
+				"deputies": matchers.EachLike(matchers.StructMatcher{
+					"id":               matchers.Like(77),
+					"deputyNumber":     matchers.Like(22),
+					"organisationName": matchers.Like("pro dept"),
+				}, 1),
+				"executiveCaseManager": matchers.StructMatcher{
+					"id":          matchers.Like(71),
+					"displayName": matchers.Like("LayTeam1 User1"),
+				},
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			_, err := client.GetFirmDetails(getContext(nil), 2)
+			return err
+		})
+
+	assert.NoError(t, err)
 }
