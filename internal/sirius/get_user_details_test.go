@@ -3,11 +3,12 @@ package sirius
 import (
 	"bytes"
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
 	"github.com/pact-foundation/pact-go/v2/consumer"
@@ -88,17 +89,18 @@ func TestGetUserDetails_contract(t *testing.T) {
 		PactDir:  "../../pacts",
 	})
 	assert.NoError(t, err)
+
 	err = pact.
 		AddInteraction().
-		Given("I am a System Admin").
-		UponReceiving("A request to get the current user details").
+		Given("User exists").
+		UponReceiving("A request for the current user").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current").
 		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"id":          matchers.Like(7),
-				"displayName": matchers.Like("system admin"),
-				"roles":       matchers.EachLike("System Admin", 1),
+				"id":          matchers.Like(1),
+				"displayName": matchers.Like("Colin Case"),
+				"roles":       matchers.EachLike("Case Manager", 1),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
@@ -109,10 +111,12 @@ func TestGetUserDetails_contract(t *testing.T) {
 				return err
 			}
 
-			assert.Equal(t, 7, userDetails.ID)
-			assert.Equal(t, "system admin", userDetails.Username)
-			assert.Equal(t, "System Admin", userDetails.Roles[0])
+			assert.Equal(t, 1, userDetails.ID)
+			assert.Equal(t, "Colin Case", userDetails.Username)
+			assert.Equal(t, []string{"Case Manager"}, userDetails.Roles)
+
 			return nil
 		})
+
 	assert.NoError(t, err)
 }
