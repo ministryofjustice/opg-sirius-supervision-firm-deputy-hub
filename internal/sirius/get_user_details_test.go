@@ -96,9 +96,9 @@ func TestGetUserDetails_contract(t *testing.T) {
 		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"id":          matchers.Like(123),
-				"displayName": matchers.Like("Ian Finance"),
-				"roles":       matchers.EachLike("Finance Manager", 1),
+				"id":          matchers.Like(7),
+				"displayName": matchers.Like("system admin"),
+				"roles":       matchers.EachLike("System Admin", 1),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
@@ -109,7 +109,9 @@ func TestGetUserDetails_contract(t *testing.T) {
 				return err
 			}
 
-			assert.Equal(t, "Finance Manager", userDetails.Roles[0])
+			assert.Equal(t, 7, userDetails.ID)
+			assert.Equal(t, "system admin", userDetails.Username)
+			assert.Equal(t, "System Admin", userDetails.Roles[0])
 			return nil
 		})
 	assert.NoError(t, err)
