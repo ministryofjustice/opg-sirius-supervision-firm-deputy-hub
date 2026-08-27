@@ -3,13 +3,14 @@ package sirius
 import (
 	"bytes"
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
-	"github.com/pact-foundation/pact-go/v2/consumer"
-	"github.com/pact-foundation/pact-go/v2/matchers"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
 	"github.com/stretchr/testify/assert"
@@ -151,6 +152,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
+		Given("User exists").
 		UponReceiving("A request to get firm details").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/2").
 		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
