@@ -110,10 +110,13 @@ func TestEditPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("User exists").
+		Given("I am a System Admin").
 		UponReceiving("A request to edit PII").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/21/indemnity-insurance", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
+			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
+			b.Header("accept", matchers.S("application/json"))
+			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
 			b.JSONBody(matchers.MapMatcher{
 				"firmId":       matchers.Like(21),
 				"piiReceived":  matchers.Like("20/01/2020"),
