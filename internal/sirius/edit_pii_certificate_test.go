@@ -101,7 +101,7 @@ func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
 
 func TestEditPii_contract(t *testing.T) {
 	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
-		Consumer: "supervision-firm-deputy-hub",
+		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
 		LogDir:   "../../logs",
 		PactDir:  "../../pacts",
