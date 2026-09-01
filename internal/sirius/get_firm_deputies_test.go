@@ -2,11 +2,15 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
 	"github.com/stretchr/testify/assert"
@@ -374,4 +378,75 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 	}
 
 	assert.Equal(t, expectedResult, sortTheDeputiesByNumberOfClients(firmDeputy))
+}
+
+func TestGetFirmDeputies_contract(t *testing.T) {
+	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		UponReceiving("A request to get firm deputies").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/1/deputies").
+		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":           76,
+					"firstname":    "",
+					"surname":      "",
+					"deputyNumber": 21,
+					"orders": []interface{}{
+						map[string]interface{}{
+							"order": map[string]interface{}{
+								"id": 63,
+								"client": map[string]interface{}{
+									"id":        74,
+									"firstname": "Louis",
+									"surname":   "Dauphin",
+								},
+								"orderStatus": map[string]interface{}{
+									"handle": "ACTIVE",
+									"label":  "Active",
+								},
+							},
+						},
+					},
+					"organisationName": "pro dept",
+					"executiveCaseManager": map[string]interface{}{
+						"id":          94,
+						"displayName": "PROTeam1 User1",
+					},
+					"firm": map[string]interface{}{
+						"id": 1,
+					},
+					"mostRecentlyCompletedAssurance": map[string]interface{}{
+						"reportReviewDate": "2023-05-26T00:00:00+00:00",
+						"reportMarkedAs": map[string]interface{}{
+							"handle": "GREEN",
+							"label":  "Green",
+						},
+						"assuranceType": map[string]interface{}{
+							"handle": "VISIT",
+							"label":  "Visit",
+						},
+					},
+					"deputyImportantInformation": map[string]interface{}{
+						"panelDeputy": false,
+					},
+				},
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			_, err := client.GetFirmDeputies(getContext(nil), 1)
+			return err
+		})
+
+	assert.NoError(t, err)
 }
