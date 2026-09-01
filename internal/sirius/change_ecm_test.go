@@ -18,7 +18,14 @@ import (
 func TestChangeECM(t *testing.T) {
 	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
 
-	json := `{"ecmId": 32}`
+	json := `{
+		"id": 76,
+		"firmName": "Example Firm",
+		"executiveCaseManager": {
+			"id": 32,
+			"displayName": "Example ECM"
+		}
+	}`
 	r := io.NopCloser(bytes.NewReader([]byte(json)))
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
@@ -111,7 +118,8 @@ func TestChangeECM_contract(t *testing.T) {
 				"id":       matchers.Like(76),
 				"firmName": matchers.Like("Example Firm"),
 				"executiveCaseManager": matchers.Like(map[string]any{
-					"id": matchers.Like(32),
+					"id":          32,
+					"displayName": "Example ECM",
 				}),
 			})
 		}).
