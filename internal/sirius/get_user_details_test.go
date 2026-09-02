@@ -8,9 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
-
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/pact-foundation/pact-go/v2/consumer"
 	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
@@ -82,8 +81,8 @@ func TestUserDetailsReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestGetUserDetails_contract(t *testing.T) {
-	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
-		Consumer: "supervision-firm-deputy-hub",
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
 		LogDir:   "../../logs",
 		PactDir:  "../../pacts",
@@ -95,7 +94,7 @@ func TestGetUserDetails_contract(t *testing.T) {
 		Given("User exists").
 		UponReceiving("A request for the current user").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current").
-		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"id":          matchers.Like(1),
