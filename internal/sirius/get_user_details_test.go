@@ -93,7 +93,9 @@ func TestGetUserDetails_contract(t *testing.T) {
 		AddInteraction().
 		Given("User exists").
 		UponReceiving("A request for the current user").
-		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current", func(b *consumer.V4RequestBuilder) {
+			b.Header("Accept", matchers.S("application/json"))
+		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
