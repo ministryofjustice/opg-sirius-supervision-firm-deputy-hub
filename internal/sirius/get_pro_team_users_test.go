@@ -2,13 +2,17 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
-	"github.com/stretchr/testify/assert"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPaDeputyTeamUsersReturned(t *testing.T) {
@@ -154,4 +158,102 @@ func TestGetPaDeputyTeamUsersReturnsUnauthorisedClientError(t *testing.T) {
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, proDeputyMembers)
+}
+
+func TestGetProTeamUsers_contract(t *testing.T) {
+	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		UponReceiving("A request to get pro teams").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/teams", func(b *consumer.V2RequestBuilder) {
+			b.Query("type", matchers.S("pro"))
+		}).
+		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":          25,
+					"name":        "Pro Team 1 - (Supervision)",
+					"displayName": "Pro Team 1 - (Supervision)",
+					"phoneNumber": "0123456789",
+					"deleted":     false,
+					"email":       "ProTeam1.team@opgtest.com",
+					"members": []interface{}{
+						map[string]interface{}{
+							"id":          90,
+							"name":        "LayTeam1",
+							"displayName": "LayTeam1 User20",
+							"phoneNumber": "12345678",
+							"deleted":     false,
+							"email":       "lay1-20@opgtest.com",
+						},
+						map[string]interface{}{
+							"id":          94,
+							"name":        "PROTeam1",
+							"displayName": "PROTeam1 User1",
+							"phoneNumber": "12345678",
+							"deleted":     false,
+							"email":       "pro1@opgtest.com",
+						},
+					},
+					"teamType": map[string]interface{}{
+						"handle": "PRO",
+						"label":  "Pro",
+					},
+				},
+				map[string]interface{}{
+					"id":          26,
+					"name":        "Pro Team 2 - (Supervision)",
+					"displayName": "Pro Team 2 - (Supervision)",
+					"phoneNumber": "0123456789",
+					"deleted":     false,
+					"email":       "ProTeam2.team@opgtest.com",
+					"members": []interface{}{
+						map[string]interface{}{
+							"id":          37,
+							"name":        "atwo",
+							"displayName": "atwo manager",
+							"phoneNumber": "03004560300",
+							"deleted":     false,
+							"email":       "2manager@opgtest.com",
+						},
+						map[string]interface{}{
+							"id":          101,
+							"name":        "CardPayment",
+							"displayName": "CardPayment User",
+							"phoneNumber": "12345678",
+							"deleted":     false,
+							"email":       "card.payment.user@opgtest.com",
+						},
+					},
+					"teamType": map[string]interface{}{
+						"handle": "PRO",
+						"label":  "Pro",
+					},
+				},
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			_, members, err := client.GetProTeamUsers(getContext(nil))
+			if err != nil {
+				return err
+			}
+			assert.Equal(t, []model.Member{
+				{Id: 90, DisplayName: "LayTeam1 User20"},
+				{Id: 94, DisplayName: "PROTeam1 User1"},
+				{Id: 37, DisplayName: "atwo manager"},
+				{Id: 101, DisplayName: "CardPayment User"},
+			}, members)
+			return nil
+		})
+
+	assert.NoError(t, err)
 }
