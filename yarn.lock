@@ -429,6 +429,14 @@ chokidar@^5.0.0:
   dependencies:
     readdirp "^5.0.0"
 
+chrome-remote-interface@0.33.3:
+  version "0.33.3"
+  resolved "https://registry.yarnpkg.com/chrome-remote-interface/-/chrome-remote-interface-0.33.3.tgz#d8b4339f487b460a9461af7355bda98054e8e1a4"
+  integrity sha512-zNnn0prUL86Teru6UCAZ1yU1XeXljHl3gj7OrfPcarEfU62OUU4IujDPdTDW3dAWwRqN3ZMG/Chhkh2gPL/wiw==
+  dependencies:
+    commander "2.11.x"
+    ws "^7.2.0"
+
 ci-info@^4.1.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-4.4.0.tgz#7d54eff9f54b45b62401c26032696eb59c8bd18c"
@@ -499,6 +507,11 @@ combined-stream@^1.0.8, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
+commander@2.11.x:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
+  integrity sha512-b0553uYA5YAEGgyYIGYROzKQ7X5RAqedkfjiZxwi0kL1g3bOaBNNZfYkzt/CL0umgD5wc9Jec2FbB98CjkMRvQ==
+
 commander@^6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
@@ -537,9 +550,9 @@ cypress-failed-log@^2.10.0:
     logdown "3.3.1"
 
 cypress@^15.0.0:
-  version "15.20.1"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-15.20.1.tgz#60b61b4682523400b55b46ecbe703dd66f26dfab"
-  integrity sha512-7GV3O7vQQG+EVVv9BGs6lCHY49x25jVi/z1+zdjuuq/o3eZeDwmGPJpRYnOWeGvQxTCtkydXWHBPhV8xuGXPLg==
+  version "15.21.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-15.21.1.tgz#51653d58fa0e9994a11406aa3df2bee716264f9a"
+  integrity sha512-ogHpHMj0XNlZA5MGzjg8SWHf0eMw9lTwVQRKjpcT1GzNTxNUjwnHA8YCG6nOJ8ThU+XZaUxJgpMYZnJ//8aDaw==
   dependencies:
     "@cypress/request" "^4.0.0"
     "@cypress/xvfb" "^1.2.4"
@@ -552,6 +565,7 @@ cypress@^15.0.0:
     buffer "^5.7.1"
     cachedir "^2.4.0"
     chalk "^4.1.0"
+    chrome-remote-interface "0.33.3"
     ci-info "^4.1.0"
     cli-table3 "0.6.1"
     commander "^6.2.1"
@@ -588,9 +602,9 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 dayjs@^1.10.4:
-  version "1.11.21"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.21.tgz#57f87562e62de76f3c704bd2b8d522fc33068eb2"
-  integrity sha512-98IT+HOahAisibz/yjKbzuOBwYcjJ7BCLPzARyHiyEBmRz4fatF+KPJszEHXsGYjUG234aH/cOjW1wwTbKUZlA==
+  version "1.11.23"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.23.tgz#b0a363506dde5f36cf5075e42ebe8115165a8c79"
+  integrity sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==
 
 debug@4.3.4:
   version "4.3.4"
@@ -1164,10 +1178,10 @@ onetime@^7.0.0:
   dependencies:
     mimic-function "^5.0.0"
 
-"opg-sirius-header@ministryofjustice/opg-sirius-header#semver:v0.53.19":
+"opg-sirius-header@ministryofjustice/opg-sirius-header#semver:v0.53.21":
   version "1.0.0"
-  uid "10924ffa04018b84f0993caf33c5c78774f5621a"
-  resolved "https://codeload.github.com/ministryofjustice/opg-sirius-header/tar.gz/10924ffa04018b84f0993caf33c5c78774f5621a"
+  uid "27ee960e0e3a23edef1230a3e03833062b4e432c"
+  resolved "https://codeload.github.com/ministryofjustice/opg-sirius-header/tar.gz/27ee960e0e3a23edef1230a3e03833062b4e432c"
 
 ospath@^1.2.2:
   version "1.2.2"
@@ -1190,9 +1204,9 @@ performance-now@^2.1.0:
   integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
 
 picomatch@^4.0.4:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.5.tgz#51ea57a17d86f605f81039595fbc40ed06a55fab"
-  integrity sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.7.tgz#6313360034ccb36b3dc61ecbdff78121f90fe21f"
+  integrity sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==
 
 pify@^2.2.0:
   version "2.3.0"
@@ -1228,9 +1242,9 @@ pump@^3.0.0:
     once "^1.3.1"
 
 qs@^6.15.2:
-  version "6.15.3"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.15.3.tgz#76852132a58ed5c7c0ef67e4441b9bb5d6061b3b"
-  integrity sha512-O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A==
+  version "6.16.0"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.16.0.tgz#c22c723a28a920f3aacdce8289fabd43eccb79fd"
+  integrity sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA==
   dependencies:
     es-define-property "^1.0.1"
     side-channel "^1.1.1"
@@ -1271,9 +1285,9 @@ safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
 sass@^1.101.0:
-  version "1.102.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.102.0.tgz#4ed9378f37ca4186a76d6d1f52a6680c92b6bd80"
-  integrity sha512-NSOyTnaQF7rTAEOtI2fwb386vL+akyiQLBZu8Na7hXCb+umJy0GAqlcMIaqACZ6Z1VgTBS4K9PG6B3IdjHGJsw==
+  version "1.103.1"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.103.1.tgz#13b70f5ff69288db956dc27d27c8fb79f3a27c61"
+  integrity sha512-9icZURbP51S6S0QGoyaeqk9uB06GNWxsFYWfH5RgpFgqK5FA8tJcM3AdVxrZEVJ7dz+L87nG95gBKf4VuaMHGw==
   dependencies:
     chokidar "^5.0.0"
     immutable "^5.1.5"
@@ -1446,9 +1460,9 @@ supports-color@^8.1.1:
     has-flag "^4.0.0"
 
 systeminformation@^5.31.1:
-  version "5.33.1"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.33.1.tgz#499f06a859d2abeafaae6d69f71dd3516919f0f4"
-  integrity sha512-DEN6ICHk3Tk0Uf/hrAHh7xlt7iL5CJFBtPZinA0H62DrGG/KPKqq/Nzj6lCXPS4Ay/sf/14zNnk9LpqKzBIc+w==
+  version "5.33.8"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.33.8.tgz#9fa0092e71adf50a7b8d5209c0767eb16dfe727a"
+  integrity sha512-v4F6OGYGh7wDvV68YmjOmZwGixV9A/GQ7d2b84t0UF4CaOy9jipNWIJDkHqYDYiTPuiojqlwVQd0hfUKOUN7tQ==
 
 throttleit@^1.0.0:
   version "1.0.1"
@@ -1540,6 +1554,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
+
+ws@^7.2.0:
+  version "7.5.13"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.13.tgz#12aa507eaca76c295c278b1aebf4698ab2c1845f"
+  integrity sha512-rsKI6xDBFVf4r/x8XyChGK04QR/XHroxs/jUcoWvtEZM8TPU/X/uIY9B1CsSzYws9ZJb/6bbBu7dPhFW00CAoA==
 
 yauzl@^3.3.1:
   version "3.4.0"
