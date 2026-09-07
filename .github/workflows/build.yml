@@ -48,6 +48,10 @@ jobs:
       commit: ${{ steps.commit_branch.outputs.COMMIT }}
       branch: ${{ steps.commit_branch.outputs.BRANCH }}
 
+  create-tag:
+    name: Create Tags
+    uses: ./.github/workflows/create-tags.yml
+
   test:
     name: Test Firm Deputy Hub
     runs-on: ubuntu-latest
@@ -122,10 +126,6 @@ jobs:
         with:
           name: cypress-logs
           path: cypress/logs
-
-  create-tag:
-    name: Create Tags
-    uses: ./.github/workflows/create-tags.yml
 
   verify-readonly-fs:
     name: Verify Read-only Filesystem
