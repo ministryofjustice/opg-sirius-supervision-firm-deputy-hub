@@ -87,7 +87,6 @@ func TestManageFirmReturnsNewStatusError(t *testing.T) {
 	defer svr.Close()
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
-
 	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{ID: 1})
 
 	assert.Equal(t, StatusError{
@@ -104,7 +103,6 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 	defer svr.Close()
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
-
 	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{})
 
 	assert.Equal(t, ErrUnauthorized, err)
@@ -125,19 +123,28 @@ func TestManageFirmDetails_contract(t *testing.T) {
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"id":                   matchers.Like(1),
-				"firmName":             matchers.Like("good firm inc"),
-				"firmNumber":           matchers.Like(0),
-				"email":                matchers.Like("good@firm.com"),
-				"phoneNumber":          matchers.Like("077895526543"),
-				"addressLine1":         matchers.Like("10 new street"),
-				"addressLine2":         matchers.Like("new firm road"),
-				"addressLine3":         matchers.Like("firmly"),
-				"town":                 matchers.Like("Birmingham"),
-				"county":               matchers.Like("Worcestershire"),
-				"postcode":             matchers.Like("B1 1TF"),
-				"executiveCaseManager": matchers.StructMatcher{"id": matchers.Like(0), "displayName": matchers.Like("")},
-				"deputies":             matchers.Like([]model.FirmDeputies(nil)),
+				"PiiAmountCommaFormat":   matchers.Like(""),
+				"PiiAmountIntFormat":     matchers.Like(0),
+				"PiiExpiryDateFormat":    matchers.Like(""),
+				"PiiReceivedDateFormat":  matchers.Like(""),
+				"PiiRequestedDateFormat": matchers.Like(""),
+				"TotalNumberOfDeputies":  matchers.Like(1),
+				"addressLine1":           matchers.Like("10 new street"),
+				"addressLine2":           matchers.Like("new firm road"),
+				"addressLine3":           matchers.Like("firmly"),
+				"county":                 matchers.Like("Worcestershire"),
+				"deputies":               matchers.Like([]model.FirmDeputies(nil)),
+				"email":                  matchers.Like("good@firm.com"),
+				"executiveCaseManager":   matchers.StructMatcher{"id": matchers.Like(0), "displayName": matchers.Like("")},
+				"firmName":               matchers.Like("good firm inc"),
+				"firmNumber":             matchers.Like(0),
+				"id":                     matchers.Like(1),
+				"phoneNumber":            matchers.Like("077895526543"),
+				"piiExpiry":              matchers.Like(""),
+				"piiReceived":            matchers.Like(""),
+				"piiRequested":           matchers.Like(""),
+				"postcode":               matchers.Like("B1 1TF"),
+				"town":                   matchers.Like("Birmingham"),
 			})
 		}).
 		WillRespondWith(201, func(b *consumer.V2ResponseBuilder) {
