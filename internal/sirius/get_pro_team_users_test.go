@@ -171,6 +171,7 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
+		Given("I am an allocations user").
 		UponReceiving("A request to get pro teams").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/teams", func(b *consumer.V2RequestBuilder) {
 			b.Query("type", matchers.S("pro"))

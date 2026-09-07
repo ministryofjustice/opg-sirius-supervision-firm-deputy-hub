@@ -152,6 +152,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
+		Given("I am an allocations user").
 		Given("A firm exists").
 		UponReceiving("A request to get firm details").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/2").

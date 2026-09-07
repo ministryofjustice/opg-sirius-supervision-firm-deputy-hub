@@ -390,6 +390,7 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
+		Given("I am an allocations user").
 		Given("A supervision client exists with ID 123").
 		UponReceiving("A request to get firm deputies").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/1/deputies", func(b *consumer.V4RequestBuilder) {
