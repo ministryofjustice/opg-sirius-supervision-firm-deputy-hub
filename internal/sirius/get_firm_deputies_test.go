@@ -387,7 +387,7 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 //
 //	err = pact.
 //		AddInteraction().
-//		Given("Firm exists").
+//		Given("Firm exists with deputies").
 //		UponReceiving("A request to get firm deputies").
 //		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/1/deputies", func(b *consumer.V4RequestBuilder) {
 //			b.Header("Accept", matchers.S("application/json"))

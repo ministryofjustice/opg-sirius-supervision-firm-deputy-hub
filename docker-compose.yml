@@ -41,7 +41,7 @@ services:
       - ./.gocache:/go/pkg/mod
 
   go-lint:
-    image: golangci/golangci-lint:v2.12.2@sha256:5cceeef04e53efe1470638d4b4b4f5ceefd574955ab3941b2d9a68a8c9ad5240
+    image: golangci/golangci-lint:v2.13.2@sha256:ba07dffad130794ae79ebaa0056809d18c0168f3f846480ffd3eb6c04578b83d
     working_dir: /go/src/app
     volumes:
       - ./:/go/src/app
@@ -56,7 +56,7 @@ services:
     command: -exclude-dir=.gocache -fmt=sarif -out=/app/test-results/gosec.sarif -stdout -verbose=text /app/...
 
   yarn:
-    image: node:24.19.0-alpine3.23@sha256:244cc2b53f46f9e876304391d17682b0ddae9ac33491f4857e25e35a36ba7995
+    image: node:24.20.0-alpine3.23@sha256:0388af2af070cd4736a1567cfed02469ba117848845b4165d87a333edb53d2ca
     working_dir: /home/node/app
     entrypoint: yarn
     volumes:
