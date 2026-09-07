@@ -92,7 +92,7 @@ func TestChangeECMReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 //func TestChangeECM_contract(t *testing.T) {
-//	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+//	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 //		Consumer: "sirius-supervision-firm-deputy-hub",
 //		Provider: "sirius",
 //		LogDir:   "../../logs",
@@ -102,31 +102,31 @@ func TestChangeECMReturnsUnauthorisedClientError(t *testing.T) {
 //
 //	err = pact.
 //		AddInteraction().
-//		Given("I am an allocations user").
+//		Given("Firm exists with Ecm").
 //		UponReceiving("A request to change a firms ECM").
-//		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1/ecm", func(b *consumer.V2RequestBuilder) {
+//		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/ecm", func(b *consumer.V4RequestBuilder) {
 //			b.Header("Content-Type", matchers.S("application/json"))
 //			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
 //			b.Header("Accept", matchers.S("application/json"))
 //			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
 //			b.JSONBody(matchers.MapMatcher{
-//				"ecmId": matchers.Like(32),
+//				"ecmId": matchers.Like(64),
 //			})
 //		}).
-//		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+//		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 //			b.Header("Content-Type", matchers.S("application/json"))
 //			b.JSONBody(matchers.MapMatcher{
 //				"id":       matchers.Like(1),
 //				"firmName": matchers.Like("Example Firm"),
 //				"executiveCaseManager": matchers.Like(map[string]any{
-//					"id":          32,
+//					"id":          64,
 //					"displayName": "Example ECM",
 //				}),
 //			})
 //		}).
 //		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 //			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-//			return client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 32}, model.FirmDetails{ID: 1})
+//			return client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 64}, model.FirmDetails{ID: 123})
 //		})
 //
 //	assert.NoError(t, err)
