@@ -103,6 +103,7 @@ func TestRequestPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
+		Given("I am an allocations user").
 		UponReceiving("A request to patch PII").
 		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/2/indemnity-insurance", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))

@@ -119,6 +119,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
+		Given("I am an allocations user").
 		UponReceiving("A request to edit firm details").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
