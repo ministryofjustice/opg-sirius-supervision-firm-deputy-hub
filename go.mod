@@ -3,8 +3,8 @@ module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 go 1.26.0
 
 require (
-	github.com/ministryofjustice/opg-go-common v1.165.25
-	github.com/stretchr/testify v1.11.1
+	github.com/ministryofjustice/opg-go-common v1.165.26
+	github.com/stretchr/testify v1.12.1
 )
 
 require golang.org/x/sync v0.22.0
@@ -27,6 +27,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.44.0 // indirect
 	go.opentelemetry.io/otel/trace v1.44.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.10.0 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
