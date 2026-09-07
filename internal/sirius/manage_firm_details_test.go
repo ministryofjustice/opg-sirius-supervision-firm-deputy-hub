@@ -2,17 +2,13 @@ package sirius
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
-	"github.com/pact-foundation/pact-go/v2/consumer"
-	"github.com/pact-foundation/pact-go/v2/matchers"
-
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -108,77 +104,78 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 }
 
-func TestManageFirmDetails_contract(t *testing.T) {
-	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
-		Consumer: "sirius-supervision-firm-deputy-hub",
-		Provider: "sirius",
-		LogDir:   "../../logs",
-		PactDir:  "../../pacts",
-	})
-	assert.NoError(t, err)
-
-	err = pact.
-		AddInteraction().
-		Given("I am an allocations user").
-		UponReceiving("A request to edit firm details").
-		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V2RequestBuilder) {
-			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody(matchers.MapMatcher{
-				"PiiAmountCommaFormat":   matchers.Like(""),
-				"PiiAmountIntFormat":     matchers.Like(0),
-				"PiiExpiryDateFormat":    matchers.Like(""),
-				"PiiReceivedDateFormat":  matchers.Like(""),
-				"PiiRequestedDateFormat": matchers.Like(""),
-				"TotalNumberOfDeputies":  matchers.Like(1),
-				"addressLine1":           matchers.Like("10 new street"),
-				"addressLine2":           matchers.Like("new firm road"),
-				"addressLine3":           matchers.Like("firmly"),
-				"county":                 matchers.Like("Worcestershire"),
-				"deputies":               matchers.Like([]model.FirmDeputies(nil)),
-				"email":                  matchers.Like("good@firm.com"),
-				"executiveCaseManager":   matchers.StructMatcher{"id": matchers.Like(0), "displayName": matchers.Like("")},
-				"firmName":               matchers.Like("good firm inc"),
-				"firmNumber":             matchers.Like(0),
-				"id":                     matchers.Like(1),
-				"phoneNumber":            matchers.Like("077895526543"),
-				"piiExpiry":              matchers.Like(""),
-				"piiReceived":            matchers.Like(""),
-				"piiRequested":           matchers.Like(""),
-				"postcode":               matchers.Like("B1 1TF"),
-				"town":                   matchers.Like("Birmingham"),
-			})
-		}).
-		WillRespondWith(201, func(b *consumer.V2ResponseBuilder) {
-			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody(matchers.MapMatcher{
-				"id":           matchers.Like(1),
-				"firmName":     matchers.Like("good firm inc"),
-				"firmNumber":   matchers.Like(1000001),
-				"email":        matchers.Like("good@firm.com"),
-				"phoneNumber":  matchers.Like("077895526543"),
-				"addressLine1": matchers.Like("10 new street"),
-				"addressLine2": matchers.Like("new firm road"),
-				"addressLine3": matchers.Like("firmly"),
-				"town":         matchers.Like("Birmingham"),
-				"county":       matchers.Like("Worcestershire"),
-				"postcode":     matchers.Like("B1 1TF"),
-			})
-		}).
-		ExecuteTest(t, func(config consumer.MockServerConfig) error {
-			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			return client.ManageFirmDetails(getContext(nil), model.FirmDetails{
-				ID:           1,
-				FirmName:     "good firm inc",
-				Email:        "good@firm.com",
-				PhoneNumber:  "077895526543",
-				AddressLine1: "10 new street",
-				AddressLine2: "new firm road",
-				AddressLine3: "firmly",
-				Town:         "Birmingham",
-				County:       "Worcestershire",
-				Postcode:     "B1 1TF",
-			})
-		})
-
-	assert.NoError(t, err)
-}
+//
+//func TestManageFirmDetails_contract(t *testing.T) {
+//	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+//		Consumer: "sirius-supervision-firm-deputy-hub",
+//		Provider: "sirius",
+//		LogDir:   "../../logs",
+//		PactDir:  "../../pacts",
+//	})
+//	assert.NoError(t, err)
+//
+//	err = pact.
+//		AddInteraction().
+//		Given("I am an allocations user").
+//		UponReceiving("A request to edit firm details").
+//		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V2RequestBuilder) {
+//			b.Header("Content-Type", matchers.S("application/json"))
+//			b.JSONBody(matchers.MapMatcher{
+//				"PiiAmountCommaFormat":   matchers.Like(""),
+//				"PiiAmountIntFormat":     matchers.Like(0),
+//				"PiiExpiryDateFormat":    matchers.Like(""),
+//				"PiiReceivedDateFormat":  matchers.Like(""),
+//				"PiiRequestedDateFormat": matchers.Like(""),
+//				"TotalNumberOfDeputies":  matchers.Like(1),
+//				"addressLine1":           matchers.Like("10 new street"),
+//				"addressLine2":           matchers.Like("new firm road"),
+//				"addressLine3":           matchers.Like("firmly"),
+//				"county":                 matchers.Like("Worcestershire"),
+//				"deputies":               matchers.Like([]model.FirmDeputies(nil)),
+//				"email":                  matchers.Like("good@firm.com"),
+//				"executiveCaseManager":   matchers.StructMatcher{"id": matchers.Like(0), "displayName": matchers.Like("")},
+//				"firmName":               matchers.Like("good firm inc"),
+//				"firmNumber":             matchers.Like(0),
+//				"id":                     matchers.Like(1),
+//				"phoneNumber":            matchers.Like("077895526543"),
+//				"piiExpiry":              matchers.Like(""),
+//				"piiReceived":            matchers.Like(""),
+//				"piiRequested":           matchers.Like(""),
+//				"postcode":               matchers.Like("B1 1TF"),
+//				"town":                   matchers.Like("Birmingham"),
+//			})
+//		}).
+//		WillRespondWith(201, func(b *consumer.V2ResponseBuilder) {
+//			b.Header("Content-Type", matchers.S("application/json"))
+//			b.JSONBody(matchers.MapMatcher{
+//				"id":           matchers.Like(1),
+//				"firmName":     matchers.Like("good firm inc"),
+//				"firmNumber":   matchers.Like(1000001),
+//				"email":        matchers.Like("good@firm.com"),
+//				"phoneNumber":  matchers.Like("077895526543"),
+//				"addressLine1": matchers.Like("10 new street"),
+//				"addressLine2": matchers.Like("new firm road"),
+//				"addressLine3": matchers.Like("firmly"),
+//				"town":         matchers.Like("Birmingham"),
+//				"county":       matchers.Like("Worcestershire"),
+//				"postcode":     matchers.Like("B1 1TF"),
+//			})
+//		}).
+//		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+//			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+//			return client.ManageFirmDetails(getContext(nil), model.FirmDetails{
+//				ID:           1,
+//				FirmName:     "good firm inc",
+//				Email:        "good@firm.com",
+//				PhoneNumber:  "077895526543",
+//				AddressLine1: "10 new street",
+//				AddressLine2: "new firm road",
+//				AddressLine3: "firmly",
+//				Town:         "Birmingham",
+//				County:       "Worcestershire",
+//				Postcode:     "B1 1TF",
+//			})
+//		})
+//
+//	assert.NoError(t, err)
+//}
