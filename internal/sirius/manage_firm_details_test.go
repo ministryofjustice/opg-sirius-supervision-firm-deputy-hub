@@ -104,7 +104,6 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 }
 
-//
 //func TestManageFirmDetails_contract(t *testing.T) {
 //	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
 //		Consumer: "sirius-supervision-firm-deputy-hub",
@@ -116,9 +115,9 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 //
 //	err = pact.
 //		AddInteraction().
-//		Given("I am an allocations user").
+//		Given("Firm exists").
 //		UponReceiving("A request to edit firm details").
-//		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V2RequestBuilder) {
+//		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V2RequestBuilder) {
 //			b.Header("Content-Type", matchers.S("application/json"))
 //			b.JSONBody(matchers.MapMatcher{
 //				"PiiAmountCommaFormat":   matchers.Like(""),
