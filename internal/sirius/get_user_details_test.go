@@ -91,7 +91,6 @@ func TestGetUserDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("I am an allocations user").
 		Given("User exists").
 		UponReceiving("A request for the current user").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current", func(b *consumer.V4RequestBuilder) {
