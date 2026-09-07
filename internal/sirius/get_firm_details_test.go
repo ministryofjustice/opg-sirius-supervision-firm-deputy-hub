@@ -152,23 +152,21 @@ func TestGetFirmDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("I am an allocations user").
-		Given("A firm exists").
 		UponReceiving("A request to get firm details").
-		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/2").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/1").
 		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"id":           matchers.Like(2),
-				"firmName":     matchers.Like("Good Firm Inc"),
-				"firmNumber":   matchers.Like(100005),
-				"email":        matchers.Like("good@firm.com"),
-				"phoneNumber":  matchers.Like("123123123"),
-				"addressLine1": matchers.Like("10 St Hope Street"),
-				"addressLine2": matchers.Like("Wellington"),
-				"town":         matchers.Like("London"),
-				"county":       matchers.Like("Buckinghamshire"),
-				"postcode":     matchers.Like("BU1 1TF"),
+				"id":           matchers.Like(1),
+				"firmName":     matchers.Like("This is a Firm"),
+				"firmNumber":   matchers.Like(1000000),
+				"email":        matchers.Like("firm@email.firm"),
+				"phoneNumber":  matchers.Like("66666 451245"),
+				"addressLine1": matchers.Like("117 Fishers Close"),
+				"addressLine2": matchers.Like("Waltham Cross"),
+				"town":         matchers.Like("Auchar"),
+				"county":       matchers.Like("Lancashire"),
+				"postcode":     matchers.Like("TN31 7SH"),
 				"deputies": matchers.EachLike(matchers.StructMatcher{
 					"id":               matchers.Like(77),
 					"deputyNumber":     matchers.Like(22),
@@ -182,7 +180,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			_, err := client.GetFirmDetails(getContext(nil), 2)
+			_, err := client.GetFirmDetails(getContext(nil), 1)
 			return err
 		})
 
