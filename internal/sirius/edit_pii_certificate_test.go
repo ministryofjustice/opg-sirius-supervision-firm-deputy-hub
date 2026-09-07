@@ -114,7 +114,7 @@ func TestEditPii_contract(t *testing.T) {
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/21/indemnity-insurance", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
-			b.Header("accept", matchers.S("application/json"))
+			b.Header("Accept", matchers.S("application/json"))
 			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
 			b.JSONBody(matchers.MapMatcher{
 				"firmId":       matchers.Like(21),
