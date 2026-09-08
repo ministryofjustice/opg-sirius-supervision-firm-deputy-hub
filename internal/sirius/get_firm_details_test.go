@@ -161,7 +161,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"id":           matchers.Like(123),
-				"firmName":     matchers.Like("firmName"),
+				"firmName":     matchers.Like("Firmington enterprises"),
 				"firmNumber":   matchers.Like(1000000),
 				"email":        matchers.Like("firm@firm.com"),
 				"phoneNumber":  matchers.Like("01234 345678"),
@@ -171,15 +171,6 @@ func TestGetFirmDetails_contract(t *testing.T) {
 				"town":         matchers.Like("Springfield"),
 				"county":       matchers.Like("SimpsonsVille"),
 				"postcode":     matchers.Like("S1 12345"),
-				"deputies": matchers.EachLike(matchers.StructMatcher{
-					"id":               matchers.Like(77),
-					"deputyNumber":     matchers.Like(22),
-					"organisationName": matchers.Like("pro dept"),
-				}, 1),
-				"executiveCaseManager": matchers.StructMatcher{
-					"id":          matchers.Like(71),
-					"displayName": matchers.Like("LayTeam1 User1"),
-				},
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
