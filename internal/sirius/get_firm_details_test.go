@@ -161,7 +161,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"id":           matchers.Like(123),
-				"firmName":     matchers.Like("firmName"),
+				"firmName":     matchers.Like("Firmington enterprises"),
 				"firmNumber":   matchers.Like(1000000),
 				"email":        matchers.Like("firm@firm.com"),
 				"phoneNumber":  matchers.Like("01234 345678"),
