@@ -3,10 +3,11 @@ package sirius
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/dustin/go-humanize"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"time"
+
+	"github.com/dustin/go-humanize"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 )
 
 type ExecutiveCaseManagerOutgoing struct {
@@ -27,7 +28,7 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (model.FirmDetails, err
 	if err != nil {
 		return v, err
 	}
-
+	
 	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
