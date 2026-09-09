@@ -160,14 +160,30 @@ func TestGetFirmDetails_contract(t *testing.T) {
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"firmName": matchers.Like("Firmington enterprises"),
-				"email":    matchers.Like("firm@firm.com"),
+				"id":           matchers.Like(1),
+				"deputies":     matchers.Like([]model.FirmDeputies{}),
+				"firmName":     matchers.Like("Firmington enterprises"),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"firmNumber":   matchers.Like(1000001),
+				"personType":   matchers.Like("Firm"),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			_, err := client.GetFirmDetails(getContext(nil), 123)
-			return err
+			firmDetails, err := client.GetFirmDetails(getContext(nil), 123)
+			if err != nil {
+				return err
+			}
+
+			assert.Equal(t, "firm@firm.com", firmDetails.Email)
+			return nil
 		})
 
 	assert.NoError(t, err)

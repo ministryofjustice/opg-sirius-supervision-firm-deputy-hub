@@ -90,7 +90,7 @@
       },
       "response": {
         "body": {
-          "content": "eyJlbWFpbCI6ImZpcm1AZmlybS5jb20iLCJmaXJtTmFtZSI6IkZpcm1pbmd0b24gZW50ZXJwcmlzZXMifQ==",
+          "content": "eyJhZGRyZXNzTGluZTEiOiIxMjMgRmFrZSBTdHJlZXQiLCJhZGRyZXNzTGluZTIiOiJTdXNwaWNpb3VzIEF2ZW51ZSIsImFkZHJlc3NMaW5lMyI6IlN1cyBTdHJlZXQiLCJjb3VudHkiOiJTaW1wc29uc1ZpbGxlIiwiZGVwdXRpZXMiOltdLCJlbWFpbCI6ImZpcm1AZmlybS5jb20iLCJmaXJtTmFtZSI6IkZpcm1pbmd0b24gZW50ZXJwcmlzZXMiLCJmaXJtTnVtYmVyIjoxMDAwMDAxLCJpZCI6MSwicGVyc29uVHlwZSI6IkZpcm0iLCJwaG9uZU51bWJlciI6IjAxMjM0IDM0NTY3OCIsInBvc3Rjb2RlIjoiUzEgMTIzNDUiLCJ0b3duIjoiU3ByaW5nZmllbGQifQ==",
           "contentType": "*/*",
           "encoded": "base64"
         },
@@ -101,6 +101,46 @@
         },
         "matchingRules": {
           "body": {
+            "$.addressLine1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$.email": {
               "combine": "AND",
               "matchers": [
@@ -110,6 +150,54 @@
               ]
             },
             "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.personType": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
               "combine": "AND",
               "matchers": [
                 {
