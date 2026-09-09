@@ -2,11 +2,15 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
 	"github.com/stretchr/testify/assert"
@@ -135,4 +139,52 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, firmDetails)
+}
+
+func TestGetFirmDetails_contract(t *testing.T) {
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		Given("Firm exists").
+		UponReceiving("A request to get firm details").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
+			b.Header("Accept", matchers.S("application/json"))
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(matchers.MapMatcher{
+				"id":           matchers.Like(1),
+				"deputies":     matchers.Like([]model.FirmDeputies{}),
+				"firmName":     matchers.Like("Firmington enterprises"),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"firmNumber":   matchers.Like(1000001),
+				"personType":   matchers.Like("Firm"),
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			firmDetails, err := client.GetFirmDetails(getContext(nil), 123)
+			if err != nil {
+				return err
+			}
+
+			assert.Equal(t, "firm@firm.com", firmDetails.Email)
+			return nil
+		})
+
+	assert.NoError(t, err)
 }

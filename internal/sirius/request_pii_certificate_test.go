@@ -88,3 +88,41 @@ func TestRequestPiiReturnsUnauthorisedClientError(t *testing.T) {
 	assert.Equal(t, ErrUnauthorized, err)
 
 }
+
+//func TestRequestPii_contract(t *testing.T) {
+//	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+//		Consumer: "sirius-supervision-firm-deputy-hub",
+//		Provider: "sirius",
+//		LogDir:   "../../logs",
+//		PactDir:  "../../pacts",
+//	})
+//	assert.NoError(t, err)
+//
+//	err = pact.
+//		AddInteraction().
+//		Given("A Firm with existing PII").
+//		UponReceiving("A request to patch PII").
+//		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/2/indemnity-insurance", func(b *consumer.V2RequestBuilder) {
+//			b.Header("Content-Type", matchers.S("application/json"))
+//			b.JSONBody(matchers.MapMatcher{
+//				"firmId":       matchers.Like(2),
+//				"piiRequested": matchers.Like("10/01/2020"),
+//			})
+//		}).
+//		WillRespondWith(201, func(b *consumer.V2ResponseBuilder) {
+//			b.Header("Content-Type", matchers.S("application/json"))
+//			b.JSONBody(matchers.MapMatcher{
+//				"firmId":       matchers.Like(2),
+//				"piiRequested": matchers.Like("10/01/2020"),
+//			})
+//		}).
+//		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+//			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+//			return client.RequestPiiCertificate(getContext(nil), PiiDetailsRequest{
+//				FirmId:       2,
+//				PiiRequested: "10/01/2020",
+//			})
+//		})
+//
+//	assert.NoError(t, err)
+//}
