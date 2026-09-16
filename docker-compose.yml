@@ -56,7 +56,7 @@ services:
     command: -exclude-dir=.gocache -fmt=sarif -out=/app/test-results/gosec.sarif -stdout -verbose=text /app/...
 
   yarn:
-    image: node:24.20.0-alpine3.23@sha256:0388af2af070cd4736a1567cfed02469ba117848845b4165d87a333edb53d2ca
+    image: node:24.21.0-alpine3.23@sha256:159fe64649038c30f8cc1ec4be3af3a6e93e3648678c31294e2c5058dbeb99f3
     working_dir: /home/node/app
     entrypoint: yarn
     volumes:
