@@ -103,11 +103,14 @@ func TestRequestPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("I am an allocations user").
+		Given("A firm exists with PII").
 		UponReceiving("A request to patch PII").
 		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/2/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch(PiiDetailsRequest{})
+			b.BodyMatch(PiiDetailsRequest{
+				FirmId:       2,
+				PiiRequested: "10/01/2020",
+			})
 		}).
 		WillRespondWith(201, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
