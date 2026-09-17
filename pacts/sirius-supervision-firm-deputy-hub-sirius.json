@@ -90,9 +90,15 @@
       },
       "response": {
         "body": {
-          "content": "eyJhZGRyZXNzTGluZTEiOiIxMjMgRmFrZSBTdHJlZXQiLCJhZGRyZXNzTGluZTIiOiJTdXNwaWNpb3VzIEF2ZW51ZSIsImNvdW50eSI6IlNpbXBzb25zVmlsbGUiLCJlbWFpbCI6ImZpcm1AZmlybS5jb20iLCJmaXJtTmFtZSI6IkZpcm1pbmd0b24gZW50ZXJwcmlzZXMiLCJmaXJtTnVtYmVyIjoxMDAwMDAxLCJpZCI6MSwicGhvbmVOdW1iZXIiOiIwMTIzNCAzNDU2NzgiLCJwb3N0Y29kZSI6IlMxIDEyMzQ1In0=",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": {
+            "email": "string",
+            "firmName": "string",
+            "firmNumber": 1,
+            "id": 1,
+            "personType": "string"
+          },
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -101,30 +107,6 @@
         },
         "matchingRules": {
           "body": {
-            "$.addressLine1": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.addressLine2": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.county": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$.email": {
               "combine": "AND",
               "matchers": [
@@ -157,15 +139,7 @@
                 }
               ]
             },
-            "$.phoneNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.postcode": {
+            "$.personType": {
               "combine": "AND",
               "matchers": [
                 {
@@ -177,6 +151,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -198,17 +173,101 @@
       },
       "response": {
         "body": {
-          "content": "W3siZGVsZXRlZCI6ZmFsc2UsImRpc3BsYXlOYW1lIjoiUHJvIFRlYW0gMSAtIChTdXBlcnZpc2lvbikiLCJlbWFpbCI6IlByb1RlYW0xLnRlYW1Ab3BndGVzdC5jb20iLCJpZCI6MjUsIm1lbWJlcnMiOlt7ImRpc3BsYXlOYW1lIjoiTGF5VGVhbTEgVXNlcjIwIiwiaWQiOjkwLCJuYW1lIjoiTGF5VGVhbTEifV0sInRlYW1UeXBlIjp7ImhhbmRsZSI6IlBSTyIsImxhYmVsIjoiUHJvIn19XQ==",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": [
+            {
+              "displayName": "string",
+              "id": 1,
+              "members": [
+                {
+                  "displayName": "string",
+                  "id": 1,
+                  "name": "string"
+                }
+              ],
+              "name": "string"
+            }
+          ],
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
             "application/json"
           ]
         },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].members": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].members[*].displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].members[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].members[*].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     }
   ],
