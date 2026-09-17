@@ -10,5 +10,5 @@ type TeamMembers struct {
 	Id          int      `json:"id"`
 	Name        string   `json:"name"`
 	DisplayName string   `json:"displayName"`
-	Members     []Member `json:"members" pact:"min=0"`
+	Members     []Member `json:"members"`
 }
