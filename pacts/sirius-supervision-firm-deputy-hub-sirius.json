@@ -4,11 +4,354 @@
   },
   "interactions": [
     {
-      "description": "A request to get firm details",
+      "description": "A request to edit firm details",
       "pending": false,
       "providerStates": [
         {
           "name": "I am an allocations user"
+        }
+      ],
+      "request": {
+        "body": {
+          "content": {
+            "PiiAmountCommaFormat": "",
+            "PiiAmountIntFormat": 0,
+            "PiiExpiryDateFormat": "",
+            "PiiReceivedDateFormat": "",
+            "PiiRequestedDateFormat": "",
+            "TotalNumberOfDeputies": 1,
+            "addressLine1": "10 new street",
+            "addressLine2": "new firm road",
+            "addressLine3": "firmly",
+            "county": "Worcestershire",
+            "deputies": null,
+            "email": "good@firm.com",
+            "executiveCaseManager": {
+              "displayName": "",
+              "id": 0
+            },
+            "firmName": "good firm inc",
+            "firmNumber": 0,
+            "id": 1,
+            "phoneNumber": "077895526543",
+            "piiExpiry": "",
+            "piiReceived": "",
+            "piiRequested": "",
+            "postcode": "B1 1TF",
+            "town": "Birmingham"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.PiiAmountCommaFormat": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.PiiAmountIntFormat": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.PiiExpiryDateFormat": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.PiiReceivedDateFormat": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.PiiRequestedDateFormat": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.TotalNumberOfDeputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.executiveCaseManager.displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.executiveCaseManager.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiExpiry": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiReceived": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiRequested": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "method": "PUT",
+        "path": "/supervision-api/v1/firms/1"
+      },
+      "response": {
+        "body": {
+          "content": "eyJhZGRyZXNzTGluZTEiOiIxMCBuZXcgc3RyZWV0IiwiYWRkcmVzc0xpbmUyIjoibmV3IGZpcm0gcm9hZCIsImFkZHJlc3NMaW5lMyI6ImZpcm1seSIsImNvdW50eSI6IldvcmNlc3RlcnNoaXJlIiwiZW1haWwiOiJnb29kQGZpcm0uY29tIiwiZmlybU5hbWUiOiJnb29kIGZpcm0gaW5jIiwiZmlybU51bWJlciI6MTAwMDAwMSwiaWQiOjEsInBob25lTnVtYmVyIjoiMDc3ODk1NTI2NTQzIiwicG9zdGNvZGUiOiJCMSAxVEYiLCJ0b3duIjoiQmlybWluZ2hhbSJ9",
+          "contentType": "*/*",
+          "encoded": "base64"
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.addressLine1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "A request to get firm details",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "Firm exists"
         }
       ],
       "request": {
@@ -22,36 +365,9 @@
       },
       "response": {
         "body": {
-          "content": {
-            "addressLine1": "string",
-            "addressLine2": "string",
-            "addressLine3": "string",
-            "county": "string",
-            "deputies": [
-              {
-                "deputyNumber": 1,
-                "id": 1,
-                "organisationName": "string"
-              }
-            ],
-            "email": "string",
-            "executiveCaseManager": {
-              "displayName": "string",
-              "id": 1
-            },
-            "firmName": "string",
-            "firmNumber": 1,
-            "id": 1,
-            "phoneNumber": "string",
-            "piiAmount": 1.1,
-            "piiExpiry": "string",
-            "piiReceived": "string",
-            "piiRequested": "string",
-            "postcode": "string",
-            "town": "string"
-          },
-          "contentType": "application/json",
-          "encoded": false
+          "content": "eyJhZGRyZXNzTGluZTEiOiJzdHJpbmciLCJhZGRyZXNzTGluZTIiOiJzdHJpbmciLCJhZGRyZXNzTGluZTMiOiJzdHJpbmciLCJjb3VudHkiOiJzdHJpbmciLCJkZXB1dGllcyI6W3siZGVwdXR5TnVtYmVyIjoxLCJpZCI6MSwib3JnYW5pc2F0aW9uTmFtZSI6InN0cmluZyJ9XSwiZW1haWwiOiJzdHJpbmciLCJleGVjdXRpdmVDYXNlTWFuYWdlciI6eyJkaXNwbGF5TmFtZSI6InN0cmluZyIsImlkIjoxfSwiZmlybU5hbWUiOiJzdHJpbmciLCJmaXJtTnVtYmVyIjoxLCJpZCI6MSwicGhvbmVOdW1iZXIiOiJzdHJpbmciLCJwaWlBbW91bnQiOjEuMSwicGlpRXhwaXJ5Ijoic3RyaW5nIiwicGlpUmVjZWl2ZWQiOiJzdHJpbmciLCJwaWlSZXF1ZXN0ZWQiOiJzdHJpbmciLCJwb3N0Y29kZSI6InN0cmluZyIsInRvd24iOiJzdHJpbmcifQ==",
+          "contentType": "*/*",
+          "encoded": "base64"
         },
         "headers": {
           "Content-Type": [
@@ -233,7 +549,6 @@
         },
         "status": 200
       },
-      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -255,22 +570,9 @@
       },
       "response": {
         "body": {
-          "content": [
-            {
-              "displayName": "string",
-              "id": 1,
-              "members": [
-                {
-                  "displayName": "string",
-                  "id": 1,
-                  "name": "string"
-                }
-              ],
-              "name": "string"
-            }
-          ],
-          "contentType": "application/json",
-          "encoded": false
+          "content": "W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibWVtYmVycyI6W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibmFtZSI6InN0cmluZyJ9XSwibmFtZSI6InN0cmluZyJ9XQ==",
+          "contentType": "*/*",
+          "encoded": "base64"
         },
         "headers": {
           "Content-Type": [
@@ -349,7 +651,6 @@
         },
         "status": 200
       },
-      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -357,7 +658,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "I am an allocations user"
+          "name": "A firm exists with PII"
         }
       ],
       "request": {
