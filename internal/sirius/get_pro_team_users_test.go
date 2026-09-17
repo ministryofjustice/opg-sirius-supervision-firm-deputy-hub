@@ -178,7 +178,25 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch([]model.TeamMembers{})
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":          25,
+					"displayName": "Pro Team 1 - (Supervision)",
+					"deleted":     false,
+					"email":       "ProTeam1.team@opgtest.com",
+					"members": []interface{}{
+						map[string]interface{}{
+							"id":          90,
+							"name":        "LayTeam1",
+							"displayName": "LayTeam1 User20",
+						},
+					},
+					"teamType": map[string]interface{}{
+						"handle": "PRO",
+						"label":  "Pro",
+					},
+				},
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
@@ -186,8 +204,9 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 			if err != nil {
 				return err
 			}
-			assert.NoError(t, err)
-			assert.EqualValues(t, 1, len(members))
+			assert.Equal(t, []model.Member{
+				{Id: 90, DisplayName: "LayTeam1 User20"},
+			}, members)
 			return nil
 		})
 
