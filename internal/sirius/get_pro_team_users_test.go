@@ -161,7 +161,7 @@ func TestGetPaDeputyTeamUsersReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestGetProTeamUsers_contract(t *testing.T) {
-	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
 		LogDir:   "../../logs",
@@ -173,27 +173,18 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 		AddInteraction().
 		Given("I am an allocations user").
 		UponReceiving("A request to get pro teams").
-		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/teams", func(b *consumer.V2RequestBuilder) {
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/teams", func(b *consumer.V4RequestBuilder) {
 			b.Query("type", matchers.S("pro"))
 		}).
-		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody([]interface{}{
-				map[string]interface{}{
-					"id":          25,
-					"displayName": "Pro Team 1 - (Supervision)",
-					"deleted":     false,
-					"email":       "ProTeam1.team@opgtest.com",
-					"members": []interface{}{
-						map[string]interface{}{
-							"id":          90,
-							"name":        "LayTeam1",
-							"displayName": "LayTeam1 User20",
-						},
-					},
-					"teamType": map[string]interface{}{
-						"handle": "PRO",
-						"label":  "Pro",
+			b.BodyMatch([]model.TeamMembers{
+				{
+					Id:          1,
+					Name:        "string",
+					DisplayName: "string",
+					Members: []model.Member{
+						{Id: 1, Name: "string", DisplayName: "string"},
 					},
 				},
 			})
@@ -205,7 +196,7 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 				return err
 			}
 			assert.Equal(t, []model.Member{
-				{Id: 90, DisplayName: "LayTeam1 User20"},
+				{Id: 1, Name: "", DisplayName: "string"},
 			}, members)
 			return nil
 		})
