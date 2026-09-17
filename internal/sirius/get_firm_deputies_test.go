@@ -376,7 +376,6 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 	assert.Equal(t, expectedResult, sortTheDeputiesByNumberOfClients(firmDeputy))
 }
 
-//
 //func TestGetFirmDeputies_contract(t *testing.T) {
 //	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 //		Consumer: "sirius-supervision-firm-deputy-hub",
@@ -395,11 +394,13 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 //		}).
 //		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 //			b.Header("Content-Type", matchers.S("application/json"))
-//			b.JSONBody(matchers.EachLike(matchers.MapMatcher{
-//				"id":               matchers.Like(76),
-//				"deputyNumber":     matchers.Like(21),
-//				"organisationName": matchers.Like("pro dept"),
-//			}, 1))
+//			b.BodyMatch(model.Deputies{
+//				DeputyId:                   1,
+//				Orders:                     []model.Orders{},
+//				ExecutiveCaseManager:       model.ExecutiveCaseManager{},
+//				Assurance:                  model.Assurance{},
+//				DeputyImportantInformation: model.DeputyImportantInformation{},
+//			})
 //		}).
 //		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 //			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
