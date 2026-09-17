@@ -347,6 +347,204 @@
       "type": "Synchronous/HTTP"
     },
     {
+      "description": "A request to get firm deputies",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "Firm exists"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Accept": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "path": "/supervision-api/v1/firms/123/deputies"
+      },
+      "response": {
+        "body": {
+          "content": "W3siZGVwdXR5SW1wb3J0YW50SW5mb3JtYXRpb24iOnsicGFuZWxEZXB1dHkiOnRydWV9LCJkZXB1dHlOdW1iZXIiOjEsImV4ZWN1dGl2ZUNhc2VNYW5hZ2VyIjp7ImRpc3BsYXlOYW1lIjoic3RyaW5nIiwiaWQiOjF9LCJmaXJzdG5hbWUiOiJzdHJpbmciLCJpZCI6MSwibW9zdFJlY2VudGx5Q29tcGxldGVkQXNzdXJhbmNlIjp7ImFzc3VyYW5jZVR5cGUiOnsiaGFuZGxlIjoic3RyaW5nIiwibGFiZWwiOiJzdHJpbmcifSwicmVwb3J0TWFya2VkQXMiOnsiaGFuZGxlIjoic3RyaW5nIiwibGFiZWwiOiJzdHJpbmcifSwicmVwb3J0UmV2aWV3RGF0ZSI6InN0cmluZyJ9LCJvcmRlcnMiOlt7Im9yZGVyIjp7ImNsaWVudCI6eyJpZCI6MX0sImlkIjoxLCJvcmRlclN0YXR1cyI6eyJoYW5kbGUiOiJzdHJpbmciLCJsYWJlbCI6InN0cmluZyJ9fX1dLCJvcmdhbmlzYXRpb25OYW1lIjoic3RyaW5nIiwic3VybmFtZSI6InN0cmluZyIsInRvd24iOiJzdHJpbmcifV0=",
+          "contentType": "*/*",
+          "encoded": "base64"
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].deputyImportantInformation.panelDeputy": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].executiveCaseManager.displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].executiveCaseManager.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].firstname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.assuranceType.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.assuranceType.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.reportReviewDate": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].orders": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].orders[*].order.client.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].orders[*].order.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].orders[*].order.orderStatus.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].orders[*].order.orderStatus.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].surname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "A request to get firm details",
       "pending": false,
       "providerStates": [
@@ -538,108 +736,6 @@
               ]
             },
             "$.town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
-        },
-        "status": 200
-      },
-      "type": "Synchronous/HTTP"
-    },
-    {
-      "description": "A request to get pro teams",
-      "pending": false,
-      "providerStates": [
-        {
-          "name": "Pro team with members exists"
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "path": "/supervision-api/v1/teams",
-        "query": {
-          "type": [
-            "pro"
-          ]
-        }
-      },
-      "response": {
-        "body": {
-          "content": "W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibWVtYmVycyI6W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibmFtZSI6InN0cmluZyJ9XSwibmFtZSI6InN0cmluZyJ9XQ==",
-          "contentType": "*/*",
-          "encoded": "base64"
-        },
-        "headers": {
-          "Content-Type": [
-            "application/json"
-          ]
-        },
-        "matchingRules": {
-          "body": {
-            "$": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].members": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].members[*].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].members[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].members[*].name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].name": {
               "combine": "AND",
               "matchers": [
                 {
