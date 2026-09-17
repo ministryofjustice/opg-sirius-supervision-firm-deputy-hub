@@ -28,7 +28,7 @@ func (c *Client) GetFirmDetails(ctx Context, firmId int) (model.FirmDetails, err
 	if err != nil {
 		return v, err
 	}
-	
+
 	defer unchecked(resp.Body.Close)
 
 	if resp.StatusCode == http.StatusUnauthorized {
