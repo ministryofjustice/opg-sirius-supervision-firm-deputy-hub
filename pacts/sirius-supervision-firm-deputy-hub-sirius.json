@@ -90,37 +90,9 @@
       },
       "response": {
         "body": {
-          "content": {
-            "": 1,
-            "addressLine1": "string",
-            "addressLine2": "string",
-            "addressLine3": "string",
-            "county": "string",
-            "deputies": [
-              {
-                "deputyNumber": 1,
-                "id": 1,
-                "organisationName": "string"
-              }
-            ],
-            "email": "string",
-            "executiveCaseManager": {
-              "displayName": "string",
-              "id": 1
-            },
-            "firmName": "string",
-            "firmNumber": 1,
-            "id": 1,
-            "phoneNumber": "string",
-            "piiAmount": 1.1,
-            "piiExpiry": "string",
-            "piiReceived": "string",
-            "piiRequested": "string",
-            "postcode": "string",
-            "town": "string"
-          },
-          "contentType": "application/json",
-          "encoded": false
+          "content": "eyJhZGRyZXNzTGluZTEiOiIxMjMgRmFrZSBTdHJlZXQiLCJhZGRyZXNzTGluZTIiOiJTdXNwaWNpb3VzIEF2ZW51ZSIsImNvdW50eSI6IlNpbXBzb25zVmlsbGUiLCJlbWFpbCI6ImZpcm1AZmlybS5jb20iLCJmaXJtTmFtZSI6IkZpcm1pbmd0b24gZW50ZXJwcmlzZXMiLCJmaXJtTnVtYmVyIjoxMDAwMDAxLCJpZCI6MSwicGhvbmVOdW1iZXIiOiIwMTIzNCAzNDU2NzgiLCJwb3N0Y29kZSI6IlMxIDEyMzQ1In0=",
+          "contentType": "*/*",
+          "encoded": "base64"
         },
         "headers": {
           "Content-Type": [
@@ -145,14 +117,6 @@
                 }
               ]
             },
-            "$.addressLine3": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$.county": {
               "combine": "AND",
               "matchers": [
@@ -161,56 +125,7 @@
                 }
               ]
             },
-            "$.deputies": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$.deputies[*].deputyNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.deputies[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.deputies[*].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$.email": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.executiveCaseManager.displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.executiveCaseManager.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -250,55 +165,7 @@
                 }
               ]
             },
-            "$.piiAmount": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiExpiry": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiReceived": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiRequested": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$.postcode": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$['']": {
               "combine": "AND",
               "matchers": [
                 {
@@ -310,7 +177,6 @@
         },
         "status": 200
       },
-      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -332,7 +198,7 @@
       },
       "response": {
         "body": {
-          "content": "W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibWVtYmVycyI6W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibmFtZSI6InN0cmluZyJ9XSwibmFtZSI6InN0cmluZyJ9XQ==",
+          "content": "W3siZGVsZXRlZCI6ZmFsc2UsImRpc3BsYXlOYW1lIjoiUHJvIFRlYW0gMSAtIChTdXBlcnZpc2lvbikiLCJlbWFpbCI6IlByb1RlYW0xLnRlYW1Ab3BndGVzdC5jb20iLCJpZCI6MjUsIm1lbWJlcnMiOlt7ImRpc3BsYXlOYW1lIjoiTGF5VGVhbTEgVXNlcjIwIiwiaWQiOjkwLCJuYW1lIjoiTGF5VGVhbTEifV0sInRlYW1UeXBlIjp7ImhhbmRsZSI6IlBSTyIsImxhYmVsIjoiUHJvIn19XQ==",
           "contentType": "*/*",
           "encoded": "base64"
         },
@@ -340,76 +206,6 @@
           "Content-Type": [
             "application/json"
           ]
-        },
-        "matchingRules": {
-          "body": {
-            "$": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].members": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].members[*].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].members[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].members[*].name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
         },
         "status": 200
       },
