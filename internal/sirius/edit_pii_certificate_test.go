@@ -2,6 +2,7 @@ package sirius
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -9,6 +10,8 @@ import (
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -95,52 +98,50 @@ func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
 
 }
 
-//func TestEditPii_contract(t *testing.T) {
-//	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
-//		Consumer: "sirius-supervision-firm-deputy-hub",
-//		Provider: "sirius",
-//		LogDir:   "../../logs",
-//		PactDir:  "../../pacts",
-//	})
-//	assert.NoError(t, err)
-//
-//	err = pact.
-//		AddInteraction().
-//		Given("I am a System Admin").
-//		UponReceiving("A request to edit PII").
-//		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/21/indemnity-insurance", func(b *consumer.V2RequestBuilder) {
-//			b.Header("Content-Type", matchers.S("application/json"))
-//			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
-//			b.Header("Accept", matchers.S("application/json"))
-//			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
-//			b.JSONBody(matchers.MapMatcher{
-//				"firmId":       matchers.Like(21),
-//				"piiReceived":  matchers.Like("20/01/2020"),
-//				"piiExpiry":    matchers.Like("20/01/2025"),
-//				"piiAmount":    matchers.Like(254),
-//				"piiRequested": matchers.Like("10/01/2020"),
-//			})
-//		}).
-//		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
-//			b.Header("Content-Type", matchers.S("application/json"))
-//			b.JSONBody(matchers.MapMatcher{
-//				"firmId":       matchers.Like(21),
-//				"piiReceived":  matchers.Like("20/01/2020"),
-//				"piiExpiry":    matchers.Like("20/01/2025"),
-//				"piiAmount":    matchers.Like(254),
-//				"piiRequested": matchers.Like("10/01/2020"),
-//			})
-//		}).
-//		ExecuteTest(t, func(config consumer.MockServerConfig) error {
-//			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-//			return client.EditPiiCertificate(getContext(nil), model.PiiDetails{
-//				FirmId:       21,
-//				PiiReceived:  "20/01/2020",
-//				PiiExpiry:    "20/01/2025",
-//				PiiAmount:    254,
-//				PiiRequested: "10/01/2020",
-//			})
-//		})
-//
-//	assert.NoError(t, err)
-//}
+func TestEditPii_contract(t *testing.T) {
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		Given("I am a System Admin").
+		UponReceiving("A request to edit PII").
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/21/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
+			b.Header("Accept", matchers.S("application/json"))
+			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
+			b.JSONBody(matchers.MapMatcher{
+				"firmId":       matchers.Like(21),
+				"piiReceived":  matchers.Like("20/01/2020"),
+				"piiExpiry":    matchers.Like("20/01/2025"),
+				"piiAmount":    matchers.Like(254),
+				"piiRequested": matchers.Like("10/01/2020"),
+			})
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			editCertificateError := client.EditPiiCertificate(getContext(nil), model.PiiDetails{
+				FirmId:       21,
+				PiiReceived:  "20/01/2020",
+				PiiExpiry:    "20/01/2025",
+				PiiAmount:    254,
+				PiiRequested: "10/01/2020",
+			})
+			if editCertificateError != nil {
+				return err
+			}
+			assert.NoError(t, editCertificateError)
+			return nil
+		})
+
+	assert.NoError(t, err)
+}
