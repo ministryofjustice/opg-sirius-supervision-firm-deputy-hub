@@ -90,9 +90,37 @@
       },
       "response": {
         "body": {
-          "content": "eyJhZGRyZXNzTGluZTEiOiIxMjMgRmFrZSBTdHJlZXQiLCJhZGRyZXNzTGluZTIiOiJTdXNwaWNpb3VzIEF2ZW51ZSIsImFkZHJlc3NMaW5lMyI6IlN1cyBTdHJlZXQiLCJjb3VudHkiOiJTaW1wc29uc1ZpbGxlIiwiZGVwdXRpZXMiOltdLCJlbWFpbCI6ImZpcm1AZmlybS5jb20iLCJmaXJtTmFtZSI6IkZpcm1pbmd0b24gZW50ZXJwcmlzZXMiLCJmaXJtTnVtYmVyIjoxMDAwMDAxLCJpZCI6MSwicGVyc29uVHlwZSI6IkZpcm0iLCJwaG9uZU51bWJlciI6IjAxMjM0IDM0NTY3OCIsInBvc3Rjb2RlIjoiUzEgMTIzNDUiLCJ0b3duIjoiU3ByaW5nZmllbGQifQ==",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": {
+            "": 1,
+            "addressLine1": "string",
+            "addressLine2": "string",
+            "addressLine3": "string",
+            "county": "string",
+            "deputies": [
+              {
+                "deputyNumber": 1,
+                "id": 1,
+                "organisationName": "string"
+              }
+            ],
+            "email": "string",
+            "executiveCaseManager": {
+              "displayName": "string",
+              "id": 1
+            },
+            "firmName": "string",
+            "firmNumber": 1,
+            "id": 1,
+            "phoneNumber": "string",
+            "piiAmount": 1.1,
+            "piiExpiry": "string",
+            "piiReceived": "string",
+            "piiRequested": "string",
+            "postcode": "string",
+            "town": "string"
+          },
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -137,11 +165,52 @@
               "combine": "AND",
               "matchers": [
                 {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.deputies[*].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[*].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
                   "match": "type"
                 }
               ]
             },
             "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.executiveCaseManager.displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.executiveCaseManager.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -173,7 +242,7 @@
                 }
               ]
             },
-            "$.personType": {
+            "$.phoneNumber": {
               "combine": "AND",
               "matchers": [
                 {
@@ -181,7 +250,31 @@
                 }
               ]
             },
-            "$.phoneNumber": {
+            "$.piiAmount": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiExpiry": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiReceived": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiRequested": {
               "combine": "AND",
               "matchers": [
                 {
@@ -204,11 +297,20 @@
                   "match": "type"
                 }
               ]
+            },
+            "$['']": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
             }
           }
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -230,7 +332,7 @@
       },
       "response": {
         "body": {
-          "content": "W3siZGVsZXRlZCI6ZmFsc2UsImRpc3BsYXlOYW1lIjoiUHJvIFRlYW0gMSAtIChTdXBlcnZpc2lvbikiLCJlbWFpbCI6IlByb1RlYW0xLnRlYW1Ab3BndGVzdC5jb20iLCJpZCI6MjUsIm1lbWJlcnMiOlt7ImRlbGV0ZWQiOmZhbHNlLCJkaXNwbGF5TmFtZSI6IkxheVRlYW0xIFVzZXIyMCIsImVtYWlsIjoibGF5MS0yMEBvcGd0ZXN0LmNvbSIsImlkIjo5MCwibmFtZSI6IkxheVRlYW0xIiwicGhvbmVOdW1iZXIiOiIxMjM0NTY3OCJ9LHsiZGVsZXRlZCI6ZmFsc2UsImRpc3BsYXlOYW1lIjoiUFJPVGVhbTEgVXNlcjEiLCJlbWFpbCI6InBybzFAb3BndGVzdC5jb20iLCJpZCI6OTQsIm5hbWUiOiJQUk9UZWFtMSIsInBob25lTnVtYmVyIjoiMTIzNDU2NzgifV0sIm5hbWUiOiJQcm8gVGVhbSAxIC0gKFN1cGVydmlzaW9uKSIsInBob25lTnVtYmVyIjoiMDEyMzQ1Njc4OSIsInRlYW1UeXBlIjp7ImhhbmRsZSI6IlBSTyIsImxhYmVsIjoiUHJvIn19LHsiZGVsZXRlZCI6ZmFsc2UsImRpc3BsYXlOYW1lIjoiUHJvIFRlYW0gMiAtIChTdXBlcnZpc2lvbikiLCJlbWFpbCI6IlByb1RlYW0yLnRlYW1Ab3BndGVzdC5jb20iLCJpZCI6MjYsIm1lbWJlcnMiOlt7ImRlbGV0ZWQiOmZhbHNlLCJkaXNwbGF5TmFtZSI6ImF0d28gbWFuYWdlciIsImVtYWlsIjoiMm1hbmFnZXJAb3BndGVzdC5jb20iLCJpZCI6MzcsIm5hbWUiOiJhdHdvIiwicGhvbmVOdW1iZXIiOiIwMzAwNDU2MDMwMCJ9LHsiZGVsZXRlZCI6ZmFsc2UsImRpc3BsYXlOYW1lIjoiQ2FyZFBheW1lbnQgVXNlciIsImVtYWlsIjoiY2FyZC5wYXltZW50LnVzZXJAb3BndGVzdC5jb20iLCJpZCI6MTAxLCJuYW1lIjoiQ2FyZFBheW1lbnQiLCJwaG9uZU51bWJlciI6IjEyMzQ1Njc4In1dLCJuYW1lIjoiUHJvIFRlYW0gMiAtIChTdXBlcnZpc2lvbikiLCJwaG9uZU51bWJlciI6IjAxMjM0NTY3ODkiLCJ0ZWFtVHlwZSI6eyJoYW5kbGUiOiJQUk8iLCJsYWJlbCI6IlBybyJ9fV0=",
+          "content": "W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibWVtYmVycyI6W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibmFtZSI6InN0cmluZyJ9XSwibmFtZSI6InN0cmluZyJ9XQ==",
           "contentType": "*/*",
           "encoded": "base64"
         },
@@ -238,6 +340,76 @@
           "Content-Type": [
             "application/json"
           ]
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].members": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].members[*].displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].members[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].members[*].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
         },
         "status": 200
       },
