@@ -118,9 +118,9 @@ func TestManageFirmDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("I am an allocations user").
+		Given("Firm exists").
 		UponReceiving("A request to edit firm details").
-		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V2RequestBuilder) {
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"PiiAmountCommaFormat":   matchers.Like(""),
@@ -166,7 +166,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			return client.ManageFirmDetails(getContext(nil), model.FirmDetails{
-				ID:           1,
+				ID:           123,
 				FirmName:     "good firm inc",
 				Email:        "good@firm.com",
 				PhoneNumber:  "077895526543",
