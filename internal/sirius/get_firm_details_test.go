@@ -159,7 +159,17 @@ func TestGetFirmDetails_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch(model.FirmDetails{})
+			b.JSONBody(matchers.MapMatcher{
+				"id":           matchers.Like(1),
+				"firmName":     matchers.Like("Firmington enterprises"),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"firmNumber":   matchers.Like(1000001),
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
@@ -169,6 +179,21 @@ func TestGetFirmDetails_contract(t *testing.T) {
 			}
 			assert.NoError(t, err)
 			assert.EqualValues(t, "Firmington enterprises", firmDetails.FirmName)
+			assert.EqualValues(t, 1000001, firmDetails.FirmNumber)
+			assert.EqualValues(t, "firm@firm.com", firmDetails.Email)
+			assert.EqualValues(t, "01234 345678", firmDetails.PhoneNumber)
+			assert.EqualValues(t, "123 Fake Street", firmDetails.AddressLine1)
+			assert.EqualValues(t, "Suspicious Avenue", firmDetails.AddressLine2)
+			assert.EqualValues(t, "", firmDetails.AddressLine3)
+			assert.EqualValues(t, "", firmDetails.Town)
+			assert.EqualValues(t, "SimpsonsVille", firmDetails.County)
+			assert.EqualValues(t, "S1 12345", firmDetails.Postcode)
+			assert.EqualValues(t, model.ExecutiveCaseManager(model.ExecutiveCaseManager{Id: 0, DisplayName: ""}), firmDetails.ExecutiveCaseManager)
+			assert.EqualValues(t, []model.FirmDeputies([]model.FirmDeputies(nil)), firmDetails.Deputies)
+			assert.EqualValues(t, "", firmDetails.PiiReceived)
+			assert.EqualValues(t, "", firmDetails.PiiExpiry)
+			assert.EqualValues(t, 0, firmDetails.PiiAmount)
+			assert.EqualValues(t, "", firmDetails.PiiRequested)
 			return nil
 		})
 
