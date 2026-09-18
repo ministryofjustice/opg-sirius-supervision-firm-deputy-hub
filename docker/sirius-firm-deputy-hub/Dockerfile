@@ -21,14 +21,16 @@ RUN update-ca-certificates
 FROM node:24.20.0-alpine3.23@sha256:0388af2af070cd4736a1567cfed02469ba117848845b4165d87a333edb53d2ca AS asset-env
 WORKDIR /app
 
+RUN apk add git
+
 RUN mkdir -p web/static
 
 COPY web/assets web/assets
 COPY package.json .
-COPY yarn.lock .
+COPY package-lock.json .
 
-RUN yarn install --frozen-lockfile --ignore-scripts
-RUN yarn build
+RUN npm ci --ignore-scripts
+RUN npm run build
 
 FROM base AS dev
 WORKDIR /app
