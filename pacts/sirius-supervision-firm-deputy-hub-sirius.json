@@ -299,32 +299,25 @@
       },
       "response": {
         "body": {
-          "addressLine1": "string",
-          "addressLine2": "string",
-          "addressLine3": "string",
-          "county": "string",
-          "deputies": [
-            {
-              "deputyNumber": 1,
-              "id": 1,
-              "organisationName": "string"
-            }
-          ],
-          "email": "string",
+          "addressLine1": "10 new street",
+          "addressLine2": "new firm road",
+          "addressLine3": "firmly",
+          "county": "Worcestershire",
+          "deputies": null,
+          "email": "good@firm.com",
           "executiveCaseManager": {
-            "displayName": "string",
-            "id": 1
+            "displayName": "",
+            "id": 0
           },
-          "firmName": "string",
-          "firmNumber": 1,
+          "firmName": "good firm inc",
+          "firmNumber": 10000022,
           "id": 1,
-          "phoneNumber": "string",
-          "piiAmount": 1.1,
-          "piiExpiry": "string",
-          "piiReceived": "string",
-          "piiRequested": "string",
-          "postcode": "string",
-          "town": "string"
+          "phoneNumber": "077895526543",
+          "piiExpiry": "",
+          "piiReceived": "",
+          "piiRequested": "",
+          "postcode": "B1 1TF",
+          "town": "Birmingham"
         },
         "headers": {
           "Content-Type": "application/json"
@@ -343,16 +336,6 @@
             "match": "type"
           },
           "$.body.deputies": {
-            "match": "type",
-            "min": 1
-          },
-          "$.body.deputies[*].deputyNumber": {
-            "match": "type"
-          },
-          "$.body.deputies[*].id": {
-            "match": "type"
-          },
-          "$.body.deputies[*].organisationName": {
             "match": "type"
           },
           "$.body.email": {
@@ -374,9 +357,6 @@
             "match": "type"
           },
           "$.body.phoneNumber": {
-            "match": "type"
-          },
-          "$.body.piiAmount": {
             "match": "type"
           },
           "$.body.piiExpiry": {

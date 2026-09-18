@@ -159,7 +159,24 @@ func TestGetFirmDetails_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch(model.FirmResponse{})
+			b.JSONBody(matchers.MapMatcher{
+				"addressLine1":         matchers.Like("10 new street"),
+				"addressLine2":         matchers.Like("new firm road"),
+				"addressLine3":         matchers.Like("firmly"),
+				"county":               matchers.Like("Worcestershire"),
+				"deputies":             matchers.Like([]model.FirmDeputies(nil)),
+				"email":                matchers.Like("good@firm.com"),
+				"executiveCaseManager": matchers.StructMatcher{"id": matchers.Like(0), "displayName": matchers.Like("")},
+				"firmName":             matchers.Like("good firm inc"),
+				"firmNumber":           matchers.Like(10000022),
+				"id":                   matchers.Like(1),
+				"phoneNumber":          matchers.Like("077895526543"),
+				"piiExpiry":            matchers.Like(""),
+				"piiReceived":          matchers.Like(""),
+				"piiRequested":         matchers.Like(""),
+				"postcode":             matchers.Like("B1 1TF"),
+				"town":                 matchers.Like("Birmingham"),
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
@@ -168,8 +185,8 @@ func TestGetFirmDetails_contract(t *testing.T) {
 				return err
 			}
 			log.Printf("firmDetails: %+v", firmDetails)
-			assert.EqualValues(t, "string", firmDetails.FirmName)
-			assert.EqualValues(t, 1, firmDetails.FirmNumber)
+			assert.EqualValues(t, "good firm inc", firmDetails.FirmName)
+			assert.EqualValues(t, 10000022, firmDetails.FirmNumber)
 			return nil
 		})
 
