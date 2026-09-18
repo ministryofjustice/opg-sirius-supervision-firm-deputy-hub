@@ -167,7 +167,7 @@
     },
     {
       "description": "A request to get firm deputies",
-      "providerState": "Firm exists",
+      "providerState": "Firm with deputies exists",
       "request": {
         "headers": {
           "Accept": "application/json"
@@ -290,6 +290,7 @@
     },
     {
       "description": "A request to get firm details",
+      "providerState": "Firm exists",
       "request": {
         "headers": {
           "Accept": "application/json"
@@ -299,32 +300,18 @@
       },
       "response": {
         "body": {
-          "addressLine1": "string",
-          "addressLine2": "string",
-          "addressLine3": "string",
-          "county": "string",
-          "deputies": [
-            {
-              "deputyNumber": 1,
-              "id": 1,
-              "organisationName": "string"
-            }
-          ],
-          "email": "string",
-          "executiveCaseManager": {
-            "displayName": "string",
-            "id": 1
-          },
-          "firmName": "string",
-          "firmNumber": 1,
+          "addressLine1": "10 new street",
+          "addressLine2": "new firm road",
+          "addressLine3": "firmly",
+          "county": "Worcestershire",
+          "deputies": null,
+          "email": "good@firm.com",
+          "firmName": "good firm inc",
+          "firmNumber": 10000022,
           "id": 1,
-          "phoneNumber": "string",
-          "piiAmount": 1.1,
-          "piiExpiry": "string",
-          "piiReceived": "string",
-          "piiRequested": "string",
-          "postcode": "string",
-          "town": "string"
+          "phoneNumber": "077895526543",
+          "postcode": "B1 1TF",
+          "town": "Birmingham"
         },
         "headers": {
           "Content-Type": "application/json"
@@ -343,25 +330,9 @@
             "match": "type"
           },
           "$.body.deputies": {
-            "match": "type",
-            "min": 1
-          },
-          "$.body.deputies[*].deputyNumber": {
-            "match": "type"
-          },
-          "$.body.deputies[*].id": {
-            "match": "type"
-          },
-          "$.body.deputies[*].organisationName": {
             "match": "type"
           },
           "$.body.email": {
-            "match": "type"
-          },
-          "$.body.executiveCaseManager.displayName": {
-            "match": "type"
-          },
-          "$.body.executiveCaseManager.id": {
             "match": "type"
           },
           "$.body.firmName": {
@@ -374,18 +345,6 @@
             "match": "type"
           },
           "$.body.phoneNumber": {
-            "match": "type"
-          },
-          "$.body.piiAmount": {
-            "match": "type"
-          },
-          "$.body.piiExpiry": {
-            "match": "type"
-          },
-          "$.body.piiReceived": {
-            "match": "type"
-          },
-          "$.body.piiRequested": {
             "match": "type"
           },
           "$.body.postcode": {
