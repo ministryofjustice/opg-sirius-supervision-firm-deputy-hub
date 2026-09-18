@@ -760,8 +760,8 @@
       "request": {
         "body": {
           "content": {
-            "firmId": 1,
-            "piiRequested": "string"
+            "firmId": 2,
+            "piiRequested": "10/01/2020"
           },
           "contentType": "application/json",
           "encoded": false
@@ -797,8 +797,17 @@
       "response": {
         "body": {
           "content": {
-            "firmId": 1,
-            "piiRequested": "string"
+            "addressLine1": "10 new street",
+            "addressLine2": "new firm road",
+            "addressLine3": "firmly",
+            "county": "Worcestershire",
+            "email": "good@firm.com",
+            "firmName": "good firm inc",
+            "firmNumber": 1000001,
+            "id": 1,
+            "phoneNumber": "077895526543",
+            "postcode": "B1 1TF",
+            "town": "Birmingham"
           },
           "contentType": "application/json",
           "encoded": false
@@ -810,7 +819,7 @@
         },
         "matchingRules": {
           "body": {
-            "$.firmId": {
+            "$.addressLine1": {
               "combine": "AND",
               "matchers": [
                 {
@@ -818,7 +827,79 @@
                 }
               ]
             },
-            "$.piiRequested": {
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
               "combine": "AND",
               "matchers": [
                 {
@@ -828,7 +909,7 @@
             }
           }
         },
-        "status": 201
+        "status": 200
       },
       "transport": "http",
       "type": "Synchronous/HTTP"
