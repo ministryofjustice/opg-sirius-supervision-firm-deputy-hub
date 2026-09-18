@@ -154,22 +154,35 @@ func TestGetFirmDetails_contract(t *testing.T) {
 	err = pact.
 		AddInteraction().
 		UponReceiving("A request to get firm details").
-		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/1", func(b *consumer.V4RequestBuilder) {
 			b.Header("Accept", matchers.S("application/json"))
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch(model.FirmResponse{})
+			b.JSONBody(matchers.MapMatcher{
+				"id":           matchers.Like(1),
+				"firmName":     matchers.Like("good firm inc"),
+				"firmNumber":   matchers.Like(10000022),
+				"addressLine1": matchers.Like("10 new street"),
+				"addressLine2": matchers.Like("new firm road"),
+				"addressLine3": matchers.Like("firmly"),
+				"town":         matchers.Like("Birmingham"),
+				"county":       matchers.Like("Worcestershire"),
+				"postcode":     matchers.Like("B1 1TF"),
+				"phoneNumber":  matchers.Like("077895526543"),
+				"email":        matchers.Like("good@firm.com"),
+				"deputies":     matchers.Like([]model.FirmDeputies(nil)),
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			firmDetails, err := client.GetFirmDetails(getContext(nil), 123)
+			firmDetails, err := client.GetFirmDetails(getContext(nil), 1)
 			if err != nil {
 				return err
 			}
 			log.Printf("firmDetails: %+v", firmDetails)
-			assert.EqualValues(t, "string", firmDetails.FirmName)
-			assert.EqualValues(t, 1, firmDetails.FirmNumber)
+			assert.EqualValues(t, "good firm inc", firmDetails.FirmName)
+			assert.EqualValues(t, 10000022, firmDetails.FirmNumber)
 			return nil
 		})
 
