@@ -153,7 +153,6 @@ func TestGetFirmDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("Firm exists").
 		UponReceiving("A request to get firm details").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
 			b.Header("Accept", matchers.S("application/json"))
