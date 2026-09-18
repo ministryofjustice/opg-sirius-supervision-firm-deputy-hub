@@ -55,9 +55,9 @@ services:
       - .:/app
     command: -exclude-dir=.gocache -fmt=sarif -out=/app/test-results/gosec.sarif -stdout -verbose=text /app/...
 
-  yarn:
-    image: node:24.20.0-alpine3.23@sha256:0388af2af070cd4736a1567cfed02469ba117848845b4165d87a333edb53d2ca
-    working_dir: /home/node/app
-    entrypoint: yarn
+  npm:
+    build:
+      dockerfile: docker/npm/Dockerfile
+    command: ["ci", "--ignore-scripts"]
     volumes:
       - ./:/home/node/app
