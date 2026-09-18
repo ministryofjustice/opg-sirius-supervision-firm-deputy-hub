@@ -5,7 +5,6 @@
   "interactions": [
     {
       "description": "A request to edit firm details",
-      "providerState": "Firm exists",
       "request": {
         "body": {
           "PiiAmountCommaFormat": "",
@@ -291,7 +290,6 @@
     },
     {
       "description": "A request to get firm details",
-      "providerState": "Firm exists",
       "request": {
         "headers": {
           "Accept": "application/json"
