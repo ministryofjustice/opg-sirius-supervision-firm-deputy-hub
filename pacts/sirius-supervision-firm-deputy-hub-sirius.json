@@ -8,13 +8,13 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "I am a System Admin"
+          "name": "Firm exists with PII"
         }
       ],
       "request": {
         "body": {
           "content": {
-            "firmId": 1,
+            "firmId": 123,
             "piiAmount": 254,
             "piiExpiry": "20/01/2025",
             "piiReceived": "20/01/2020",
@@ -92,7 +92,7 @@
           }
         },
         "method": "PUT",
-        "path": "/supervision-api/v1/firms/1/indemnity-insurance"
+        "path": "/supervision-api/v1/firms/123/indemnity-insurance"
       },
       "response": {
         "headers": {
@@ -126,44 +126,18 @@
         "body": {
           "content": [
             {
-              "deputyImportantInformation": {
-                "panelDeputy": true
-              },
-              "deputyNumber": 1,
+              "deputyNumber": 24,
               "executiveCaseManager": {
-                "displayName": "string",
-                "id": 1
+                "displayName": "Pro Team Workflow",
+                "id": 31
               },
-              "firstname": "string",
-              "id": 1,
-              "mostRecentlyCompletedAssurance": {
-                "assuranceType": {
-                  "handle": "string",
-                  "label": "string"
-                },
-                "reportMarkedAs": {
-                  "handle": "string",
-                  "label": "string"
-                },
-                "reportReviewDate": "string"
+              "firm": {
+                "id": 3
               },
-              "orders": [
-                {
-                  "order": {
-                    "client": {
-                      "id": 1
-                    },
-                    "id": 1,
-                    "orderStatus": {
-                      "handle": "string",
-                      "label": "string"
-                    }
-                  }
-                }
-              ],
-              "organisationName": "string",
-              "surname": "string",
-              "town": "string"
+              "id": 86,
+              "orders": [],
+              "organisationName": "pro org name",
+              "town": "Birmingham"
             }
           ],
           "contentType": "application/json",
@@ -176,16 +150,7 @@
         },
         "matchingRules": {
           "body": {
-            "$": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].deputyImportantInformation.panelDeputy": {
+            "$[0].deputyNumber": {
               "combine": "AND",
               "matchers": [
                 {
@@ -193,7 +158,7 @@
                 }
               ]
             },
-            "$[*].deputyNumber": {
+            "$[0].executiveCaseManager.displayName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -201,7 +166,7 @@
                 }
               ]
             },
-            "$[*].executiveCaseManager.displayName": {
+            "$[0].executiveCaseManager.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -209,7 +174,7 @@
                 }
               ]
             },
-            "$[*].executiveCaseManager.id": {
+            "$[0].firm.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -217,7 +182,7 @@
                 }
               ]
             },
-            "$[*].firstname": {
+            "$[0].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -225,7 +190,7 @@
                 }
               ]
             },
-            "$[*].id": {
+            "$[0].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -233,104 +198,7 @@
                 }
               ]
             },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportReviewDate": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].orders[*].order.client.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].surname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].town": {
+            "$[0].town": {
               "combine": "AND",
               "matchers": [
                 {
