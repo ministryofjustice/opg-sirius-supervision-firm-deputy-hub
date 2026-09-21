@@ -126,44 +126,18 @@
         "body": {
           "content": [
             {
-              "deputyImportantInformation": {
-                "panelDeputy": true
-              },
-              "deputyNumber": 1,
+              "deputyNumber": 24,
               "executiveCaseManager": {
-                "displayName": "string",
-                "id": 1
+                "displayName": "Pro Team Workflow",
+                "id": 31
               },
-              "firstname": "string",
-              "id": 1,
-              "mostRecentlyCompletedAssurance": {
-                "assuranceType": {
-                  "handle": "string",
-                  "label": "string"
-                },
-                "reportMarkedAs": {
-                  "handle": "string",
-                  "label": "string"
-                },
-                "reportReviewDate": "string"
+              "firm": {
+                "id": 3
               },
-              "orders": [
-                {
-                  "order": {
-                    "client": {
-                      "id": 1
-                    },
-                    "id": 1,
-                    "orderStatus": {
-                      "handle": "string",
-                      "label": "string"
-                    }
-                  }
-                }
-              ],
-              "organisationName": "string",
-              "surname": "string",
-              "town": "string"
+              "id": 86,
+              "orders": [],
+              "organisationName": "pro org name",
+              "town": "Birmingham"
             }
           ],
           "contentType": "application/json",
@@ -173,172 +147,6 @@
           "Content-Type": [
             "application/json"
           ]
-        },
-        "matchingRules": {
-          "body": {
-            "$": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].deputyImportantInformation.panelDeputy": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].deputyNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].executiveCaseManager.displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].executiveCaseManager.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].firstname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportReviewDate": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].orders[*].order.client.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].surname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
         },
         "status": 200
       },
