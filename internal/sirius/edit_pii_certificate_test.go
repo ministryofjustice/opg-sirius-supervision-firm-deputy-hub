@@ -110,15 +110,15 @@ func TestEditPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("I am a System Admin").
+		Given("Firm exists with PII").
 		UponReceiving("A request to edit PII").
-		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
 			b.Header("Accept", matchers.S("application/json"))
 			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
 			b.JSONBody(matchers.MapMatcher{
-				"firmId":       matchers.Like(1),
+				"firmId":       matchers.Like(123),
 				"piiReceived":  matchers.Like("20/01/2020"),
 				"piiExpiry":    matchers.Like("20/01/2025"),
 				"piiAmount":    matchers.Like(254),
@@ -131,7 +131,7 @@ func TestEditPii_contract(t *testing.T) {
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			editCertificateError := client.EditPiiCertificate(getContext(nil), model.PiiDetails{
-				FirmId:       1,
+				FirmId:       123,
 				PiiReceived:  "20/01/2020",
 				PiiExpiry:    "20/01/2025",
 				PiiAmount:    254,
