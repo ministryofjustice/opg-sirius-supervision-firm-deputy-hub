@@ -127,43 +127,32 @@
           "content": [
             {
               "deputyImportantInformation": {
-                "panelDeputy": true
+                "panelDeputy": false
               },
-              "deputyNumber": 1,
+              "deputyNumber": 21,
               "executiveCaseManager": {
-                "displayName": "string",
+                "displayName": "PROTeam1 User1",
+                "id": 94
+              },
+              "firm": {
                 "id": 1
               },
-              "firstname": "string",
-              "id": 1,
+              "firstname": "",
+              "id": 76,
               "mostRecentlyCompletedAssurance": {
                 "assuranceType": {
-                  "handle": "string",
-                  "label": "string"
+                  "handle": "VISIT",
+                  "label": "Visit"
                 },
                 "reportMarkedAs": {
-                  "handle": "string",
-                  "label": "string"
+                  "handle": "GREEN",
+                  "label": "Green"
                 },
-                "reportReviewDate": "string"
+                "reportReviewDate": "2023-05-26T00:00:00+00:00"
               },
-              "orders": [
-                {
-                  "order": {
-                    "client": {
-                      "id": 1
-                    },
-                    "id": 1,
-                    "orderStatus": {
-                      "handle": "string",
-                      "label": "string"
-                    }
-                  }
-                }
-              ],
-              "organisationName": "string",
-              "surname": "string",
-              "town": "string"
+              "orders": [],
+              "organisationName": "pro dept",
+              "surname": ""
             }
           ],
           "contentType": "application/json",
@@ -173,172 +162,6 @@
           "Content-Type": [
             "application/json"
           ]
-        },
-        "matchingRules": {
-          "body": {
-            "$": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].deputyImportantInformation.panelDeputy": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].deputyNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].executiveCaseManager.displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].executiveCaseManager.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].firstname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportReviewDate": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].orders[*].order.client.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].surname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
         },
         "status": 200
       },

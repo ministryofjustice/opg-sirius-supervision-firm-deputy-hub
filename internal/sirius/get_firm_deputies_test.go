@@ -397,7 +397,25 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch([]model.Deputies{})
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":               76,
+					"firstname":        "",
+					"surname":          "",
+					"deputyNumber":     21,
+					"orders":           []interface{}{},
+					"organisationName": "pro dept",
+					"executiveCaseManager": map[string]interface{}{
+						"id":          94,
+						"displayName": "PROTeam1 User1",
+					},
+					"firm": map[string]interface{}{
+						"id": 1,
+					},
+					"mostRecentlyCompletedAssurance": map[string]interface{}{},
+					"deputyImportantInformation":     map[string]interface{}{},
+				},
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
