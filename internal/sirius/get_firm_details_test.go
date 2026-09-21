@@ -172,7 +172,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 				"postcode":     matchers.Like("B1 1TF"),
 				"phoneNumber":  matchers.Like("077895526543"),
 				"email":        matchers.Like("good@firm.com"),
-				"deputies":     matchers.Like([]model.DeputyResponse(nil)),
+				"deputies":     matchers.Like([]model.DeputyResponse{}),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
