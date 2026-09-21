@@ -4,390 +4,406 @@
   },
   "interactions": [
     {
-      "description": "A request to get firm deputies",
-      "pending": false,
-      "providerStates": [
-        {
-          "name": "Firm with deputies exists"
-        }
-      ],
+      "description": "A request for the current user",
+      "providerState": "User exists",
       "request": {
         "headers": {
-          "Accept": [
-            "application/json"
-          ]
+          "Accept": "application/json"
         },
         "method": "GET",
-        "path": "/supervision-api/v1/firms/123/deputies"
+        "path": "/supervision-api/v1/users/current"
       },
       "response": {
         "body": {
-          "content": [
-            {
-              "deputyImportantInformation": {
-                "panelDeputy": true
-              },
-              "deputyNumber": 1,
-              "executiveCaseManager": {
-                "displayName": "string",
-                "id": 1
-              },
-              "firstname": "string",
-              "id": 1,
-              "mostRecentlyCompletedAssurance": {
-                "assuranceType": {
-                  "handle": "string",
-                  "label": "string"
-                },
-                "reportMarkedAs": {
-                  "handle": "string",
-                  "label": "string"
-                },
-                "reportReviewDate": "string"
-              },
-              "orders": [
-                {
-                  "order": {
-                    "client": {
-                      "id": 1
-                    },
-                    "id": 1,
-                    "orderStatus": {
-                      "handle": "string",
-                      "label": "string"
-                    }
-                  }
-                }
-              ],
-              "organisationName": "string",
-              "surname": "string",
-              "town": "string"
-            }
-          ],
-          "contentType": "application/json",
-          "encoded": false
-        },
-        "headers": {
-          "Content-Type": [
-            "application/json"
+          "displayName": "Colin Case",
+          "id": 1,
+          "roles": [
+            "Case Manager"
           ]
         },
+        "headers": {
+          "Content-Type": "application/json"
+        },
         "matchingRules": {
-          "body": {
-            "$": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].deputyImportantInformation.panelDeputy": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].deputyNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].executiveCaseManager.displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].executiveCaseManager.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].firstname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.assuranceType.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].mostRecentlyCompletedAssurance.reportReviewDate": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].orders[*].order.client.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.handle": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].orders[*].order.orderStatus.label": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].surname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
+          "$.body.displayName": {
+            "match": "type"
+          },
+          "$.body.id": {
+            "match": "type"
+          },
+          "$.body.roles": {
+            "match": "type",
+            "min": 1
           }
         },
         "status": 200
+      }
+    },
+    {
+      "description": "A request to change a firms ECM",
+      "providerState": "I am an allocations user",
+      "request": {
+        "body": {
+          "ecmId": 32
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "OPG-Bypass-Membrane": "1",
+          "X-XSRF-TOKEN": "abcde"
+        },
+        "matchingRules": {
+          "$.body.ecmId": {
+            "match": "type"
+          },
+          "$.headers['X-XSRF-TOKEN']": {
+            "match": "type"
+          }
+        },
+        "method": "PUT",
+        "path": "/supervision-api/v1/firms/1/ecm"
       },
-      "transport": "http",
-      "type": "Synchronous/HTTP"
+      "response": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "A request to edit PII",
+      "providerState": "I am a System Admin",
+      "request": {
+        "body": {
+          "firmId": 21,
+          "piiAmount": 254,
+          "piiExpiry": "20/01/2025",
+          "piiReceived": "20/01/2020",
+          "piiRequested": "10/01/2020"
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "OPG-Bypass-Membrane": "1",
+          "X-XSRF-TOKEN": "abcde"
+        },
+        "matchingRules": {
+          "$.body.firmId": {
+            "match": "type"
+          },
+          "$.body.piiAmount": {
+            "match": "type"
+          },
+          "$.body.piiExpiry": {
+            "match": "type"
+          },
+          "$.body.piiReceived": {
+            "match": "type"
+          },
+          "$.body.piiRequested": {
+            "match": "type"
+          },
+          "$.headers['X-XSRF-TOKEN']": {
+            "match": "type"
+          }
+        },
+        "method": "PUT",
+        "path": "/supervision-api/v1/firms/21/indemnity-insurance"
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "A request to edit firm details",
+      "request": {
+        "body": {
+          "PiiAmountCommaFormat": "",
+          "PiiAmountIntFormat": 0,
+          "PiiExpiryDateFormat": "",
+          "PiiReceivedDateFormat": "",
+          "PiiRequestedDateFormat": "",
+          "TotalNumberOfDeputies": 1,
+          "addressLine1": "10 new street",
+          "addressLine2": "new firm road",
+          "addressLine3": "firmly",
+          "county": "Worcestershire",
+          "deputies": null,
+          "email": "good@firm.com",
+          "executiveCaseManager": {
+            "displayName": "",
+            "id": 0
+          },
+          "firmName": "good firm inc",
+          "firmNumber": 0,
+          "id": 1,
+          "phoneNumber": "077895526543",
+          "piiExpiry": "",
+          "piiReceived": "",
+          "piiRequested": "",
+          "postcode": "B1 1TF",
+          "town": "Birmingham"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.PiiAmountCommaFormat": {
+            "match": "type"
+          },
+          "$.body.PiiAmountIntFormat": {
+            "match": "type"
+          },
+          "$.body.PiiExpiryDateFormat": {
+            "match": "type"
+          },
+          "$.body.PiiReceivedDateFormat": {
+            "match": "type"
+          },
+          "$.body.PiiRequestedDateFormat": {
+            "match": "type"
+          },
+          "$.body.TotalNumberOfDeputies": {
+            "match": "type"
+          },
+          "$.body.addressLine1": {
+            "match": "type"
+          },
+          "$.body.addressLine2": {
+            "match": "type"
+          },
+          "$.body.addressLine3": {
+            "match": "type"
+          },
+          "$.body.county": {
+            "match": "type"
+          },
+          "$.body.deputies": {
+            "match": "type"
+          },
+          "$.body.email": {
+            "match": "type"
+          },
+          "$.body.executiveCaseManager.displayName": {
+            "match": "type"
+          },
+          "$.body.executiveCaseManager.id": {
+            "match": "type"
+          },
+          "$.body.firmName": {
+            "match": "type"
+          },
+          "$.body.firmNumber": {
+            "match": "type"
+          },
+          "$.body.id": {
+            "match": "type"
+          },
+          "$.body.phoneNumber": {
+            "match": "type"
+          },
+          "$.body.piiExpiry": {
+            "match": "type"
+          },
+          "$.body.piiReceived": {
+            "match": "type"
+          },
+          "$.body.piiRequested": {
+            "match": "type"
+          },
+          "$.body.postcode": {
+            "match": "type"
+          },
+          "$.body.town": {
+            "match": "type"
+          }
+        },
+        "method": "PUT",
+        "path": "/supervision-api/v1/firms/123"
+      },
+      "response": {
+        "body": {
+          "addressLine1": "10 new street",
+          "addressLine2": "new firm road",
+          "addressLine3": "firmly",
+          "county": "Worcestershire",
+          "email": "good@firm.com",
+          "firmName": "good firm inc",
+          "firmNumber": 1000001,
+          "id": 1,
+          "phoneNumber": "077895526543",
+          "postcode": "B1 1TF",
+          "town": "Birmingham"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body.addressLine1": {
+            "match": "type"
+          },
+          "$.body.addressLine2": {
+            "match": "type"
+          },
+          "$.body.addressLine3": {
+            "match": "type"
+          },
+          "$.body.county": {
+            "match": "type"
+          },
+          "$.body.email": {
+            "match": "type"
+          },
+          "$.body.firmName": {
+            "match": "type"
+          },
+          "$.body.firmNumber": {
+            "match": "type"
+          },
+          "$.body.id": {
+            "match": "type"
+          },
+          "$.body.phoneNumber": {
+            "match": "type"
+          },
+          "$.body.postcode": {
+            "match": "type"
+          },
+          "$.body.town": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
     },
     {
       "description": "A request to get firm details",
-      "pending": false,
-      "providerStates": [
-        {
-          "name": "Firm exists"
-        }
-      ],
+      "providerState": "Firm exists",
       "request": {
         "headers": {
-          "Accept": [
-            "application/json"
-          ]
+          "Accept": "application/json"
         },
         "method": "GET",
         "path": "/supervision-api/v1/firms/123"
       },
       "response": {
         "body": {
-          "content": {
-            "addressLine1": "10 new street",
-            "addressLine2": "new firm road",
-            "addressLine3": "firmly",
-            "county": "Worcestershire",
-            "deputies": [],
-            "email": "good@firm.com",
-            "firmName": "good firm inc",
-            "firmNumber": 10000022,
-            "id": 1,
-            "phoneNumber": "077895526543",
-            "postcode": "B1 1TF",
-            "town": "Birmingham"
-          },
-          "contentType": "application/json",
-          "encoded": false
+          "addressLine1": "10 new street",
+          "addressLine2": "new firm road",
+          "addressLine3": "firmly",
+          "county": "Worcestershire",
+          "deputies": [],
+          "email": "good@firm.com",
+          "firmName": "good firm inc",
+          "firmNumber": 10000022,
+          "id": 1,
+          "phoneNumber": "077895526543",
+          "postcode": "B1 1TF",
+          "town": "Birmingham"
         },
         "headers": {
-          "Content-Type": [
-            "application/json"
-          ]
+          "Content-Type": "application/json"
         },
         "matchingRules": {
-          "body": {
-            "$.addressLine1": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.addressLine2": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.addressLine3": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.county": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.deputies": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.email": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.firmName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.firmNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.phoneNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.postcode": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
+          "$.body.addressLine1": {
+            "match": "type"
+          },
+          "$.body.addressLine2": {
+            "match": "type"
+          },
+          "$.body.addressLine3": {
+            "match": "type"
+          },
+          "$.body.county": {
+            "match": "type"
+          },
+          "$.body.deputies": {
+            "match": "type"
+          },
+          "$.body.email": {
+            "match": "type"
+          },
+          "$.body.firmName": {
+            "match": "type"
+          },
+          "$.body.firmNumber": {
+            "match": "type"
+          },
+          "$.body.id": {
+            "match": "type"
+          },
+          "$.body.phoneNumber": {
+            "match": "type"
+          },
+          "$.body.postcode": {
+            "match": "type"
+          },
+          "$.body.town": {
+            "match": "type"
           }
         },
         "status": 200
+      }
+    },
+    {
+      "description": "A request to get pro teams",
+      "providerState": "Pro team with members exists",
+      "request": {
+        "method": "GET",
+        "path": "/supervision-api/v1/teams",
+        "query": "type=pro"
       },
-      "transport": "http",
-      "type": "Synchronous/HTTP"
+      "response": {
+        "body": [
+          {
+            "displayName": "string",
+            "id": 1,
+            "members": [
+              {
+                "displayName": "string",
+                "id": 1,
+                "name": "string"
+              }
+            ],
+            "name": "string"
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type",
+            "min": 1
+          },
+          "$.body[*].displayName": {
+            "match": "type"
+          },
+          "$.body[*].id": {
+            "match": "type"
+          },
+          "$.body[*].members": {
+            "match": "type",
+            "min": 1
+          },
+          "$.body[*].members[*].displayName": {
+            "match": "type"
+          },
+          "$.body[*].members[*].id": {
+            "match": "type"
+          },
+          "$.body[*].members[*].name": {
+            "match": "type"
+          },
+          "$.body[*].name": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
     }
   ],
   "metadata": {
@@ -400,7 +416,7 @@
       "models": "1.3.5"
     },
     "pactSpecification": {
-      "version": "4.0"
+      "version": "2.0.0"
     }
   },
   "provider": {
