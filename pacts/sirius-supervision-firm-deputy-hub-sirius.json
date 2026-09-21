@@ -4,72 +4,6 @@
   },
   "interactions": [
     {
-      "description": "A request to change a firms ECM",
-      "pending": false,
-      "providerStates": [
-        {
-          "name": "I am an allocations user"
-        }
-      ],
-      "request": {
-        "body": {
-          "content": {
-            "ecmId": 78
-          },
-          "contentType": "application/json",
-          "encoded": false
-        },
-        "headers": {
-          "Accept": [
-            "application/json"
-          ],
-          "Content-Type": [
-            "application/json"
-          ],
-          "OPG-Bypass-Membrane": [
-            "1"
-          ],
-          "X-XSRF-TOKEN": [
-            "abcde"
-          ]
-        },
-        "matchingRules": {
-          "body": {
-            "$.ecmId": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          },
-          "header": {
-            "X-XSRF-TOKEN": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
-        },
-        "method": "PUT",
-        "path": "/supervision-api/v1/firms/1/ecm"
-      },
-      "response": {
-        "headers": {
-          "Content-Type": [
-            "application/json"
-          ]
-        },
-        "status": 200
-      },
-      "transport": "http",
-      "type": "Synchronous/HTTP"
-    },
-    {
       "description": "A request to edit PII",
       "pending": false,
       "providerStates": [
@@ -172,36 +106,64 @@
       "type": "Synchronous/HTTP"
     },
     {
-      "description": "A request to get pro teams",
+      "description": "A request to get firm deputies",
       "pending": false,
       "providerStates": [
         {
-          "name": "Pro team with members exists"
+          "name": "Firm with deputies exists"
         }
       ],
       "request": {
-        "method": "GET",
-        "path": "/supervision-api/v1/teams",
-        "query": {
-          "type": [
-            "pro"
+        "headers": {
+          "Accept": [
+            "application/json"
           ]
-        }
+        },
+        "method": "GET",
+        "path": "/supervision-api/v1/firms/123/deputies"
       },
       "response": {
         "body": {
           "content": [
             {
-              "displayName": "string",
+              "deputyImportantInformation": {
+                "panelDeputy": true
+              },
+              "deputyNumber": 1,
+              "executiveCaseManager": {
+                "displayName": "string",
+                "id": 1
+              },
+              "firstname": "string",
               "id": 1,
-              "members": [
+              "mostRecentlyCompletedAssurance": {
+                "assuranceType": {
+                  "handle": "string",
+                  "label": "string"
+                },
+                "reportMarkedAs": {
+                  "handle": "string",
+                  "label": "string"
+                },
+                "reportReviewDate": "string"
+              },
+              "orders": [
                 {
-                  "displayName": "string",
-                  "id": 1,
-                  "name": "string"
+                  "order": {
+                    "client": {
+                      "id": 1
+                    },
+                    "id": 1,
+                    "orderStatus": {
+                      "handle": "string",
+                      "label": "string"
+                    }
+                  }
                 }
               ],
-              "name": "string"
+              "organisationName": "string",
+              "surname": "string",
+              "town": "string"
             }
           ],
           "contentType": "application/json",
@@ -223,7 +185,39 @@
                 }
               ]
             },
-            "$[*].displayName": {
+            "$[*].deputyImportantInformation.panelDeputy": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].executiveCaseManager.displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].executiveCaseManager.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].firstname": {
               "combine": "AND",
               "matchers": [
                 {
@@ -239,7 +233,47 @@
                 }
               ]
             },
-            "$[*].members": {
+            "$[*].mostRecentlyCompletedAssurance.assuranceType.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.assuranceType.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.reportMarkedAs.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].mostRecentlyCompletedAssurance.reportReviewDate": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].orders": {
               "combine": "AND",
               "matchers": [
                 {
@@ -248,7 +282,7 @@
                 }
               ]
             },
-            "$[*].members[*].displayName": {
+            "$[*].orders[*].order.client.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -256,7 +290,7 @@
                 }
               ]
             },
-            "$[*].members[*].id": {
+            "$[*].orders[*].order.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -264,7 +298,7 @@
                 }
               ]
             },
-            "$[*].members[*].name": {
+            "$[*].orders[*].order.orderStatus.handle": {
               "combine": "AND",
               "matchers": [
                 {
@@ -272,7 +306,31 @@
                 }
               ]
             },
-            "$[*].name": {
+            "$[*].orders[*].order.orderStatus.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].surname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].town": {
               "combine": "AND",
               "matchers": [
                 {
