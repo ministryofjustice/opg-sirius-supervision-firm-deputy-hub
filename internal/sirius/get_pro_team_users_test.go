@@ -161,7 +161,7 @@ func TestGetPaDeputyTeamUsersReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestGetProTeamUsers_contract(t *testing.T) {
-	//t.Skip("Skipping get pro team users test")
+	t.Skip("PASSED - Skipping get pro team users test")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
