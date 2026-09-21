@@ -4,10 +4,9 @@ go 1.26.0
 
 require (
 	github.com/ministryofjustice/opg-go-common v1.165.28
-	github.com/stretchr/testify v1.12.1
 	github.com/pact-foundation/pact-go/v2 v2.4.2
+	github.com/stretchr/testify v1.12.1
 )
-
 
 require golang.org/x/sync v0.23.0
 
@@ -19,6 +18,12 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.29.0 // indirect
+	github.com/hashicorp/go-version v1.7.0 // indirect
+	github.com/hashicorp/logutils v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/spf13/afero v1.15.0 // indirect
+	github.com/spf13/cobra v1.10.1 // indirect
+	github.com/spf13/pflag v1.0.9 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/detectors/aws/ecs v1.44.0 // indirect
 	go.opentelemetry.io/contrib/propagators/aws v1.44.0 // indirect
