@@ -397,7 +397,52 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch([]model.Deputies{})
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":           76,
+					"firstname":    "",
+					"surname":      "",
+					"deputyNumber": 21,
+					"orders": []interface{}{
+						map[string]interface{}{
+							"order": map[string]interface{}{
+								"id": 63,
+								"client": map[string]interface{}{
+									"id":        74,
+									"firstname": "Louis",
+									"surname":   "Dauphin",
+								},
+								"orderStatus": map[string]interface{}{
+									"handle": "ACTIVE",
+									"label":  "Active",
+								},
+							},
+						},
+					},
+					"organisationName": "pro dept",
+					"executiveCaseManager": map[string]interface{}{
+						"id":          94,
+						"displayName": "PROTeam1 User1",
+					},
+					"firm": map[string]interface{}{
+						"id": 1,
+					},
+					"mostRecentlyCompletedAssurance": map[string]interface{}{
+						"reportReviewDate": "2023-05-26T00:00:00+00:00",
+						"reportMarkedAs": map[string]interface{}{
+							"handle": "GREEN",
+							"label":  "Green",
+						},
+						"assuranceType": map[string]interface{}{
+							"handle": "VISIT",
+							"label":  "Visit",
+						},
+					},
+					"deputyImportantInformation": map[string]interface{}{
+						"panelDeputy": false,
+					},
+				},
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
