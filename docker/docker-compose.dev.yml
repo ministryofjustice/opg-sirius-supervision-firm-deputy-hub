@@ -17,8 +17,8 @@ services:
       - ./web/static:/app/web/static
       - ./web/template:/app/web/template
 
-  yarn:
-    command: watch
+  npm:
+    command: ["run", "watch"]
 
   json-server:
     build:

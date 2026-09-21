@@ -6,14 +6,14 @@ build:
 	docker compose build firm-deputy-hub
 
 build-dev:
-	docker compose -f docker-compose.yml -f docker/docker-compose.dev.yml build firm-deputy-hub yarn
+	docker compose -f docker-compose.yml -f docker/docker-compose.dev.yml build firm-deputy-hub npm
 
 clean:
 	docker compose down
-	docker compose run --rm yarn
+	docker compose run --rm npm
 
 compile-assets:
-	docker compose run --rm yarn build
+	docker compose run --rm npm run build
 
 cypress: setup-directories clean
 	docker compose up -d --wait firm-deputy-hub json-server
@@ -24,8 +24,8 @@ cypress-single: setup-directories clean
 	docker compose run --rm cypress run --spec cypress/e2e/$(SPEC)
 
 dev-up:
-	docker compose run --rm yarn
-	docker compose run --rm yarn build
+	docker compose run --rm npm
+	docker compose run --rm npm run build
 	docker compose -f docker-compose.yml -f docker/docker-compose.dev.yml up --build firm-deputy-hub json-server
 
 down:

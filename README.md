@@ -7,7 +7,7 @@
 
 #### Installing dependencies locally:
 (This is only necessary if dunning without docker)
--   `yarn install`
+-   `npm ci --ignore-scripts`
 -   `go mod download`
 
 ## Local development
@@ -29,7 +29,7 @@ will rebuild and restart the application without requiring manually stopping and
 Alternatively to set it up not using Docker use below. This may be necessary to build the assets folder locally (if
 there are assets missing) as the developer version of the docker compose file does not pass the Air stage. This hosts it on `localhost:1234`
 
--   `yarn install && yarn build ` #run this to build your assets folder locally
+-   `npm ci --ignore-scripts && npm run build ` #run this to build your assets folder locally
 -   `go build main.go `
 -   `./main `
 
@@ -44,7 +44,7 @@ there are assets missing) as the developer version of the docker compose file do
 
 ## Run Cypress tests in UI
 
-- `make up && yarn cypress`
+- `make up && npm run cypress`
 
 ---
 
