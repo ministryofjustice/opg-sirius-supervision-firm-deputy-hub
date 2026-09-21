@@ -114,7 +114,7 @@ func TestChangeECM_contract(t *testing.T) {
 			b.Header("Accept", matchers.S("application/json"))
 			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
 			b.JSONBody(matchers.MapMatcher{
-				"ecmId": matchers.Like(32),
+				"ecmId": matchers.Like(78),
 			})
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
@@ -122,7 +122,7 @@ func TestChangeECM_contract(t *testing.T) {
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			changeEcmError := client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 32}, model.FirmDetails{ID: 1})
+			changeEcmError := client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 78}, model.FirmDetails{ID: 1})
 			if changeEcmError != nil {
 				return err
 			}
