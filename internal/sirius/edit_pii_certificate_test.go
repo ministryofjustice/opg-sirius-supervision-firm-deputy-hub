@@ -119,10 +119,10 @@ func TestEditPii_contract(t *testing.T) {
 			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
 			b.JSONBody(matchers.MapMatcher{
 				"firmId":       matchers.Like(123),
-				"piiReceived":  matchers.Like("20/01/2020"),
-				"piiExpiry":    matchers.Like("20/01/2025"),
+				"piiReceived":  matchers.Like("2020-01-20"),
+				"piiExpiry":    matchers.Like("2025-01-20"),
 				"piiAmount":    matchers.Like(254),
-				"piiRequested": matchers.Like("10/01/2020"),
+				"piiRequested": matchers.Like("2020-01-01"),
 			})
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
@@ -132,10 +132,10 @@ func TestEditPii_contract(t *testing.T) {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			editCertificateError := client.EditPiiCertificate(getContext(nil), model.PiiDetails{
 				FirmId:       123,
-				PiiReceived:  "20/01/2020",
-				PiiExpiry:    "20/01/2025",
+				PiiReceived:  "2020-01-20",
+				PiiExpiry:    "2025-01-20",
 				PiiAmount:    254,
-				PiiRequested: "10/01/2020",
+				PiiRequested: "2020-01-01",
 			})
 			if editCertificateError != nil {
 				return err
