@@ -16,9 +16,9 @@
           "content": {
             "firmId": 123,
             "piiAmount": 254,
-            "piiExpiry": "20/01/2025",
-            "piiReceived": "20/01/2020",
-            "piiRequested": "10/01/2020"
+            "piiExpiry": "2025-01-20",
+            "piiReceived": "2020-01-20",
+            "piiRequested": "2020-01-01"
           },
           "contentType": "application/json",
           "encoded": false
@@ -99,114 +99,6 @@
           "Content-Type": [
             "application/json"
           ]
-        },
-        "status": 200
-      },
-      "transport": "http",
-      "type": "Synchronous/HTTP"
-    },
-    {
-      "description": "A request to get firm deputies",
-      "pending": false,
-      "providerStates": [
-        {
-          "name": "Firm with deputies exists"
-        }
-      ],
-      "request": {
-        "headers": {
-          "Accept": [
-            "application/json"
-          ]
-        },
-        "method": "GET",
-        "path": "/supervision-api/v1/firms/123/deputies"
-      },
-      "response": {
-        "body": {
-          "content": [
-            {
-              "deputyNumber": 24,
-              "executiveCaseManager": {
-                "displayName": "Pro Team Workflow",
-                "id": 31
-              },
-              "firm": {
-                "id": 3
-              },
-              "id": 86,
-              "orders": [],
-              "organisationName": "pro org name",
-              "town": "Birmingham"
-            }
-          ],
-          "contentType": "application/json",
-          "encoded": false
-        },
-        "headers": {
-          "Content-Type": [
-            "application/json"
-          ]
-        },
-        "matchingRules": {
-          "body": {
-            "$[0].deputyNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].executiveCaseManager.displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].executiveCaseManager.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].firm.id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].town": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
         },
         "status": 200
       },
