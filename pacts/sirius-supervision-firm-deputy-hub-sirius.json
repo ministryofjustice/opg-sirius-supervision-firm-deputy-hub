@@ -8,14 +8,14 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "A firm exists without PII"
+          "name": "A firm exists without PII 2"
         }
       ],
       "request": {
         "body": {
           "content": {
             "firmId": 123,
-            "piiRequested": "10/01/2020"
+            "piiRequested": "2020-01-10"
           },
           "contentType": "application/json",
           "encoded": false
