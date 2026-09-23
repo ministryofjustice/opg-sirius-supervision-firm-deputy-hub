@@ -4,60 +4,55 @@
   },
   "interactions": [
     {
-      "description": "A request for the current user",
-      "providerState": "User exists",
+      "description": "A request to change a firms ECM",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "Firm with no Ecm exists"
+        }
+      ],
       "request": {
-        "headers": {
-          "Accept": "application/json"
-        },
-        "method": "GET",
-        "path": "/supervision-api/v1/users/current"
-      },
-      "response": {
         "body": {
-          "displayName": "Colin Case",
-          "id": 1,
-          "roles": [
-            "Case Manager"
+          "content": {
+            "ecmId": 78
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Accept": [
+            "application/json"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "OPG-Bypass-Membrane": [
+            "1"
+          ],
+          "X-XSRF-TOKEN": [
+            "abcde"
           ]
         },
-        "headers": {
-          "Content-Type": "application/json"
-        },
         "matchingRules": {
-          "$.body.displayName": {
-            "match": "type"
+          "body": {
+            "$.ecmId": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
           },
-          "$.body.id": {
-            "match": "type"
-          },
-          "$.body.roles": {
-            "match": "type",
-            "min": 1
-          }
-        },
-        "status": 200
-      }
-    },
-    {
-      "description": "A request to change a firms ECM",
-      "providerState": "Firm with no Ecm exists",
-      "request": {
-        "body": {
-          "ecmId": 78
-        },
-        "headers": {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "OPG-Bypass-Membrane": "1",
-          "X-XSRF-TOKEN": "abcde"
-        },
-        "matchingRules": {
-          "$.body.ecmId": {
-            "match": "type"
-          },
-          "$.headers['X-XSRF-TOKEN']": {
-            "match": "type"
+          "header": {
+            "X-XSRF-TOKEN": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
           }
         },
         "method": "PUT",
@@ -65,298 +60,14 @@
       },
       "response": {
         "headers": {
-          "Content-Type": "application/json"
+          "Content-Type": [
+            "application/json"
+          ]
         },
         "status": 200
-      }
-    },
-    {
-      "description": "A request to edit firm details",
-      "providerState": "Firm exists",
-      "request": {
-        "body": {
-          "PiiAmountCommaFormat": "",
-          "PiiAmountIntFormat": 0,
-          "PiiExpiryDateFormat": "",
-          "PiiReceivedDateFormat": "",
-          "PiiRequestedDateFormat": "",
-          "TotalNumberOfDeputies": 1,
-          "addressLine1": "10 new street",
-          "addressLine2": "new firm road",
-          "addressLine3": "firmly",
-          "county": "Worcestershire",
-          "deputies": null,
-          "email": "good@firm.com",
-          "executiveCaseManager": {
-            "displayName": "",
-            "id": 0
-          },
-          "firmName": "good firm inc",
-          "firmNumber": 0,
-          "id": 1,
-          "phoneNumber": "077895526543",
-          "piiExpiry": "",
-          "piiReceived": "",
-          "piiRequested": "",
-          "postcode": "B1 1TF",
-          "town": "Birmingham"
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "matchingRules": {
-          "$.body.PiiAmountCommaFormat": {
-            "match": "type"
-          },
-          "$.body.PiiAmountIntFormat": {
-            "match": "type"
-          },
-          "$.body.PiiExpiryDateFormat": {
-            "match": "type"
-          },
-          "$.body.PiiReceivedDateFormat": {
-            "match": "type"
-          },
-          "$.body.PiiRequestedDateFormat": {
-            "match": "type"
-          },
-          "$.body.TotalNumberOfDeputies": {
-            "match": "type"
-          },
-          "$.body.addressLine1": {
-            "match": "type"
-          },
-          "$.body.addressLine2": {
-            "match": "type"
-          },
-          "$.body.addressLine3": {
-            "match": "type"
-          },
-          "$.body.county": {
-            "match": "type"
-          },
-          "$.body.deputies": {
-            "match": "type"
-          },
-          "$.body.email": {
-            "match": "type"
-          },
-          "$.body.executiveCaseManager.displayName": {
-            "match": "type"
-          },
-          "$.body.executiveCaseManager.id": {
-            "match": "type"
-          },
-          "$.body.firmName": {
-            "match": "type"
-          },
-          "$.body.firmNumber": {
-            "match": "type"
-          },
-          "$.body.id": {
-            "match": "type"
-          },
-          "$.body.phoneNumber": {
-            "match": "type"
-          },
-          "$.body.piiExpiry": {
-            "match": "type"
-          },
-          "$.body.piiReceived": {
-            "match": "type"
-          },
-          "$.body.piiRequested": {
-            "match": "type"
-          },
-          "$.body.postcode": {
-            "match": "type"
-          },
-          "$.body.town": {
-            "match": "type"
-          }
-        },
-        "method": "PUT",
-        "path": "/supervision-api/v1/firms/123"
       },
-      "response": {
-        "body": {
-          "addressLine1": "10 new street",
-          "addressLine2": "new firm road",
-          "addressLine3": "firmly",
-          "county": "Worcestershire",
-          "email": "good@firm.com",
-          "firmName": "good firm inc",
-          "firmNumber": 1000001,
-          "id": 1,
-          "phoneNumber": "077895526543",
-          "postcode": "B1 1TF",
-          "town": "Birmingham"
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "matchingRules": {
-          "$.body.addressLine1": {
-            "match": "type"
-          },
-          "$.body.addressLine2": {
-            "match": "type"
-          },
-          "$.body.addressLine3": {
-            "match": "type"
-          },
-          "$.body.county": {
-            "match": "type"
-          },
-          "$.body.email": {
-            "match": "type"
-          },
-          "$.body.firmName": {
-            "match": "type"
-          },
-          "$.body.firmNumber": {
-            "match": "type"
-          },
-          "$.body.id": {
-            "match": "type"
-          },
-          "$.body.phoneNumber": {
-            "match": "type"
-          },
-          "$.body.postcode": {
-            "match": "type"
-          },
-          "$.body.town": {
-            "match": "type"
-          }
-        },
-        "status": 200
-      }
-    },
-    {
-      "description": "A request to get firm deputies",
-      "providerState": "Firm with deputies exists",
-      "request": {
-        "headers": {
-          "Accept": "application/json"
-        },
-        "method": "GET",
-        "path": "/supervision-api/v1/firms/123/deputies"
-      },
-      "response": {
-        "body": [
-          {
-            "deputyNumber": 24,
-            "executiveCaseManager": {
-              "displayName": "Pro Team Workflow",
-              "id": 31
-            },
-            "firm": {
-              "id": 3
-            },
-            "id": 86,
-            "orders": [],
-            "organisationName": "pro org name",
-            "town": "Birmingham"
-          }
-        ],
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "matchingRules": {
-          "$.body[0].deputyNumber": {
-            "match": "type"
-          },
-          "$.body[0].executiveCaseManager.displayName": {
-            "match": "type"
-          },
-          "$.body[0].executiveCaseManager.id": {
-            "match": "type"
-          },
-          "$.body[0].firm.id": {
-            "match": "type"
-          },
-          "$.body[0].id": {
-            "match": "type"
-          },
-          "$.body[0].organisationName": {
-            "match": "type"
-          },
-          "$.body[0].town": {
-            "match": "type"
-          }
-        },
-        "status": 200
-      }
-    },
-    {
-      "description": "A request to get firm details",
-      "providerState": "Firm exists",
-      "request": {
-        "headers": {
-          "Accept": "application/json"
-        },
-        "method": "GET",
-        "path": "/supervision-api/v1/firms/123"
-      },
-      "response": {
-        "body": {
-          "addressLine1": "10 new street",
-          "addressLine2": "new firm road",
-          "addressLine3": "firmly",
-          "county": "Worcestershire",
-          "deputies": [],
-          "email": "good@firm.com",
-          "firmName": "good firm inc",
-          "firmNumber": 10000022,
-          "id": 1,
-          "phoneNumber": "077895526543",
-          "postcode": "B1 1TF",
-          "town": "Birmingham"
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "matchingRules": {
-          "$.body.addressLine1": {
-            "match": "type"
-          },
-          "$.body.addressLine2": {
-            "match": "type"
-          },
-          "$.body.addressLine3": {
-            "match": "type"
-          },
-          "$.body.county": {
-            "match": "type"
-          },
-          "$.body.deputies": {
-            "match": "type"
-          },
-          "$.body.email": {
-            "match": "type"
-          },
-          "$.body.firmName": {
-            "match": "type"
-          },
-          "$.body.firmNumber": {
-            "match": "type"
-          },
-          "$.body.id": {
-            "match": "type"
-          },
-          "$.body.phoneNumber": {
-            "match": "type"
-          },
-          "$.body.postcode": {
-            "match": "type"
-          },
-          "$.body.town": {
-            "match": "type"
-          }
-        },
-        "status": 200
-      }
+      "transport": "http",
+      "type": "Synchronous/HTTP"
     }
   ],
   "metadata": {
@@ -369,7 +80,7 @@
       "models": "1.3.5"
     },
     "pactSpecification": {
-      "version": "2.0.0"
+      "version": "4.0"
     }
   },
   "provider": {
