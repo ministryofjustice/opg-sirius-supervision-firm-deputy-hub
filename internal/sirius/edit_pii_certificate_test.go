@@ -99,7 +99,6 @@ func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestEditPii_contract(t *testing.T) {
-	//t.Skip("PASSES Skipping Edit PII test")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -110,7 +109,7 @@ func TestEditPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("Firm exists with PII").
+		Given("Firm exists").
 		UponReceiving("A request to edit PII").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))

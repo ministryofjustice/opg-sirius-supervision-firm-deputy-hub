@@ -93,7 +93,6 @@ func TestRequestPiiReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestRequestPii_contract(t *testing.T) {
-	//t.Skip("PASSES request pii")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -104,7 +103,7 @@ func TestRequestPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("A firm exists without PII").
+		Given("Firm exists").
 		UponReceiving("A request to patch PII").
 		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))

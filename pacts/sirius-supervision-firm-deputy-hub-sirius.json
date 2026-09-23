@@ -76,7 +76,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm with no Ecm exists"
+          "name": "Firm exists"
         }
       ],
       "request": {
@@ -142,7 +142,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm exists with PII"
+          "name": "Firm exists"
         }
       ],
       "request": {
@@ -244,7 +244,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm exists 1"
+          "name": "Firm exists"
         }
       ],
       "request": {
@@ -600,7 +600,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm with deputies exists"
+          "name": "Firm exists"
         }
       ],
       "request": {
@@ -708,7 +708,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm exists 2"
+          "name": "Firm exists"
         }
       ],
       "request": {
@@ -970,7 +970,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "A firm exists without PII"
+          "name": "Firm exists"
         }
       ],
       "request": {

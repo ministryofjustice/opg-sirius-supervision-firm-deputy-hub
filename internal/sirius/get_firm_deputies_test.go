@@ -380,7 +380,6 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 }
 
 func TestGetFirmDeputies_contract(t *testing.T) {
-	//t.Skip("Passes mostly?")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -391,7 +390,7 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("Firm with deputies exists").
+		Given("Firm exists").
 		UponReceiving("A request to get firm deputies").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123/deputies", func(b *consumer.V4RequestBuilder) {
 			b.Header("Accept", matchers.S("application/json"))
