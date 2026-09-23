@@ -110,7 +110,7 @@ func TestEditPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("Firm exists with PII").
+		Given("Firm exists").
 		UponReceiving("A request to edit PII").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))

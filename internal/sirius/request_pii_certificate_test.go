@@ -104,7 +104,7 @@ func TestRequestPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("A firm exists without PII").
+		Given("A firm exists").
 		UponReceiving("A request to patch PII").
 		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))

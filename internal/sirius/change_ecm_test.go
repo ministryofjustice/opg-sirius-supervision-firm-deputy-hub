@@ -106,7 +106,7 @@ func TestChangeECM_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("Firm with no Ecm exists").
+		Given("Firm exists").
 		UponReceiving("A request to change a firms ECM").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/ecm", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
