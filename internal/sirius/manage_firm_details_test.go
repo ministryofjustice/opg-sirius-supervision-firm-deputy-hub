@@ -120,7 +120,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 	err = pact.
 		AddInteraction().
 		UponReceiving("A request to edit firm details").
-		Given("Firm exists").
+		Given("Firm exists 1").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V2RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
