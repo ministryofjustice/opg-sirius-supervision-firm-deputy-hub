@@ -4,48 +4,38 @@
   },
   "interactions": [
     {
-      "description": "A request to change a firms ECM",
+      "description": "A request to patch PII",
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm with no Ecm exists"
+          "name": "A firm exists without PII"
         }
       ],
       "request": {
         "body": {
           "content": {
-            "ecmId": 78
+            "firmId": 123,
+            "piiRequested": "10/01/2020"
           },
           "contentType": "application/json",
           "encoded": false
         },
         "headers": {
-          "Accept": [
-            "application/json"
-          ],
           "Content-Type": [
             "application/json"
-          ],
-          "OPG-Bypass-Membrane": [
-            "1"
-          ],
-          "X-XSRF-TOKEN": [
-            "abcde"
           ]
         },
         "matchingRules": {
           "body": {
-            "$.ecmId": {
+            "$.firmId": {
               "combine": "AND",
               "matchers": [
                 {
                   "match": "type"
                 }
               ]
-            }
-          },
-          "header": {
-            "X-XSRF-TOKEN": {
+            },
+            "$.piiRequested": {
               "combine": "AND",
               "matchers": [
                 {
@@ -55,14 +45,123 @@
             }
           }
         },
-        "method": "PUT",
-        "path": "/supervision-api/v1/firms/123/ecm"
+        "method": "PATCH",
+        "path": "/supervision-api/v1/firms/123/indemnity-insurance"
       },
       "response": {
+        "body": {
+          "content": {
+            "addressLine1": "10 new street",
+            "addressLine2": "new firm road",
+            "addressLine3": "firmly",
+            "county": "Worcestershire",
+            "email": "good@firm.com",
+            "firmName": "good firm inc",
+            "firmNumber": 1000001,
+            "id": 123,
+            "phoneNumber": "077895526543",
+            "postcode": "B1 1TF",
+            "town": "Birmingham"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
         "headers": {
           "Content-Type": [
             "application/json"
           ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.addressLine1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
         },
         "status": 200
       },
