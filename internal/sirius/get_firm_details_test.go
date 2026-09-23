@@ -162,18 +162,23 @@ func TestGetFirmDetails_contract(t *testing.T) {
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"id":           matchers.Like(1),
-				"firmName":     matchers.Like("good firm inc"),
-				"firmNumber":   matchers.Like(10000022),
-				"addressLine1": matchers.Like("10 new street"),
-				"addressLine2": matchers.Like("new firm road"),
-				"addressLine3": matchers.Like("firmly"),
-				"town":         matchers.Like("Birmingham"),
-				"county":       matchers.Like("Worcestershire"),
-				"postcode":     matchers.Like("B1 1TF"),
-				"phoneNumber":  matchers.Like("077895526543"),
-				"email":        matchers.Like("good@firm.com"),
-				"deputies":     matchers.Like([]model.DeputyResponse{}),
+				"id":                   matchers.Like(1),
+				"firmName":             matchers.Like("good firm inc"),
+				"firmNumber":           matchers.Like(10000022),
+				"addressLine1":         matchers.Like("123 Fake Street"),
+				"addressLine2":         matchers.Like("Suspicious Avenue"),
+				"addressLine3":         matchers.Like("Sus Street"),
+				"town":                 matchers.Like("Springfield"),
+				"county":               matchers.Like("SimpsonsVille"),
+				"postcode":             matchers.Like("S1 12345"),
+				"phoneNumber":          matchers.Like("01234 345678"),
+				"email":                matchers.Like("firm@firm.com"),
+				"deputies":             matchers.Like([]model.DeputyResponse{}),
+				"piiReceived":          matchers.Like(""),
+				"piiExpiry":            matchers.Like(""),
+				"piiRequested":         matchers.Like(""),
+				"piiAmount":            matchers.Like(0),
+				"executiveCaseManager": matchers.Like(model.ExecutiveCaseManager{}),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
