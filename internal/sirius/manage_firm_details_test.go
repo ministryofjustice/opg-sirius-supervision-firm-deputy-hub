@@ -108,7 +108,7 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestManageFirmDetails_contract(t *testing.T) {
-	t.Skip("PASSES - Skipping Manage Firm Details test")
+	//t.Skip("PASSES - Skipping Manage Firm Details test")
 	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
