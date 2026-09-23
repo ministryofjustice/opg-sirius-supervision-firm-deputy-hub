@@ -104,9 +104,9 @@ func TestRequestPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("A firm exists with PII").
+		Given("A firm exists without PII").
 		UponReceiving("A request to patch PII").
-		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/2/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
+		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"firmId":       matchers.Like(2),
@@ -116,7 +116,7 @@ func TestRequestPii_contract(t *testing.T) {
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
-				"id":           matchers.Like(1),
+				"id":           matchers.Like(123),
 				"firmName":     matchers.Like("good firm inc"),
 				"firmNumber":   matchers.Like(1000001),
 				"email":        matchers.Like("good@firm.com"),
@@ -132,7 +132,7 @@ func TestRequestPii_contract(t *testing.T) {
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			piiResponseError := client.RequestPiiCertificate(getContext(nil), PiiDetailsRequest{
-				FirmId:       2,
+				FirmId:       123,
 				PiiRequested: "10/01/2020",
 			})
 			if piiResponseError != nil {
