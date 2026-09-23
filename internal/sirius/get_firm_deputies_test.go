@@ -390,7 +390,7 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("Firm exists").
+		Given("Firm exists with complex deputies").
 		UponReceiving("A request to get firm deputies").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123/deputies", func(b *consumer.V4RequestBuilder) {
 			b.Header("Accept", matchers.S("application/json"))
@@ -399,18 +399,38 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody([]interface{}{
 				map[string]interface{}{
-					"id":               matchers.Like(86),
-					"deputyNumber":     matchers.Like(24),
-					"orders":           []interface{}{},
-					"organisationName": matchers.Like("pro org name"),
+					"id":           matchers.Like(86),
+					"firstname":    matchers.Like("John"),
+					"surname":      matchers.Like("Doe"),
+					"deputyNumber": matchers.Like(24),
+					"orders":       []interface{}{},
 					"executiveCaseManager": map[string]interface{}{
 						"id":          matchers.Like(31),
 						"displayName": matchers.Like("Pro Team Workflow"),
 					},
+					"organisationName":               matchers.Like("pro org name"),
+					"town":                           matchers.Like("Birmingham"),
+					"mostRecentlyCompletedAssurance": map[string]interface{}{},
 					"firm": map[string]interface{}{
 						"id": matchers.Like(3),
 					},
-					"town": matchers.Like("Birmingham"),
+				},
+				map[string]interface{}{
+					"id":           matchers.Like(86),
+					"firstname":    matchers.Like("John"),
+					"surname":      matchers.Like("Doe"),
+					"deputyNumber": matchers.Like(24),
+					"orders":       []interface{}{},
+					"executiveCaseManager": map[string]interface{}{
+						"id":          matchers.Like(31),
+						"displayName": matchers.Like("Pro Team Workflow"),
+					},
+					"organisationName":               matchers.Like("pro org name"),
+					"town":                           matchers.Like("Birmingham"),
+					"mostRecentlyCompletedAssurance": map[string]interface{}{},
+					"firm": map[string]interface{}{
+						"id": matchers.Like(3),
+					},
 				},
 			})
 		}).
@@ -419,7 +439,7 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 			firmDeputies, err := client.GetFirmDeputies(getContext(nil), 123)
 
 			assert.NoError(t, err)
-			assert.NotEmpty(t, firmDeputies, 1)
+			assert.NotEmpty(t, firmDeputies, 2)
 
 			return err
 		})
