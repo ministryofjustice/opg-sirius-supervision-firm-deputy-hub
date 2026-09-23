@@ -127,10 +127,128 @@
         "path": "/supervision-api/v1/firms/123/ecm"
       },
       "response": {
+        "body": {
+          "content": {
+            "addressLine1": "123 Fake Street",
+            "addressLine2": "Suspicious Avenue",
+            "addressLine3": "Sus Street",
+            "county": "SimpsonsVille",
+            "deputies": [],
+            "email": "firm@firm.com",
+            "firmName": "Simple firm",
+            "firmNumber": 1000006,
+            "id": 7,
+            "phoneNumber": "01234 345678",
+            "postcode": "S1 12345",
+            "town": "Springfield"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
         "headers": {
           "Content-Type": [
             "application/json"
           ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.addressLine1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
         },
         "status": 200
       },
@@ -229,10 +347,128 @@
         "path": "/supervision-api/v1/firms/123/indemnity-insurance"
       },
       "response": {
+        "body": {
+          "content": {
+            "addressLine1": "123 Fake Street",
+            "addressLine2": "Suspicious Avenue",
+            "addressLine3": "Sus Street",
+            "county": "SimpsonsVille",
+            "deputies": [],
+            "email": "firm@firm.com",
+            "firmName": "Simple firm",
+            "firmNumber": 1000006,
+            "id": 7,
+            "phoneNumber": "01234 345678",
+            "postcode": "S1 12345",
+            "town": "Springfield"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
         "headers": {
           "Content-Type": [
             "application/json"
           ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.addressLine1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.firmNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
         },
         "status": 200
       },
@@ -600,7 +836,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm exists"
+          "name": "Firm exists with complex deputies"
         }
       ],
       "request": {
