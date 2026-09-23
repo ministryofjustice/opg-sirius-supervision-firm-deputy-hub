@@ -109,7 +109,7 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 
 func TestManageFirmDetails_contract(t *testing.T) {
 	//t.Skip("PASSES - Skipping Manage Firm Details test")
-	pact, err := consumer.NewV2Pact(consumer.MockHTTPProviderConfig{
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
 		LogDir:   "../../logs",
@@ -121,7 +121,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 		AddInteraction().
 		UponReceiving("A request to edit firm details").
 		Given("Firm exists 1").
-		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V2RequestBuilder) {
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"PiiAmountCommaFormat":   matchers.Like(""),
@@ -148,7 +148,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 				"town":                   matchers.Like("Birmingham"),
 			})
 		}).
-		WillRespondWith(200, func(b *consumer.V2ResponseBuilder) {
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"id":           matchers.Like(1),

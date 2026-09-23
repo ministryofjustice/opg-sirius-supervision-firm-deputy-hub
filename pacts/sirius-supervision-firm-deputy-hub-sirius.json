@@ -22,9 +22,15 @@
       },
       "response": {
         "body": {
-          "content": "eyJkaXNwbGF5TmFtZSI6IkNvbGluIENhc2UiLCJpZCI6MSwicm9sZXMiOlsiQ2FzZSBNYW5hZ2VyIl19",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": {
+            "displayName": "Colin Case",
+            "id": 1,
+            "roles": [
+              "Case Manager"
+            ]
+          },
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -62,6 +68,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -127,6 +134,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -228,6 +236,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -468,9 +477,21 @@
       },
       "response": {
         "body": {
-          "content": "eyJhZGRyZXNzTGluZTEiOiIxMCBuZXcgc3RyZWV0IiwiYWRkcmVzc0xpbmUyIjoibmV3IGZpcm0gcm9hZCIsImFkZHJlc3NMaW5lMyI6ImZpcm1seSIsImNvdW50eSI6IldvcmNlc3RlcnNoaXJlIiwiZW1haWwiOiJnb29kQGZpcm0uY29tIiwiZmlybU5hbWUiOiJnb29kIGZpcm0gaW5jIiwiZmlybU51bWJlciI6MTAwMDAwMSwiaWQiOjEsInBob25lTnVtYmVyIjoiMDc3ODk1NTI2NTQzIiwicG9zdGNvZGUiOiJCMSAxVEYiLCJ0b3duIjoiQmlybWluZ2hhbSJ9",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": {
+            "addressLine1": "10 new street",
+            "addressLine2": "new firm road",
+            "addressLine3": "firmly",
+            "county": "Worcestershire",
+            "email": "good@firm.com",
+            "firmName": "good firm inc",
+            "firmNumber": 1000001,
+            "id": 1,
+            "phoneNumber": "077895526543",
+            "postcode": "B1 1TF",
+            "town": "Birmingham"
+          },
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -571,6 +592,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -592,9 +614,24 @@
       },
       "response": {
         "body": {
-          "content": "W3siZGVwdXR5TnVtYmVyIjoyNCwiZXhlY3V0aXZlQ2FzZU1hbmFnZXIiOnsiZGlzcGxheU5hbWUiOiJQcm8gVGVhbSBXb3JrZmxvdyIsImlkIjozMX0sImZpcm0iOnsiaWQiOjN9LCJpZCI6ODYsIm9yZGVycyI6W10sIm9yZ2FuaXNhdGlvbk5hbWUiOiJwcm8gb3JnIG5hbWUiLCJ0b3duIjoiQmlybWluZ2hhbSJ9XQ==",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": [
+            {
+              "deputyNumber": 24,
+              "executiveCaseManager": {
+                "displayName": "Pro Team Workflow",
+                "id": 31
+              },
+              "firm": {
+                "id": 3
+              },
+              "id": 86,
+              "orders": [],
+              "organisationName": "pro org name",
+              "town": "Birmingham"
+            }
+          ],
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -663,6 +700,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -684,9 +722,30 @@
       },
       "response": {
         "body": {
-          "content": "eyJhZGRyZXNzTGluZTEiOiIxMCBuZXcgc3RyZWV0IiwiYWRkcmVzc0xpbmUyIjoibmV3IGZpcm0gcm9hZCIsImFkZHJlc3NMaW5lMyI6ImZpcm1seSIsImNvdW50eSI6IldvcmNlc3RlcnNoaXJlIiwiZGVwdXRpZXMiOltdLCJlbWFpbCI6Imdvb2RAZmlybS5jb20iLCJmaXJtTmFtZSI6Imdvb2QgZmlybSBpbmMiLCJmaXJtTnVtYmVyIjoxMDAwMDAyMiwiaWQiOjEsInBob25lTnVtYmVyIjoiMDc3ODk1NTI2NTQzIiwicG9zdGNvZGUiOiJCMSAxVEYiLCJ0b3duIjoiQmlybWluZ2hhbSJ9",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": {
+            "addressLine1": "123 Fake Street",
+            "addressLine2": "Suspicious Avenue",
+            "addressLine3": "Sus Street",
+            "county": "SimpsonsVille",
+            "deputies": [],
+            "email": "firm@firm.com",
+            "executiveCaseManager": {
+              "displayName": "",
+              "id": 0
+            },
+            "firmName": "good firm inc",
+            "firmNumber": 10000022,
+            "id": 1,
+            "phoneNumber": "01234 345678",
+            "piiAmount": 0,
+            "piiExpiry": "",
+            "piiReceived": "",
+            "piiRequested": "",
+            "postcode": "S1 12345",
+            "town": "Springfield"
+          },
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -743,6 +802,14 @@
                 }
               ]
             },
+            "$.executiveCaseManager": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$.firmName": {
               "combine": "AND",
               "matchers": [
@@ -775,6 +842,38 @@
                 }
               ]
             },
+            "$.piiAmount": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiExpiry": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiReceived": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.piiRequested": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$.postcode": {
               "combine": "AND",
               "matchers": [
@@ -795,6 +894,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
@@ -816,9 +916,22 @@
       },
       "response": {
         "body": {
-          "content": "W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibWVtYmVycyI6W3siZGlzcGxheU5hbWUiOiJzdHJpbmciLCJpZCI6MSwibmFtZSI6InN0cmluZyJ9XSwibmFtZSI6InN0cmluZyJ9XQ==",
-          "contentType": "*/*",
-          "encoded": "base64"
+          "content": [
+            {
+              "displayName": "string",
+              "id": 1,
+              "members": [
+                {
+                  "displayName": "string",
+                  "id": 1,
+                  "name": "string"
+                }
+              ],
+              "name": "string"
+            }
+          ],
+          "contentType": "application/json",
+          "encoded": false
         },
         "headers": {
           "Content-Type": [
@@ -897,6 +1010,7 @@
         },
         "status": 200
       },
+      "transport": "http",
       "type": "Synchronous/HTTP"
     },
     {
