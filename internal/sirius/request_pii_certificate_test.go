@@ -104,13 +104,13 @@ func TestRequestPii_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("A firm exists without PII").
+		Given("A firm exists without PII 2").
 		UponReceiving("A request to patch PII").
 		WithRequest(http.MethodPatch, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"firmId":       matchers.Like(123),
-				"piiRequested": matchers.Like("10/01/2020"),
+				"piiRequested": matchers.Like("2020-01-10"),
 			})
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
