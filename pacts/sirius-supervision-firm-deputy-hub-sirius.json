@@ -729,18 +729,10 @@
             "county": "SimpsonsVille",
             "deputies": [],
             "email": "firm@firm.com",
-            "executiveCaseManager": {
-              "displayName": "",
-              "id": 0
-            },
-            "firmName": "good firm inc",
-            "firmNumber": 10000022,
-            "id": 1,
+            "firmName": "Simple firm",
+            "firmNumber": 1000006,
+            "id": 7,
             "phoneNumber": "01234 345678",
-            "piiAmount": 0,
-            "piiExpiry": "",
-            "piiReceived": "",
-            "piiRequested": "",
             "postcode": "S1 12345",
             "town": "Springfield"
           },
@@ -802,14 +794,6 @@
                 }
               ]
             },
-            "$.executiveCaseManager": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$.firmName": {
               "combine": "AND",
               "matchers": [
@@ -835,38 +819,6 @@
               ]
             },
             "$.phoneNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiAmount": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiExpiry": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiReceived": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.piiRequested": {
               "combine": "AND",
               "matchers": [
                 {
