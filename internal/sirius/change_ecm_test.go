@@ -95,7 +95,7 @@ func TestChangeECMReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestChangeECM_contract(t *testing.T) {
-	t.Skip("Skipping Change ECM test")
+	//t.Skip("Skipping Change ECM test")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -106,9 +106,9 @@ func TestChangeECM_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("I am an allocations user").
+		Given("Firm with no Ecm exists").
 		UponReceiving("A request to change a firms ECM").
-		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/1/ecm", func(b *consumer.V4RequestBuilder) {
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/ecm", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
 			b.Header("Accept", matchers.S("application/json"))
@@ -122,7 +122,7 @@ func TestChangeECM_contract(t *testing.T) {
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			changeEcmError := client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 78}, model.FirmDetails{ID: 1})
+			changeEcmError := client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 78}, model.FirmDetails{ID: 123})
 			if changeEcmError != nil {
 				return err
 			}
