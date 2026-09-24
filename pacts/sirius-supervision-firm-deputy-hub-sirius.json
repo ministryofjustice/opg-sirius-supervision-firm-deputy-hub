@@ -133,7 +133,13 @@
             "addressLine2": "Suspicious Avenue",
             "addressLine3": "Sus Street",
             "county": "SimpsonsVille",
-            "deputies": [],
+            "deputies": [
+              {
+                "deputyNumber": 22,
+                "id": 77,
+                "organisationName": "pro dept"
+              }
+            ],
             "email": "firm@firm.com",
             "firmName": "Simple firm",
             "firmNumber": 1000006,
@@ -185,6 +191,31 @@
               ]
             },
             "$.deputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.deputies[*].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[*].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -353,7 +384,13 @@
             "addressLine2": "Suspicious Avenue",
             "addressLine3": "Sus Street",
             "county": "SimpsonsVille",
-            "deputies": [],
+            "deputies": [
+              {
+                "deputyNumber": 22,
+                "id": 77,
+                "organisationName": "pro dept"
+              }
+            ],
             "email": "firm@firm.com",
             "firmName": "Simple firm",
             "firmNumber": 1000006,
@@ -405,6 +442,31 @@
               ]
             },
             "$.deputies": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.deputies[*].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[*].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1147,7 +1209,13 @@
             "addressLine2": "Suspicious Avenue",
             "addressLine3": "Sus Street",
             "county": "SimpsonsVille",
-            "deputies": [],
+            "deputies": [
+              {
+                "deputyNumber": 22,
+                "id": 77,
+                "organisationName": "pro dept"
+              }
+            ],
             "email": "firm@firm.com",
             "firmName": "Simple firm",
             "firmNumber": 1000006,
@@ -1198,7 +1266,23 @@
                 }
               ]
             },
-            "$.deputies": {
+            "$.deputies[0].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[0].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[0].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
