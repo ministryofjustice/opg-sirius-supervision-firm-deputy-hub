@@ -190,16 +190,7 @@
                 }
               ]
             },
-            "$.deputies": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$.deputies[*].deputyNumber": {
+            "$.deputies[0].deputyNumber": {
               "combine": "AND",
               "matchers": [
                 {
@@ -207,7 +198,7 @@
                 }
               ]
             },
-            "$.deputies[*].id": {
+            "$.deputies[0].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -215,7 +206,7 @@
                 }
               ]
             },
-            "$.deputies[*].organisationName": {
+            "$.deputies[0].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -441,16 +432,7 @@
                 }
               ]
             },
-            "$.deputies": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$.deputies[*].deputyNumber": {
+            "$.deputies[0].deputyNumber": {
               "combine": "AND",
               "matchers": [
                 {
@@ -458,7 +440,7 @@
                 }
               ]
             },
-            "$.deputies[*].id": {
+            "$.deputies[0].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -466,7 +448,7 @@
                 }
               ]
             },
-            "$.deputies[*].organisationName": {
+            "$.deputies[0].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1214,6 +1196,16 @@
                 "deputyNumber": 22,
                 "id": 77,
                 "organisationName": "pro dept"
+              },
+              {
+                "deputyNumber": 22,
+                "id": 77,
+                "organisationName": "pro dept"
+              },
+              {
+                "deputyNumber": 22,
+                "id": 77,
+                "organisationName": "pro dept"
               }
             ],
             "email": "firm@firm.com",
@@ -1283,6 +1275,54 @@
               ]
             },
             "$.deputies[0].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[1].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[1].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[1].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[2].deputyNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[2].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.deputies[2].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1374,16 +1414,26 @@
         "body": {
           "content": [
             {
-              "displayName": "string",
-              "id": 1,
+              "deleted": false,
+              "displayName": "Pro Team 1 - (Supervision)",
+              "email": "ProTeam1.team@opgtest.com",
+              "id": 86,
               "members": [
                 {
-                  "displayName": "string",
-                  "id": 1,
-                  "name": "string"
+                  "deleted": false,
+                  "displayName": "LayTeam1 User20",
+                  "email": "lay1-20@opgtest.com",
+                  "id": 90,
+                  "name": "LayTeam1",
+                  "phoneNumber": "12345678"
                 }
               ],
-              "name": "string"
+              "name": "Pro Team 1 - (Supervision)",
+              "phoneNumber": "0123456789",
+              "teamType": {
+                "handle": "PRO",
+                "label": "Pro"
+              }
             }
           ],
           "contentType": "application/json",
@@ -1396,7 +1446,39 @@
         },
         "matchingRules": {
           "body": {
-            "$": {
+            "$[0].deleted": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].displayName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].members": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1405,7 +1487,7 @@
                 }
               ]
             },
-            "$[*].displayName": {
+            "$[0].members[*].deleted": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1413,7 +1495,7 @@
                 }
               ]
             },
-            "$[*].id": {
+            "$[0].members[*].displayName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1421,16 +1503,7 @@
                 }
               ]
             },
-            "$[*].members": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type",
-                  "min": 1
-                }
-              ]
-            },
-            "$[*].members[*].displayName": {
+            "$[0].members[*].email": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1438,7 +1511,7 @@
                 }
               ]
             },
-            "$[*].members[*].id": {
+            "$[0].members[*].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1446,7 +1519,7 @@
                 }
               ]
             },
-            "$[*].members[*].name": {
+            "$[0].members[*].name": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1454,7 +1527,39 @@
                 }
               ]
             },
-            "$[*].name": {
+            "$[0].members[*].phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].phoneNumber": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].teamType.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].teamType.label": {
               "combine": "AND",
               "matchers": [
                 {
