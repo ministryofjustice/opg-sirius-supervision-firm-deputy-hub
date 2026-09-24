@@ -179,13 +179,27 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch([]model.TeamMembers{
-				{
-					Id:          1,
-					Name:        "string",
-					DisplayName: "string",
-					Members: []model.Member{
-						{Id: 1, Name: "string", DisplayName: "string"},
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":          matchers.Like(86),
+					"name":        matchers.Like("Pro Team 1 - (Supervision)"),
+					"displayName": matchers.Like("Pro Team 1 - (Supervision)"),
+					"phoneNumber": matchers.Like("0123456789"),
+					"deleted":     matchers.Like(false),
+					"email":       matchers.Like("ProTeam1.team@opgtest.com"),
+					"members": []interface{}{
+						map[string]interface{}{
+							"id":          matchers.Like(90),
+							"name":        matchers.Like("LayTeam1"),
+							"phoneNumber": matchers.Like("12345678"),
+							"displayName": matchers.Like("LayTeam1 User20"),
+							"deleted":     matchers.Like(false),
+							"email":       matchers.Like("lay1-20@opgtest.com"),
+						},
+					},
+					"teamType": map[string]interface{}{
+						"handle": matchers.Like("PRO"),
+						"label":  matchers.Like("Pro"),
 					},
 				},
 			})
@@ -197,7 +211,7 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 				return err
 			}
 			assert.Equal(t, []model.Member{
-				{Id: 1, Name: "", DisplayName: "string"},
+				{Id: 90, Name: "", DisplayName: "LayTeam1 User20"},
 			}, members)
 			return nil
 		})
