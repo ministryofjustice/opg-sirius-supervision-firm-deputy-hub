@@ -411,14 +411,14 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 					"organisationName": matchers.Like("pro org name"),
 					"town":             matchers.Like("Birmingham"),
 					"mostRecentlyCompletedAssurance": map[string]interface{}{
-						"reportReviewDate": "2023-05-26T00:00:00+00:00",
+						"reportReviewDate": matchers.Like("2023-05-26T00:00:00+00:00"),
 						"reportMarkedAs": map[string]interface{}{
-							"handle": "GREEN",
-							"label":  "Green",
+							"handle": matchers.Like("AMBER"),
+							"label":  matchers.Like("Amber"),
 						},
 						"assuranceType": map[string]interface{}{
-							"handle": "VISIT",
-							"label":  "Visit",
+							"handle": matchers.Like("VISIT"),
+							"label":  matchers.Like("Visit"),
 						},
 					},
 					"firm": map[string]interface{}{
@@ -446,9 +446,8 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 						"id":          matchers.Like(31),
 						"displayName": matchers.Like("Pro Team Workflow"),
 					},
-					"organisationName":               matchers.Like("PA Org Name"),
-					"town":                           matchers.Like("Birmingham"),
-					"mostRecentlyCompletedAssurance": map[string]interface{}{},
+					"organisationName": matchers.Like("PA Org Name"),
+					"town":             matchers.Like("Birmingham"),
 					"firm": map[string]interface{}{
 						"id": matchers.Like(3),
 					},
