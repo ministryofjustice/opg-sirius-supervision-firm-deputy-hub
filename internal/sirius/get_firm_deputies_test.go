@@ -400,25 +400,43 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 			b.JSONBody([]interface{}{
 				map[string]interface{}{
 					"id":           matchers.Like(86),
+					"firstname":    matchers.Like("John"),
+					"surname":      matchers.Like("Doe"),
 					"deputyNumber": matchers.Like(24),
 					"orders":       []interface{}{},
 					"executiveCaseManager": map[string]interface{}{
 						"id":          matchers.Like(31),
 						"displayName": matchers.Like("Pro Team Workflow"),
 					},
-					"organisationName":               matchers.Like("pro org name"),
-					"town":                           matchers.Like("Birmingham"),
-					"mostRecentlyCompletedAssurance": map[string]interface{}{},
+					"organisationName": matchers.Like("pro org name"),
+					"town":             matchers.Like("Birmingham"),
+					"mostRecentlyCompletedAssurance": map[string]interface{}{
+						"reportReviewDate": "2023-05-26T00:00:00+00:00",
+						"reportMarkedAs": map[string]interface{}{
+							"handle": "GREEN",
+							"label":  "Green",
+						},
+						"assuranceType": map[string]interface{}{
+							"handle": "VISIT",
+							"label":  "Visit",
+						},
+					},
 					"firm": map[string]interface{}{
 						"id": matchers.Like(3),
 					},
 				},
 				map[string]interface{}{
 					"id":           matchers.Like(86),
-					"firstname":    matchers.Like("John"),
-					"surname":      matchers.Like("Doe"),
 					"deputyNumber": matchers.Like(24),
-					"orders":       []interface{}{},
+					"orders": []interface{}{
+						map[string]interface{}{
+							"id": matchers.Like(1),
+							"orderStatus": map[string]interface{}{
+								"handle": matchers.Like("OPEN"),
+								"label":  matchers.Like("Open"),
+							},
+						},
+					},
 					"executiveCaseManager": map[string]interface{}{
 						"id":          matchers.Like(31),
 						"displayName": matchers.Like("Pro Team Workflow"),
