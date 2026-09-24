@@ -32,10 +32,30 @@
               "firm": {
                 "id": 3
               },
+              "firstname": "John",
               "id": 86,
-              "mostRecentlyCompletedAssurance": {},
-              "orders": [],
+              "mostRecentlyCompletedAssurance": {
+                "assuranceType": {
+                  "handle": "VISIT",
+                  "label": "Visit"
+                },
+                "reportMarkedAs": {
+                  "handle": "GREEN",
+                  "label": "Green"
+                },
+                "reportReviewDate": "2023-05-26T00:00:00+00:00"
+              },
+              "orders": [
+                {
+                  "id": 1,
+                  "orderStatus": {
+                    "handle": "OPEN",
+                    "label": "Open"
+                  }
+                }
+              ],
               "organisationName": "pro org name",
+              "surname": "Doe",
               "town": "Birmingham"
             },
             {
@@ -47,12 +67,10 @@
               "firm": {
                 "id": 3
               },
-              "firstname": "John",
               "id": 86,
               "mostRecentlyCompletedAssurance": {},
               "orders": [],
               "organisationName": "PA Org Name",
-              "surname": "Doe",
               "town": "Birmingham"
             }
           ],
@@ -98,6 +116,14 @@
                 }
               ]
             },
+            "$[0].firstname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$[0].id": {
               "combine": "AND",
               "matchers": [
@@ -106,7 +132,39 @@
                 }
               ]
             },
+            "$[0].orders[0].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].orders[0].orderStatus.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].orders[0].orderStatus.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$[0].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].surname": {
               "combine": "AND",
               "matchers": [
                 {
@@ -154,14 +212,6 @@
                 }
               ]
             },
-            "$[1].firstname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$[1].id": {
               "combine": "AND",
               "matchers": [
@@ -171,14 +221,6 @@
               ]
             },
             "$[1].organisationName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[1].surname": {
               "combine": "AND",
               "matchers": [
                 {
