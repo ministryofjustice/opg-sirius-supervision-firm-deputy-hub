@@ -118,7 +118,7 @@ func TestChangeECM_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody(matchers.MapMatcher{
+			b.JSONBody(map[string]interface{}{
 				"id":           matchers.Like(7),
 				"firmName":     matchers.Like("Simple firm"),
 				"firmNumber":   matchers.Like(1000006),
