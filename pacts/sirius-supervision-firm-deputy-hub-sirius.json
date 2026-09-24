@@ -32,10 +32,22 @@
               "firm": {
                 "id": 3
               },
+              "firstname": "Geoff",
               "id": 86,
-              "mostRecentlyCompletedAssurance": {},
+              "mostRecentlyCompletedAssurance": {
+                "assuranceType": {
+                  "handle": "VISIT",
+                  "label": "Visit"
+                },
+                "reportMarkedAs": {
+                  "handle": "GREEN",
+                  "label": "Green"
+                },
+                "reportReviewDate": "2023-05-26T00:00:00+00:00"
+              },
               "orders": [],
               "organisationName": "pro org name",
+              "surname": "Jeffington",
               "town": "Birmingham"
             },
             {
@@ -47,12 +59,23 @@
               "firm": {
                 "id": 3
               },
-              "firstname": "John",
-              "id": 86,
+              "id": 87,
               "mostRecentlyCompletedAssurance": {},
-              "orders": [],
+              "orders": [
+                {
+                  "order": {
+                    "client": {
+                      "id": 88
+                    },
+                    "id": 1,
+                    "orderStatus": {
+                      "handle": "OPEN",
+                      "label": "Open"
+                    }
+                  }
+                }
+              ],
               "organisationName": "PA Org Name",
-              "surname": "Doe",
               "town": "Birmingham"
             }
           ],
@@ -98,6 +121,14 @@
                 }
               ]
             },
+            "$[0].firstname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$[0].id": {
               "combine": "AND",
               "matchers": [
@@ -107,6 +138,14 @@
               ]
             },
             "$[0].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].surname": {
               "combine": "AND",
               "matchers": [
                 {
@@ -154,14 +193,6 @@
                 }
               ]
             },
-            "$[1].firstname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$[1].id": {
               "combine": "AND",
               "matchers": [
@@ -170,7 +201,7 @@
                 }
               ]
             },
-            "$[1].organisationName": {
+            "$[1].orders[0].order.client.id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -178,7 +209,31 @@
                 }
               ]
             },
-            "$[1].surname": {
+            "$[1].orders[0].order.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.orderStatus.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.orderStatus.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
