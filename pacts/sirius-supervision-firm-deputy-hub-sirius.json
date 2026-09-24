@@ -32,10 +32,22 @@
               "firm": {
                 "id": 3
               },
+              "firstname": "Geoff",
               "id": 86,
-              "mostRecentlyCompletedAssurance": {},
+              "mostRecentlyCompletedAssurance": {
+                "assuranceType": {
+                  "handle": "VISIT",
+                  "label": "Visit"
+                },
+                "reportMarkedAs": {
+                  "handle": "GREEN",
+                  "label": "Green"
+                },
+                "reportReviewDate": "2023-05-26T00:00:00+00:00"
+              },
               "orders": [],
               "organisationName": "pro org name",
+              "surname": "Jeffington",
               "town": "Birmingham"
             },
             {
@@ -47,12 +59,50 @@
               "firm": {
                 "id": 3
               },
-              "firstname": "John",
-              "id": 86,
-              "mostRecentlyCompletedAssurance": {},
-              "orders": [],
+              "id": 87,
+              "orders": [
+                {
+                  "order": {
+                    "client": {
+                      "addressLine1": "",
+                      "addressLine2": "",
+                      "addressLine3": "",
+                      "correspondenceByEmail": false,
+                      "correspondenceByPhone": false,
+                      "correspondenceByPost": false,
+                      "correspondenceByWelsh": false,
+                      "country": "",
+                      "county": "",
+                      "dateOfDeath": "",
+                      "dob": "",
+                      "email": "",
+                      "firstname": "tKI7Z94H2VQHfAM",
+                      "id": 88,
+                      "interpreterRequired": "",
+                      "isAirmailRequired": false,
+                      "middlenames": "",
+                      "normalizedUid": 700000003256,
+                      "postcode": "",
+                      "salutation": "",
+                      "specialCorrespondenceRequirements": {
+                        "audioTape": false,
+                        "hearingImpaired": false,
+                        "largePrint": false,
+                        "spellingOfNameRequiresCare": false
+                      },
+                      "surname": "SRuHE3Hj7APfZd1",
+                      "town": "",
+                      "uId": "7000-0000-3256"
+                    },
+                    "id": 1,
+                    "orderStatus": {
+                      "handle": "OPEN",
+                      "label": "Open"
+                    }
+                  }
+                }
+              ],
               "organisationName": "PA Org Name",
-              "surname": "Doe",
               "town": "Birmingham"
             }
           ],
@@ -98,6 +148,14 @@
                 }
               ]
             },
+            "$[0].firstname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
             "$[0].id": {
               "combine": "AND",
               "matchers": [
@@ -107,6 +165,14 @@
               ]
             },
             "$[0].organisationName": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].surname": {
               "combine": "AND",
               "matchers": [
                 {
@@ -154,14 +220,6 @@
                 }
               ]
             },
-            "$[1].firstname": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$[1].id": {
               "combine": "AND",
               "matchers": [
@@ -170,7 +228,7 @@
                 }
               ]
             },
-            "$[1].organisationName": {
+            "$[1].orders[0].order.client.addressLine1": {
               "combine": "AND",
               "matchers": [
                 {
@@ -178,7 +236,239 @@
                 }
               ]
             },
-            "$[1].surname": {
+            "$[1].orders[0].order.client.addressLine2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.addressLine3": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.correspondenceByEmail": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.correspondenceByPhone": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.correspondenceByPost": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.correspondenceByWelsh": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.country": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.county": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.dateOfDeath": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.dob": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.firstname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.interpreterRequired": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.isAirmailRequired": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.middlenames": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.normalizedUid": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.postcode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.salutation": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.specialCorrespondenceRequirements.audioTape": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.specialCorrespondenceRequirements.hearingImpaired": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.specialCorrespondenceRequirements.largePrint": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.specialCorrespondenceRequirements.spellingOfNameRequiresCare": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.surname": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.town": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.client.uId": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.orderStatus.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].orders[0].order.orderStatus.label": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[1].organisationName": {
               "combine": "AND",
               "matchers": [
                 {
