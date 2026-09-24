@@ -446,9 +446,8 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 						"id":          matchers.Like(31),
 						"displayName": matchers.Like("Pro Team Workflow"),
 					},
-					"organisationName":               matchers.Like("PA Org Name"),
-					"town":                           matchers.Like("Birmingham"),
-					"mostRecentlyCompletedAssurance": map[string]interface{}{},
+					"organisationName": matchers.Like("PA Org Name"),
+					"town":             matchers.Like("Birmingham"),
 					"firm": map[string]interface{}{
 						"id": matchers.Like(3),
 					},

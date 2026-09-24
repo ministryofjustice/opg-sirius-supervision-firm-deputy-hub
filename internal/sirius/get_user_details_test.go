@@ -81,7 +81,6 @@ func TestUserDetailsReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestGetUserDetails_contract(t *testing.T) {
-	t.Skip("skip firm exists tests")
 
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
