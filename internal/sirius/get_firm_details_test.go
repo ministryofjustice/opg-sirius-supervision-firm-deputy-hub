@@ -179,6 +179,16 @@ func TestGetFirmDetails_contract(t *testing.T) {
 						"deputyNumber":     matchers.Like(22),
 						"organisationName": matchers.Like("pro dept"),
 					},
+					map[string]interface{}{
+						"id":               matchers.Like(77),
+						"deputyNumber":     matchers.Like(22),
+						"organisationName": matchers.Like("pro dept"),
+					},
+					map[string]interface{}{
+						"id":               matchers.Like(77),
+						"deputyNumber":     matchers.Like(22),
+						"organisationName": matchers.Like("pro dept"),
+					},
 				},
 			})
 		}).
