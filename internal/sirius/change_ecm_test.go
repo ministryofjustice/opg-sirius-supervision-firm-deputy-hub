@@ -2,19 +2,30 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
-	"github.com/stretchr/testify/assert"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestChangeECM(t *testing.T) {
 	client, _ := NewClient(&mocks.MockClient{}, "http://localhost:3000")
 
-	json := `{"ecmId": 32}`
+	json := `{
+		"id": 76,
+		"firmName": "Example Firm",
+		"executiveCaseManager": {
+			"id": 32,
+			"displayName": "Example ECM"
+		}
+	}`
 	r := io.NopCloser(bytes.NewReader([]byte(json)))
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
@@ -81,4 +92,56 @@ func TestChangeECMReturnsUnauthorisedClientError(t *testing.T) {
 	err := client.ChangeECM(getContext(nil), changeEcmForm, model.FirmDetails{ID: 76})
 
 	assert.Equal(t, ErrUnauthorized, err)
+}
+
+func TestChangeECM_contract(t *testing.T) {
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		Given("Firm exists").
+		UponReceiving("A request to change a firms ECM").
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/ecm", func(b *consumer.V4RequestBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
+			b.Header("Accept", matchers.S("application/json"))
+			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
+			b.JSONBody(matchers.MapMatcher{
+				"ecmId": matchers.Like(78),
+			})
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(map[string]interface{}{
+				"id":           matchers.Like(7),
+				"firmName":     matchers.Like("Simple firm"),
+				"firmNumber":   matchers.Like(1000006),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"deputies":     matchers.Like([]model.DeputyResponse{}),
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			changeEcmError := client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 78}, model.FirmDetails{ID: 123})
+			if changeEcmError != nil {
+				return err
+			}
+			assert.NoError(t, changeEcmError)
+			return nil
+		})
+
+	assert.NoError(t, err)
 }

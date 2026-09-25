@@ -2,13 +2,17 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
-	"github.com/stretchr/testify/assert"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPaDeputyTeamUsersReturned(t *testing.T) {
@@ -154,4 +158,55 @@ func TestGetPaDeputyTeamUsersReturnsUnauthorisedClientError(t *testing.T) {
 
 	assert.Equal(t, ErrUnauthorized, err)
 	assert.Equal(t, expectedResponse, proDeputyMembers)
+}
+
+func TestGetProTeamUsers_contract(t *testing.T) {
+
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		Given("Pro team with members exists").
+		UponReceiving("A request to get pro teams").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/teams", func(b *consumer.V4RequestBuilder) {
+			b.Query("type", matchers.S("pro"))
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":          matchers.Like(86),
+					"name":        matchers.Like("Pro Team 1 - (Supervision)"),
+					"displayName": matchers.Like("Pro Team 1 - (Supervision)"),
+					"members": matchers.EachLike(matchers.StructMatcher{
+						"id":          matchers.Like(90),
+						"name":        matchers.Like("LayTeam1"),
+						"displayName": matchers.Like("LayTeam1 User20"),
+					}, 1),
+					"teamType": map[string]interface{}{
+						"handle": matchers.Like("PRO"),
+						"label":  matchers.Like("Pro"),
+					},
+				},
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			_, members, err := client.GetProTeamUsers(getContext(nil))
+			if err != nil {
+				return err
+			}
+			assert.Equal(t, []model.Member{
+				{Id: 90, Name: "", DisplayName: "LayTeam1 User20"},
+			}, members)
+			return nil
+		})
+
+	assert.NoError(t, err)
 }

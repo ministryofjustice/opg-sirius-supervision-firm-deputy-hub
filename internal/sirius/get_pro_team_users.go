@@ -2,8 +2,9 @@ package sirius
 
 import (
 	"encoding/json"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 )
 
 func (c *Client) GetProTeamUsers(ctx Context) ([]model.TeamMembers, []model.Member, error) {
