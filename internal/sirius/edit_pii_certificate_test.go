@@ -127,7 +127,7 @@ func TestEditPii_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody(map[string]interface{}{
+			b.JSONBody(matchers.MapMatcher{
 				"id":           matchers.Like(7),
 				"firmName":     matchers.Like("Simple firm"),
 				"firmNumber":   matchers.Like(1000006),
@@ -139,13 +139,11 @@ func TestEditPii_contract(t *testing.T) {
 				"postcode":     matchers.Like("S1 12345"),
 				"phoneNumber":  matchers.Like("01234 345678"),
 				"email":        matchers.Like("firm@firm.com"),
-				"deputies": []interface{}{
-					map[string]interface{}{
-						"id":               matchers.Like(77),
-						"deputyNumber":     matchers.Like(22),
-						"organisationName": matchers.Like("pro dept"),
-					},
-				},
+				"deputies": matchers.EachLike(matchers.StructMatcher{
+					"id":               matchers.Like(77),
+					"deputyNumber":     matchers.Like(22),
+					"organisationName": matchers.Like("pro dept"),
+				}, 1),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
