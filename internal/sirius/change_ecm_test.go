@@ -130,13 +130,7 @@ func TestChangeECM_contract(t *testing.T) {
 				"postcode":     matchers.Like("S1 12345"),
 				"phoneNumber":  matchers.Like("01234 345678"),
 				"email":        matchers.Like("firm@firm.com"),
-				"deputies": []interface{}{
-					map[string]interface{}{
-						"id":               matchers.Like(77),
-						"deputyNumber":     matchers.Like(22),
-						"organisationName": matchers.Like("pro dept"),
-					},
-				},
+				"deputies":     matchers.Like([]model.DeputyResponse{}),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
