@@ -184,16 +184,10 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 					"id":          matchers.Like(86),
 					"name":        matchers.Like("Pro Team 1 - (Supervision)"),
 					"displayName": matchers.Like("Pro Team 1 - (Supervision)"),
-					"phoneNumber": matchers.Like("0123456789"),
-					"deleted":     matchers.Like(false),
-					"email":       matchers.Like("ProTeam1.team@opgtest.com"),
 					"members": matchers.EachLike(matchers.StructMatcher{
 						"id":          matchers.Like(90),
 						"name":        matchers.Like("LayTeam1"),
-						"phoneNumber": matchers.Like("12345678"),
 						"displayName": matchers.Like("LayTeam1 User20"),
-						"deleted":     matchers.Like(false),
-						"email":       matchers.Like("lay1-20@opgtest.com"),
 					}, 1),
 					"teamType": map[string]interface{}{
 						"handle": matchers.Like("PRO"),

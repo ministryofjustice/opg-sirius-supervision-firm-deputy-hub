@@ -1414,22 +1414,16 @@
         "body": {
           "content": [
             {
-              "deleted": false,
               "displayName": "Pro Team 1 - (Supervision)",
-              "email": "ProTeam1.team@opgtest.com",
               "id": 86,
               "members": [
                 {
-                  "deleted": false,
                   "displayName": "LayTeam1 User20",
-                  "email": "lay1-20@opgtest.com",
                   "id": 90,
-                  "name": "LayTeam1",
-                  "phoneNumber": "12345678"
+                  "name": "LayTeam1"
                 }
               ],
               "name": "Pro Team 1 - (Supervision)",
-              "phoneNumber": "0123456789",
               "teamType": {
                 "handle": "PRO",
                 "label": "Pro"
@@ -1446,23 +1440,7 @@
         },
         "matchingRules": {
           "body": {
-            "$[0].deleted": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$[0].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].email": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1487,23 +1465,7 @@
                 }
               ]
             },
-            "$[0].members[*].deleted": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$[0].members[*].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].members[*].email": {
               "combine": "AND",
               "matchers": [
                 {
@@ -1527,23 +1489,7 @@
                 }
               ]
             },
-            "$[0].members[*].phoneNumber": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
             "$[0].name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].phoneNumber": {
               "combine": "AND",
               "matchers": [
                 {
