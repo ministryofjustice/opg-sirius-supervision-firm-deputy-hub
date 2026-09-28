@@ -342,23 +342,7 @@
         },
         "matchingRules": {
           "body": {
-            "$[0].displayName": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[0].members": {
+            "$": {
               "combine": "AND",
               "matchers": [
                 {
@@ -367,7 +351,7 @@
                 }
               ]
             },
-            "$[0].members[*].displayName": {
+            "$[*].displayName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -375,7 +359,7 @@
                 }
               ]
             },
-            "$[0].members[*].id": {
+            "$[*].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -383,7 +367,16 @@
                 }
               ]
             },
-            "$[0].members[*].name": {
+            "$[*].members": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].members[*].displayName": {
               "combine": "AND",
               "matchers": [
                 {
@@ -391,7 +384,7 @@
                 }
               ]
             },
-            "$[0].name": {
+            "$[*].members[*].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -399,7 +392,7 @@
                 }
               ]
             },
-            "$[0].teamType.handle": {
+            "$[*].members[*].name": {
               "combine": "AND",
               "matchers": [
                 {
@@ -407,7 +400,23 @@
                 }
               ]
             },
-            "$[0].teamType.label": {
+            "$[*].name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].teamType.handle": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].teamType.label": {
               "combine": "AND",
               "matchers": [
                 {

@@ -179,22 +179,20 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody([]interface{}{
-				map[string]interface{}{
-					"id":          matchers.Like(86),
-					"name":        matchers.Like("Pro Team 1 - (Supervision)"),
-					"displayName": matchers.Like("Pro Team 1 - (Supervision)"),
-					"members": matchers.EachLike(matchers.StructMatcher{
-						"id":          matchers.Like(90),
-						"name":        matchers.Like("LayTeam1"),
-						"displayName": matchers.Like("LayTeam1 User20"),
-					}, 1),
-					"teamType": map[string]interface{}{
-						"handle": matchers.Like("PRO"),
-						"label":  matchers.Like("Pro"),
-					},
+			b.JSONBody(matchers.EachLike(matchers.StructMatcher{
+				"id":          matchers.Like(86),
+				"name":        matchers.Like("Pro Team 1 - (Supervision)"),
+				"displayName": matchers.Like("Pro Team 1 - (Supervision)"),
+				"members": matchers.EachLike(matchers.StructMatcher{
+					"id":          matchers.Like(90),
+					"name":        matchers.Like("LayTeam1"),
+					"displayName": matchers.Like("LayTeam1 User20"),
+				}, 1),
+				"teamType": map[string]interface{}{
+					"handle": matchers.Like("PRO"),
+					"label":  matchers.Like("Pro"),
 				},
-			})
+			}, 1))
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
