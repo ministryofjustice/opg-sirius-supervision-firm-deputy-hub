@@ -143,7 +143,6 @@ func TestGetDeputyDetailsReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestGetFirmDetails_contract(t *testing.T) {
-	t.Skip("passes")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -173,7 +172,7 @@ func TestGetFirmDetails_contract(t *testing.T) {
 				"postcode":     matchers.Like("S1 12345"),
 				"phoneNumber":  matchers.Like("01234 345678"),
 				"email":        matchers.Like("firm@firm.com"),
-				"deputies":     matchers.Like([]model.DeputyResponse{}),
+				"deputies":     matchers.Like([]model.FirmDeputies{}),
 			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
