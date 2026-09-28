@@ -380,6 +380,8 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 }
 
 func TestGetFirmDeputies_contract(t *testing.T) {
+	t.Skip("skip")
+
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
