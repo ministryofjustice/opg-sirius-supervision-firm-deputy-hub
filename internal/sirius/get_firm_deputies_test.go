@@ -2,13 +2,16 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -374,4 +377,92 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 	}
 
 	assert.Equal(t, expectedResult, sortTheDeputiesByNumberOfClients(firmDeputy))
+}
+
+func TestGetFirmDeputies_contract(t *testing.T) {
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		Given("Firm exists with complex deputies").
+		UponReceiving("A request to get firm deputies").
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123/deputies", func(b *consumer.V4RequestBuilder) {
+			b.Header("Accept", matchers.S("application/json"))
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody([]interface{}{
+				map[string]interface{}{
+					"id":           matchers.Like(86),
+					"firstname":    matchers.Like("Geoff"),
+					"surname":      matchers.Like("Jeffington"),
+					"deputyNumber": matchers.Like(24),
+					"orders":       []interface{}{},
+					"executiveCaseManager": map[string]interface{}{
+						"id":          matchers.Like(31),
+						"displayName": matchers.Like("Pro Team Workflow"),
+					},
+					"organisationName": matchers.Like("pro org name"),
+					"town":             matchers.Like("Birmingham"),
+					"mostRecentlyCompletedAssurance": map[string]interface{}{
+						"reportReviewDate": matchers.Like("2023-05-26T00:00:00+00:00"),
+						"reportMarkedAs": map[string]interface{}{
+							"handle": matchers.Like("AMBER"),
+							"label":  matchers.Like("Amber"),
+						},
+						"assuranceType": map[string]interface{}{
+							"handle": matchers.Like("VISIT"),
+							"label":  matchers.Like("Visit"),
+						},
+					},
+					"firm": map[string]interface{}{
+						"id": matchers.Like(3),
+					},
+				},
+				map[string]interface{}{
+					"id":           matchers.Like(87),
+					"deputyNumber": matchers.Like(24),
+					"orders": []interface{}{
+						map[string]interface{}{
+							"order": map[string]interface{}{
+								"client": map[string]interface{}{
+									"id": matchers.Like(88),
+								},
+								"id": matchers.Like(1),
+								"orderStatus": map[string]interface{}{
+									"handle": matchers.Like("OPEN"),
+									"label":  matchers.Like("Open"),
+								},
+							},
+						},
+					},
+					"executiveCaseManager": map[string]interface{}{
+						"id":          matchers.Like(31),
+						"displayName": matchers.Like("Pro Team Workflow"),
+					},
+					"organisationName": matchers.Like("PA Org Name"),
+					"town":             matchers.Like("Birmingham"),
+					"firm": map[string]interface{}{
+						"id": matchers.Like(3),
+					},
+				},
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			firmDeputies, err := client.GetFirmDeputies(getContext(nil), 123)
+
+			assert.NoError(t, err)
+			assert.NotEmpty(t, firmDeputies, 2)
+
+			return err
+		})
+
+	assert.NoError(t, err)
 }
