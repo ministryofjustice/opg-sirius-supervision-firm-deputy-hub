@@ -836,7 +836,7 @@
       "pending": false,
       "providerStates": [
         {
-          "name": "Firm exists with complex deputies"
+          "name": "Firm exists with deputies which have assurance visits and important information"
         }
       ],
       "request": {
