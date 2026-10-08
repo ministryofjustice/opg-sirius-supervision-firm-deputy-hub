@@ -34,7 +34,7 @@ services:
 
   test-runner:
     build:
-      context: docker/test-runner
+      context: docker/test-runner/
     working_dir: /go/src/app
     volumes:
       - ./:/go/src/app
