@@ -2,13 +2,16 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -93,4 +96,51 @@ func TestEditPiiReturnsUnauthorisedClientError(t *testing.T) {
 
 	assert.Equal(t, ErrUnauthorized, err)
 
+}
+
+func TestEditPii_contract(t *testing.T) {
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		Given("Firm exists").
+		UponReceiving("A request to edit PII").
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123/indemnity-insurance", func(b *consumer.V4RequestBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.Header("OPG-Bypass-Membrane", matchers.S("1"))
+			b.Header("Accept", matchers.S("application/json"))
+			b.Header("X-XSRF-TOKEN", matchers.Like("abcde"))
+			b.JSONBody(matchers.MapMatcher{
+				"firmId":       matchers.Like(123),
+				"piiReceived":  matchers.Like("2020-01-20"),
+				"piiExpiry":    matchers.Like("2025-01-20"),
+				"piiAmount":    matchers.Like(254),
+				"piiRequested": matchers.Like("2020-01-01"),
+			})
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			editCertificateError := client.EditPiiCertificate(getContext(nil), model.PiiDetails{
+				FirmId:      123,
+				PiiReceived: "2020-01-20",
+				PiiExpiry:   "2025-01-20",
+				PiiAmount:   254,
+			})
+			if editCertificateError != nil {
+				return err
+			}
+			assert.NoError(t, editCertificateError)
+			return nil
+		})
+
+	assert.NoError(t, err)
 }
