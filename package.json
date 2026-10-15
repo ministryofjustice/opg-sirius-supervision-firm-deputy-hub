@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "dependencies": {
-        "@ministryofjustice/frontend": "^10.0.0",
+        "@ministryofjustice/frontend": "^11.0.0",
         "accessible-autocomplete": "^3.0.0",
         "govuk-frontend": "^6.0.0",
         "opg-sirius-header": "ministryofjustice/opg-sirius-header#semver:v0.53.21"
@@ -15,7 +15,7 @@
         "cypress-failed-log": "^2.10.0",
         "esbuild": "^0.28.0",
         "prettier": "3.9.9",
-        "sass": "^1.101.0"
+        "sass": "^1.105.1"
     },
     "scripts": {
         "build": "npm run build:js && npm run build:css && npm run build:images",
@@ -29,8 +29,5 @@
         "cypress-m1": "cypress open -c baseUrl=http://localhost:8888",
         "fmt": "prettier --write .",
         "watch": "npm run build:js --watch=forever"
-    },
-    "resolutions": {
-        "colors": "1.4.0"
     }
 }
