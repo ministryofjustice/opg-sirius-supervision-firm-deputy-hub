@@ -1,11 +1,11 @@
 module github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub
 
-go 1.26.0
+go 1.26.8
 
 require (
 	github.com/ministryofjustice/opg-go-common v1.165.29
+	github.com/pact-foundation/pact-go/v2 v2.7.1
 	github.com/stretchr/testify v1.12.1
-	github.com/pact-foundation/pact-go/v2 v2.4.2
 )
 
 require golang.org/x/sync v0.24.0
@@ -46,9 +46,4 @@ require (
 	google.golang.org/grpc v1.83.2 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
-
-require (
-	github.com/dustin/go-humanize v1.1.0
-	github.com/gorilla/mux v1.8.1
 )
