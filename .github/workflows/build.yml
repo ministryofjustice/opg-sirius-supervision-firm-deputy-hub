@@ -70,18 +70,6 @@ jobs:
             --broker-base-url https://pact-broker.api.opg.service.justice.gov.uk \
             --broker-username admin \
             --broker-password ${{ secrets.PACT_BROKER_PASSWORD }}
-      - name: Compare pacts
-        if: github.actor == 'dependabot[bot]'
-        env:
-          PACT_BROKER_URL: https://pact-broker.api.opg.service.justice.gov.uk
-        run: |
-          curl ${PACT_BROKER_URL}/pacts/provider/sirius/consumer/sirius-supervision-firm-deputy-hub/latest > /tmp/latest-pact.json
-          (diff <(jq --sort-keys . ./pacts/sirius-supervision-firm-deputy-hub-sirius.json) <(jq --sort-keys . /tmp/latest-pact.json) || true) | (! grep '<')
-      - name: Persist Pacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: pacts
-          path: ./pacts/sirius-supervision-firm-deputy-hub-sirius.json
 
   lint:
     name: GO lint
