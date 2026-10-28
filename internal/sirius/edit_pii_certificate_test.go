@@ -142,5 +142,5 @@ func TestEditPii_contract(t *testing.T) {
 			return nil
 		})
 
-	//assert.NoError(t, err)
+	assert.NoError(t, err)
 }

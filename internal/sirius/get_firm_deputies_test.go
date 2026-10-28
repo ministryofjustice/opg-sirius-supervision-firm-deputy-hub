@@ -464,5 +464,5 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 			return err
 		})
 
-	//assert.NoError(t, err)
+	assert.NoError(t, err)
 }
