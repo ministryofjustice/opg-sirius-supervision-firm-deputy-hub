@@ -187,7 +187,7 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 					"name":        matchers.Like("LayTeam1"),
 					"displayName": matchers.Like("LayTeam1 User20"),
 				}, 1),
-				"teamType": map[string]interface{}{
+				"teamType": map[string]any{
 					"handle": matchers.Like("PRO"),
 					"label":  matchers.Like("Pro"),
 				},
@@ -200,7 +200,7 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 				return err
 			}
 			assert.Equal(t, []model.Member{
-				{Id: 1, Name: "", DisplayName: "string"},
+				{Id: 90, Name: "LayTeam1", DisplayName: "LayTeam1 User20"},
 			}, members)
 			return nil
 		})

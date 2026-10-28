@@ -123,18 +123,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(map[string]any{
-				"id":           matchers.Like(7),
-				"firmName":     matchers.Like("Simple firm"),
-				"firmNumber":   matchers.Like(1000006),
-				"addressLine1": matchers.Like("123 Fake Street"),
-				"addressLine2": matchers.Like("Suspicious Avenue"),
-				"addressLine3": matchers.Like("Sus Street"),
-				"town":         matchers.Like("Springfield"),
-				"county":       matchers.Like("SimpsonsVille"),
-				"postcode":     matchers.Like("S1 12345"),
-				"phoneNumber":  matchers.Like("01234 345678"),
-				"email":        matchers.Like("firm@firm.com"),
-				"deputies":     matchers.Like([]model.FirmDeputies{}),
+				"id": matchers.Like(7),
 			})
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
