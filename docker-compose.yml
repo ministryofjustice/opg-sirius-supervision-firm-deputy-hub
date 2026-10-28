@@ -65,7 +65,7 @@ services:
       - ./:/home/node/app
 
   pact-cli:
-    image: pactfoundation/pact-cli:1.5.0.4@sha256:4708c3d61157bff90082a483e4ff70541eb66f951eb3e218ea3e80a557abd170
+    image: 311462405659.dkr.ecr.eu-west-1.amazonaws.com/shared/opg-pact-cli:latest
     working_dir: /go/src/app
     volumes:
       - ./pacts:/go/src/app/pacts
