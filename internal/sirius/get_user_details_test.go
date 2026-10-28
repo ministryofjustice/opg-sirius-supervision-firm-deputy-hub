@@ -98,7 +98,11 @@ func TestGetUserDetails_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch(model.Assignee{})
+			b.JSONBody(matchers.MapMatcher{
+				"id":          matchers.Like(1),
+				"displayName": matchers.Like("Colin Case"),
+				"roles":       matchers.EachLike("Case Manager", 1),
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
@@ -109,8 +113,8 @@ func TestGetUserDetails_contract(t *testing.T) {
 			}
 
 			assert.Equal(t, 1, userDetails.ID)
-			assert.Equal(t, "string", userDetails.Username)
-			assert.Equal(t, []string{"string"}, userDetails.Roles)
+			assert.Equal(t, "Colin Case", userDetails.Username)
+			assert.Equal(t, []string{"Case Manager"}, userDetails.Roles)
 
 			return nil
 		})

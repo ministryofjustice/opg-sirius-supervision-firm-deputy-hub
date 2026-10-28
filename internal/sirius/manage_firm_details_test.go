@@ -122,29 +122,19 @@ func TestManageFirmDetails_contract(t *testing.T) {
 		Given("Firm exists").
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.JSONBody(matchers.MapMatcher{
-				"PiiAmountCommaFormat":   matchers.Like(""),
-				"PiiAmountIntFormat":     matchers.Like(0),
-				"PiiExpiryDateFormat":    matchers.Like(""),
-				"PiiReceivedDateFormat":  matchers.Like(""),
-				"PiiRequestedDateFormat": matchers.Like(""),
-				"TotalNumberOfDeputies":  matchers.Like(1),
-				"addressLine1":           matchers.Like("10 new street"),
-				"addressLine2":           matchers.Like("new firm road"),
-				"addressLine3":           matchers.Like("firmly"),
-				"county":                 matchers.Like("Worcestershire"),
-				"deputies":               matchers.Like([]model.FirmDeputies(nil)),
-				"email":                  matchers.Like("good@firm.com"),
-				"executiveCaseManager":   matchers.StructMatcher{"id": matchers.Like(0), "displayName": matchers.Like("")},
-				"firmName":               matchers.Like("good firm inc"),
-				"firmNumber":             matchers.Like(0),
-				"id":                     matchers.Like(1),
-				"phoneNumber":            matchers.Like("077895526543"),
-				"piiExpiry":              matchers.Like(""),
-				"piiReceived":            matchers.Like(""),
-				"piiRequested":           matchers.Like(""),
-				"postcode":               matchers.Like("B1 1TF"),
-				"town":                   matchers.Like("Birmingham"),
+			b.JSONBody(map[string]any{
+				"id":           matchers.Like(7),
+				"firmName":     matchers.Like("Simple firm"),
+				"firmNumber":   matchers.Like(1000006),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"deputies":     matchers.Like([]model.FirmDeputies{}),
 			})
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
