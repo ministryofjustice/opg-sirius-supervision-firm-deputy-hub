@@ -169,5 +169,5 @@ func TestManageFirmDetails_contract(t *testing.T) {
 			})
 		})
 
-	//assert.NoError(t, err)
+	assert.NoError(t, err)
 }
