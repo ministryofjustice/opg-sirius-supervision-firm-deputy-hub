@@ -200,7 +200,7 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 				return err
 			}
 			assert.Equal(t, []model.Member{
-				{Id: 90, Name: "LayTeam1", DisplayName: "LayTeam1 User20"},
+				{Id: 90, Name: "", DisplayName: "LayTeam1 User20"},
 			}, members)
 			return nil
 		})
