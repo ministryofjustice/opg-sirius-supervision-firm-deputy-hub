@@ -1,13 +1,14 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/gorilla/mux"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
@@ -71,21 +72,23 @@ func TestPostChangeECM(t *testing.T) {
 	template := &mockTemplates{}
 
 	w := httptest.NewRecorder()
-	r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader("{ecmId:26}"))
+	r, _ := http.NewRequest("POST", "/76/change-ecm", strings.NewReader("select-ecm=26"))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	var returnedError error
 
 	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, template)(AppVars{}, w, r)
+	testHandler.HandleFunc("/{id}/change-ecm", func(w http.ResponseWriter, r *http.Request) {
+		returnedError = renderTemplateForChangeECM(client, template)(AppVars{
+			FirmDetails: mockFirmDetails,
+		}, w, r)
 	})
 
 	testHandler.ServeHTTP(w, r)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-	assert.Nil(returnedError)
+	assert.Equal(Redirect("/123?success=ecm"), returnedError)
 }
 
 func TestPostChangeECMReturnsError(t *testing.T) {
@@ -120,7 +123,7 @@ func TestPostChangeECMReturnsError(t *testing.T) {
 			template := &mockTemplates{}
 
 			w := httptest.NewRecorder()
-			r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader("select-ecm=1"))
+			r, _ := http.NewRequest("POST", "/76/change-ecm", strings.NewReader("select-ecm=1"))
 			r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 			err := renderTemplateForChangeECM(client, template)(AppVars{}, w, r)

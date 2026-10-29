@@ -2,13 +2,16 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -83,7 +86,6 @@ func TestManageFirmReturnsNewStatusError(t *testing.T) {
 	defer svr.Close()
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
-
 	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{ID: 1})
 
 	assert.Equal(t, StatusError{
@@ -100,8 +102,52 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 	defer svr.Close()
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
-
 	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{})
 
 	assert.Equal(t, ErrUnauthorized, err)
+}
+
+func TestManageFirmDetails_contract(t *testing.T) {
+	t.Skip("Expect to fail until Sirius PR has been merged")
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		UponReceiving("A request to edit firm details").
+		Given("Firm exists").
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(map[string]any{
+				"id": matchers.Like(7),
+			})
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(matchers.MapMatcher{
+				"id": matchers.Like(1),
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			return client.ManageFirmDetails(getContext(nil), model.FirmDetails{
+				ID:           123,
+				FirmName:     "good firm inc",
+				Email:        "good@firm.com",
+				PhoneNumber:  "077895526543",
+				AddressLine1: "10 new street",
+				AddressLine2: "new firm road",
+				AddressLine3: "firmly",
+				Town:         "Birmingham",
+				County:       "Worcestershire",
+				Postcode:     "B1 1TF",
+			})
+		})
+
+	assert.NoError(t, err)
 }
