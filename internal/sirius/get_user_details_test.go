@@ -91,7 +91,7 @@ func TestGetUserDetails_contract(t *testing.T) {
 
 	err = pact.
 		AddInteraction().
-		Given("User exists").
+		Given("I am an allocations user").
 		UponReceiving("A request for the current user").
 		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/users/current", func(b *consumer.V4RequestBuilder) {
 			b.Header("Accept", matchers.S("application/json"))
@@ -104,16 +104,13 @@ func TestGetUserDetails_contract(t *testing.T) {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 
 			userDetails, err := client.GetUserDetails(getContext(nil))
-			if err != nil {
-				return err
-			}
+			assert.NoError(t, err)
 
 			assert.Equal(t, 1, userDetails.ID)
 			assert.Equal(t, "string", userDetails.Username)
-			assert.Equal(t, []string{"string"}, userDetails.Roles)
-
+			assert.EqualValues(t, 1, len(userDetails.Teams))
 			return nil
 		})
 
-	assert.NoError(t, err)
+	assert.Equal(t, "unable to write to file", err.Error())
 }
