@@ -205,5 +205,5 @@ func TestGetProTeamUsers_contract(t *testing.T) {
 			return nil
 		})
 
-	assert.Equal(t, "unable to write to file", err.Error())
+	assert.NoError(t, err)
 }

@@ -18,12 +18,12 @@ type FirmDetails struct {
 	PiiExpiry              string               `json:"piiExpiry"`
 	PiiAmount              float64              `json:"piiAmount,omitempty"`
 	PiiRequested           string               `json:"piiRequested"`
-	PiiReceivedDateFormat  string
-	PiiExpiryDateFormat    string
-	PiiRequestedDateFormat string
-	TotalNumberOfDeputies  int
-	PiiAmountCommaFormat   string
-	PiiAmountIntFormat     int64
+	PiiReceivedDateFormat  string               `json:"-"`
+	PiiExpiryDateFormat    string               `json:"-"`
+	PiiRequestedDateFormat string               `json:"-"`
+	TotalNumberOfDeputies  int                  `json:"-"`
+	PiiAmountCommaFormat   string               `json:"-"`
+	PiiAmountIntFormat     int64                `json:"-"`
 }
 
 type FirmDeputies struct {
