@@ -127,7 +127,7 @@ func TestManageFirmDetails_contract(t *testing.T) {
 				"id": matchers.Like(7),
 			})
 		}).
-		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(matchers.MapMatcher{
 				"id": matchers.Like(1),

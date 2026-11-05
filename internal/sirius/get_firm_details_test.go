@@ -159,7 +159,20 @@ func TestGetFirmDetails_contract(t *testing.T) {
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
-			b.BodyMatch(model.FirmDetails{})
+			b.JSONBody(map[string]interface{}{
+				"id":           matchers.Like(7),
+				"firmName":     matchers.Like("Simple firm"),
+				"firmNumber":   matchers.Like(1000006),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"deputies":     matchers.Like([]model.FirmDeputies{}),
+			})
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
@@ -168,8 +181,8 @@ func TestGetFirmDetails_contract(t *testing.T) {
 				return err
 			}
 			log.Printf("firmDetails: %+v", firmDetails)
-			assert.EqualValues(t, "string", firmDetails.FirmName)
-			assert.EqualValues(t, 1, firmDetails.FirmNumber)
+			assert.EqualValues(t, "Simple firm", firmDetails.FirmName)
+			assert.EqualValues(t, 1000006, firmDetails.FirmNumber)
 			return nil
 		})
 
