@@ -116,7 +116,7 @@ func TestChangeECM_contract(t *testing.T) {
 				"ecmId": matchers.Like(78),
 			})
 		}).
-		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {

@@ -124,7 +124,7 @@ func TestEditPii_contract(t *testing.T) {
 				"piiRequested": matchers.Like("2020-01-01"),
 			})
 		}).
-		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
