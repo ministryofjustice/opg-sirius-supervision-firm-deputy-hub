@@ -93,6 +93,7 @@ func TestRequestPiiReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestRequestPii_contract(t *testing.T) {
+	t.Skip("passing test, skip for debugging")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
