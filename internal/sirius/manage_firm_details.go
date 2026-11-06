@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 )
 
-func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails model.FirmDetails) error {
+func (c *Client) ManageFirmDetails(ctx Context, amendedFirmDetails model.FirmRequest) error {
 	var body bytes.Buffer
-	err := json.NewEncoder(&body).Encode(model.FirmDetails{
+	err := json.NewEncoder(&body).Encode(model.FirmRequest{
 		ID:           amendedFirmDetails.ID,
 		FirmName:     amendedFirmDetails.FirmName,
 		Email:        amendedFirmDetails.Email,

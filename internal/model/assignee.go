@@ -3,9 +3,15 @@ package model
 import "strings"
 
 type Assignee struct {
-	ID       int      `json:"id"`
-	Roles    []string `json:"roles"`
-	Username string   `json:"displayName"`
+	ID       int            `json:"id"`
+	Roles    []string       `json:"roles"`
+	Username string         `json:"displayName"`
+	Teams    []teamResponse `json:"teams"`
+}
+
+type teamResponse struct {
+	ID          int    `json:"id"`
+	DisplayName string `json:"displayName"`
 }
 
 func (a Assignee) GetRoles() string {

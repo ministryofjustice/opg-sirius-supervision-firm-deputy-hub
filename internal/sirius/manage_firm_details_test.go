@@ -2,13 +2,16 @@ package sirius
 
 import (
 	"bytes"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/mocks"
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
+	"github.com/pact-foundation/pact-go/v2/consumer"
+	"github.com/pact-foundation/pact-go/v2/matchers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -39,7 +42,7 @@ func TestManageFirmDetails(t *testing.T) {
 		}, nil
 	}
 
-	firmDetails := model.FirmDetails{
+	firmDetails := model.FirmRequest{
 		ID:           1,
 		FirmName:     "good firm inc",
 		Email:        "good@firm.com",
@@ -69,7 +72,7 @@ func TestManageFirmReturnsValidationError(t *testing.T) {
 		}, nil
 	}
 
-	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{ID: 1})
+	err := client.ManageFirmDetails(getContext(nil), model.FirmRequest{ID: 1})
 
 	assert.Equal(t, ValidationError{
 		Errors: ValidationErrors{"Test": {"error": "message"}},
@@ -83,8 +86,7 @@ func TestManageFirmReturnsNewStatusError(t *testing.T) {
 	defer svr.Close()
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
-
-	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{ID: 1})
+	err := client.ManageFirmDetails(getContext(nil), model.FirmRequest{ID: 1})
 
 	assert.Equal(t, StatusError{
 		Code:   http.StatusMethodNotAllowed,
@@ -100,8 +102,61 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 	defer svr.Close()
 
 	client, _ := NewClient(http.DefaultClient, svr.URL)
-
-	err := client.ManageFirmDetails(getContext(nil), model.FirmDetails{})
+	err := client.ManageFirmDetails(getContext(nil), model.FirmRequest{})
 
 	assert.Equal(t, ErrUnauthorized, err)
+}
+
+func TestManageFirmDetails_contract(t *testing.T) {
+	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
+		Consumer: "sirius-supervision-firm-deputy-hub",
+		Provider: "sirius",
+		LogDir:   "../../logs",
+		PactDir:  "../../pacts",
+	})
+	assert.NoError(t, err)
+
+	err = pact.
+		AddInteraction().
+		UponReceiving("A request to edit firm details").
+		Given("Firm exists").
+		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(map[string]any{
+				"id":           matchers.Like(123),
+				"firmName":     matchers.Like("Simple firm"),
+				"firmNumber":   matchers.Like(1000006),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+			})
+		}).
+		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
+			b.Header("Content-Type", matchers.S("application/json"))
+			b.JSONBody(matchers.MapMatcher{
+				"id": matchers.Like(1),
+			})
+		}).
+		ExecuteTest(t, func(config consumer.MockServerConfig) error {
+			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
+			return client.ManageFirmDetails(getContext(nil), model.FirmRequest{
+				ID:           123,
+				FirmName:     "Simple firm",
+				Email:        "firm@firm.com",
+				PhoneNumber:  "077895526543",
+				AddressLine1: "123 Fake Street",
+				AddressLine2: "Suspicious Avenue",
+				AddressLine3: "Sus Street",
+				Town:         "Springfield",
+				County:       "SimpsonsVille",
+				Postcode:     "S1 12345",
+			})
+		})
+
+	assert.NoError(t, err)
 }

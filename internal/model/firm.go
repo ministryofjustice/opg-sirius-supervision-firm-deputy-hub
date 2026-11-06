@@ -18,12 +18,26 @@ type FirmDetails struct {
 	PiiExpiry              string               `json:"piiExpiry"`
 	PiiAmount              float64              `json:"piiAmount,omitempty"`
 	PiiRequested           string               `json:"piiRequested"`
-	PiiReceivedDateFormat  string
-	PiiExpiryDateFormat    string
-	PiiRequestedDateFormat string
-	TotalNumberOfDeputies  int
-	PiiAmountCommaFormat   string
-	PiiAmountIntFormat     int64
+	PiiReceivedDateFormat  string               `json:"-"`
+	PiiExpiryDateFormat    string               `json:"-"`
+	PiiRequestedDateFormat string               `json:"-"`
+	TotalNumberOfDeputies  int                  `json:"-"`
+	PiiAmountCommaFormat   string               `json:"-"`
+	PiiAmountIntFormat     int64                `json:"-"`
+}
+
+type FirmRequest struct {
+	ID           int    `json:"id"`
+	FirmName     string `json:"firmName"`
+	FirmNumber   int    `json:"firmNumber"`
+	Email        string `json:"email"`
+	PhoneNumber  string `json:"phoneNumber"`
+	AddressLine1 string `json:"addressLine1"`
+	AddressLine2 string `json:"addressLine2"`
+	AddressLine3 string `json:"addressLine3"`
+	Town         string `json:"town"`
+	County       string `json:"county"`
+	Postcode     string `json:"postcode"`
 }
 
 type FirmDeputies struct {
