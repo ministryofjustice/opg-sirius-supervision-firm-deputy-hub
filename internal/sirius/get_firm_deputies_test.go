@@ -380,7 +380,6 @@ func TestSortTheDeputiesByNumberOfClients(t *testing.T) {
 }
 
 func TestGetFirmDeputies_contract(t *testing.T) {
-	t.Skip("passing test, skip for debugging")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -393,7 +392,7 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 		AddInteraction().
 		Given("Firm exists with deputies which have assurance visits and important information").
 		UponReceiving("A request to get firm deputies").
-		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/123/deputies", func(b *consumer.V4RequestBuilder) {
+		WithRequest(http.MethodGet, SupervisionAPIPath+"/v1/firms/333/deputies", func(b *consumer.V4RequestBuilder) {
 			b.Header("Accept", matchers.S("application/json"))
 		}).
 		WillRespondWith(200, func(b *consumer.V4ResponseBuilder) {
@@ -457,7 +456,7 @@ func TestGetFirmDeputies_contract(t *testing.T) {
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
-			firmDeputies, err := client.GetFirmDeputies(getContext(nil), 123)
+			firmDeputies, err := client.GetFirmDeputies(getContext(nil), 333)
 
 			assert.NoError(t, err)
 			assert.NotEmpty(t, firmDeputies, 2)
