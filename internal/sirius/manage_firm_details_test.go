@@ -108,7 +108,6 @@ func TestManageFirmReturnsUnauthorisedClientError(t *testing.T) {
 }
 
 func TestManageFirmDetails_contract(t *testing.T) {
-	t.Skip("Expect to fail until Sirius PR has been merged")
 	pact, err := consumer.NewV4Pact(consumer.MockHTTPProviderConfig{
 		Consumer: "sirius-supervision-firm-deputy-hub",
 		Provider: "sirius",
@@ -124,7 +123,18 @@ func TestManageFirmDetails_contract(t *testing.T) {
 		WithRequest(http.MethodPut, SupervisionAPIPath+"/v1/firms/123", func(b *consumer.V4RequestBuilder) {
 			b.Header("Content-Type", matchers.S("application/json"))
 			b.JSONBody(map[string]any{
-				"id": matchers.Like(7),
+				"id":           matchers.Like(123),
+				"firmName":     matchers.Like("Simple firm"),
+				"firmNumber":   matchers.Like(1000006),
+				"addressLine1": matchers.Like("123 Fake Street"),
+				"addressLine2": matchers.Like("Suspicious Avenue"),
+				"addressLine3": matchers.Like("Sus Street"),
+				"town":         matchers.Like("Springfield"),
+				"county":       matchers.Like("SimpsonsVille"),
+				"postcode":     matchers.Like("S1 12345"),
+				"phoneNumber":  matchers.Like("01234 345678"),
+				"email":        matchers.Like("firm@firm.com"),
+				"deputies":     matchers.Like([]model.FirmDeputies{}),
 			})
 		}).
 		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
@@ -137,15 +147,15 @@ func TestManageFirmDetails_contract(t *testing.T) {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			return client.ManageFirmDetails(getContext(nil), model.FirmDetails{
 				ID:           123,
-				FirmName:     "good firm inc",
+				FirmName:     "Simple firm",
 				Email:        "good@firm.com",
 				PhoneNumber:  "077895526543",
-				AddressLine1: "10 new street",
-				AddressLine2: "new firm road",
-				AddressLine3: "firmly",
-				Town:         "Birmingham",
-				County:       "Worcestershire",
-				Postcode:     "B1 1TF",
+				AddressLine1: "123 Fake Street",
+				AddressLine2: "Suspicious Avenue",
+				AddressLine3: "Sus Street",
+				Town:         "Springfield",
+				County:       "SimpsonsVille",
+				Postcode:     "S1 12345",
 			})
 		})
 
