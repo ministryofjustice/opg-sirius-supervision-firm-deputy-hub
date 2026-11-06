@@ -9,12 +9,12 @@ import (
 )
 
 type ManageFirmDetailsInformation interface {
-	ManageFirmDetails(sirius.Context, model.FirmDetails) error
+	ManageFirmDetails(sirius.Context, model.FirmRequest) error
 }
 
 type firmHubManageFirmVars struct {
 	ErrorMessage        string
-	EditFirmDetailsForm model.FirmDetails
+	EditFirmDetailsForm model.FirmRequest
 	AppVars
 }
 
@@ -34,7 +34,7 @@ func renderTemplateForManageFirmDetails(client ManageFirmDetailsInformation, tmp
 			return tmpl.ExecuteTemplate(w, "page", vars)
 
 		case http.MethodPost:
-			editFirmDetailsForm := model.FirmDetails{
+			editFirmDetailsForm := model.FirmRequest{
 				ID:           app.FirmId(),
 				FirmName:     r.PostFormValue("firm-name"),
 				Email:        r.PostFormValue("email"),
