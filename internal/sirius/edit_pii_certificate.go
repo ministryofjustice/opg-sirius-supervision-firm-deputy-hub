@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 )
 
 func (c *Client) EditPiiCertificate(ctx Context, editPiiData model.PiiDetails) error {
-	var k model.PiiDetails
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(model.PiiDetails{
 		PiiReceived:  editPiiData.PiiReceived,
@@ -58,6 +58,5 @@ func (c *Client) EditPiiCertificate(ctx Context, editPiiData model.PiiDetails) e
 		return newStatusError(resp)
 	}
 
-	err = json.NewDecoder(resp.Body).Decode(&k)
 	return err
 }
