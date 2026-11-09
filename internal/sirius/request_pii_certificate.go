@@ -13,7 +13,7 @@ type PiiDetailsRequest struct {
 }
 
 func (c *Client) RequestPiiCertificate(ctx Context, requestPiiData PiiDetailsRequest) error {
-	var k PiiDetailsRequest
+
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(PiiDetailsRequest{
 		FirmId:       requestPiiData.FirmId,
@@ -60,6 +60,5 @@ func (c *Client) RequestPiiCertificate(ctx Context, requestPiiData PiiDetailsReq
 		return newStatusError(resp)
 	}
 
-	err = json.NewDecoder(resp.Body).Decode(&k)
 	return err
 }
