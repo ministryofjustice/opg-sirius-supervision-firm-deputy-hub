@@ -125,7 +125,7 @@ func TestEditPii_contract(t *testing.T) {
 			})
 		}).
 		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
-			b.Header("Content-Type", matchers.S("application/json"))
+			b.Header("Content-Type", matchers.S("text/plain; charset=utf-8"))
 		}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
