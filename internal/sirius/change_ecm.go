@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 )
 
 func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoing, firmDetails model.FirmDetails) error {
@@ -37,7 +38,8 @@ func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoi
 		return ErrUnauthorized
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	statusOK := resp.StatusCode >= 200 && resp.StatusCode < 300
+	if !statusOK {
 		var v struct {
 			ValidationErrors ValidationErrors `json:"validation_errors"`
 		}
@@ -51,5 +53,5 @@ func (c *Client) ChangeECM(ctx Context, changeECMForm ExecutiveCaseManagerOutgoi
 		return newStatusError(resp)
 	}
 
-	return nil
+	return err
 }
