@@ -116,9 +116,7 @@ func TestChangeECM_contract(t *testing.T) {
 				"ecmId": matchers.Like(78),
 			})
 		}).
-		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
-			b.Header("Content-Type", matchers.S("text/plain; charset=utf-8"))
-		}).
+		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			changeEcmError := client.ChangeECM(getContext(nil), ExecutiveCaseManagerOutgoing{EcmId: 78}, model.FirmDetails{ID: 123})

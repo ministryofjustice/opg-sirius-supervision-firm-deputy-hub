@@ -124,9 +124,7 @@ func TestEditPii_contract(t *testing.T) {
 				"piiRequested": matchers.Like("2020-01-01"),
 			})
 		}).
-		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {
-			b.Header("Content-Type", matchers.S("text/plain; charset=utf-8"))
-		}).
+		WillRespondWith(204, func(b *consumer.V4ResponseBuilder) {}).
 		ExecuteTest(t, func(config consumer.MockServerConfig) error {
 			client, _ := NewClient(http.DefaultClient, fmt.Sprintf("http://%s:%d", config.Host, config.Port))
 			editCertificateError := client.EditPiiCertificate(getContext(nil), model.PiiDetails{
