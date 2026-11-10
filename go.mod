@@ -4,7 +4,6 @@ go 1.27.3
 
 require (
 	github.com/dustin/go-humanize v1.1.0
-	github.com/gorilla/mux v1.8.1
 	github.com/ministryofjustice/opg-go-common v1.166.0
 	github.com/pact-foundation/pact-go/v2 v2.8.0
 	github.com/stretchr/testify v1.12.1

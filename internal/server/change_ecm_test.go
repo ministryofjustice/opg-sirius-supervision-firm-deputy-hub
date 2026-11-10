@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gorilla/mux"
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
@@ -75,20 +74,12 @@ func TestPostChangeECM(t *testing.T) {
 	r, _ := http.NewRequest("POST", "/76/change-ecm", strings.NewReader("select-ecm=26"))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	var returnedError error
-
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}/change-ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, template)(AppVars{
-			FirmDetails: mockFirmDetails,
-		}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
+	handler := renderTemplateForChangeECM(client, template)
+	redirect := handler(AppVars{FirmDetails: mockFirmDetails}, w, r)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-	assert.Equal(Redirect("/123?success=ecm"), returnedError)
+	assert.Equal(Redirect("/123?success=ecm"), redirect)
 }
 
 func TestPostChangeECMReturnsError(t *testing.T) {
