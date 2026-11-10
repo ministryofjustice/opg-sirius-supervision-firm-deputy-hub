@@ -65,7 +65,6 @@ require (
 
 require (
 	github.com/dustin/go-humanize v1.1.0
-	github.com/gorilla/mux v1.8.1
 	github.com/ministryofjustice/opg-go-common v1.165.29
 	github.com/stretchr/testify v1.12.1
 	golang.org/x/sync v0.24.0

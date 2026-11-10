@@ -1,13 +1,13 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"github.com/stretchr/testify/assert"
@@ -74,18 +74,13 @@ func TestPostChangeECM(t *testing.T) {
 	r, _ := http.NewRequest("POST", "/76/firm-ecm", strings.NewReader("{ecmId:26}"))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	var returnedError error
+	handler := renderTemplateForChangeECM(client, template)
+	err := handler(AppVars{}, w, r)
 
-	testHandler := mux.NewRouter()
-	testHandler.HandleFunc("/{id}/firm-ecm", func(w http.ResponseWriter, r *http.Request) {
-		returnedError = renderTemplateForChangeECM(client, template)(AppVars{}, w, r)
-	})
-
-	testHandler.ServeHTTP(w, r)
+	assert.Nil(err)
 
 	resp := w.Result()
 	assert.Equal(http.StatusOK, resp.StatusCode)
-	assert.Nil(returnedError)
 }
 
 func TestPostChangeECMReturnsError(t *testing.T) {
