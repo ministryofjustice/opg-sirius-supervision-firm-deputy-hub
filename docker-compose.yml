@@ -51,6 +51,8 @@ services:
   gosec:
     image: golang:1.27.3-alpine@sha256:b8c9b82affbbb82a020bbcf998dad2ba9516944ac7e883524642a481a9505e9c
     working_dir: /app
+    environment:
+        GOTOOLCHAIN: auto
     volumes:
       - .:/app
     command: go tool gosec -exclude-dir=.gocache -fmt=sarif -out=/app/test-results/gosec.sarif -stdout -verbose=text /app/...
@@ -61,3 +63,9 @@ services:
     command: ["ci", "--ignore-scripts"]
     volumes:
       - ./:/home/node/app
+
+  pact-cli:
+    image: 311462405659.dkr.ecr.eu-west-1.amazonaws.com/shared/opg-pact-cli:latest
+    working_dir: /go/src/app
+    volumes:
+      - ./pacts:/go/src/app/pacts
