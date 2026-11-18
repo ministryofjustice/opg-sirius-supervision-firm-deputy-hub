@@ -2,13 +2,8 @@ package model
 
 import "strings"
 
-type PanelDeputyStatus struct {
-	Handle string `json:"handle"`
-	Label  string `json:"label"`
-}
-
 type DeputyImportantInformation struct {
-	PanelDeputyStatus PanelDeputyStatus `json:"panelDeputyStatus"`
+	PanelDeputyStatus RefData `json:"panelDeputyStatus"`
 }
 
 type Deputies struct {
@@ -37,7 +32,7 @@ type FirmDeputy struct {
 	MarkedAsLabel        string
 	MarkedAsClass        string
 	AssuranceType        string
-	PanelDeputyStatus    PanelDeputyStatus
+	PanelDeputyStatus    RefData
 }
 
 type RAGRating struct {
