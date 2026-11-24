@@ -6,6 +6,7 @@ import (
 	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/sirius"
 	"log/slog"
 	"net/http"
+	"net/url"
 )
 
 type Redirect string
@@ -45,12 +46,14 @@ type ExpandedError interface {
 
 func LoggerRequest(l *slog.Logger, r *http.Request, err error) {
 	if ee, ok := err.(ExpandedError); ok {
-		l.Info(ee.Title(),
+		l.Info("request error",
+			slog.String("title", ee.Title()),
 			slog.String("request_method", r.Method),
 			slog.String("request_uri", r.URL.String()),
 			slog.Any("data", ee.Data()))
 	} else if err != nil {
-		l.Info(err.Error(),
+		l.Info("request error",
+			slog.String("error", err.Error()),
 			slog.String("request_method", r.Method),
 			slog.String("request_uri", r.URL.String()))
 	} else {
@@ -79,7 +82,7 @@ func wrapHandler(logger *slog.Logger, client ErrorHandlerClient, tmplError Templ
 					redirect := ""
 
 					if r.RequestURI != "" {
-						redirect = "?redirect=" + r.RequestURI
+						redirect = "?redirect=" + url.QueryEscape(r.RequestURI)
 					}
 
 					http.Redirect(w, r, envVars.SiriusPublicURL+"/auth"+redirect, http.StatusFound)
@@ -87,7 +90,14 @@ func wrapHandler(logger *slog.Logger, client ErrorHandlerClient, tmplError Templ
 				}
 
 				if redirect, ok := err.(Redirect); ok {
-					http.Redirect(w, r, envVars.Prefix+redirect.To(), http.StatusFound)
+					u, err := url.Parse(redirect.To())
+					if err != nil || u.Host != "" || u.Scheme != "" {
+						http.Error(w, "Invalid redirect", http.StatusBadRequest)
+						return
+					}
+					// Use only the path component to prevent open redirect
+					safeRedirect := u.RequestURI()
+					http.Redirect(w, r, envVars.Prefix+safeRedirect, http.StatusFound) // #nosec G710 -- host and scheme rejected above
 					return
 				}
 

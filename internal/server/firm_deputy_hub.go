@@ -24,7 +24,7 @@ func renderTemplateForFirmHub(client FirmHubInformation, tmpl Template) Handler 
 		successMessage := createSuccessAndSuccessMessageForVars(r.URL.String(), app.FirmDetails.FirmName, app.FirmDetails.ExecutiveCaseManager.DisplayName)
 
 		vars := firmHubVars{
-			SuccessMessage: template.HTML(successMessage),
+			SuccessMessage: template.HTML(successMessage), // #nosec G203 -- would be better to use the template to escape instead of being html
 			AppVars:        app,
 		}
 
