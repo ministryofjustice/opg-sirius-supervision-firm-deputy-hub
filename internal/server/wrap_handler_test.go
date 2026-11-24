@@ -162,7 +162,7 @@ func Test_wrapHandler_redirects_if_unauthorized(t *testing.T) {
 	assert.Equal(t, 302, w.Result().StatusCode)
 	location, err := w.Result().Location()
 	assert.Nil(t, err)
-	assert.Equal(t, "sirius-url/auth?redirect=/test-redirect", location.String())
+	assert.Equal(t, "sirius-url/auth?redirect=%2Ftest-redirect", location.String())
 }
 
 func Test_wrapHandler_follows_local_redirect(t *testing.T) {
