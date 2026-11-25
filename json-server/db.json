@@ -363,7 +363,10 @@
                 "label": "Organisation"
             },
             "deputyImportantInformation": {
-                "panelDeputy": true
+                "panelDeputyStatus": {
+                    "handle": "YES",
+                    "label": "Yes"
+                }
             }
         }
     ],

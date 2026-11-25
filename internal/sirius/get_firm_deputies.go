@@ -3,10 +3,11 @@ package sirius
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 	"net/http"
 	"sort"
 	"strings"
+
+	"github.com/ministryofjustice/opg-sirius-supervision-firm-deputy-hub/internal/model"
 )
 
 func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]model.FirmDeputy, error) {
@@ -51,7 +52,7 @@ func (c *Client) GetFirmDeputies(ctx Context, firmId int) ([]model.FirmDeputy, e
 			MarkedAsLabel:        t.Assurance.VisitReportMarkedAs.Label,
 			MarkedAsClass:        strings.ToLower(t.Assurance.VisitReportMarkedAs.Label),
 			ReviewDate:           FormatDateAndTime(DateTimeFormat, t.Assurance.ReportReviewDate, DateTimeDisplayFormat),
-			PanelDeputy:          t.DeputyImportantInformation.PanelDeputy,
+			PanelDeputyStatus:    t.DeputyImportantInformation.PanelDeputyStatus,
 		}
 
 		deputies = append(deputies, deputy)

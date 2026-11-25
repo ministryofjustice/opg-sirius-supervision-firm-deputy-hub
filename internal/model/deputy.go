@@ -3,7 +3,7 @@ package model
 import "strings"
 
 type DeputyImportantInformation struct {
-	PanelDeputy bool `json:"panelDeputy"`
+	PanelDeputyStatus RefData `json:"panelDeputyStatus"`
 }
 
 type Deputies struct {
@@ -32,7 +32,7 @@ type FirmDeputy struct {
 	MarkedAsLabel        string
 	MarkedAsClass        string
 	AssuranceType        string
-	PanelDeputy          bool
+	PanelDeputyStatus    RefData
 }
 
 type RAGRating struct {
